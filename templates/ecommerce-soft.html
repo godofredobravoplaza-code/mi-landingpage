@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumina - Immersive E-Commerce</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Outfit', 'sans-serif'] },
+                    colors: {
+                        stone: { 50: '#fafafa', 100: '#f5f5f4', 200: '#e7e5e4', 800: '#292524' },
+                        sage: { 200: '#d1d5db', 500: '#9ca3af' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .smooth-shadow {
+            box-shadow: 0 20px 40px rgba(0,0,0,0.03);
+        }
+        .image-reveal {
+            clip-path: inset(100% 0 0 0);
+            animation: revealUp 1s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+        }
+        @keyframes revealUp {
+            100% { clip-path: inset(0 0 0 0); }
+        }
+        /* Custom smooth cursor */
+        body { cursor: default; }
+        .hover-target:hover { cursor: pointer; }
+    </style>
+</head>
+<body class="bg-stone-50 text-stone-800 font-sans antialiased selection:bg-stone-200">
+
+    <!-- Header -->
+    <header class="flex justify-between items-center py-6 px-12 fixed w-full top-0 z-50 bg-stone-50/80 backdrop-blur-md">
+        <div class="flex gap-8 text-sm font-medium">
+            <a href="#" class="hover-target hover:text-stone-500 transition-colors">Shop</a>
+            <a href="#" class="hover-target hover:text-stone-500 transition-colors">Collections</a>
+            <a href="#" class="hover-target hover:text-stone-500 transition-colors">About</a>
+        </div>
+        <div class="text-2xl font-semibold tracking-widest hover-target">LUMINA</div>
+        <div class="flex gap-6 text-sm font-medium">
+            <a href="#" class="hover-target hover:text-stone-500 transition-colors">Search</a>
+            <a href="#" class="hover-target hover:text-stone-500 transition-colors">Cart (0)</a>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <main class="pt-32 px-12 pb-24">
+        <div class="flex flex-col items-center text-center mb-20">
+            <h1 class="text-5xl md:text-7xl font-medium tracking-tight mb-6 max-w-4xl text-stone-800">
+                Elevate your daily rituals.
+            </h1>
+            <p class="text-stone-500 max-w-lg mb-10 font-light text-lg">
+                Minimalist objects for mindful living. Crafted with sustainable materials and quiet aesthetics.
+            </p>
+            <button class="hover-target bg-stone-800 text-white px-8 py-3 rounded-full text-sm font-medium hover:bg-stone-700 hover:scale-105 transition-all duration-300 smooth-shadow" onclick="alert('Demo Version')">
+                Explore Collection
+            </button>
+        </div>
+
+        <!-- Product Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            <!-- Product Card 1 -->
+            <div class="group hover-target flex flex-col">
+                <div class="relative w-full aspect-[4/5] bg-stone-100 rounded-2xl overflow-hidden mb-4 smooth-shadow">
+                    <img src="https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&q=80&w=800" alt="Ceramic Vase" class="w-full h-full object-cover image-reveal group-hover:scale-105 transition-transform duration-700 ease-out">
+                    <!-- Hover Actions -->
+                    <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
+                        <button class="bg-white/90 backdrop-blur text-stone-800 px-6 py-2 rounded-full text-xs font-medium hover:bg-white transition-colors" onclick="alert('Added to cart')">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="font-medium text-lg">Matte Ceramic Vase</h3>
+                        <p class="text-stone-500 text-sm">Handcrafted Earthware</p>
+                    </div>
+                    <span class="font-medium">$85</span>
+                </div>
+            </div>
+
+            <!-- Product Card 2 -->
+            <div class="group hover-target flex flex-col pt-12">
+                <div class="relative w-full aspect-[4/5] bg-stone-100 rounded-2xl overflow-hidden mb-4 smooth-shadow">
+                    <img src="https://images.unsplash.com/photo-1512496015851-a1fbbfc69a0ac?auto=format&fit=crop&q=80&w=800" alt="Linen Throw" class="w-full h-full object-cover image-reveal group-hover:scale-105 transition-transform duration-700 ease-out" style="animation-delay: 0.1s;">
+                    <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
+                        <button class="bg-white/90 backdrop-blur text-stone-800 px-6 py-2 rounded-full text-xs font-medium hover:bg-white transition-colors" onclick="alert('Added to cart')">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="font-medium text-lg">Organic Linen Throw</h3>
+                        <p class="text-stone-500 text-sm">Natural Weave</p>
+                    </div>
+                    <span class="font-medium">$120</span>
+                </div>
+            </div>
+
+            <!-- Product Card 3 -->
+            <div class="group hover-target flex flex-col">
+                <div class="relative w-full aspect-[4/5] bg-stone-100 rounded-2xl overflow-hidden mb-4 smooth-shadow">
+                    <img src="https://images.unsplash.com/photo-1600607686527-6fb886090705?auto=format&fit=crop&q=80&w=800" alt="Minimalist Chair" class="w-full h-full object-cover image-reveal group-hover:scale-105 transition-transform duration-700 ease-out" style="animation-delay: 0.2s;">
+                    <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
+                        <button class="bg-white/90 backdrop-blur text-stone-800 px-6 py-2 rounded-full text-xs font-medium hover:bg-white transition-colors" onclick="alert('Added to cart')">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="font-medium text-lg">Oak Wood Stool</h3>
+                        <p class="text-stone-500 text-sm">Studio Collection</p>
+                    </div>
+                    <span class="font-medium">$250</span>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+</body>
+</html>

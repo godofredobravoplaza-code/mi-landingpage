@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kinetic Minimalism - Fashion/Architecture</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;1,6..96,400&family=Jost:wght@300;400;500&display=swap');
+        body {
+            background-color: #e5e5e5;
+            color: #1a1a1a;
+            cursor: none; /* Custom cursor */
+            overflow: hidden;
+        }
+        /* Custom Cursor */
+        .cursor-dot, .cursor-outline {
+            position: fixed;
+            top: 0; left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+        .cursor-dot {
+            width: 8px; height: 8px;
+            background-color: black;
+        }
+        .cursor-outline {
+            width: 40px; height: 40px;
+            border: 1px solid rgba(0,0,0,0.5);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+        .hover-effect:hover ~ .cursor-outline {
+            width: 60px; height: 60px;
+            background-color: rgba(0,0,0,0.1);
+        }
+        /* Draggable Gallery */
+        .gallery-container {
+            display: flex;
+            gap: 5vw;
+            padding: 0 30vw;
+            align-items: center;
+            height: 100vh;
+            cursor: grab;
+            user-select: none;
+        }
+        .gallery-container:active { cursor: grabbing; }
+        .gallery-item {
+            flex: 0 0 40vw;
+            height: 60vh;
+            position: relative;
+            transition: transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        .gallery-item img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            pointer-events: none;
+        }
+        .font-serif-elegant { font-family: 'Bodoni Moda', serif; }
+        .font-sans-clean { font-family: 'Jost', sans-serif; }
+    </style>
+</head>
+<body>
+
+    <!-- Custom Cursor -->
+    <div class="cursor-dot" id="cursor-dot"></div>
+    <div class="cursor-outline" id="cursor-outline"></div>
+
+    <!-- UI Overlay -->
+    <div class="fixed top-0 left-0 w-full p-8 flex justify-between items-center z-50 mix-blend-difference text-white font-sans-clean tracking-widest text-xs uppercase hover-effect">
+        <div>Maison 2026</div>
+        <div>Drag to explore</div>
+        <div class="cursor-pointer" onclick="alert('Menu Demo')">Menu</div>
+    </div>
+
+    <!-- Draggable Gallery -->
+    <div class="gallery-container" id="gallery">
+        <div class="gallery-item group">
+            <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&q=80&w=800" alt="Fashion 1">
+            <h2 class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-8xl text-white font-serif-elegant opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none mix-blend-difference">01.</h2>
+        </div>
+        <div class="gallery-item group">
+            <img src="https://images.unsplash.com/photo-1539533018447-63fcce2678e3?auto=format&fit=crop&q=80&w=800" alt="Fashion 2">
+            <h2 class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-8xl text-white font-serif-elegant opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none mix-blend-difference">02.</h2>
+        </div>
+        <div class="gallery-item group">
+            <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=800" alt="Fashion 3">
+            <h2 class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-8xl text-white font-serif-elegant opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none mix-blend-difference">03.</h2>
+        </div>
+        <div class="gallery-item group">
+            <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&q=80&w=800" alt="Fashion 4">
+            <h2 class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-8xl text-white font-serif-elegant opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none mix-blend-difference">04.</h2>
+        </div>
+    </div>
+
+    <script>
+        // Custom Cursor Logic
+        const dot = document.getElementById('cursor-dot');
+        const outline = document.getElementById('cursor-outline');
+        
+        window.addEventListener('mousemove', (e) => {
+            dot.style.left = e.clientX + 'px';
+            dot.style.top = e.clientY + 'px';
+            
+            // Subtle lag for outline
+            setTimeout(() => {
+                outline.style.left = e.clientX + 'px';
+                outline.style.top = e.clientY + 'px';
+            }, 50);
+        });
+
+        // Draggable Gallery Logic
+        const gallery = document.getElementById('gallery');
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+        let currentTranslate = 0;
+        let prevTranslate = 0;
+        let animationID;
+
+        gallery.addEventListener('mousedown', (e) => {
+            isDown = true;
+            startX = e.clientX;
+            cancelAnimationFrame(animationID);
+        });
+
+        gallery.addEventListener('mouseleave', () => { isDown = false; });
+        gallery.addEventListener('mouseup', () => { 
+            isDown = false; 
+            prevTranslate = currentTranslate;
+        });
+
+        gallery.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.clientX;
+            const walk = (x - startX) * 2;
+            currentTranslate = prevTranslate + walk;
+        });
+
+        function animate() {
+            gallery.style.transform = `translateX(${currentTranslate}px)`;
+            requestAnimationFrame(animate);
+        }
+        animate();
+    </script>
+</body>
+</html>

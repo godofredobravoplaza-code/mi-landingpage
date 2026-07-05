@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tactile Brutalism - Creative Studio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Space Grotesk', 'sans-serif'] },
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #f4f4f0;
+            color: #111;
+        }
+        .brutal-border {
+            border: 2px solid #111;
+        }
+        .brutal-shadow {
+            box-shadow: 6px 6px 0px #111;
+            transition: all 0.2s ease;
+        }
+        .brutal-shadow:hover {
+            box-shadow: 2px 2px 0px #111;
+            transform: translate(4px, 4px);
+        }
+        /* Kinetic Typography Animation */
+        .marquee {
+            white-space: nowrap;
+            overflow: hidden;
+            display: flex;
+        }
+        .marquee-content {
+            display: inline-block;
+            animation: scroll 15s linear infinite;
+        }
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+    </style>
+</head>
+<body class="font-sans antialiased min-h-screen flex flex-col uppercase selection:bg-black selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="flex justify-between items-center p-6 border-b-2 border-black">
+        <div class="font-bold text-2xl tracking-tighter">STUDIO<br>RAW.</div>
+        <div class="hidden md:flex gap-8 font-bold text-sm">
+            <a href="#" class="hover:underline underline-offset-4">Work</a>
+            <a href="#" class="hover:underline underline-offset-4">Culture</a>
+            <a href="#" class="hover:underline underline-offset-4">Contact</a>
+        </div>
+        <button class="brutal-border bg-yellow-400 font-bold py-2 px-6 brutal-shadow" onclick="alert('Demo Version')">
+            START PROJECT
+        </button>
+    </nav>
+
+    <!-- Marquee -->
+    <div class="border-b-2 border-black py-3 bg-black text-white marquee">
+        <div class="marquee-content font-bold tracking-widest text-sm flex gap-8">
+            <span>WE BUILD DIGITAL EXPERIENCES</span>
+            <span>•</span>
+            <span>NO FLUFF, JUST IMPACT</span>
+            <span>•</span>
+            <span>WE BUILD DIGITAL EXPERIENCES</span>
+            <span>•</span>
+            <span>NO FLUFF, JUST IMPACT</span>
+            <span>•</span>
+            <span>WE BUILD DIGITAL EXPERIENCES</span>
+            <span>•</span>
+            <span>NO FLUFF, JUST IMPACT</span>
+            <span>•</span>
+        </div>
+    </div>
+
+    <!-- Hero -->
+    <main class="flex-1 flex flex-col md:flex-row">
+        <div class="flex-1 p-8 md:p-16 border-b-2 md:border-b-0 md:border-r-2 border-black flex flex-col justify-center">
+            <h1 class="text-7xl md:text-9xl font-bold leading-none tracking-tighter mb-8" style="word-spacing: -1rem;">
+                RAW<br>
+                DIGITAL<br>
+                POWER.
+            </h1>
+            <p class="text-xl max-w-md font-bold mb-10 lowercase first-letter:uppercase">
+                We reject the soft and the generic. We engineer brutal, high-performance interfaces for brands that refuse to blend in.
+            </p>
+            <div class="flex gap-6">
+                <button class="brutal-border bg-white font-bold text-lg py-4 px-10 brutal-shadow" onclick="alert('Demo Version')">
+                    VIEW ARCHIVE
+                </button>
+            </div>
+        </div>
+        
+        <!-- Imagery Grid -->
+        <div class="md:w-2/5 flex flex-col">
+            <div class="flex-1 border-b-2 border-black bg-yellow-400 p-8 flex items-center justify-center group overflow-hidden cursor-pointer" onclick="alert('Demo Version')">
+                <h2 class="text-4xl font-bold group-hover:scale-150 transition-transform duration-500">2026<br>REEL</h2>
+            </div>
+            <div class="flex-1 flex">
+                <div class="flex-1 border-r-2 border-black bg-blue-500 p-8 flex items-center justify-center">
+                    <span class="text-white font-bold text-6xl">01</span>
+                </div>
+                <div class="flex-1 bg-red-500 p-8 flex items-center justify-center">
+                    <span class="text-white font-bold text-6xl">02</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>

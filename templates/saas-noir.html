@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Noir - Dark Analytics</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        noir: { 900: '#0a0a0a', 800: '#121212', 700: '#1a1a1a' },
+                        neon: { purple: '#b535f6', blue: '#3b82f6' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-panel {
+            background: rgba(26, 26, 26, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .glow-text {
+            text-shadow: 0 0 20px rgba(181, 53, 246, 0.5);
+        }
+        .grid-bg {
+            background-size: 40px 40px;
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+        }
+    </style>
+</head>
+<body class="bg-noir-900 text-gray-300 font-sans antialiased overflow-x-hidden selection:bg-neon-purple selection:text-white">
+
+    <!-- Grid Background with Glow -->
+    <div class="fixed inset-0 grid-bg z-0 pointer-events-none"></div>
+    <div class="fixed top-[-20%] left-[-10%] w-[50%] h-[50%] bg-neon-purple rounded-full blur-[150px] opacity-20 z-0 pointer-events-none"></div>
+    <div class="fixed bottom-[-20%] right-[-10%] w-[50%] h-[50%] bg-neon-blue rounded-full blur-[150px] opacity-10 z-0 pointer-events-none"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass-panel border-b-0 border-white/5 py-4 px-8 flex justify-between items-center">
+        <div class="flex items-center gap-2">
+            <div class="w-6 h-6 rounded bg-gradient-to-tr from-neon-purple to-neon-blue"></div>
+            <span class="font-bold text-white tracking-wider">NEXUS</span>
+        </div>
+        <div class="hidden md:flex gap-8 text-sm font-medium">
+            <a href="#" class="text-white">Platform</a>
+            <a href="#" class="hover:text-white transition-colors">Solutions</a>
+            <a href="#" class="hover:text-white transition-colors">Pricing</a>
+        </div>
+        <button class="bg-white/10 hover:bg-white/20 text-white px-5 py-2 rounded-lg text-sm font-medium transition-all border border-white/5 shadow-[0_0_15px_rgba(255,255,255,0.05)] hover:shadow-[0_0_20px_rgba(255,255,255,0.1)]" onclick="alert('Funcionalidad deshabilitada en versión Demo')">
+            Get Access
+        </button>
+    </nav>
+
+    <!-- Hero Section -->
+    <main class="relative z-10 min-h-screen flex flex-col items-center justify-center pt-20 px-4 text-center">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full glass-panel text-xs text-neon-purple font-medium mb-8 border-neon-purple/20">
+            <span class="w-2 h-2 rounded-full bg-neon-purple animate-pulse"></span>
+            Nexus AI 2.0 is now live
+        </div>
+        
+        <h1 class="text-5xl md:text-7xl font-bold text-white mb-6 tracking-tight max-w-4xl leading-tight">
+            Data intelligence,<br> 
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-neon-purple to-neon-blue glow-text">reimagined.</span>
+        </h1>
+        
+        <p class="text-lg text-gray-400 mb-10 max-w-2xl font-light">
+            Harness the power of neural networks to visualize your financial flow in real-time. Beautifully dark, incredibly powerful.
+        </p>
+
+        <div class="flex gap-4">
+            <button class="bg-gradient-to-r from-neon-purple to-neon-blue text-white px-8 py-3.5 rounded-xl font-medium shadow-[0_0_30px_rgba(181,53,246,0.3)] hover:shadow-[0_0_40px_rgba(181,53,246,0.5)] transition-all hover:-translate-y-1" onclick="alert('Funcionalidad deshabilitada en versión Demo')">
+                Start Free Trial
+            </button>
+            <button class="glass-panel text-white px-8 py-3.5 rounded-xl font-medium hover:bg-white/5 transition-all" onclick="alert('Funcionalidad deshabilitada en versión Demo')">
+                View Documentation
+            </button>
+        </div>
+
+        <!-- Dashboard Mockup -->
+        <div class="mt-20 w-full max-w-5xl glass-panel rounded-2xl p-2 relative overflow-hidden group">
+            <div class="absolute inset-0 bg-gradient-to-t from-noir-900 via-transparent to-transparent z-10"></div>
+            <div class="h-10 border-b border-white/5 flex items-center px-4 gap-2 mb-4">
+                <div class="w-2.5 h-2.5 rounded-full bg-white/20"></div>
+                <div class="w-2.5 h-2.5 rounded-full bg-white/20"></div>
+                <div class="w-2.5 h-2.5 rounded-full bg-white/20"></div>
+            </div>
+            
+            <!-- Fake Dashboard Content -->
+            <div class="grid grid-cols-3 gap-4 px-4 pb-12 relative z-0">
+                <div class="col-span-2 h-64 bg-noir-800/50 rounded-xl border border-white/5 p-6 flex flex-col justify-end relative overflow-hidden">
+                    <!-- Chart Simulation -->
+                    <svg class="w-full h-32 stroke-neon-purple" fill="none" viewBox="0 0 100 30" preserveAspectRatio="none">
+                        <path d="M0,30 L10,25 L20,28 L30,15 L40,20 L50,5 L60,10 L70,2 L80,8 L90,0 L100,5" stroke-width="0.5" class="opacity-50"/>
+                        <path d="M0,30 L10,25 L20,28 L30,15 L40,20 L50,5 L60,10 L70,2 L80,8 L90,0 L100,5" stroke-width="0.5" filter="blur(2px)"/>
+                    </svg>
+                    <div class="absolute top-6 left-6">
+                        <p class="text-xs text-gray-500">Total Revenue</p>
+                        <p class="text-2xl text-white font-semibold">$124,500.00</p>
+                    </div>
+                </div>
+                <div class="h-64 bg-noir-800/50 rounded-xl border border-white/5 p-6">
+                    <p class="text-xs text-gray-500 mb-4">Active Nodes</p>
+                    <div class="flex items-end gap-2 h-32">
+                        <div class="w-full bg-neon-blue/20 rounded-t-sm h-[40%] relative"><div class="absolute top-0 w-full h-[1px] bg-neon-blue shadow-[0_0_10px_#3b82f6]"></div></div>
+                        <div class="w-full bg-neon-blue/20 rounded-t-sm h-[70%] relative"><div class="absolute top-0 w-full h-[1px] bg-neon-blue shadow-[0_0_10px_#3b82f6]"></div></div>
+                        <div class="w-full bg-neon-blue/20 rounded-t-sm h-[50%] relative"><div class="absolute top-0 w-full h-[1px] bg-neon-blue shadow-[0_0_10px_#3b82f6]"></div></div>
+                        <div class="w-full bg-neon-blue/20 rounded-t-sm h-[100%] relative"><div class="absolute top-0 w-full h-[1px] bg-neon-blue shadow-[0_0_10px_#3b82f6]"></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

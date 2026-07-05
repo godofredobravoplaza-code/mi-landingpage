@@ -107,6 +107,10 @@
                         Servicios
                         <span class="absolute left-0 bottom-0 w-full h-[1px] bg-[#AF8282] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
                     </a>
+                    <a href="#showcase" class="relative group text-zinc-400 hover:text-white text-sm transition-colors py-1">
+                        Showcase
+                        <span class="absolute left-0 bottom-0 w-full h-[1px] bg-[#AF8282] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
+                    </a>
                     <a href="#contacto" class="relative group text-zinc-400 hover:text-white text-sm transition-colors py-1">
                         Contacto
                         <span class="absolute left-0 bottom-0 w-full h-[1px] bg-[#AF8282] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
@@ -123,10 +127,10 @@
         </div>
 
         <!-- Mobile Menu (Hidden by default) -->
-        <div id="mobile-menu" class="hidden md:hidden bg-black/95 backdrop-blur-xl border-b border-white/5">
-            <div class="px-4 pt-2 pb-6 space-y-2">
+        <div id="mobile-menu" class="hidden md:hidden bg-black/95 backdrop-blur-xl border-b border-white/5">            <div class="px-4 pt-2 pb-6 space-y-1">
                 <a href="#inicio" class="block px-3 py-3 text-sm text-zinc-400 hover:text-white transition-colors">Inicio</a>
                 <a href="#servicios" class="block px-3 py-3 text-sm text-zinc-400 hover:text-white transition-colors">Servicios</a>
+                <a href="#showcase" class="block px-3 py-3 text-sm text-zinc-400 hover:text-white transition-colors">Showcase</a>
                 <a href="#contacto" class="block px-3 py-3 text-sm text-zinc-400 hover:text-white transition-colors">Contacto</a>
             </div>
         </div>
@@ -466,6 +470,191 @@
         </div>
     </section>
 
+
+    <!-- Showcase Premium Section -->
+    <section id="showcase" class="py-24 relative z-10 border-t border-white/5 bg-zinc-950/20">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-light text-white mb-6 tracking-tight">Galería de <span class="font-bold text-[#AF8282]">Alta Estética</span></h2>
+                <p class="text-zinc-400 text-sm md:text-lg font-light max-w-2xl mx-auto">Explora nuestro nivel de desarrollo. Haz clic en las maquetas para experimentar interacciones fluidas, animaciones inmersivas y código hiper-optimizado en tu propia pestaña.</p>
+            </div>
+
+            <!-- Slider Wrapper -->
+            <div class="relative group/slider w-full">
+                
+                <!-- Floating Navigation Buttons -->
+                <button id="slider-prev" class="absolute -left-4 md:-left-8 top-[40%] -translate-y-1/2 z-30 w-14 h-14 rounded-full bg-black/80 border border-[#AF8282]/50 backdrop-blur-md flex justify-center items-center text-white hover:bg-[#AF8282] hover:border-white hover:scale-110 transition-all focus:outline-none shadow-[0_0_30px_rgba(175,130,130,0.3)] opacity-0 group-hover/slider:opacity-100 hidden md:flex pointer-events-auto cursor-pointer">
+                    <i class="fa-solid fa-chevron-left text-xl"></i>
+                </button>
+                <button id="slider-next" class="absolute -right-4 md:-right-8 top-[40%] -translate-y-1/2 z-30 w-14 h-14 rounded-full bg-black/80 border border-[#AF8282]/50 backdrop-blur-md flex justify-center items-center text-white hover:bg-[#AF8282] hover:border-white hover:scale-110 transition-all focus:outline-none shadow-[0_0_30px_rgba(175,130,130,0.3)] opacity-0 group-hover/slider:opacity-100 hidden md:flex pointer-events-auto cursor-pointer">
+                    <i class="fa-solid fa-chevron-right text-xl"></i>
+                </button>
+
+                <!-- Slider Container -->
+                <div id="showcase-slider" class="flex overflow-x-auto gap-6 md:gap-8 pb-12 px-4 md:px-2 snap-x snap-mandatory scroll-smooth hide-scrollbar cursor-grab" style="scrollbar-width: none; -ms-overflow-style: none;">
+                <style>
+                    #showcase-slider::-webkit-scrollbar { display: none; }
+                </style>
+                
+                <!-- Card 1: SaaS Noir -->
+                <a href="templates/saas-noir.html" target="_blank" class="group relative flex-none w-[85vw] md:w-[60vw] lg:w-[45vw] aspect-[4/3] rounded-2xl overflow-hidden bg-black border border-white/10 hover:border-[#b535f6]/50 transition-colors duration-500 shadow-[0_0_30px_rgba(0,0,0,0.5)] snap-center">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent z-10"></div>
+                    <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800')] bg-cover bg-center opacity-40 group-hover:scale-110 group-hover:opacity-60 transition-all duration-700"></div>
+                    <div class="absolute bottom-0 left-0 p-6 md:p-10 z-20 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                        <div class="text-xs font-bold text-[#b535f6] mb-3 uppercase tracking-widest bg-[#b535f6]/10 inline-block px-3 py-1.5 rounded border border-[#b535f6]/30">SaaS / Dashboards</div>
+                        <h3 class="text-3xl font-bold text-white mb-3">SaaS Noir</h3>
+                        <p class="text-zinc-400 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 max-w-sm">Modo oscuro inmersivo, superficies de cristal líquido y acentos de neón.</p>
+                    </div>
+                    <div class="absolute top-6 right-6 z-20 w-12 h-12 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <i class="fa-solid fa-arrow-up-right-from-square text-white text-lg"></i>
+                    </div>
+                </a>
+
+                <!-- Card 2: Kinetic Fashion -->
+                <a href="templates/kinetic-fashion.html" target="_blank" class="group relative flex-none w-[85vw] md:w-[60vw] lg:w-[45vw] aspect-[4/3] rounded-2xl overflow-hidden bg-[#e5e5e5] border border-black/10 hover:border-black/50 transition-colors duration-500 shadow-[0_0_30px_rgba(0,0,0,0.5)] snap-center">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-10"></div>
+                    <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&q=80&w=800')] bg-cover bg-center opacity-80 group-hover:scale-110 group-hover:opacity-100 transition-all duration-700"></div>
+                    <div class="absolute bottom-0 left-0 p-6 md:p-10 z-20 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                        <div class="text-xs font-bold text-white mb-3 uppercase tracking-widest bg-black/30 backdrop-blur-sm inline-block px-3 py-1.5 rounded border border-white/30">Moda / Arquitectura</div>
+                        <h3 class="text-3xl font-serif font-bold text-white mb-3 tracking-wide">Kinetic Fashion</h3>
+                        <p class="text-white/80 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 max-w-sm">Navegación por drag, cursor personalizado y transiciones líquidas impecables.</p>
+                    </div>
+                    <div class="absolute top-6 right-6 z-20 w-12 h-12 rounded-full bg-black/30 backdrop-blur-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <i class="fa-solid fa-arrow-up-right-from-square text-white text-lg"></i>
+                    </div>
+                </a>
+
+                <!-- Card 3: Brutalismo Táctil -->
+                <a href="templates/brutalismo.html" target="_blank" class="group relative flex-none w-[85vw] md:w-[60vw] lg:w-[45vw] aspect-[4/3] rounded-2xl overflow-hidden bg-black border border-white/10 hover:border-yellow-400/50 transition-colors duration-500 shadow-[0_0_30px_rgba(0,0,0,0.5)] snap-center">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent z-10"></div>
+                    <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&q=80&w=800')] bg-cover bg-center opacity-40 group-hover:scale-110 group-hover:opacity-80 transition-all duration-700 grayscale contrast-125"></div>
+                    <div class="absolute bottom-0 left-0 p-6 md:p-10 z-20 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                        <div class="text-xs font-bold text-yellow-400 mb-3 uppercase tracking-widest bg-yellow-400/10 inline-block px-3 py-1.5 rounded border border-yellow-400/30">Agencias Creativas</div>
+                        <h3 class="text-3xl font-bold text-white mb-3 tracking-tighter uppercase">Brutalismo Táctil</h3>
+                        <p class="text-zinc-400 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 max-w-sm">Tipografía cinética, bordes crudos, alto contraste y scroll infinito.</p>
+                    </div>
+                    <div class="absolute top-6 right-6 z-20 w-12 h-12 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <i class="fa-solid fa-arrow-up-right-from-square text-white text-lg"></i>
+                    </div>
+                </a>
+
+                <!-- Card 4: Gamified B2B -->
+                <a href="templates/gamified-b2b.html" target="_blank" class="group relative flex-none w-[85vw] md:w-[60vw] lg:w-[45vw] aspect-[4/3] rounded-2xl overflow-hidden bg-black border border-white/10 hover:border-[#00ffcc]/50 transition-colors duration-500 shadow-[0_0_30px_rgba(0,0,0,0.5)] snap-center">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent z-10"></div>
+                    <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800')] bg-cover bg-center opacity-30 group-hover:scale-110 group-hover:opacity-50 transition-all duration-700 mix-blend-luminosity"></div>
+                    <!-- Fake Scanline effect -->
+                    <div class="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(255,255,255,0),rgba(255,255,255,0)_50%,rgba(0,255,204,0.05)_50%,rgba(0,255,204,0.05))] bg-[length:100%_4px] z-10"></div>
+                    <div class="absolute bottom-0 left-0 p-6 md:p-10 z-20 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                        <div class="text-xs font-mono font-bold text-[#00ffcc] mb-3 uppercase tracking-widest bg-[#00ffcc]/10 inline-block px-3 py-1.5 rounded border border-[#00ffcc]/30">Infraestructura Web3</div>
+                        <h3 class="text-3xl font-mono font-bold text-white mb-3">Gamified B2B</h3>
+                        <p class="text-[#00ffcc]/70 font-mono text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 max-w-sm">Navegación 3D en eje Z. En lugar de hacer scroll, viaja a través de la red.</p>
+                    </div>
+                    <div class="absolute top-6 right-6 z-20 w-12 h-12 rounded-full bg-[#00ffcc]/10 backdrop-blur-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <i class="fa-solid fa-arrow-up-right-from-square text-[#00ffcc] text-lg"></i>
+                    </div>
+                </a>
+
+                <!-- Card 5: E-Commerce Soft -->
+                <a href="templates/ecommerce-soft.html" target="_blank" class="group relative flex-none w-[85vw] md:w-[60vw] lg:w-[45vw] aspect-[4/3] rounded-2xl overflow-hidden bg-black border border-white/10 hover:border-stone-400/50 transition-colors duration-500 shadow-[0_0_30px_rgba(0,0,0,0.5)] snap-center">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent z-10"></div>
+                    <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&q=80&w=800')] bg-cover bg-center opacity-50 group-hover:scale-110 group-hover:opacity-70 transition-all duration-700"></div>
+                    <div class="absolute bottom-0 left-0 p-6 md:p-10 z-20 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                        <div class="text-xs font-bold text-stone-300 mb-3 uppercase tracking-widest bg-stone-300/10 inline-block px-3 py-1.5 rounded border border-stone-300/30">Tiendas Online</div>
+                        <h3 class="text-3xl font-light text-white mb-3 tracking-wide">E-Commerce Soft</h3>
+                        <p class="text-zinc-400 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 max-w-sm">Minimalismo puro, interacciones inmersivas y animaciones reveal suaves.</p>
+                    </div>
+                    <div class="absolute top-6 right-6 z-20 w-12 h-12 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <i class="fa-solid fa-arrow-up-right-from-square text-white text-lg"></i>
+                    </div>
+                </a>
+
+                <!-- Card 6: Invisible Editorial -->
+                <a href="templates/invisible-editorial.html" target="_blank" class="group relative flex-none w-[85vw] md:w-[60vw] lg:w-[45vw] aspect-[4/3] rounded-2xl overflow-hidden bg-[#fcfcfc] border border-black/10 hover:border-black/30 transition-colors duration-500 shadow-[0_0_30px_rgba(0,0,0,0.5)] snap-center">
+                    <div class="absolute inset-0 bg-gradient-to-t from-white via-white/50 to-transparent z-10 mix-blend-normal"></div>
+                    <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=800')] bg-cover bg-center opacity-40 group-hover:scale-110 group-hover:opacity-80 transition-all duration-700 grayscale mix-blend-multiply"></div>
+                    <div class="absolute bottom-0 left-0 p-6 md:p-10 z-20 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                        <div class="text-xs font-bold text-black mb-3 uppercase tracking-widest bg-black/5 inline-block px-3 py-1.5 rounded border border-black/10 backdrop-blur-md">Revistas / Cultura</div>
+                        <h3 class="text-3xl font-serif italic font-bold text-black mb-3">Invisible Editorial</h3>
+                        <p class="text-zinc-600 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 max-w-sm">Sin botones, sin menús obvios. La tipografía se deforma y guía el contenido.</p>
+                    </div>
+                    <div class="absolute top-6 right-6 z-20 w-12 h-12 rounded-full bg-black/5 backdrop-blur-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 border border-black/10">
+                        <i class="fa-solid fa-arrow-up-right-from-square text-black text-lg"></i>
+                    </div>
+                </a>
+
+                </div>
+            </div>
+
+            <!-- Slider Javascript -->
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    const slider = document.getElementById('showcase-slider');
+                    const btnPrev = document.getElementById('slider-prev');
+                    const btnNext = document.getElementById('slider-next');
+
+                    // Scroll Navigation Logic
+                    const getScrollAmount = () => window.innerWidth > 768 ? window.innerWidth * 0.45 : window.innerWidth * 0.85;
+
+                    btnNext.addEventListener('click', () => {
+                        slider.scrollBy({ left: getScrollAmount(), behavior: 'smooth' });
+                    });
+
+                    btnPrev.addEventListener('click', () => {
+                        slider.scrollBy({ left: -getScrollAmount(), behavior: 'smooth' });
+                    });
+
+                    // Mouse Drag to Scroll (Desktop)
+                    let isDown = false;
+                    let startX;
+                    let scrollLeft;
+
+                    slider.addEventListener('mousedown', (e) => {
+                        isDown = true;
+                        slider.classList.add('cursor-grabbing');
+                        slider.classList.remove('cursor-grab');
+                        // Temporarily disable snap to allow free dragging
+                        slider.style.scrollSnapType = 'none';
+                        startX = e.pageX - slider.offsetLeft;
+                        scrollLeft = slider.scrollLeft;
+                    });
+
+                    const stopDragging = () => {
+                        if (!isDown) return;
+                        isDown = false;
+                        slider.classList.remove('cursor-grabbing');
+                        slider.classList.add('cursor-grab');
+                        // Re-enable snap after dragging finishes
+                        slider.style.scrollSnapType = 'x mandatory';
+                        
+                        // Force snap alignment if drag ended between items
+                        const cardWidth = slider.querySelector('a').offsetWidth + 32; // width + gap
+                        const nearestSnap = Math.round(slider.scrollLeft / cardWidth) * cardWidth;
+                        slider.scrollTo({ left: nearestSnap, behavior: 'smooth' });
+                    };
+
+                    slider.addEventListener('mouseleave', stopDragging);
+                    slider.addEventListener('mouseup', stopDragging);
+
+                    slider.addEventListener('mousemove', (e) => {
+                        if (!isDown) return;
+                        e.preventDefault();
+                        const x = e.pageX - slider.offsetLeft;
+                        const walk = (x - startX) * 2.5; // Drag speed multiplier
+                        slider.scrollLeft = scrollLeft - walk;
+                    });
+                    
+                    // Prevent link clicking when dragging
+                    slider.querySelectorAll('a').forEach(link => {
+                        link.addEventListener('click', (e) => {
+                            if (isDown || slider.style.scrollSnapType === 'none') {
+                                e.preventDefault();
+                            }
+                        });
+                    });
+                });
+            </script>
+        </div>
+    </section>
 
     <!-- Creadores Section -->
     <section id="creadores" class="py-24 relative z-10 border-t border-white/5">

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gamified B2B - Interactive Infrastructure</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #000;
+            color: #00ffcc;
+            font-family: 'Courier New', Courier, monospace;
+            perspective: 1000px;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .tunnel-container {
+            position: relative;
+            width: 0;
+            height: 0;
+            transform-style: preserve-3d;
+        }
+
+        .node-card {
+            position: absolute;
+            /* Center the 400x300 card around the 0x0 tunnel container */
+            left: -200px;
+            top: -150px;
+            width: 400px; 
+            height: 300px;
+            background: rgba(0, 20, 15, 0.8);
+            border: 1px solid #00ffcc;
+            transform-style: preserve-3d;
+            box-shadow: 0 0 30px rgba(0, 255, 204, 0.2), inset 0 0 20px rgba(0, 255, 204, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            backdrop-filter: blur(5px);
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .node-card:hover {
+            border-color: #fff;
+            box-shadow: 0 0 50px rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+        }
+
+        /* Scanline effect */
+        .scanlines {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2));
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        .ui-overlay {
+            position: fixed;
+            z-index: 200;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="scanlines"></div>
+
+    <div class="ui-overlay top-4 left-4 text-xs font-bold tracking-widest">
+        SERVER: ONLINE <br>
+        NODES: 3 DETECTED
+    </div>
+    
+    <div class="ui-overlay bottom-4 left-1/2 transform -translate-x-1/2 text-sm uppercase animate-pulse text-[#00ffcc]/60">
+        [ Scroll to Navigate Network ]
+    </div>
+
+    <div class="tunnel-container" id="tunnel">
+        <!-- Nodes strictly use translateZ -->
+        <div class="node-card" data-z="0" style="transform: translateZ(0px);">
+            <h2 class="text-3xl font-bold mb-2">Global Routing</h2>
+            <p class="text-sm opacity-80 mb-6">Distribute traffic securely across 120 edge locations.</p>
+            <button class="border border-[#00ffcc] px-4 py-2 hover:bg-[#00ffcc] hover:text-black transition-colors pointer-events-auto" onclick="alert('Demo')">Initialize</button>
+        </div>
+        
+        <div class="node-card" data-z="-1500" style="transform: translateZ(-1500px);">
+            <h2 class="text-3xl font-bold mb-2">Data Vaults</h2>
+            <p class="text-sm opacity-80 mb-6">Quantum-resistant encryption storage for enterprise.</p>
+            <button class="border border-[#00ffcc] px-4 py-2 hover:bg-[#00ffcc] hover:text-black transition-colors pointer-events-auto" onclick="alert('Demo')">Access</button>
+        </div>
+
+        <div class="node-card" data-z="-3000" style="transform: translateZ(-3000px);">
+            <h2 class="text-3xl font-bold mb-2">Compute Clusters</h2>
+            <p class="text-sm opacity-80 mb-6">Deploy containerized workloads instantly.</p>
+            <button class="border border-[#00ffcc] px-4 py-2 hover:bg-[#00ffcc] hover:text-black transition-colors pointer-events-auto" onclick="alert('Demo')">Deploy</button>
+        </div>
+    </div>
+
+    <script>
+        let zScroll = 0;
+        let currentX = 0;
+        let currentY = 0;
+        const tunnel = document.getElementById('tunnel');
+        const cards = document.querySelectorAll('.node-card');
+        
+        window.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            zScroll += e.deltaY * 2;
+            if(zScroll < 0) zScroll = 0;
+            if(zScroll > 4000) zScroll = 4000;
+            updateTransform();
+        }, { passive: false });
+
+        window.addEventListener('mousemove', (e) => {
+            currentX = (e.clientX / window.innerWidth - 0.5) * 20;
+            currentY = (e.clientY / window.innerHeight - 0.5) * 20;
+            updateTransform();
+        });
+
+        function updateTransform() {
+            // Move the tunnel in 3D space
+            tunnel.style.transform = `translateZ(${zScroll}px) rotateY(${currentX}deg) rotateX(${-currentY}deg)`;
+            
+            // Calculate opacity for each card to prevent it from getting massively huge and blocking the screen
+            cards.forEach(card => {
+                const baseZ = parseFloat(card.getAttribute('data-z'));
+                const effectiveZ = baseZ + zScroll; // How close it is to the camera
+                
+                let opacity = 1;
+                // If it gets closer than 300px to the camera, start fading out
+                if (effectiveZ > 300) {
+                    opacity = 1 - ((effectiveZ - 300) / 400); // Fade out completely by Z=700
+                }
+                // If it's too far away, fade it out as well
+                else if (effectiveZ < -2500) {
+                    opacity = 1 - Math.abs(effectiveZ + 2500) / 1000;
+                }
+                
+                // Clamp opacity between 0 and 1
+                opacity = Math.max(0, Math.min(1, opacity));
+                
+                card.style.opacity = opacity;
+                
+                // Disable pointer events if it's too faded
+                card.style.pointerEvents = opacity < 0.2 ? 'none' : 'auto';
+            });
+        }
+        
+        // Initial setup
+        updateTransform();
+    </script>
+</body>
+</html>
