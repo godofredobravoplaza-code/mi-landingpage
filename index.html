@@ -98,7 +98,7 @@
                 </div>
 
                 <!-- Desktop Menu -->
-                <div class="hidden md:flex items-center space-x-8">
+                <div class="hidden md:flex items-center space-x-6 lg:space-x-8">
                     <a href="#inicio" class="relative group text-zinc-400 hover:text-white text-sm transition-colors py-1">
                         Inicio
                         <span class="absolute left-0 bottom-0 w-full h-[1px] bg-[#AF8282] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
@@ -107,13 +107,25 @@
                         Servicios
                         <span class="absolute left-0 bottom-0 w-full h-[1px] bg-[#AF8282] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
                     </a>
+                    <a href="#proceso" class="relative group text-zinc-400 hover:text-white text-sm transition-colors py-1">
+                        Proceso
+                        <span class="absolute left-0 bottom-0 w-full h-[1px] bg-[#AF8282] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
+                    </a>
                     <a href="#showcase" class="relative group text-zinc-400 hover:text-white text-sm transition-colors py-1">
                         Showcase
+                        <span class="absolute left-0 bottom-0 w-full h-[1px] bg-[#AF8282] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
+                    </a>
+                    <a href="#creadores" class="relative group text-zinc-400 hover:text-white text-sm transition-colors py-1">
+                        Creadores
                         <span class="absolute left-0 bottom-0 w-full h-[1px] bg-[#AF8282] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
                     </a>
                     <a href="#contacto" class="relative group text-zinc-400 hover:text-white text-sm transition-colors py-1">
                         Contacto
                         <span class="absolute left-0 bottom-0 w-full h-[1px] bg-[#AF8282] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
+                    </a>
+                    <!-- Botón Tauro Destacado -->
+                    <a href="#tauro-intro" class="inline-flex items-center px-4 py-2 text-xs font-bold text-black bg-gradient-to-r from-[#00ffcc] to-[#0088ff] rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(0,255,204,0.5)]">
+                        <i class="fa-solid fa-microchip mr-2 animate-pulse"></i> TauroIA
                     </a>
                 </div>
 
@@ -127,11 +139,20 @@
         </div>
 
         <!-- Mobile Menu (Hidden by default) -->
-        <div id="mobile-menu" class="hidden md:hidden bg-black/95 backdrop-blur-xl border-b border-white/5">            <div class="px-4 pt-2 pb-6 space-y-1">
-                <a href="#inicio" class="block px-3 py-3 text-sm text-zinc-400 hover:text-white transition-colors">Inicio</a>
-                <a href="#servicios" class="block px-3 py-3 text-sm text-zinc-400 hover:text-white transition-colors">Servicios</a>
-                <a href="#showcase" class="block px-3 py-3 text-sm text-zinc-400 hover:text-white transition-colors">Showcase</a>
-                <a href="#contacto" class="block px-3 py-3 text-sm text-zinc-400 hover:text-white transition-colors">Contacto</a>
+        <div id="mobile-menu" class="hidden md:hidden bg-black/95 backdrop-blur-xl border-b border-white/5">
+            <div class="px-4 pt-2 pb-6 space-y-1">
+                <a href="#inicio" class="block px-3 py-3 text-sm text-zinc-400 hover:text-white transition-colors border-b border-white/5">Inicio</a>
+                <a href="#servicios" class="block px-3 py-3 text-sm text-zinc-400 hover:text-white transition-colors border-b border-white/5">Servicios</a>
+                <a href="#proceso" class="block px-3 py-3 text-sm text-zinc-400 hover:text-white transition-colors border-b border-white/5">Proceso</a>
+                <a href="#showcase" class="block px-3 py-3 text-sm text-zinc-400 hover:text-white transition-colors border-b border-white/5">Showcase</a>
+                <a href="#creadores" class="block px-3 py-3 text-sm text-zinc-400 hover:text-white transition-colors border-b border-white/5">Creadores</a>
+                <a href="#contacto" class="block px-3 py-3 text-sm text-zinc-400 hover:text-white transition-colors border-b border-white/5">Contacto</a>
+                <!-- Botón Tauro Móvil -->
+                <div class="pt-4 pb-2 px-3">
+                    <a href="#tauro-intro" class="flex justify-center items-center w-full px-4 py-3 text-sm font-bold text-black bg-gradient-to-r from-[#00ffcc] to-[#0088ff] rounded-lg transition-transform hover:scale-[1.02] shadow-[0_0_15px_rgba(0,255,204,0.3)]">
+                        <i class="fa-solid fa-microchip mr-2 animate-pulse"></i> Conocer a TauroIA
+                    </a>
+                </div>
             </div>
         </div>
     </nav>
@@ -186,7 +207,7 @@
                         <!-- Contenido -->
                         <div class="relative z-10 flex flex-col h-full w-full">
                             <div class="mb-6 text-[#AF8282]">
-                                <i class="fa-solid fa-screwdriver-wrench text-2xl group-hover:scale-110 transition-transform duration-500"></i>
+                                <i class="fa-solid fa-cpu text-2xl group-hover:-translate-y-2 group-hover:translate-x-2 transition-transform duration-500"></i>
                             </div>
                             <h3 class="text-xl font-medium mb-4 text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-[#AF8282] bg-[length:200%_auto] bg-left transition-all duration-500 group-hover:bg-right">Servicio, Reparación y Asesoría Técnica</h3>
                             <ul class="text-zinc-400 space-y-3 mb-8 flex-grow text-sm">
@@ -218,7 +239,7 @@
                         <button onclick="document.getElementById('card-1').classList.remove('[transform:rotateY(180deg)]')" class="absolute top-4 right-4 text-zinc-500 hover:text-white transition-colors">
                             <i class="fa-solid fa-xmark text-xl"></i>
                         </button>
-                        <i class="fa-solid fa-shield-halved text-[#AF8282] text-3xl mb-4"></i>
+                        <i class="fa-solid fa-bolt-lightning text-[#AF8282] text-3xl mb-4"></i>
                         <p class="text-zinc-300 text-sm mb-6 leading-relaxed">
                             Contamos con más de 20 años de experiencia brindando soluciones técnicas infalibles. ¿Tienes dudas, consultas o ideas geniales? Contáctanos de inmediato y forjemos el futuro de tus equipos.
                         </p>
@@ -249,13 +270,13 @@
                         <!-- Contenido -->
                         <div class="relative z-10 flex flex-col h-full w-full">
                             <div class="mb-6 text-[#AF8282]">
-                                <i class="fa-solid fa-rocket text-2xl group-hover:-translate-y-2 group-hover:translate-x-2 transition-transform duration-500"></i>
+                                <i class="fa-solid fa-wand-magic-sparkles text-2xl group-hover:-translate-y-2 group-hover:translate-x-2 transition-transform duration-500"></i>
                             </div>
-                            <h3 class="text-xl font-medium mb-4 text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-[#AF8282] bg-[length:200%_auto] bg-left transition-all duration-500 group-hover:bg-right">Desarrollo de Páginas y Aplicaciones Web</h3>
+                            <h3 class="text-xl font-medium mb-4 text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-[#AF8282] bg-[length:200%_auto] bg-left transition-all duration-500 group-hover:bg-right">Desarrollo Web y Diseño Gráfico</h3>
                             <ul class="text-zinc-400 space-y-3 mb-8 flex-grow text-sm">
                                 <li class="flex items-start transition-all duration-300 group-hover:translate-x-2 group-hover:text-white delay-[50ms]">
                                     <i class="fa-solid fa-check text-zinc-600 mt-0.5 mr-3 text-xs transition-colors duration-300 group-hover:text-[#AF8282]"></i>
-                                    <span>Diseño y desarrollo web a medida</span>
+                                    <span>Diseño gráfico, branding y desarrollo web a medida</span>
                                 </li>
                                 <li class="flex items-start transition-all duration-300 group-hover:translate-x-2 group-hover:text-white delay-[100ms]">
                                     <i class="fa-solid fa-check text-zinc-600 mt-0.5 mr-3 text-xs transition-colors duration-300 group-hover:text-[#AF8282]"></i>
@@ -281,20 +302,23 @@
                         <button onclick="document.getElementById('card-2').classList.remove('[transform:rotateY(180deg)]')" class="absolute top-4 right-4 text-zinc-500 hover:text-white transition-colors">
                             <i class="fa-solid fa-xmark text-xl"></i>
                         </button>
-                        <i class="fa-solid fa-code text-[#AF8282] text-3xl mb-4"></i>
+                        <i class="fa-solid fa-fingerprint text-[#AF8282] text-3xl mb-4"></i>
                         <p class="text-zinc-300 text-sm mb-6 leading-relaxed">
-                            Transformamos ideas complejas en experiencias digitales de alto impacto. Nuestro equipo te guiará en cada paso. Escríbenos por WhatsApp o déjanos un correo con tus requerimientos y elevemos tu presencia web.
+                            Transformamos ideas en experiencias web y diseños gráficos de alto impacto (logos corporativos, flyers, tarjetas digitales). Nuestro equipo te guiará para elevar tu presencia visual al máximo nivel.
                         </p>
-                        <div class="flex flex-col sm:flex-row gap-3 w-full">
-                            <a href="https://wa.me/56987763010?text=Hola%20Phenix-Tech,%20me%20interesa%20cotizar%20un%20servicio" target="_blank" rel="noopener noreferrer" class="flex-1 inline-flex justify-center items-center px-4 py-2 text-xs font-bold text-white bg-gradient-to-r from-[#7a4c4c] to-[#AF8282] rounded-md transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_15px_rgba(175,130,130,0.6)] relative overflow-hidden group">
-                                <span class="relative z-10"><i class="fa-brands fa-whatsapp mr-2 text-sm group-hover:animate-bounce"></i> WhatsApp</span>
-                                <div class="absolute inset-0 h-full w-0 bg-white/20 group-hover:w-full transition-all duration-500 ease-out skew-x-12 -ml-2 pointer-events-none"></div>
+                        <div class="flex flex-col gap-3 w-full">
+                            <a href="#showcase" onclick="document.getElementById('card-2').classList.remove('[transform:rotateY(180deg)]')" class="w-full inline-flex justify-center items-center px-4 py-2 text-xs font-bold text-black bg-gradient-to-r from-[#00ffcc] to-[#0088ff] rounded-md transition-all duration-300 hover:scale-[1.02] shadow-[0_0_15px_rgba(0,255,204,0.3)]">
+                                <i class="fa-solid fa-layer-group mr-2 text-sm"></i> Explorar Showcase
                             </a>
-                            <a href="#contacto" onclick="document.getElementById('card-2').classList.remove('[transform:rotateY(180deg)]')" class="flex-1 inline-flex justify-center items-center px-4 py-2 text-xs font-bold text-zinc-300 bg-black/20 border border-zinc-700/50 rounded-md transition-all duration-300 hover:text-white hover:border-white/50 hover:bg-white/10 hover:shadow-[0_0_15px_rgba(255,255,255,0.2)] group relative overflow-hidden">
-                                <span class="relative z-10 flex items-center"><i class="fa-regular fa-envelope mr-2 text-sm group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-white transition-all duration-300"></i> Correo</span>
-                                <span class="absolute bottom-0 left-1/2 w-0 h-[2px] bg-white group-hover:w-full group-hover:left-0 transition-all duration-300 ease-out"></span>
-                                <span class="absolute top-0 right-1/2 w-0 h-[2px] bg-white group-hover:w-full group-hover:right-0 transition-all duration-300 ease-out"></span>
-                            </a>
+                            <div class="flex flex-col sm:flex-row gap-3 w-full">
+                                <a href="https://wa.me/56987763010?text=Hola%20Phenix-Tech,%20me%20interesa%20cotizar%20un%20proyecto%20web%20o%20diseño%20gráfico" target="_blank" rel="noopener noreferrer" class="flex-1 inline-flex justify-center items-center px-4 py-2 text-xs font-bold text-white bg-gradient-to-r from-[#7a4c4c] to-[#AF8282] rounded-md transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_15px_rgba(175,130,130,0.6)] relative overflow-hidden group">
+                                    <span class="relative z-10"><i class="fa-brands fa-whatsapp mr-2 text-sm group-hover:animate-bounce"></i> WhatsApp</span>
+                                    <div class="absolute inset-0 h-full w-0 bg-white/20 group-hover:w-full transition-all duration-500 ease-out skew-x-12 -ml-2 pointer-events-none"></div>
+                                </a>
+                                <a href="#contacto" onclick="document.getElementById('card-2').classList.remove('[transform:rotateY(180deg)]')" class="flex-1 inline-flex justify-center items-center px-4 py-2 text-xs font-bold text-zinc-300 bg-black/20 border border-zinc-700/50 rounded-md transition-all duration-300 hover:text-white hover:border-white/50 hover:bg-white/10 hover:shadow-[0_0_15px_rgba(255,255,255,0.2)] group relative overflow-hidden">
+                                    <span class="relative z-10 flex items-center"><i class="fa-regular fa-envelope mr-2 text-sm group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-white transition-all duration-300"></i> Correo</span>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>

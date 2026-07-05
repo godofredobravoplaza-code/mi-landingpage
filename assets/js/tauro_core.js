@@ -149,8 +149,22 @@ const TauroCore = {
     processMessage: function(message) {
         // Fase 1: Pedir nombre
         if (!this.userName) {
-            this.userName = message.split(' ')[0]; // Tomar primera palabra
-            this.appendTauroMessage(`Entendido. Perfil de invitado configurado para: ${this.userName}.`);
+            let lowerMsg = message.toLowerCase();
+            let saludo = "";
+            if (lowerMsg.includes("hola") || lowerMsg.includes("buenas") || lowerMsg.includes("saludos")) {
+                saludo = "¡Hola! ";
+            }
+
+            let match = lowerMsg.match(/(?:soy|llamo|nombre es|mi nombre es)\s+([a-záéíóúñ]+)/i);
+            if (match && match[1]) {
+                this.userName = match[1].charAt(0).toUpperCase() + match[1].slice(1);
+            } else {
+                let words = message.split(' ').filter(w => w.length > 0);
+                let lastWord = words[words.length - 1].replace(/[^a-zA-ZáéíóúñÁÉÍÓÚÑ]/g, '');
+                this.userName = lastWord.charAt(0).toUpperCase() + lastWord.slice(1) || "Invitado";
+            }
+
+            this.appendTauroMessage(`${saludo}Entendido. Perfil de invitado configurado para: ${this.userName}.`);
             setTimeout(() => {
                 this.appendTauroMessage("He sido actualizado. Ahora puedes consultarme sobre cualquier servicio técnico o de desarrollo web que ofrece Phenix-Tech.");
             }, 1000);

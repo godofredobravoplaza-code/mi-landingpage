@@ -19,6 +19,10 @@ const TauroBrain = {
         
         servicio_tecnico: ["reparacion", "tecnico", "hardware", "mantenimiento", "computador", "computadores", "pc", "pcs", "notebook", "laptop", "formatear", "formatean", "formateo", "arreglan", "soporte", "asesoria"],
         
+        servicio_web: ["web", "paginas", "pagina", "sitio", "app", "aplicacion", "desarrollo", "software", "programacion"],
+        
+        servicio_grafico: ["grafico", "graficos", "logo", "logos", "flyer", "flyers", "tarjeta", "tarjetas", "presentacion", "digitales", "branding", "marca", "identidad", "visual", "diseno", "diseño"],
+        
         // Separamos lentitud general de peticiones explícitas de hardware
         sintoma_lentitud: ["optimizacion", "optimizan", "optimizar", "lento", "lentitud", "acelerar", "mejorar"],
         hardware_especifico_ssd: ["ssd", "solido", "disco", "almacenamiento"],
@@ -46,7 +50,10 @@ const TauroBrain = {
         // Entidades de la Empresa
         identidad_empresa: ["empresa", "compañia", "negocio", "agencia", "marca", "ustedes", "equipo"],
 
-        creadores: ["creador", "creadores", "arquitecto", "arquitectos", "phenix", "antigravity", "quien", "quienes", "invento", "programo", "desarrollo", "creo", "hizo", "dueño", "padre"]
+        creadores: ["creador", "creadores", "arquitecto", "arquitectos", "phenix", "antigravity", "quien", "quienes", "invento", "programo", "desarrollo", "creo", "hizo", "dueño", "padre"],
+
+        // Entidad Showcase
+        nav_showcase: ["showcase", "galeria", "ejemplos", "portafolio", "maquetas", "demostraciones", "proyectos", "demos", "diseños", "diseño"]
     },
 
     // INTENCIONES: Reglas lógicas que combinan entidades
@@ -139,11 +146,31 @@ const TauroBrain = {
         intent_web: {
             requiresAny: ["servicio_web"],
             responses: [
-                "¡Me especializo en eso! Ofrecemos **Desarrollo de Páginas y Aplicaciones Web**. Hacemos diseño a medida, aplicaciones interactivas, Landing Pages y optimización SEO. Todo 100% responsivo.<br><br><div class='flex gap-2 flex-wrap mt-2'><a href='https://wa.me/56987763010?text=Hola%20Phenix-Tech,%20Tauro%20me%20atendió%20y%20me%20gustaría%20cotizar%20un%20proyecto%20web' target='_blank' class='inline-flex items-center px-3 py-2 text-xs font-bold text-white bg-gradient-to-r from-[#7a4c4c] to-[#AF8282] rounded-lg transition-transform hover:scale-105 shadow-md'><i class='fa-brands fa-whatsapp mr-2'></i> Cotizar por WhatsApp</a><a href='#contacto' class='inline-flex items-center px-3 py-2 text-xs font-bold text-zinc-300 bg-white/5 border border-white/10 hover:bg-white/10 rounded-lg transition-all'><i class='fa-solid fa-envelope mr-2'></i> Ir al Formulario</a></div>",
+                "¡Me especializo en eso! Ofrecemos **Desarrollo de Páginas y Aplicaciones Web**. Hacemos diseño a medida, interactivo y optimizado. Puedes ver nuestro nivel en el Showcase.<br><br><div class='flex gap-2 flex-wrap mt-2'><a href='#showcase' class='inline-flex items-center px-3 py-2 text-xs font-bold text-white bg-gradient-to-r from-[#00ffcc] to-[#0088ff] rounded-lg transition-transform hover:scale-105 shadow-md text-black'><i class='fa-solid fa-layer-group mr-2'></i> Ver Showcase</a><a href='https://wa.me/56987763010?text=Hola%20Phenix-Tech,%20Tauro%20me%20atendió%20y%20me%20gustaría%20cotizar%20un%20proyecto%20web' target='_blank' class='inline-flex items-center px-3 py-2 text-xs font-bold text-white bg-gradient-to-r from-[#7a4c4c] to-[#AF8282] rounded-lg transition-transform hover:scale-105 shadow-md'><i class='fa-brands fa-whatsapp mr-2'></i> Cotizar</a></div>",
                 
-                "Si buscas tener presencia digital, creamos aplicaciones y páginas web a medida. Desde Landing Pages hermosas (como esta) hasta plataformas complejas. ¿Tienes alguna idea de proyecto en mente?<br><br><div class='flex gap-2 flex-wrap mt-2'><a href='https://wa.me/56987763010?text=Hola%20Phenix-Tech,%20estoy%20interesado%20en%20desarrollar%20una%20página%20o%20app%20web' target='_blank' class='inline-flex items-center px-3 py-2 text-xs font-bold text-white bg-gradient-to-r from-[#7a4c4c] to-[#AF8282] rounded-lg transition-transform hover:scale-105 shadow-md'><i class='fa-brands fa-whatsapp mr-2'></i> Hablar con un Asesor</a><a href='#contacto' class='inline-flex items-center px-3 py-2 text-xs font-bold text-zinc-300 bg-white/5 border border-white/10 hover:bg-white/10 rounded-lg transition-all'><i class='fa-solid fa-envelope mr-2'></i> Usar Correo</a></div>",
+                "Si buscas presencia digital, creamos aplicaciones y páginas web de alta gama. Puedes explorar nuestro Showcase para interactuar con demos reales (animaciones 3D, drag-to-scroll, etc).<br><br><div class='flex gap-2 flex-wrap mt-2'><a href='#showcase' class='inline-flex items-center px-3 py-2 text-xs font-bold text-white bg-gradient-to-r from-[#00ffcc] to-[#0088ff] rounded-lg transition-transform hover:scale-105 shadow-md text-black'><i class='fa-solid fa-layer-group mr-2'></i> Ir al Showcase</a><a href='#contacto' class='inline-flex items-center px-3 py-2 text-xs font-bold text-zinc-300 bg-white/5 border border-white/10 hover:bg-white/10 rounded-lg transition-all'><i class='fa-solid fa-envelope mr-2'></i> Contacto</a></div>",
                 
-                "Transformamos ideas en experiencias web de alto impacto. Creamos páginas web modernas, responsivas y optimizadas para Google (SEO). Si quieres cotizar, escríbenos directamente:<br><br><div class='flex gap-2 flex-wrap mt-2'><a href='https://wa.me/56987763010?text=Hola%20Phenix-Tech,%20quiero%20cotizar%20el%20desarrollo%20de%20un%20sitio%20web' target='_blank' class='inline-flex items-center px-3 py-2 text-xs font-bold text-white bg-gradient-to-r from-[#7a4c4c] to-[#AF8282] rounded-lg transition-transform hover:scale-105 shadow-md'><i class='fa-brands fa-whatsapp mr-2'></i> Cotizar por WhatsApp</a><a href='#contacto' class='inline-flex items-center px-3 py-2 text-xs font-bold text-zinc-300 bg-white/5 border border-white/10 hover:bg-white/10 rounded-lg transition-all'><i class='fa-solid fa-envelope mr-2'></i> Formulario de Contacto</a></div>"
+                "Transformamos ideas en experiencias web de alto impacto. Creamos páginas modernas, interactivas y responsivas. Echa un vistazo a nuestra galería interactiva (Showcase) o contáctanos para cotizar.<br><br><div class='flex gap-2 flex-wrap mt-2'><a href='#showcase' class='inline-flex items-center px-3 py-2 text-xs font-bold text-white bg-gradient-to-r from-[#00ffcc] to-[#0088ff] rounded-lg transition-transform hover:scale-105 shadow-md text-black'><i class='fa-solid fa-layer-group mr-2'></i> Explorar Maquetas</a><a href='https://wa.me/56987763010?text=Hola%20Phenix-Tech,%20quiero%20cotizar%20el%20desarrollo%20de%20un%20sitio%20web' target='_blank' class='inline-flex items-center px-3 py-2 text-xs font-bold text-white bg-gradient-to-r from-[#7a4c4c] to-[#AF8282] rounded-lg transition-transform hover:scale-105 shadow-md'><i class='fa-brands fa-whatsapp mr-2'></i> Cotizar</a></div>"
+            ]
+        },
+
+        // Consulta específica del Showcase
+        intent_showcase: {
+            requiresAny: ["nav_showcase"],
+            responses: [
+                "¡Por supuesto! Tenemos el **Showcase de Élite**, una galería interactiva donde exponemos nuestro nivel de desarrollo. Encontrarás desde carruseles drag-to-scroll hasta navegación 3D en eje Z. ¿Quieres darle un vistazo?<br><br><a href='#showcase' class='inline-flex items-center px-4 py-2 mt-2 text-xs font-bold text-black bg-gradient-to-r from-[#00ffcc] to-[#0088ff] rounded-lg transition-transform hover:scale-105 shadow-md'><i class='fa-solid fa-layer-group mr-2'></i> Iniciar Showcase</a>",
+                
+                "Si quieres ver ejemplos reales de lo que podemos crear, debes visitar el **Showcase**. Es un portafolio interactivo con maquetas 'Mind-Blowing' (hiper-fluidas, minimalistas y experimentales). Te invito a probarlo.<br><br><a href='#showcase' class='inline-flex items-center px-4 py-2 mt-2 text-xs font-bold text-black bg-gradient-to-r from-[#00ffcc] to-[#0088ff] rounded-lg transition-transform hover:scale-105 shadow-md'><i class='fa-solid fa-layer-group mr-2'></i> Ir a la Galería</a>"
+            ]
+        },
+
+        // Consulta específica de Diseño Gráfico
+        intent_grafico: {
+            requiresAny: ["servicio_grafico"],
+            responses: [
+                "¡Claro que sí! Además de desarrollo web, somos expertos en **Diseño Gráfico de alto impacto**. Creamos logos corporativos, flyers, tarjetas de presentación digitales y construimos la identidad visual de tu marca.<br><br><a href='https://wa.me/56987763010?text=Hola%20Phenix-Tech,%20quiero%20cotizar%20un%20proyecto%20de%20diseño%20gráfico' target='_blank' class='inline-flex items-center px-3 py-2 mt-2 text-xs font-bold text-white bg-gradient-to-r from-[#7a4c4c] to-[#AF8282] rounded-lg transition-transform hover:scale-105 shadow-md'><i class='fa-brands fa-whatsapp mr-2'></i> Cotizar Diseño Gráfico</a>",
+                
+                "El Diseño Gráfico es fundamental. Ofrecemos creación de logos, branding, flyers publicitarios y tarjetas digitales interactivas para destacar tu marca. ¿Te gustaría cotizar tu diseño con un asesor?<br><br><a href='https://wa.me/56987763010?text=Hola%20Phenix-Tech,%20me%20interesa%20diseño%20gráfico' target='_blank' class='inline-flex items-center px-3 py-2 mt-2 text-xs font-bold text-white bg-gradient-to-r from-[#7a4c4c] to-[#AF8282] rounded-lg transition-transform hover:scale-105 shadow-md'><i class='fa-brands fa-whatsapp mr-2'></i> Hablar por WhatsApp</a>"
             ]
         },
 
