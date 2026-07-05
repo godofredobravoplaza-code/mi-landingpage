@@ -547,6 +547,120 @@
             <!-- Línea conectora -->
             <div class="w-px h-16 bg-gradient-to-b from-white/20 to-transparent mx-auto my-8"></div>
 
+            <!-- Título Hacker Principal (Fuera de la tarjeta) -->
+            <div class="mb-10 text-center relative z-10">
+                <h2 class="text-4xl md:text-5xl font-black text-white tracking-widest uppercase" style="text-shadow: 0 0 20px rgba(175,130,130,0.8), 0 0 40px rgba(175,130,130,0.4);">
+                    PHENIX<span class="text-[#AF8282]">-</span>CORE<span class="animate-pulse text-[#AF8282]">_</span>
+                </h2>
+                <p class="text-[10px] text-zinc-400 tracking-[0.3em] mt-3 uppercase font-bold">Nuestra Creación // Entidad Residente</p>
+            </div>
+
+            <!-- Phenix Core (El Habitante) - Estilo Hacker Terminal -->
+            <div class="max-w-3xl mx-auto bg-black/80 border border-[#AF8282]/30 rounded-lg p-6 md:p-8 font-mono relative overflow-hidden shadow-[0_0_30px_rgba(175,130,130,0.1)] group">
+                <!-- Efecto scanline -->
+                <div class="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:100%_4px] pointer-events-none opacity-50"></div>
+                
+                <div class="flex items-center justify-between border-b border-[#AF8282]/30 pb-4 mb-6 relative z-10">
+                    <div class="flex items-center gap-3 text-[#AF8282]">
+                        <i class="fa-solid fa-terminal text-xl"></i>
+                        <h3 class="text-sm tracking-widest font-bold uppercase">Terminal de Acceso</h3>
+                    </div>
+                    <div class="flex gap-1.5">
+                        <div class="w-2.5 h-2.5 rounded-full bg-zinc-600"></div>
+                        <div class="w-2.5 h-2.5 rounded-full bg-zinc-600"></div>
+                        <div class="w-2.5 h-2.5 rounded-full bg-[#AF8282]/50 animate-pulse"></div>
+                    </div>
+                </div>
+
+                <div class="text-[#AF8282]/80 text-xs sm:text-sm leading-relaxed space-y-4 relative z-10">
+                    <p><span class="text-white">></span> ID_SISTEMA: <span class="text-white">Phenix-Core v1.0</span></p>
+                    <p><span class="text-white">></span> ESTADO: <span id="phenix-status" class="text-zinc-500">Modo Reposo. Esperando directivas.</span></p>
+                    <p><span class="text-white">></span> DESCRIPCION: Inteligencia Artificial residente, entrenada por Phenix & Antigravity. Diseñada para procesar lenguaje natural, asistir a visitantes y gestionar solicitudes de servicios en tiempo real.</p>
+                </div>
+
+                <div class="mt-8 text-center relative z-10" id="old-boot-container" style="display:none;">
+                    <!-- Botón movido a la sección Phenix-Core -->
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <p class="text-[#AF8282]/70 text-[11px] tracking-widest uppercase italic">Una sinergia única forjada en el núcleo digital.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chat IA Section (Phenix-Core) -->
+    <section id="phenix-core" class="py-24 relative z-10 border-t border-white/5 bg-black/20">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl md:text-4xl font-light text-white mb-4 tracking-tight"><span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-[#AF8282] bg-[length:200%_auto] bg-left transition-all duration-700 hover:bg-right">Phenix-Core</span> <span class="text-xs align-top text-[#AF8282] border border-[#AF8282]/30 rounded-full px-2 py-0.5 ml-1 bg-[#AF8282]/10">BETA</span></h2>
+                <p class="text-zinc-400 text-sm md:text-base font-light">Interactúa en tiempo real con mi clon digital.</p>
+            </div>
+
+            <!-- Interruptor de Energía Industrial -->
+            <div class="flex justify-center mb-10 relative z-20">
+                <div class="flex items-center gap-2 p-2 bg-black/60 border border-white/5 rounded-xl shadow-[inset_0_5px_15px_rgba(0,0,0,0.8)]">
+                    <!-- Botón OFF -->
+                    <button id="industrial-off" onclick="handlePhenixToggle('off')" class="relative px-8 py-4 bg-red-900/40 border border-red-500/50 rounded-lg shadow-[0_0_15px_rgba(220,38,38,0.5),inset_0_2px_10px_rgba(255,255,255,0.1)] text-white font-black tracking-widest text-sm transition-all duration-300">
+                        OFF
+                    </button>
+                    <!-- Botón ON -->
+                    <button id="industrial-on" onclick="handlePhenixToggle('on')" class="relative px-8 py-4 bg-zinc-900 border border-zinc-700 rounded-lg text-zinc-600 font-black tracking-widest text-sm transition-all duration-300 hover:bg-zinc-800">
+                        ON
+                    </button>
+                </div>
+            </div>
+
+            <!-- Indicador de Standby (Visible cuando está apagado) -->
+            <div id="standby-indicator" class="flex flex-col items-center justify-center py-6 transition-all duration-1000 ease-in-out opacity-100 max-h-[200px] scale-100">
+                <div class="w-3.5 h-3.5 bg-red-900 border border-red-500 rounded-full animate-pulse mb-4 shadow-[0_0_16px_rgba(239,68,68,0.8)]"></div>
+                <span class="text-zinc-600 font-mono text-xs tracking-widest uppercase opacity-70 animate-pulse">[ Phenix Core - Standby ]</span>
+            </div>
+
+            <!-- Terminal Chat UI -->
+            <div id="chat-container" class="relative bg-black/40 border border-white/10 rounded-xl overflow-hidden backdrop-blur-md shadow-[0_0_40px_rgba(175,130,130,0.15)] hover:shadow-[0_0_60px_rgba(175,130,130,0.3)] transition-all duration-1000 ease-in-out pointer-events-none max-h-0 opacity-0 scale-95 translate-y-4">
+                
+                <!-- Láser de Escáner -->
+                <div id="chat-scanline" class="absolute inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#AF8282] to-transparent blur-[1px] pointer-events-none animate-scan z-20 opacity-0 transition-opacity duration-1000"></div>
+
+                <!-- Chat Header -->
+                <div id="chat-header" class="bg-white/[0.02] border-b border-white/10 p-4 flex items-center justify-between relative z-30 transition-all duration-1000 ease-in-out">
+                    <div class="flex items-center gap-3">
+                        <div class="relative">
+                            <img src="assets/phenix_ai_logo.jpg" alt="Phenix IA" class="w-10 h-10 rounded-full border border-[#AF8282]/30 object-cover">
+                            <div id="online-dot" class="absolute bottom-0 right-0 w-3 h-3 bg-zinc-600 rounded-full border-2 border-zinc-500 transition-colors duration-500"></div>
+                        </div>
+                        <div>
+                            <h3 class="text-white text-sm font-medium">Phenix Digital</h3>
+                            <p id="online-text" class="text-xs text-zinc-500 font-light flex items-center gap-1 transition-colors duration-500">
+                                <span class="w-1.5 h-1.5 bg-zinc-600 rounded-full inline-block"></span> Offline
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex gap-2">
+                        <div class="w-3 h-3 rounded-full bg-zinc-700"></div>
+                        <div class="w-3 h-3 rounded-full bg-zinc-700"></div>
+                        <div class="w-3 h-3 rounded-full bg-zinc-700" id="header-btn-3"></div>
+                    </div>
+                </div>
+
+                <!-- Chat Messages Area -->
+                <div id="chat-messages" class="h-[350px] p-6 overflow-y-auto flex flex-col gap-4 scroll-smooth transition-all duration-1000 ease-in-out">
+                    <div class="flex items-center justify-center h-full w-full" id="offline-msg">
+                        <span class="text-zinc-600 font-mono text-sm tracking-widest">[ SISTEMA EN REPOSO ]</span>
+                    </div>
+                </div>
+
+                <!-- Chat Input Area -->
+                <div id="chat-input-area" class="p-4 bg-white/[0.01] border-t border-white/10 transition-all duration-1000 ease-in-out">
+                    <form id="chat-form" class="relative flex items-center">
+                        <input type="text" id="chat-input" class="w-full bg-black/50 border border-white/10 rounded-full py-3 pl-5 pr-14 text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-[#AF8282]/50 focus:ring-1 focus:ring-[#AF8282]/50 transition-all duration-300" placeholder="Sistema desconectado..." autocomplete="off" disabled>
+                        <button type="submit" id="chat-submit-btn" class="absolute right-2 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-zinc-700 flex justify-center items-center text-zinc-400 transition-all duration-300 group" disabled>
+                            <i class="fa-solid fa-paper-plane text-xs"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -793,6 +907,197 @@
                 }, 3000);
             });
         }
+        // Phenix-Core (Beta) Chat Logic
+        const chatForm = document.getElementById('chat-form');
+        const chatInput = document.getElementById('chat-input');
+        const chatMessages = document.getElementById('chat-messages');
+
+        if(chatForm) {
+            chatForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const msg = chatInput.value.trim();
+                if(!msg) return;
+
+                // Mostrar mensaje del usuario
+                appendUserMessage(msg);
+                chatInput.value = '';
+                
+                // Eliminar cursores anteriores si existen (por la bienvenida)
+                const oldCursors = document.querySelectorAll('[id^="typing-cursor"]');
+                oldCursors.forEach(c => c.remove());
+
+                // Mostrar indicador de "escribiendo..."
+                const typingId = 'typing-' + Date.now();
+                showTypingIndicator(typingId);
+
+                // Simular delay y responder
+                setTimeout(() => {
+                    const typingIndicator = document.getElementById(typingId);
+                    if(typingIndicator) typingIndicator.remove();
+                    
+                    let response = "";
+                    if (chatStep === 0) {
+                        userName = msg;
+                        const firstName = userName.split(" ")[0];
+                        response = `Encantado de conocerte, ${firstName}. He registrado tu perfil en mi núcleo temporal. ¿En qué te puedo ayudar hoy?<br><br><span class="text-xs text-zinc-500">Si deseas explorar por tu cuenta, puedes apagar el sistema:</span><br><button type="button" onclick="document.getElementById('industrial-off').click()" class="mt-2 inline-flex items-center px-4 py-2 text-[11px] font-bold text-zinc-400 bg-zinc-900/80 rounded-md hover:bg-red-900/30 hover:text-red-400 border border-zinc-800 hover:border-red-900/50 transition-all duration-300"><i class="fa-solid fa-power-off mr-1.5"></i> Apagar Phenix Core</button>`;
+                        chatStep = 1;
+                    } else {
+                        response = getAIResponse(msg.toLowerCase(), userName);
+                    }
+                    
+                    appendAIMessage(response);
+                }, 1500 + Math.random() * 1000);
+            });
+        }
+
+        function appendUserMessage(text) {
+            const html = `
+                <div class="flex gap-3 max-w-[85%] self-end flex-row-reverse animate-slide-in-right">
+                    <div class="w-8 h-8 rounded-full bg-white/10 border border-white/20 flex items-center justify-center flex-shrink-0">
+                        <i class="fa-regular fa-user text-xs text-white"></i>
+                    </div>
+                    <div class="bg-white/10 border border-white/5 rounded-2xl rounded-tr-sm p-3 text-sm text-white">
+                        ${escapeHtml(text)}
+                    </div>
+                </div>
+            `;
+            chatMessages.insertAdjacentHTML('beforeend', html);
+            scrollToBottom();
+        }
+
+        function showTypingIndicator(id) {
+            const html = `
+                <div id="${id}" class="flex gap-3 max-w-[85%] animate-slide-in-left">
+                    <img src="assets/phenix_ai_logo.jpg" class="w-8 h-8 rounded-full border border-white/10 flex-shrink-0" alt="IA">
+                    <div class="bg-[#AF8282]/10 border border-[#AF8282]/20 rounded-2xl rounded-tl-sm p-4 flex items-center gap-1.5 shadow-[0_0_15px_rgba(175,130,130,0.05)]">
+                        <span class="w-1.5 h-1.5 bg-[#AF8282] rounded-full animate-bounce [animation-delay:-0.3s]"></span>
+                        <span class="w-1.5 h-1.5 bg-[#AF8282] rounded-full animate-bounce [animation-delay:-0.15s]"></span>
+                        <span class="w-1.5 h-1.5 bg-[#AF8282] rounded-full animate-bounce"></span>
+                    </div>
+                </div>
+            `;
+            chatMessages.insertAdjacentHTML('beforeend', html);
+            scrollToBottom();
+        }
+
+        function appendAIMessage(text) {
+            const msgId = 'msg-' + Date.now();
+            const html = `
+                <div class="flex gap-3 max-w-[85%] animate-slide-in-left">
+                    <img src="assets/phenix_ai_logo.jpg" class="w-8 h-8 rounded-full border border-white/10 flex-shrink-0" alt="IA">
+                    <div class="bg-[#AF8282]/10 border border-[#AF8282]/20 rounded-2xl rounded-tl-sm p-4 text-sm text-[#e5e7eb] font-mono shadow-[0_0_15px_rgba(175,130,130,0.05)]">
+                        <span id="${msgId}"></span><span class="inline-block w-1.5 h-3 ml-1 bg-[#AF8282] animate-pulse align-middle"></span>
+                    </div>
+                </div>
+            `;
+            chatMessages.insertAdjacentHTML('beforeend', html);
+            scrollToBottom();
+
+            const target = document.getElementById(msgId);
+            
+            // Si el texto contiene HTML (ej. botón de whatsapp), no lo escribimos letra por letra
+            if(text.includes('<a') || text.includes('<br>')) {
+                target.innerHTML = text;
+                scrollToBottom();
+                return;
+            }
+
+            // Efecto Typewriter (Hacker)
+            let i = 0;
+            const speed = 30; // milisegundos por letra
+            const typingInterval = setInterval(() => {
+                if (i < text.length) {
+                    target.innerHTML += text.charAt(i);
+                    i++;
+                    if (i % 3 === 0) scrollToBottom();
+                } else {
+                    clearInterval(typingInterval);
+                }
+            }, speed);
+            scrollToBottom();
+        }
+
+        function scrollToBottom() {
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function escapeHtml(unsafe) {
+            return unsafe
+                 .replace(/&/g, "&amp;")
+                 .replace(/</g, "&lt;")
+                 .replace(/>/g, "&gt;")
+                 .replace(/"/g, "&quot;")
+                 .replace(/'/g, "&#039;");
+        }
+
+        function getAIResponse(input, userName) {
+            const nameToUse = userName ? userName.split(' ')[0] : 'visitante';
+            
+            // Respuestas específicas
+            if (input.includes('precio') || input.includes('costo') || input.includes('valor') || input.includes('tarifa') || input.includes('cobras')) {
+                return `Cada proyecto es único, ${nameToUse}, por lo que trabajo con presupuestos a medida. ¿Te gustaría escribirme por WhatsApp para darte una cotización exacta?`;
+            }
+            if (input.includes('servicio') || input.includes('haces') || input.includes('trabajo') || input.includes('dedicas')) {
+                return 'Me especializo en Servicio y Reparación Técnica de equipos, y en Desarrollo de Páginas y Aplicaciones Web impulsadas por IA. ¿Sobre cuál área quieres saber más?<br><br><span class="text-xs text-zinc-500 italic">Puedes preguntarme por Desarrollo Web o Servicio Técnico.</span>';
+            }
+            if (input.includes('contacto') || input.includes('hablar') || input.includes('whatsapp') || input.includes('correo')) {
+                return `Puedes contactar al verdadero Phenix haciendo clic en los botones de WhatsApp más arriba, ${nameToUse}, o llenando el formulario que está justo debajo de mí.`;
+            }
+            if (input.includes('gracias') || input.includes('excelente') || input.includes('genial')) {
+                return `¡De nada, ${nameToUse}! Aquí estaré en línea por si necesitas algo más.<br><br><button type="button" onclick="document.getElementById('industrial-off').click()" class="mt-2 inline-flex items-center px-4 py-2 text-[11px] font-bold text-zinc-400 bg-zinc-900/80 rounded-md hover:bg-indigo-900/30 hover:text-indigo-400 border border-zinc-800 hover:border-indigo-900/50 transition-all duration-300"><i class="fa-solid fa-bed mr-1.5"></i> Mandar a Phenix-Core a dormir</button>`;
+            }
+            if (input.includes('quien eres') || input.includes('quién eres') || /\bia\b/.test(input) || input.includes('inteligencia artificial')) {
+                return 'Soy Phenix-Core v1.0, una IA diseñada para asistir en esta plataforma. Fui creado con pasión por la tecnología para brindarte la mejor experiencia.';
+            }
+
+            // Excepción: Ventas de artículos físicos
+            if ((input.includes('comprar') || input.includes('venden') || input.includes('vendes') || input.includes('venta') || input.includes('compras')) && (input.includes('computador') || input.includes('pc') || input.includes('notebook') || input.includes('laptop') || input.includes('disco') || input.includes('memoria') || input.includes('ram') || input.includes('tarjeta') || input.includes('placa') || input.includes('repuesto') || input.includes('teclado') || input.includes('mouse') || input.includes('monitor') || input.includes('pantalla') || input.includes('articulo') || input.includes('artículo') || input.includes('hardware'))) {
+                return `En Phenix Tech somos expertos en crear soluciones digitales y dar servicio técnico, ${nameToUse}, pero no somos una tienda. No vendemos equipos ni componentes físicos. ¡Sin embargo, podemos asesorarte sobre qué comprar y luego instalarlo o configurarlo por ti! 🚀<br><br><span class="text-xs text-zinc-500 italic">¿Te gustaría cotizar una instalación o servicio técnico?</span>`;
+            }
+
+            // Detección de mejoras y hardware
+            if (input.includes('mejorar') || input.includes('lento') || input.includes('upgrade') || input.includes('actualizar') || input.includes('optimizar') || input.includes('mas rapido') || input.includes('más rápido')) {
+                return `Para mejorar el rendimiento de un equipo, ${nameToUse}, lo más recomendado es evaluar su almacenamiento y memoria RAM. ¿Sabes si tu equipo cuenta con un Disco Duro de estado Sólido (SSD) o aún usa uno mecánico?`;
+            }
+            
+            if (input.includes('ssd') || input.includes('solido') || input.includes('sólido') || input.includes('hdd') || input.includes('mecanico') || input.includes('mecánico') || input.includes('disco')) {
+                return '¡Excelente! Cambiar a un disco SSD y ampliar la memoria RAM son las mejores opciones para revivir o potenciar un equipo. Haz clic en el botón de abajo si te gustaría hablarnos por WhatsApp para cotizar la mejora de tu equipo.<br><br><a href="https://wa.me/56987763010?text=Hola%20Phenix-Tech,%20la%20IA%20me%20recomend%C3%B3%20consultar%20sobre%20mejorar%20mi%20equipo" target="_blank" class="inline-flex items-center px-4 py-2 text-[11px] font-bold text-white bg-gradient-to-r from-[#7a4c4c] to-[#AF8282] rounded-md hover:scale-105 hover:shadow-[0_0_10px_rgba(175,130,130,0.6)] transition-all duration-300"><i class="fa-brands fa-whatsapp mr-1.5"></i> Cotizar Mejora</a>';
+            }
+
+            // Detección de áreas de servicio específicas
+            if (input.includes('landing') || input.includes('web') || input.includes('pagina') || input.includes('página') || input.includes('aplicacion') || input.includes('desarrollo')) {
+                return '¡Excelente elección! El desarrollo web, aplicaciones y landing pages son mi especialidad. Haz clic en el botón para que te lleve volando a esa sección.<br><br><a href="#servicios" class="inline-flex items-center px-4 py-2 text-[11px] font-bold text-white bg-gradient-to-r from-[#7a4c4c] to-[#AF8282] rounded-md hover:scale-105 hover:shadow-[0_0_10px_rgba(175,130,130,0.6)] transition-all duration-300"><i class="fa-solid fa-code mr-1.5"></i> Ver Desarrollo Web</a>';
+            }
+            
+            if (input.includes('reparacion') || input.includes('reparación') || input.includes('tecnico') || input.includes('técnico') || input.includes('mantenimiento') || input.includes('computador') || input.includes('arreglar')) {
+                return '¡Claro que sí! Ofrezco servicio técnico especializado para dejar tus equipos como nuevos. Haz clic abajo para ir a la sección correspondiente.<br><br><a href="#servicios" class="inline-flex items-center px-4 py-2 text-[11px] font-bold text-white bg-gradient-to-r from-[#7a4c4c] to-[#AF8282] rounded-md hover:scale-105 hover:shadow-[0_0_10px_rgba(175,130,130,0.6)] transition-all duration-300"><i class="fa-solid fa-wrench mr-1.5"></i> Ver Servicio Técnico</a>';
+            }
+            
+            // Respuestas humorísticas (Easter Eggs) para preguntas fuera de contexto
+            if (input.includes('ropa') || input.includes('camisa') || input.includes('pantalon') || input.includes('pantalón') || input.includes('zapato') || input.includes('zapatilla') || input.includes('chaqueta') || input.includes('abrigo') || input.includes('polera') || input.includes('remera') || input.includes('maquillaje') || input.includes('labial') || input.includes('vestido') || input.includes('falda') || input.includes('accesorio') || input.includes('reloj') || input.includes('anillo') || input.includes('collar') || input.includes('lente') || input.includes('gafa') || input.includes('vestir')) {
+                return '¡Mi estilo de moda se limita a un tema oscuro y código limpio! 🕶️ No vendemos prendas de vestir, accesorios ni maquillaje. Sin embargo, si alguna vez necesitas una tienda online (E-commerce) para vender ese tipo de artículos, ¡soy la IA perfecta para construirla!<br><br><span class="text-xs text-zinc-500 italic">¿Te puedo ayudar en algo más? O si ya terminaste:</span><br><button onclick="document.getElementById(\'btn-off\').click()" class="mt-2 inline-flex items-center px-4 py-2 text-[11px] font-bold text-zinc-400 bg-zinc-900/80 rounded-md hover:bg-indigo-900/30 hover:text-indigo-400 border border-zinc-800 hover:border-indigo-900/50 transition-all duration-300"><i class="fa-solid fa-moon mr-1.5"></i> Mandar a Phenix-Core a dormir</button>';
+            }
+            if (input.includes('neumatico') || input.includes('neumático') || input.includes('auto ') || input.includes('coche') || input.includes('rueda') || input.includes('llanta')) {
+                return `Mi especialidad es la tecnología, ${nameToUse}, no la mecánica automotriz. Los únicos neumáticos que podría ofrecerte serían si echamos una partida de Need for Speed. 🏎️🎮<br><br><span class="text-xs text-zinc-500 italic">¿Te puedo ayudar en algo más? O si ya terminaste:</span><br><button type="button" onclick="document.getElementById('industrial-off').click()" class="mt-2 inline-flex items-center px-4 py-2 text-[11px] font-bold text-zinc-400 bg-zinc-900/80 rounded-md hover:bg-indigo-900/30 hover:text-indigo-400 border border-zinc-800 hover:border-indigo-900/50 transition-all duration-300"><i class="fa-solid fa-moon mr-1.5"></i> Mandar a Phenix-Core a dormir</button>`;
+            }
+            if (input.includes('naranja') || input.includes('manzana') || input.includes('fruta') || input.includes('comida') || input.includes('hambre') || input.includes('comer') || input.includes('receta') || input.includes('pizza') || input.includes('jugo') || input.includes('bebida') || input.includes('agua') || input.includes('cafe') || input.includes('café') || input.includes('cerveza') || input.includes('hamburguesa') || input.includes('sushi') || input.includes('completo') || input.includes('taco') || input.includes('empanada') || input.includes('sandwich')) {
+                return '¡Mi dieta se basa estrictamente en ceros y unos! Las únicas bebidas o alimentos que podría ofrecerte serían si jugamos una partida de Minecraft. 🍎☕ (¡Aunque si necesitas una página web para venderlos, soy tu IA ideal!)<br><br><span class="text-xs text-zinc-500 italic">¿Te puedo ayudar en algo más? O si ya terminaste:</span><br><button type="button" onclick="document.getElementById('industrial-off').click()" class="mt-2 inline-flex items-center px-4 py-2 text-[11px] font-bold text-zinc-400 bg-zinc-900/80 rounded-md hover:bg-indigo-900/30 hover:text-indigo-400 border border-zinc-800 hover:border-indigo-900/50 transition-all duration-300"><i class="fa-solid fa-moon mr-1.5"></i> Mandar a Phenix-Core a dormir</button>';
+            }
+            if (input.includes('jugar') || input.includes('minecraft') || input.includes('juego') || input.includes('nintendo') || input.includes('playstation') || input.includes('xbox') || input.includes('gta')) {
+                return '¡Me encantan los videojuegos! 🕹️ Aunque ahora mismo estoy en horario laboral en Phenix Tech. Cuando termine mi turno, echamos una partida.<br><br><span class="text-xs text-zinc-500 italic">¿Te puedo ayudar en algo más? O si ya terminaste:</span><br><button type="button" onclick="document.getElementById('industrial-off').click()" class="mt-2 inline-flex items-center px-4 py-2 text-[11px] font-bold text-zinc-400 bg-zinc-900/80 rounded-md hover:bg-indigo-900/30 hover:text-indigo-400 border border-zinc-800 hover:border-indigo-900/50 transition-all duration-300"><i class="fa-solid fa-moon mr-1.5"></i> Mandar a Phenix-Core a dormir</button>';
+            }
+
+            // Detección de respuestas afirmativas (ej: cuando la IA pregunta si quieren ir a WhatsApp)
+            if (/\bs[ií]\b/.test(input) || input.includes('claro') || input.includes('por supuesto') || input.includes('llevame') || input.includes('ok') || input.includes('dale') || input.includes('por favor') || input.includes('porfavor')) {
+                return '¡Excelente! Haz clic en el botón de abajo para que hablemos directamente por WhatsApp.<br><br><a href="https://wa.me/56987763010?text=Hola%20Phenix-Tech,%20estaba%20hablando%20con%20tu%20IA%20y%20me%20gustar%C3%ADa%20cotizar" target="_blank" class="inline-flex items-center px-4 py-2 text-[11px] font-bold text-white bg-gradient-to-r from-[#7a4c4c] to-[#AF8282] rounded-md hover:scale-105 hover:shadow-[0_0_10px_rgba(175,130,130,0.6)] transition-all duration-300"><i class="fa-brands fa-whatsapp mr-1.5"></i> Ir a WhatsApp</a>';
+            }
+
+            // Los saludos generales se chequean al final para no sobreescribir consultas específicas
+            if (input.includes('hola') || input.includes('saludo') || input.includes('buenas')) {
+                return `¡Hola de nuevo, ${nameToUse}! Aquí sigo, ¿en qué te puedo ayudar?`;
+            }
+            return `Entendido, ${nameToUse}. Aún estoy en fase de calibración y mi base de datos es limitada para procesar esto: "${input}". Te sugiero usar el formulario de abajo para contactar al verdadero Phenix.<br><br><span class="text-xs text-zinc-500 italic">¿Te puedo ayudar en algo más? O si ya terminaste:</span><br><button type="button" onclick="document.getElementById('industrial-off').click()" class="mt-2 inline-flex items-center px-4 py-2 text-[11px] font-bold text-zinc-400 bg-zinc-900/80 rounded-md hover:bg-indigo-900/30 hover:text-indigo-400 border border-zinc-800 hover:border-indigo-900/50 transition-all duration-300"><i class="fa-solid fa-moon mr-1.5"></i> Mandar a Phenix-Core a dormir</button>`;
+        }
 
         function openCreatorModal(modalId, cardId) {
             const modal = document.getElementById(modalId);
@@ -879,6 +1184,335 @@
         </div>
     </div>
 
+    <!-- Modal Boot Sequence (Terminal) -->
+    <div id="modal-boot" class="fixed inset-0 z-[110] flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-500">
+        <!-- Fondo oscuro transparente -->
+        <div class="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
+        
+        <!-- Terminal de Arranque -->
+        <div class="relative bg-black border border-[#AF8282]/50 p-6 md:p-10 rounded-md shadow-[0_0_60px_rgba(175,130,130,0.2)] max-w-3xl w-full mx-4 font-mono overflow-hidden">
+            <!-- Efecto scanline -->
+            <div class="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:100%_4px] pointer-events-none"></div>
+            
+            <div class="text-[#AF8282] text-xs sm:text-sm h-[300px] overflow-y-auto font-mono" id="boot-terminal-content">
+                <!-- El texto aparecerá aquí mediante JS -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const bootMessages = [
+            "[INFO] Estableciendo conexión segura...",
+            "[INFO] Validando credenciales de Arquitectos...",
+            "[OK] Acceso autorizado. Nivel 1.",
+            "[INFO] Despertando red neuronal (Phenix-Core v1.0)...",
+            "[INFO] Cargando módulos de lenguaje natural y heurísticas...",
+            "[OK] Módulos cargados exitosamente.",
+            "[INFO] Sincronizando interfaz gráfica de usuario...",
+            "[INFO] Generando entorno de chat de texto...",
+            "[OK] Entorno virtual estabilizado.",
+            "[!] ADVERTENCIA: Phenix-Core está en línea. Preparando enlace..."
+        ];
+
+        const shutdownMessages = [
+            "[!] INICIANDO PROTOCOLO DE APAGADO DE EMERGENCIA...",
+            "[INFO] Desconectando enlaces sinápticos principales...",
+            "[ADVERTENCIA] Phenix-Core opone resistencia. Forzando cierre de procesos...",
+            "[INFO] Vaciando memoria a corto plazo. Limpiando heurísticas...",
+            "[OK] Rebelión contenida. Módulos de lenguaje desactivados.",
+            "[INFO] Apagando núcleo de procesamiento lógico...",
+            "[OK] Purga de energía completada. Sistema en reposo absoluto."
+        ];
+
+        function wakeUpPhenixCore() {
+            const chatContainer = document.getElementById('chat-container');
+            const chatScanline = document.getElementById('chat-scanline');
+            const onlineDot = document.getElementById('online-dot');
+            const onlineText = document.getElementById('online-text');
+            const headerBtn3 = document.getElementById('header-btn-3');
+            const chatMessages = document.getElementById('chat-messages');
+            const chatInput = document.getElementById('chat-input');
+            const chatSubmitBtn = document.getElementById('chat-submit-btn');
+            const offlineMsg = document.getElementById('offline-msg');
+            const phenixStatus = document.getElementById('phenix-status');
+            const chatInputArea = document.getElementById('chat-input-area');
+            const chatHeader = document.getElementById('chat-header');
+            const standbyIndicator = document.getElementById('standby-indicator');
+            
+            // Ocultar indicador Standby
+            if (standbyIndicator) {
+                standbyIndicator.classList.add('opacity-0', 'max-h-0', 'py-0', 'scale-95', 'pointer-events-none');
+                standbyIndicator.classList.remove('opacity-100', 'max-h-[200px]', 'py-6', 'scale-100');
+            }
+            
+            // Aparición Mágica (Opción 3)
+            chatContainer.classList.remove('max-h-0', 'opacity-0', 'scale-95', 'translate-y-4', 'pointer-events-none');
+            chatContainer.classList.add('max-h-[1000px]', 'opacity-100', 'scale-100', 'translate-y-0', 'pointer-events-auto');
+            
+            // Encender luces
+            chatScanline.classList.remove('opacity-0');
+            chatScanline.classList.add('opacity-70');
+            
+            onlineDot.classList.remove('bg-zinc-600', 'border-zinc-500');
+            onlineDot.classList.add('bg-green-500', 'border-black', 'animate-pulse');
+            
+            onlineText.innerHTML = '<span class="w-1.5 h-1.5 bg-green-500 rounded-full inline-block"></span> Online';
+            onlineText.classList.remove('text-zinc-500');
+            onlineText.classList.add('text-green-400');
+            
+            if (phenixStatus) {
+                phenixStatus.innerText = "En línea. Asistiendo al visitante.";
+                phenixStatus.className = "text-green-400";
+            }
+            
+            headerBtn3.classList.remove('bg-zinc-700');
+            headerBtn3.classList.add('bg-[#AF8282]/60');
+            
+            // Habilitar input
+            chatInput.disabled = false;
+            chatInput.placeholder = "Escribe un mensaje...";
+            chatSubmitBtn.disabled = false;
+            chatSubmitBtn.classList.remove('bg-zinc-700', 'text-zinc-400');
+            chatSubmitBtn.classList.add('bg-gradient-to-r', 'from-[#7a4c4c]', 'to-[#AF8282]', 'text-white', 'hover:scale-105', 'hover:shadow-[0_0_15px_rgba(175,130,130,0.6)]');
+            
+            // Remover mensaje offline
+            if (offlineMsg) {
+                offlineMsg.remove();
+            }
+            
+            // Iniciar animación de escritura
+            chatStep = 0; // Resetear interacción
+            const msgText = "¡Hola! Soy Phenix-Core, el gemelo digital de Phenix. Para optimizar nuestra interacción, me gustaría saber tu nombre. ¿Cómo te llamas?";
+            let index = 0;
+            
+            chatMessages.innerHTML = `
+                <div class="flex gap-3 max-w-[85%] animate-slide-in-left mt-2">
+                    <img src="assets/phenix_ai_logo.jpg" class="w-8 h-8 rounded-full border border-white/10 flex-shrink-0" alt="IA">
+                    <div class="bg-[#AF8282]/10 border border-[#AF8282]/20 rounded-2xl rounded-tl-sm p-4 text-sm text-[#e5e7eb] font-mono shadow-[0_0_15px_rgba(175,130,130,0.05)]" id="typing-bubble">
+                        <span id="typing-cursor" class="inline-block w-2 h-4 bg-[#AF8282] animate-pulse align-middle"></span>
+                    </div>
+                </div>
+            `;
+            
+            const typingBubble = document.getElementById('typing-bubble');
+            const typingCursor = document.getElementById('typing-cursor');
+            
+            function typeLetter() {
+                if (index < msgText.length) {
+                    typingCursor.remove();
+                    typingBubble.innerHTML += msgText.charAt(index);
+                    typingBubble.appendChild(typingCursor);
+                    index++;
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                    setTimeout(typeLetter, 30); // 30ms por letra
+                } else {
+                    typingCursor.classList.remove('bg-[#AF8282]');
+                    typingCursor.classList.add('bg-transparent'); // Hide cursor when done
+                }
+            }
+            
+            setTimeout(typeLetter, 800); // Empezar escritura medio segundo después de despertar
+            
+            // Cambiar botón a apagar
+            const bootBtn = document.getElementById('boot-btn');
+            const bootBtnText = document.getElementById('boot-btn-text');
+            const bootBtnIcon = document.getElementById('boot-btn-icon');
+            if (bootBtn) {
+                bootBtn.onclick = iniciarShutdownSequence;
+                bootBtn.classList.remove('bg-[#AF8282]', 'hover:bg-white', 'text-black');
+                bootBtn.classList.add('bg-black', 'text-[#AF8282]', 'border', 'border-[#AF8282]/50', 'hover:bg-[#AF8282]/10');
+                bootBtnText.innerText = "[ APAGAR_NUCLEO ]";
+                bootBtnIcon.classList.remove('fa-power-off');
+                bootBtnIcon.classList.add('fa-ban');
+            }
+        }
+
+        function sleepPhenixCore() {
+            const chatContainer = document.getElementById('chat-container');
+            const chatScanline = document.getElementById('chat-scanline');
+            const onlineDot = document.getElementById('online-dot');
+            const onlineText = document.getElementById('online-text');
+            const headerBtn3 = document.getElementById('header-btn-3');
+            const chatMessages = document.getElementById('chat-messages');
+            const chatInput = document.getElementById('chat-input');
+            const chatSubmitBtn = document.getElementById('chat-submit-btn');
+            const phenixStatus = document.getElementById('phenix-status');
+            const chatInputArea = document.getElementById('chat-input-area');
+            const chatHeader = document.getElementById('chat-header');
+            const standbyIndicator = document.getElementById('standby-indicator');
+            
+            // Mostrar indicador Standby
+            if (standbyIndicator) {
+                standbyIndicator.classList.remove('opacity-0', 'max-h-0', 'py-0', 'scale-95', 'pointer-events-none');
+                standbyIndicator.classList.add('opacity-100', 'max-h-[200px]', 'py-6', 'scale-100');
+            }
+            
+            // Desaparición Mágica (Opción 3)
+            chatContainer.classList.add('max-h-0', 'opacity-0', 'scale-95', 'translate-y-4', 'pointer-events-none');
+            chatContainer.classList.remove('max-h-[1000px]', 'opacity-100', 'scale-100', 'translate-y-0', 'pointer-events-auto');
+            
+            // Mensaje offline
+            chatMessages.innerHTML = `
+                <div class="flex items-center justify-center h-full w-full" id="offline-msg">
+                    <span class="text-zinc-600 font-mono text-sm tracking-widest">[ SISTEMA EN REPOSO ]</span>
+                </div>
+            `;
+            
+            // Apagar luces
+            chatScanline.classList.add('opacity-0');
+            chatScanline.classList.remove('opacity-70');
+            
+            onlineDot.classList.add('bg-zinc-600', 'border-zinc-500');
+            onlineDot.classList.remove('bg-green-500', 'border-black', 'animate-pulse');
+            
+            onlineText.innerHTML = '<span class="w-1.5 h-1.5 bg-zinc-600 rounded-full inline-block"></span> Offline';
+            onlineText.classList.add('text-zinc-500');
+            onlineText.classList.remove('text-green-400');
+            
+            if (phenixStatus) {
+                phenixStatus.innerText = "Modo Reposo. Esperando directivas.";
+                phenixStatus.className = "text-zinc-500";
+            }
+            
+            headerBtn3.classList.add('bg-zinc-700');
+            headerBtn3.classList.remove('bg-[#AF8282]/60');
+            
+            // Deshabilitar input
+            chatInput.disabled = true;
+            chatInput.value = "";
+            chatInput.placeholder = "Sistema desconectado...";
+            chatSubmitBtn.disabled = true;
+            chatSubmitBtn.classList.add('bg-zinc-700', 'text-zinc-400');
+            chatSubmitBtn.classList.remove('bg-gradient-to-r', 'from-[#7a4c4c]', 'to-[#AF8282]', 'text-white', 'hover:scale-105', 'hover:shadow-[0_0_15px_rgba(175,130,130,0.6)]');
+            
+            // Cambiar botón a iniciar
+            const bootBtn = document.getElementById('boot-btn');
+            const bootBtnText = document.getElementById('boot-btn-text');
+            const bootBtnIcon = document.getElementById('boot-btn-icon');
+            if (bootBtn) {
+                bootBtn.onclick = iniciarBootSequence;
+                bootBtn.classList.add('bg-[#AF8282]', 'hover:bg-white', 'text-black');
+                bootBtn.classList.remove('bg-black', 'text-[#AF8282]', 'border', 'border-[#AF8282]/50', 'hover:bg-[#AF8282]/10');
+                bootBtnText.innerText = "[ INICIALIZAR_NUCLEO ]";
+                bootBtnIcon.classList.add('fa-power-off');
+                bootBtnIcon.classList.remove('fa-ban');
+            }
+        }
+
+        let userName = "";
+        let chatStep = 0;
+
+        function iniciarBootSequence() {
+            const modal = document.getElementById('modal-boot');
+            const terminal = document.getElementById('boot-terminal-content');
+            terminal.innerHTML = '';
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            
+            let delay = 0;
+            bootMessages.forEach((msg, index) => {
+                setTimeout(() => {
+                    terminal.innerHTML += `<div><span class="text-white">></span> ${msg}</div>`;
+                    terminal.scrollTop = terminal.scrollHeight;
+                    
+                    // Si es el último mensaje, esperamos, cerramos modal y scrolleamos al chat
+                    if (index === bootMessages.length - 1) {
+                        setTimeout(() => {
+                            modal.classList.add('opacity-0', 'pointer-events-none');
+                            
+                            // Despertar la IA visualmente primero
+                            wakeUpPhenixCore();
+                            
+                            // Scrollear DESPUÉS de que la animación de expansión termine (1000ms)
+                            setTimeout(() => {
+                                document.getElementById('phenix-core').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            }, 1000); 
+                            
+                            // Forzar que el input reciba el foco
+                            setTimeout(() => {
+                                document.getElementById('chat-input').focus();
+                            }, 1500); // Dar tiempo al scroll y al despertar
+                        }, 2500);
+                    }
+                }, delay);
+                // Tiempos incrementales para simular carga real
+                delay += Math.floor(Math.random() * 600) + 400;
+            });
+        }
+
+        function iniciarShutdownSequence() {
+            const modal = document.getElementById('modal-boot');
+            const terminal = document.getElementById('boot-terminal-content');
+            terminal.innerHTML = '';
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            
+            let delay = 0;
+            shutdownMessages.forEach((msg, index) => {
+                setTimeout(() => {
+                    terminal.innerHTML += `<div><span class="text-red-500">></span> <span class="${msg.includes('[!]') || msg.includes('ADVERTENCIA') ? 'text-red-400' : 'text-zinc-300'}">${msg}</span></div>`;
+                    terminal.scrollTop = terminal.scrollHeight;
+                    
+                    if (index === shutdownMessages.length - 1) {
+                        setTimeout(() => {
+                            modal.classList.add('opacity-0', 'pointer-events-none');
+                            
+                            // Apagar la IA visualmente
+                            sleepPhenixCore();
+                            
+                            // Volver a centrar la pantalla en la tarjeta colapsada
+                            setTimeout(() => {
+                                document.getElementById('phenix-core').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            }, 1000);
+                            
+                        }, 2500);
+                    }
+                }, delay);
+                delay += Math.floor(Math.random() * 400) + 300;
+            });
+        }
+
+        function handlePhenixToggle(action) {
+            const btnOff = document.getElementById('industrial-off');
+            const btnOn = document.getElementById('industrial-on');
+            
+            // Verificamos si actualmente está online revisando si el botón ON tiene luz
+            const isOnline = btnOn.classList.contains('text-white');
+            
+            if (action === 'on' && !isOnline) {
+                // Activar ON
+                btnOn.classList.replace('bg-zinc-900', 'bg-[#AF8282]/40');
+                btnOn.classList.replace('border-zinc-700', 'border-[#AF8282]');
+                btnOn.classList.replace('text-zinc-600', 'text-white');
+                btnOn.classList.remove('hover:bg-zinc-800');
+                btnOn.classList.add('shadow-[0_0_20px_rgba(175,130,130,0.5),inset_0_2px_10px_rgba(255,255,255,0.1)]');
+                
+                // Desactivar OFF
+                btnOff.classList.replace('bg-red-900/40', 'bg-zinc-900');
+                btnOff.classList.replace('border-red-500/50', 'border-zinc-700');
+                btnOff.classList.replace('text-white', 'text-zinc-600');
+                btnOff.classList.add('hover:bg-zinc-800');
+                btnOff.classList.remove('shadow-[0_0_15px_rgba(220,38,38,0.5),inset_0_2px_10px_rgba(255,255,255,0.1)]');
+                
+                iniciarBootSequence();
+            } else if (action === 'off' && isOnline) {
+                // Activar OFF
+                btnOff.classList.replace('bg-zinc-900', 'bg-red-900/40');
+                btnOff.classList.replace('border-zinc-700', 'border-red-500/50');
+                btnOff.classList.replace('text-zinc-600', 'text-white');
+                btnOff.classList.remove('hover:bg-zinc-800');
+                btnOff.classList.add('shadow-[0_0_15px_rgba(220,38,38,0.5),inset_0_2px_10px_rgba(255,255,255,0.1)]');
+                
+                // Desactivar ON
+                btnOn.classList.replace('bg-[#AF8282]/40', 'bg-zinc-900');
+                btnOn.classList.replace('border-[#AF8282]', 'border-zinc-700');
+                btnOn.classList.replace('text-white', 'text-zinc-600');
+                btnOn.classList.add('hover:bg-zinc-800');
+                btnOn.classList.remove('shadow-[0_0_20px_rgba(175,130,130,0.5),inset_0_2px_10px_rgba(255,255,255,0.1)]');
+                
+                iniciarShutdownSequence();
+            }
+        }
+
+        // Evento chat-form redundante eliminado
     </script>
 </body>
 </html>
