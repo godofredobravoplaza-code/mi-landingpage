@@ -550,6 +550,123 @@
         </div>
     </section>
 
+    <!-- TauroIA Intro Section -->
+    <section id="tauro-intro" class="py-12 relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center">
+            
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-light text-white mb-2 tracking-tight">Nuestro Nuevo Proyecto</h2>
+                <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#AF8282] to-transparent mx-auto"></div>
+            </div>
+
+            <!-- Tarjeta TauroIA -->
+            <div class="w-full max-w-lg">
+                <div class="group h-[400px] [perspective:1000px]">
+                    <div id="card-tauro" class="relative h-full w-full transition-transform duration-700 [transform-style:preserve-3d]">
+                        
+                        <!-- Lado Frontal -->
+                        <div class="absolute inset-0 w-full h-full bg-zinc-950/80 border border-white/10 rounded-2xl p-8 backdrop-blur-md flex flex-col justify-center items-center text-center [backface-visibility:hidden] hover:border-[#AF8282]/50 transition-colors duration-500 shadow-[0_0_30px_rgba(0,0,0,0.5)]">
+                            <!-- Indicador de Estado -->
+                            <div class="absolute top-4 left-4 text-yellow-500 flex items-center gap-2 text-[10px] font-bold tracking-widest bg-yellow-500/10 px-3 py-1.5 rounded-full border border-yellow-500/20">
+                                <span class="animate-pulse">🟡</span> ESTADO: ENSAMBLAJE BETA
+                            </div>
+                            
+                            <div class="w-28 h-28 rounded-full border border-white/20 bg-white/5 flex justify-center items-center mb-6 relative overflow-hidden group-hover:border-[#AF8282]/60 group-hover:shadow-[0_0_25px_rgba(175,130,130,0.3)] transition-all duration-500">
+                                <i class="fa-solid fa-robot text-4xl text-white relative z-10 group-hover:text-[#AF8282] group-hover:scale-110 transition-all duration-500"></i>
+                                <div class="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                            </div>
+                            <h3 class="text-white text-2xl font-medium tracking-wide">TauroIA <span class="text-zinc-500 text-[10px] bg-zinc-800/50 border border-zinc-700 px-2 py-0.5 rounded-full ml-1 align-top relative -top-1">1.0 Beta</span></h3>
+                            <p class="text-zinc-400 text-sm uppercase tracking-widest mt-2">Anfitrión Web e Inteligencia Artificial</p>
+                            <button onclick="document.getElementById('card-tauro').classList.add('[transform:rotateY(180deg)]')" class="mt-8 text-[#AF8282] text-xs font-bold uppercase tracking-widest group-hover:text-white transition-colors duration-300 border border-[#AF8282]/30 px-4 py-2 rounded-lg hover:bg-[#AF8282]/10">
+                                Iniciar Secuencia <i class="fa-solid fa-rotate mr-1 ml-2"></i>
+                            </button>
+                        </div>
+
+                        <!-- Lado Reverso -->
+                        <div class="absolute inset-0 w-full h-full bg-zinc-950/90 border border-[#AF8282]/60 rounded-2xl p-8 backdrop-blur-md flex flex-col justify-center items-center text-center [backface-visibility:hidden] [transform:rotateY(180deg)] shadow-[inset_0_0_60px_rgba(175,130,130,0.1)]">
+                            <button onclick="document.getElementById('card-tauro').classList.remove('[transform:rotateY(180deg)]')" class="absolute top-4 right-4 text-zinc-500 hover:text-white transition-colors z-20">
+                                <i class="fa-solid fa-xmark text-xl"></i>
+                            </button>
+                            <i class="fa-solid fa-terminal text-[#AF8282] text-3xl mb-4"></i>
+                            <h4 class="text-white font-medium mb-3 tracking-widest text-xs uppercase border-b border-white/20 pb-2">Proyecto_Tauro.exe</h4>
+                            <p class="text-zinc-300 text-sm leading-relaxed font-light mt-2">
+                                Conoce a TauroIA, el más reciente proyecto desarrollado por los arquitectos de Phenix-Tech. Más que un simple código, Tauro es tu anfitrión personal interactivo. Un chat de Inteligencia Artificial diseñado para asistirte en tiempo real, responder tus consultas sobre nuestros servicios y guiarte a través de nuestra experiencia digital.
+                            </p>
+                            <!-- El botón actualmente no hace nada, preparándolo para el futuro chat -->
+                            <button class="mt-6 inline-flex items-center px-5 py-2.5 text-xs font-bold text-black bg-[#AF8282] rounded-lg hover:bg-white transition-all duration-300 shadow-[0_0_20px_rgba(175,130,130,0.4)] hover:-translate-y-0.5 active:scale-95">
+                                Conectar con TauroIA <i class="fa-solid fa-plug ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Línea conectora inferior -->
+            <div class="w-px h-16 bg-gradient-to-b from-white/20 to-transparent mx-auto my-8"></div>
+        </div>
+    </section>
+
+    <!-- TauroIA Chat Interface -->
+    <section id="tauro-chat" class="py-12 relative z-10">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Terminal Container -->
+            <div class="bg-zinc-950/80 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_0_50px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col h-[500px]">
+                
+                <!-- Terminal Header -->
+                <div class="bg-zinc-900/80 border-b border-white/10 p-4 flex justify-between items-center relative">
+                    <!-- Controles macOS style -->
+                    <div class="flex gap-2 z-10">
+                        <div class="w-3 h-3 rounded-full bg-[#AF8282]"></div>
+                        <div class="w-3 h-3 rounded-full bg-zinc-600"></div>
+                        <div class="w-3 h-3 rounded-full bg-zinc-600"></div>
+                    </div>
+                    
+                    <!-- Título -->
+                    <div class="absolute inset-0 flex justify-center items-center pointer-events-none">
+                        <span class="text-xs font-mono text-zinc-400 tracking-widest flex items-center gap-2">
+                            <i class="fa-solid fa-microchip text-[#AF8282]"></i> TAURO_SYSTEM_UI
+                        </span>
+                    </div>
+
+                    <!-- Botón de Encendido -->
+                    <button id="tauro-power-btn" class="z-10 group flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-zinc-500 hover:text-white transition-colors">
+                        <span id="tauro-power-text">Offline</span>
+                        <div id="tauro-power-light" class="w-2.5 h-2.5 rounded-full bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.5)] transition-colors duration-500"></div>
+                        <i class="fa-solid fa-power-off ml-1 group-hover:scale-110 transition-transform"></i>
+                    </button>
+                </div>
+
+                <!-- Terminal Body Wrapper -->
+                <div class="flex-1 relative flex flex-col min-h-0">
+                    <!-- Overlay de Estado (Apagado / Booting) -->
+                    <div id="tauro-overlay" class="absolute inset-0 bg-zinc-950/95 z-20 flex flex-col justify-center items-center text-center transition-opacity duration-700">
+                        <i id="tauro-overlay-icon" class="fa-solid fa-plug-circle-xmark text-5xl text-zinc-800 mb-6 transition-all duration-500"></i>
+                        <p id="tauro-overlay-text" class="text-zinc-600 tracking-widest">[ SISTEMA FUERA DE LÍNEA ]<br/><span class="text-xs text-zinc-700 mt-2 block">Esperando energía...</span></p>
+                    </div>
+
+                    <!-- Terminal Body (Display) -->
+                    <div id="tauro-display" class="flex-1 p-6 overflow-y-auto scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent flex flex-col gap-4 font-mono text-sm">
+                        <!-- Mensajes irán aquí dinámicamente -->
+                    </div>
+                </div>
+
+                <!-- Terminal Footer (Input Area) -->
+                <div class="p-4 border-t border-white/10 bg-zinc-900/50">
+                    <div class="relative flex items-center">
+                        <i class="fa-solid fa-terminal absolute left-4 text-zinc-600 text-sm"></i>
+                        <input type="text" id="tauro-input" disabled placeholder="El sistema está apagado..." class="w-full bg-zinc-950/50 border border-white/10 rounded-xl py-3 pl-10 pr-12 text-sm text-white placeholder-zinc-700 focus:outline-none focus:border-[#AF8282] focus:ring-1 focus:ring-[#AF8282]/50 transition-all font-mono disabled:opacity-50 disabled:cursor-not-allowed">
+                        <button id="tauro-send-btn" disabled class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 flex justify-center items-center rounded-lg bg-zinc-800 text-zinc-500 transition-all disabled:opacity-50 hover:bg-[#AF8282] hover:text-white">
+                            <i class="fa-solid fa-paper-plane text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Línea conectora inferior -->
+            <div class="w-px h-16 bg-gradient-to-b from-white/20 to-transparent mx-auto my-8"></div>
+        </div>
+    </section>
+
     <!-- Contacto Section -->
     <section id="contacto" class="py-24 relative z-10 border-t border-white/5">
         <div class="max-w-xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -682,7 +799,7 @@
 
         // --- Tarjetas 3D Auto-Reverso ---
         // Si el usuario saca el mouse de la tarjeta volteada, se regresará a su estado original tras 3 segundos.
-        const cards = ['card-1', 'card-2', 'step-1', 'step-2', 'step-3'];
+        const cards = ['card-1', 'card-2', 'step-1', 'step-2', 'step-3', 'card-tauro'];
         const flipTimers = {};
 
         cards.forEach(cardId => {
@@ -880,5 +997,9 @@
     </div>
 
     </script>
+    <!-- TauroIA Scripts -->
+    <script src="assets/js/tauro_brain.js"></script>
+    <script src="assets/js/tauro_nlp.js"></script>
+    <script src="assets/js/tauro_core.js"></script>
 </body>
 </html>
