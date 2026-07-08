@@ -69,25 +69,6 @@
         }
         .animate-slide-in-left { animation: slideInLeft 0.3s ease-out forwards; }
         .animate-slide-in-right { animation: slideInRight 0.3s ease-out forwards; }
-        
-        /* Efecto Voicebox KITT */
-        @keyframes kitt-eq {
-            0%, 100% { transform: scaleY(0.2); }
-            50% { transform: scaleY(1); }
-        }
-        
-        /* Efecto Cylon Scanner */
-        @keyframes cylon-scan {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-        
-        /* Efecto Avatar Pulsante */
-        @keyframes avatar-pulse {
-            0% { transform: scale(1); box-shadow: 0 0 5px rgba(175, 130, 130, 0.2); border-color: rgba(175, 130, 130, 0.3); }
-            50% { transform: scale(1.15); box-shadow: 0 0 20px rgba(175, 130, 130, 0.8), inset 0 0 10px rgba(175, 130, 130, 0.5); border-color: rgba(175, 130, 130, 0.9); }
-            100% { transform: scale(1); box-shadow: 0 0 5px rgba(175, 130, 130, 0.2); border-color: rgba(175, 130, 130, 0.3); }
-        }
     </style>
 </head>
 <body id="inicio" class="text-zinc-400 antialiased selection:bg-zinc-800 selection:text-white pt-20 relative font-light">
@@ -889,13 +870,10 @@
                         <div class="w-3 h-3 rounded-full bg-zinc-600"></div>
                     </div>
                     
-                    <!-- Título y Avatar -->
+                    <!-- Título -->
                     <div class="absolute inset-0 flex justify-center items-center pointer-events-none">
-                        <span id="tauro-header-text" class="text-xs font-mono text-zinc-400 tracking-widest flex items-center gap-3 transition-colors duration-300">
-                            <div id="tauro-avatar" class="w-6 h-6 rounded-full border border-[#AF8282]/30 bg-zinc-900 flex items-center justify-center transition-all duration-300">
-                                <i class="fa-solid fa-microchip text-[#AF8282] text-[10px] transition-colors duration-300"></i>
-                            </div>
-                            <span id="tauro-header-label">TAURO_SYSTEM_UI</span>
+                        <span class="text-xs font-mono text-zinc-400 tracking-widest flex items-center gap-2">
+                            <i class="fa-solid fa-microchip text-[#AF8282]"></i> TAURO_SYSTEM_UI
                         </span>
                     </div>
 
@@ -916,21 +894,21 @@
                     </div>
 
                     <!-- Terminal Body (Display) -->
-                    <div id="tauro-display" class="flex-1 p-6 overflow-y-auto scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent flex flex-col gap-4 font-mono text-sm relative z-10">
+                    <div id="tauro-display" class="flex-1 p-6 overflow-y-auto scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent flex flex-col gap-4 font-mono text-sm">
                         <!-- Mensajes irán aquí dinámicamente -->
                     </div>
                 </div>
 
                 <!-- Terminal Footer (Input Area) -->
-                    <div class="p-4 relative border-t border-white/10 bg-zinc-900/50">
-                        <div class="relative flex items-center">
-                            <i class="fa-solid fa-terminal absolute left-4 text-zinc-600"></i>
-                            <input type="text" id="tauro-input" disabled placeholder="El sistema está apagado..." class="w-full bg-zinc-950/50 border border-white/10 rounded-xl py-3 pl-10 pr-12 text-sm text-white placeholder-zinc-700 focus:outline-none focus:border-[#AF8282] focus:ring-1 focus:ring-[#AF8282]/50 transition-all font-mono disabled:opacity-50 disabled:cursor-not-allowed">
-                            <button id="tauro-send-btn" disabled class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 flex justify-center items-center rounded-lg bg-zinc-800 text-zinc-500 transition-all disabled:opacity-50 hover:bg-[#AF8282] hover:text-white">
-                                <i class="fa-solid fa-paper-plane text-xs"></i>
-                            </button>
-                        </div>
+                <div class="p-4 border-t border-white/10 bg-zinc-900/50">
+                    <div class="relative flex items-center">
+                        <i class="fa-solid fa-terminal absolute left-4 text-zinc-600 text-sm"></i>
+                        <input type="text" id="tauro-input" disabled placeholder="El sistema está apagado..." class="w-full bg-zinc-950/50 border border-white/10 rounded-xl py-3 pl-10 pr-12 text-sm text-white placeholder-zinc-700 focus:outline-none focus:border-[#AF8282] focus:ring-1 focus:ring-[#AF8282]/50 transition-all font-mono disabled:opacity-50 disabled:cursor-not-allowed">
+                        <button id="tauro-send-btn" disabled class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 flex justify-center items-center rounded-lg bg-zinc-800 text-zinc-500 transition-all disabled:opacity-50 hover:bg-[#AF8282] hover:text-white">
+                            <i class="fa-solid fa-paper-plane text-xs"></i>
+                        </button>
                     </div>
+                </div>
             </div>
             
             <!-- Línea conectora inferior -->
@@ -1445,6 +1423,7 @@
 
     <!-- TauroIA Scripts -->
     <script src="assets/js/tauro_brain.js"></script>
+    <script src="assets/js/tauro_nlp.js"></script>
     <script src="assets/js/tauro_core.js"></script>
 </body>
 </html>

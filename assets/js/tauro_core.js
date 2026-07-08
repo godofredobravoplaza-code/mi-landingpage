@@ -1,7 +1,3 @@
-/**
- * TAURO IA - EL NÚCLEO (Lógica y Procesamiento)
- */
-
 const TauroCore = {
     isOnline: false,
     userName: null,
@@ -22,7 +18,9 @@ const TauroCore = {
             overlayText: document.getElementById('tauro-overlay-text'),
             display: document.getElementById('tauro-display'),
             input: document.getElementById('tauro-input'),
-            sendBtn: document.getElementById('tauro-send-btn')
+            sendBtn: document.getElementById('tauro-send-btn'),
+            tauroAvatar: document.getElementById('tauro-avatar'),
+            headerLabel: document.getElementById('tauro-header-label')
         };
 
         if(!this.els.powerBtn) return; // Si no existe la interfaz, no hacer nada
@@ -188,6 +186,8 @@ const TauroCore = {
         this.els.display.insertAdjacentHTML('beforeend', typingHtml);
         this.scrollToBottom();
 
+        this.startAvatarPulse(); // Activar estética Avatar (dura hasta que termina de tipear)
+
         fetch(webhookUrl, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -198,11 +198,13 @@ const TauroCore = {
             return response.json();
         })
         .then(data => {
+            // No detenemos el Avatar aquí, seguirá mientras escribe
             document.getElementById(typingId)?.remove();
             let replyText = data.output || data.text || data.message || "Recibido.";
             this.appendTauroMessage(replyText);
         })
         .catch(error => {
+            this.stopAvatarPulse(); // En caso de error sí apagamos
             console.error('Error conectando a n8n:', error);
             document.getElementById(typingId)?.remove();
             this.appendTauroMessage("Lo siento, he perdido la conexión con mi núcleo central (n8n no responde). Asegúrate de que el servidor esté activo.");
@@ -238,7 +240,7 @@ const TauroCore = {
         this.scrollToBottom();
 
         // Calcular tiempo de simulación de escritura basado en longitud
-        const delay = Math.min(Math.max(text.length * TauroBrain.config.typingSpeed, 800), 3000);
+        const delay = Math.min(Math.max(text.length * 20, 800), 3000);
 
         setTimeout(() => {
             const typingIndicator = document.getElementById(typingId);
@@ -252,11 +254,39 @@ const TauroCore = {
                 </div>`;
                 this.scrollToBottom();
             }
+            this.stopAvatarPulse(); // Apagar el avatar y texto al terminar de escribir
         }, delay);
     },
 
     scrollToBottom: function() {
         this.els.display.scrollTop = this.els.display.scrollHeight;
+    },
+
+    // --- Efectos Estéticos (Avatar y Texto) ---
+    startAvatarPulse: function() {
+        if (!this.els.tauroAvatar) return;
+        this.els.tauroAvatar.style.animation = 'avatar-pulse 0.8s infinite ease-in-out';
+        this.els.tauroAvatar.classList.remove('bg-zinc-900');
+        this.els.tauroAvatar.classList.add('bg-[#AF8282]/20');
+        
+        if (this.els.headerLabel) {
+            this.els.headerLabel.classList.remove('text-zinc-400');
+            this.els.headerLabel.classList.add('text-white', 'drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]');
+            this.els.headerLabel.style.animation = 'pulse 0.8s infinite cubic-bezier(0.4, 0, 0.6, 1)';
+        }
+    },
+
+    stopAvatarPulse: function() {
+        if (!this.els.tauroAvatar) return;
+        this.els.tauroAvatar.style.animation = 'none';
+        this.els.tauroAvatar.classList.remove('bg-[#AF8282]/20');
+        this.els.tauroAvatar.classList.add('bg-zinc-900');
+        
+        if (this.els.headerLabel) {
+            this.els.headerLabel.classList.remove('text-white', 'drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]');
+            this.els.headerLabel.classList.add('text-zinc-400');
+            this.els.headerLabel.style.animation = 'none';
+        }
     }
 };
 
