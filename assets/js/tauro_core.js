@@ -171,14 +171,42 @@ const TauroCore = {
             return;
         }
 
-        // Fase 2: Delegar el procesamiento al Motor NLP (pasando el contexto actual)
-        let response = TauroNLP.process(message, this.currentContext);
+        // Fase 2: Enviar mensaje a n8n Webhook
+        const webhookUrl = 'http://localhost:5678/webhook/tauro-chat';
         
-        // Actualizar el contexto de la conversación
-        this.currentContext = response.setContext;
+        // Crear indicador de escribiendo
+        const typingId = 'typing-net-' + Date.now();
+        const typingHtml = `
+        <div id="${typingId}" class="chat-bubble flex flex-col gap-1 items-start max-w-[85%] mt-2">
+            <span class="text-[10px] text-[#AF8282] tracking-widest ml-1 font-bold">TAURO_IA <i class="fa-solid fa-microchip ml-1"></i></span>
+            <div class="bg-white/5 border border-white/10 text-zinc-300 px-4 py-3 rounded-2xl rounded-tl-sm flex gap-1 items-center h-[46px]">
+                <div class="w-1.5 h-1.5 bg-[#AF8282] rounded-full animate-bounce"></div>
+                <div class="w-1.5 h-1.5 bg-[#AF8282] rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+                <div class="w-1.5 h-1.5 bg-[#AF8282] rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+            </div>
+        </div>`;
+        this.els.display.insertAdjacentHTML('beforeend', typingHtml);
+        this.scrollToBottom();
 
-        // Pintar respuesta
-        this.appendTauroMessage(response.text);
+        fetch(webhookUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: message, user: this.userName })
+        })
+        .then(response => {
+            if (!response.ok) throw new Error('Error en red');
+            return response.json();
+        })
+        .then(data => {
+            document.getElementById(typingId)?.remove();
+            let replyText = data.output || data.text || data.message || "Recibido.";
+            this.appendTauroMessage(replyText);
+        })
+        .catch(error => {
+            console.error('Error conectando a n8n:', error);
+            document.getElementById(typingId)?.remove();
+            this.appendTauroMessage("Lo siento, he perdido la conexión con mi núcleo central (n8n no responde). Asegúrate de que el servidor esté activo.");
+        });
     },
 
     appendUserMessage: function(text) {
