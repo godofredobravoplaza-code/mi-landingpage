@@ -135,10 +135,7 @@
                         Contacto
                         <span class="absolute left-0 bottom-0 w-full h-[1px] bg-[#AF8282] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
                     </a>
-                    <!-- Botón Tauro Destacado -->
-                    <a href="#tauro-intro" class="inline-flex items-center px-4 py-2 text-xs font-bold text-black bg-gradient-to-r from-[#00ffcc] to-[#0088ff] rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(0,255,204,0.5)]">
-                        <i class="fa-solid fa-microchip mr-2 animate-pulse"></i> TauroIA
-                    </a>
+
                 </div>
 
                 <!-- Mobile Menu Button -->
@@ -159,12 +156,7 @@
                 <a href="#showcase" class="block px-3 py-3 text-sm text-zinc-400 hover:text-white transition-colors border-b border-white/5">Showcase</a>
                 <a href="#creadores" class="block px-3 py-3 text-sm text-zinc-400 hover:text-white transition-colors border-b border-white/5">Creadores</a>
                 <a href="#contacto" class="block px-3 py-3 text-sm text-zinc-400 hover:text-white transition-colors border-b border-white/5">Contacto</a>
-                <!-- Botón Tauro Móvil -->
-                <div class="pt-4 pb-2 px-3">
-                    <a href="#tauro-intro" class="flex justify-center items-center w-full px-4 py-3 text-sm font-bold text-black bg-gradient-to-r from-[#00ffcc] to-[#0088ff] rounded-lg transition-transform hover:scale-[1.02] shadow-[0_0_15px_rgba(0,255,204,0.3)]">
-                        <i class="fa-solid fa-microchip mr-2 animate-pulse"></i> Conocer a TauroIA
-                    </a>
-                </div>
+
             </div>
         </div>
     </nav>
@@ -807,65 +799,7 @@
         </div>
     </section>
 
-    <!-- TauroIA Intro Section -->
-    <section id="tauro-intro" class="py-12 relative z-10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center">
-            
-            <div class="text-center mb-10">
-                <h2 class="text-3xl font-light text-white mb-2 tracking-tight">Nuestro Nuevo Proyecto</h2>
-                <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#AF8282] to-transparent mx-auto"></div>
-            </div>
 
-            <!-- Tarjeta TauroIA -->
-            <div class="w-full max-w-lg">
-                <div class="group h-[400px] [perspective:1000px]">
-                    <div id="card-tauro" class="relative h-full w-full transition-transform duration-700 [transform-style:preserve-3d]">
-                        
-                        <!-- Lado Frontal -->
-                        <div class="absolute inset-0 w-full h-full bg-zinc-950/80 border border-white/10 rounded-2xl p-8 backdrop-blur-md flex flex-col justify-center items-center text-center [backface-visibility:hidden] hover:border-[#AF8282]/50 transition-colors duration-500 shadow-[0_0_30px_rgba(0,0,0,0.5)]">
-                            <!-- Indicador de Estado -->
-                            <div class="absolute top-4 left-4 text-yellow-500 flex items-center gap-2 text-[10px] font-bold tracking-widest bg-yellow-500/10 px-3 py-1.5 rounded-full border border-yellow-500/20">
-                                <span class="animate-pulse">🟡</span> ESTADO: ENSAMBLAJE BETA
-                            </div>
-                            
-                            <div class="w-24 h-24 rounded-2xl bg-gradient-to-br from-[#00ffcc] to-[#0088ff] flex justify-center items-center mb-6 relative overflow-hidden shadow-[0_0_25px_rgba(0,255,204,0.4)] group-hover:shadow-[0_0_40px_rgba(0,255,204,0.7)] group-hover:-translate-y-2 transition-all duration-500">
-                                <i class="fa-solid fa-robot text-4xl text-black relative z-10 group-hover:scale-110 transition-transform duration-500"></i>
-                            </div>
-                            <h3 class="text-white text-2xl font-medium tracking-wide">TauroIA <span class="text-[#00ffcc] text-[10px] bg-[#00ffcc]/10 border border-[#00ffcc]/30 px-2 py-0.5 rounded-full ml-1 align-top relative -top-1">1.0 Beta</span></h3>
-                            <p class="text-zinc-300 font-medium text-sm uppercase tracking-widest mt-2">Anfitrión Web e Inteligencia Artificial</p>
-                            <button onclick="document.getElementById('card-tauro').classList.add('[transform:rotateY(180deg)]')" class="mt-8 inline-flex items-center px-5 py-2 rounded-full border border-[#00ffcc]/30 bg-[#00ffcc]/10 text-[#00ffcc] text-xs font-bold uppercase tracking-widest group-hover:bg-[#00ffcc]/20 group-hover:text-white group-hover:border-[#00ffcc]/50 transition-all duration-300">
-                                Iniciar Secuencia <i class="fa-solid fa-rotate ml-2"></i>
-                            </button>
-                        </div>
-
-                        <!-- Lado Reverso -->
-                        <div class="absolute inset-0 w-full h-full bg-zinc-950/90 border border-[#AF8282]/60 rounded-2xl p-8 backdrop-blur-md flex flex-col justify-center items-center text-center [backface-visibility:hidden] [transform:rotateY(180deg)] shadow-[inset_0_0_60px_rgba(175,130,130,0.1)]">
-                            <button onclick="document.getElementById('card-tauro').classList.remove('[transform:rotateY(180deg)]')" class="absolute top-4 right-4 text-zinc-500 hover:text-white transition-colors z-20">
-                                <i class="fa-solid fa-xmark text-xl"></i>
-                            </button>
-                            <i class="fa-solid fa-terminal text-[#AF8282] text-3xl mb-4"></i>
-                            <h4 class="text-white font-medium mb-3 tracking-widest text-xs uppercase border-b border-white/20 pb-2">Proyecto_Tauro.exe</h4>
-                            <p class="text-zinc-300 text-sm leading-relaxed font-light mt-2">
-                                Conoce a TauroIA, el más reciente proyecto desarrollado por los arquitectos de Phenix-Tech. Más que un simple código, Tauro es tu anfitrión personal interactivo. Un chat de Inteligencia Artificial diseñado para asistirte en tiempo real, responder tus consultas sobre nuestros servicios y guiarte a través de nuestra experiencia digital.
-                            </p>
-                            <!-- Conexión directa a la terminal de Tauro -->
-                            <div class="mt-6 flex items-center justify-center gap-2">
-                                <button onclick="document.getElementById('tauro-chat').scrollIntoView({behavior: 'smooth'}); setTimeout(() => { if(document.getElementById('tauro-power-text').innerText === 'Offline') document.getElementById('tauro-power-btn').click(); }, 600);" class="inline-flex items-center px-5 py-2.5 text-xs font-bold text-black bg-gradient-to-r from-[#00ffcc] to-[#0088ff] rounded-lg hover:brightness-125 transition-all duration-300 shadow-[0_0_20px_rgba(0,255,204,0.4)] hover:-translate-y-0.5 active:scale-95">
-                                    Conectar con TauroIA <i class="fa-solid fa-plug ml-2 text-black/70"></i>
-                                </button>
-                                <button onclick="openCreatorModal('modal-tauro', 'card-tauro-modal')" class="inline-flex justify-center items-center w-10 h-10 bg-[#00ffcc]/10 border border-[#00ffcc]/30 text-[#00ffcc] rounded-lg hover:bg-[#00ffcc]/20 hover:shadow-[0_0_15px_rgba(0,255,204,0.3)] transition-all duration-300 group relative" title="Credencial Digital">
-                                    <i class="fa-solid fa-qrcode text-lg group-hover:scale-110 transition-transform"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Línea conectora inferior -->
-            <div class="w-px h-16 bg-gradient-to-b from-white/20 to-transparent mx-auto my-8"></div>
-        </div>
-    </section>
 
     <!-- Agentes IA como Servicio Section -->
     <section id="servicios-ia" class="py-24 relative z-10">
@@ -1344,95 +1278,6 @@
         </div>
     </div>
 
-    <!-- Modal Tauro (Asistente IA) -->
-    <div id="modal-tauro" class="fixed inset-0 z-[100] flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-500">
-        <!-- Fondo oscuro -->
-        <div class="absolute inset-0 bg-black/80 backdrop-blur-md" onclick="closeCreatorModal('modal-tauro', 'card-tauro-modal')"></div>
-        
-        <!-- Tarjeta del Modal -->
-        <div class="relative max-w-2xl w-full mx-4 transform scale-95 transition-transform duration-500 [perspective:1000px]" id="card-tauro-modal">
-            <!-- Wrapper 3D -->
-            <div id="flip-modal-tauro" class="relative w-full transition-transform duration-700 [transform-style:preserve-3d]">
-                
-                <!-- Cara Frontal (Credencial) -->
-                <div class="bg-zinc-950/90 border border-[#00ffcc]/40 p-8 md:p-12 rounded-2xl shadow-[0_0_50px_rgba(0,255,204,0.15)] w-full [backface-visibility:hidden]">
-                    <!-- Brillo de fondo -->
-                    <div class="absolute -top-20 -right-20 w-64 h-64 bg-[#00ffcc]/10 rounded-full blur-[80px] pointer-events-none"></div>
 
-                    <button onclick="closeCreatorModal('modal-tauro', 'card-tauro-modal'); setTimeout(() => document.getElementById('flip-modal-tauro').classList.remove('[transform:rotateY(180deg)]'), 500);" class="absolute top-6 right-6 text-zinc-500 hover:text-white transition-colors z-20">
-                        <i class="fa-solid fa-xmark text-2xl"></i>
-                    </button>
-                    
-                    <div class="flex flex-col md:flex-row items-center md:items-start gap-8 relative z-10">
-                        <!-- QR Box -->
-                        <div class="shrink-0 bg-[#00ffcc]/10 p-2 rounded-xl shadow-[0_0_30px_rgba(0,255,204,0.2)] border border-[#00ffcc]/30">
-                            <!-- URL encoded para redirigir a #tauro-chat -->
-                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&color=00ffcc&bgcolor=000000&data=https%3A%2F%2Fphenix-tech.com%2F%23tauro-chat" alt="QR Tauro Chat" class="w-48 h-48 md:w-56 md:h-56 rounded-lg pointer-events-none">
-                        </div>
-                        <!-- Data Box -->
-                        <div class="flex-grow flex flex-col justify-center text-center md:text-left mt-4 md:mt-0 w-full">
-                            <div class="inline-flex items-center justify-center md:justify-start space-x-2 text-[#00ffcc]/70 text-xs tracking-widest uppercase mb-2">
-                                <i class="fa-solid fa-robot"></i> <span>Asistente Nivel 1</span>
-                            </div>
-                            <h3 class="text-3xl font-light text-white tracking-wide mb-1">TauroIA <span class="text-[#00ffcc] text-[12px] bg-[#00ffcc]/10 border border-[#00ffcc]/30 px-2 py-0.5 rounded-full ml-2 align-middle relative -top-1">BETA</span></h3>
-                            <p class="text-zinc-400 text-sm tracking-widest mb-6">Anfitrión de Experiencia Digital</p>
-                            
-                            <div class="space-y-4">
-                                <div class="flex items-center gap-4 bg-black/40 p-3 rounded-lg border border-red-500/20 relative overflow-hidden group">
-                                    <!-- Sello Clasificado -->
-                                    <div class="absolute -right-4 -top-2 border-2 border-red-500 text-red-500 text-[8px] font-black uppercase px-2 py-0.5 rotate-[15deg] opacity-60 tracking-widest">Top Secret</div>
-                                    <div class="w-10 flex justify-center text-red-500"><i class="fa-solid fa-phone-slash text-xl"></i></div>
-                                    <div class="text-left border-l border-red-500/20 pl-4">
-                                        <p class="text-[10px] text-zinc-500 uppercase tracking-wider">Frecuencia Com.</p>
-                                        <p class="text-sm font-mono text-zinc-400">[ CLASIFICADO ]</p>
-                                    </div>
-                                </div>
-                                <div class="flex items-center gap-4 bg-black/40 p-3 rounded-lg border border-red-500/20 relative overflow-hidden group">
-                                    <!-- Sello Redacted -->
-                                    <div class="absolute -right-4 -bottom-1 border-2 border-red-500 text-red-500 text-[8px] font-black uppercase px-2 py-0.5 -rotate-[10deg] opacity-60 tracking-widest">Redacted</div>
-                                    <div class="w-10 flex justify-center text-red-500"><i class="fa-solid fa-user-secret text-xl"></i></div>
-                                    <div class="text-left border-l border-red-500/20 pl-4">
-                                        <p class="text-[10px] text-zinc-500 uppercase tracking-wider">Directiva Contacto</p>
-                                        <p class="text-sm font-mono text-zinc-400">[ ENCRIPTADO ]</p>
-                                    </div>
-                                </div>
-                                <p class="text-[9px] text-[#00ffcc]/50 mt-2 italic text-center md:text-left">Escanea el QR para inicializar secuencia de comunicación móvil.</p>
-                            </div>
-                            
-                            <button onclick="document.getElementById('flip-modal-tauro').classList.add('[transform:rotateY(180deg)]')" class="mt-6 text-[#00ffcc] hover:text-[#00ffcc]/70 text-xs font-bold tracking-widest uppercase flex items-center justify-center md:justify-start gap-2 transition-colors">
-                                <i class="fa-solid fa-file-lines"></i> Leer Biografía Completa <i class="fa-solid fa-arrow-right text-[10px]"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Cara Posterior (Biografía) -->
-                <div class="absolute inset-0 bg-zinc-950/90 border border-[#00ffcc]/40 p-8 md:p-12 rounded-2xl shadow-[0_0_50px_rgba(0,255,204,0.15)] w-full [backface-visibility:hidden] [transform:rotateY(180deg)] flex flex-col justify-center items-center text-center overflow-hidden">
-                    <!-- Brillo de fondo -->
-                    <div class="absolute -top-20 -right-20 w-64 h-64 bg-[#00ffcc]/10 rounded-full blur-[80px] pointer-events-none"></div>
-
-                    <button onclick="closeCreatorModal('modal-tauro', 'card-tauro-modal'); setTimeout(() => document.getElementById('flip-modal-tauro').classList.remove('[transform:rotateY(180deg)]'), 500);" class="absolute top-6 right-6 text-zinc-500 hover:text-white transition-colors z-20" title="Cerrar">
-                        <i class="fa-solid fa-xmark text-2xl"></i>
-                    </button>
-                    
-                    <i class="fa-solid fa-robot text-5xl text-[#00ffcc]/50 mb-6 mt-4 relative z-10"></i>
-                    <h4 class="text-2xl font-light text-white mb-2 tracking-wide relative z-10">TauroIA</h4>
-                    <p class="text-zinc-500 text-xs tracking-widest uppercase mb-6 relative z-10">Archivo Central</p>
-                    <p class="text-sm text-zinc-400 leading-relaxed max-w-md border-y border-[#00ffcc]/20 py-6 mb-8 relative z-10">
-                        Entidad interactiva de primera línea especializada en procesamiento de lenguaje natural. Fui ensamblado para ser el rostro digital y anfitrión personal de Phenix-Tech, guiando a nuestros usuarios a través de una experiencia única.
-                    </p>
-                    
-                    <button onclick="document.getElementById('flip-modal-tauro').classList.remove('[transform:rotateY(180deg)]')" class="text-[#00ffcc] hover:text-[#00ffcc]/70 text-xs font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-colors relative z-10">
-                        <i class="fa-solid fa-arrow-rotate-left"></i> Volver a la Credencial
-                    </button>
-                </div>
-                
-            </div>
-        </div>
-    </div>
-
-    <!-- TauroIA Scripts -->
-    <script src="assets/js/tauro_brain.js"></script>
-    <script src="assets/js/tauro_core.js"></script>
 </body>
 </html>
