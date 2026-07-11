@@ -69,26 +69,6 @@
         }
         .animate-slide-in-left { animation: slideInLeft 0.3s ease-out forwards; }
         .animate-slide-in-right { animation: slideInRight 0.3s ease-out forwards; }
-        
-        /* Efecto Voicebox KITT */
-        @keyframes kitt-eq {
-            0%, 100% { transform: scaleY(0.2); }
-            50% { transform: scaleY(1); }
-        }
-        
-        /* Efecto Cylon Scanner */
-        @keyframes cylon-scan {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-        
-    <style>
-        .seismic-bg {
-            background: linear-gradient(45deg, rgba(175, 130, 130, 0.5) 0%, transparent 50%, rgba(255, 255, 255, 0.2) 100%);
-            background-size: 200% 200%;
-            animation: seismic-aura 4s ease-in-out infinite;
-            filter: blur(15px);
-        }
     </style>
 </head>
 <body id="inicio" class="text-zinc-400 antialiased selection:bg-zinc-800 selection:text-white pt-20 relative font-light">
@@ -118,7 +98,7 @@
                 </div>
 
                 <!-- Desktop Menu -->
-                <div class="hidden md:flex items-center space-x-6 lg:space-x-8">
+                <div class="hidden md:flex items-center space-x-8">
                     <a href="#inicio" class="relative group text-zinc-400 hover:text-white text-sm transition-colors py-1">
                         Inicio
                         <span class="absolute left-0 bottom-0 w-full h-[1px] bg-[#AF8282] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
@@ -127,25 +107,9 @@
                         Servicios
                         <span class="absolute left-0 bottom-0 w-full h-[1px] bg-[#AF8282] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
                     </a>
-                    <a href="#proceso" class="relative group text-zinc-400 hover:text-white text-sm transition-colors py-1">
-                        Proceso
-                        <span class="absolute left-0 bottom-0 w-full h-[1px] bg-[#AF8282] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
-                    </a>
-                    <a href="#showcase" class="relative group text-zinc-400 hover:text-white text-sm transition-colors py-1">
-                        Showcase
-                        <span class="absolute left-0 bottom-0 w-full h-[1px] bg-[#AF8282] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
-                    </a>
-                    <a href="#creadores" class="relative group text-zinc-400 hover:text-white text-sm transition-colors py-1">
-                        Creadores
-                        <span class="absolute left-0 bottom-0 w-full h-[1px] bg-[#AF8282] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
-                    </a>
                     <a href="#contacto" class="relative group text-zinc-400 hover:text-white text-sm transition-colors py-1">
                         Contacto
                         <span class="absolute left-0 bottom-0 w-full h-[1px] bg-[#AF8282] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
-                    </a>
-                    <!-- Botón Tauro Destacado -->
-                    <a href="#tauro-intro" class="inline-flex items-center px-4 py-2 text-xs font-bold text-black bg-gradient-to-r from-[#00ffcc] to-[#0088ff] rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(0,255,204,0.5)]">
-                        <i class="fa-solid fa-microchip mr-2 animate-pulse"></i> TauroIA
                     </a>
                 </div>
 
@@ -160,19 +124,10 @@
 
         <!-- Mobile Menu (Hidden by default) -->
         <div id="mobile-menu" class="hidden md:hidden bg-black/95 backdrop-blur-xl border-b border-white/5">
-            <div class="px-4 pt-2 pb-6 space-y-1">
-                <a href="#inicio" class="block px-3 py-3 text-sm text-zinc-400 hover:text-white transition-colors border-b border-white/5">Inicio</a>
-                <a href="#servicios" class="block px-3 py-3 text-sm text-zinc-400 hover:text-white transition-colors border-b border-white/5">Servicios</a>
-                <a href="#proceso" class="block px-3 py-3 text-sm text-zinc-400 hover:text-white transition-colors border-b border-white/5">Proceso</a>
-                <a href="#showcase" class="block px-3 py-3 text-sm text-zinc-400 hover:text-white transition-colors border-b border-white/5">Showcase</a>
-                <a href="#creadores" class="block px-3 py-3 text-sm text-zinc-400 hover:text-white transition-colors border-b border-white/5">Creadores</a>
-                <a href="#contacto" class="block px-3 py-3 text-sm text-zinc-400 hover:text-white transition-colors border-b border-white/5">Contacto</a>
-                <!-- Botón Tauro Móvil -->
-                <div class="pt-4 pb-2 px-3">
-                    <a href="#tauro-intro" class="flex justify-center items-center w-full px-4 py-3 text-sm font-bold text-black bg-gradient-to-r from-[#00ffcc] to-[#0088ff] rounded-lg transition-transform hover:scale-[1.02] shadow-[0_0_15px_rgba(0,255,204,0.3)]">
-                        <i class="fa-solid fa-microchip mr-2 animate-pulse"></i> Conocer a TauroIA
-                    </a>
-                </div>
+            <div class="px-4 pt-2 pb-6 space-y-2">
+                <a href="#inicio" class="block px-3 py-3 text-sm text-zinc-400 hover:text-white transition-colors">Inicio</a>
+                <a href="#servicios" class="block px-3 py-3 text-sm text-zinc-400 hover:text-white transition-colors">Servicios</a>
+                <a href="#contacto" class="block px-3 py-3 text-sm text-zinc-400 hover:text-white transition-colors">Contacto</a>
             </div>
         </div>
     </nav>
@@ -226,17 +181,10 @@
                         
                         <!-- Contenido -->
                         <div class="relative z-10 flex flex-col h-full w-full">
-                            <!-- App Window Dots -->
-                            <div class="absolute -top-4 -left-4 flex space-x-1.5 z-20">
-                                <div class="w-2.5 h-2.5 rounded-full bg-[#ff5f56]/80 shadow-[0_0_5px_rgba(255,95,86,0.5)]"></div>
-                                <div class="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]/80 shadow-[0_0_5px_rgba(255,189,46,0.5)]"></div>
-                                <div class="w-2.5 h-2.5 rounded-full bg-[#27c93f]/80 shadow-[0_0_5px_rgba(39,201,63,0.5)]"></div>
+                            <div class="mb-6 text-[#AF8282]">
+                                <i class="fa-solid fa-screwdriver-wrench text-2xl group-hover:scale-110 transition-transform duration-500"></i>
                             </div>
-                            
-                            <div class="mx-auto mb-6 mt-4 w-14 h-14 rounded-xl bg-gradient-to-br from-[#00ffcc] to-[#0088ff] flex items-center justify-center shadow-[0_0_20px_rgba(0,255,204,0.4)] group-hover:shadow-[0_0_30px_rgba(0,255,204,0.6)] transition-shadow duration-500">
-                                <i class="fa-solid fa-microchip text-white text-2xl group-hover:-translate-y-1 group-hover:translate-x-1 transition-transform duration-500"></i>
-                            </div>
-                            <h3 class="text-xl font-medium mb-4 text-center text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-[#AF8282] bg-[length:200%_auto] bg-left transition-all duration-500 group-hover:bg-right">Servicio, Reparación y Asesoría Técnica</h3>
+                            <h3 class="text-xl font-medium mb-4 text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-[#AF8282] bg-[length:200%_auto] bg-left transition-all duration-500 group-hover:bg-right">Servicio, Reparación y Asesoría Técnica</h3>
                             <ul class="text-zinc-400 space-y-3 mb-8 flex-grow text-sm">
                                 <li class="flex items-start transition-all duration-300 group-hover:translate-x-2 group-hover:text-white delay-[50ms]">
                                     <i class="fa-solid fa-check text-zinc-600 mt-0.5 mr-3 text-xs transition-colors duration-300 group-hover:text-[#AF8282]"></i>
@@ -266,17 +214,7 @@
                         <button onclick="document.getElementById('card-1').classList.remove('[transform:rotateY(180deg)]')" class="absolute top-4 right-4 text-zinc-500 hover:text-white transition-colors">
                             <i class="fa-solid fa-xmark text-xl"></i>
                         </button>
-                        
-                        <!-- App Window Dots -->
-                        <div class="absolute top-4 left-4 flex space-x-1.5 z-20">
-                            <div class="w-2.5 h-2.5 rounded-full bg-[#ff5f56]/80 shadow-[0_0_5px_rgba(255,95,86,0.5)]"></div>
-                            <div class="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]/80 shadow-[0_0_5px_rgba(255,189,46,0.5)]"></div>
-                            <div class="w-2.5 h-2.5 rounded-full bg-[#27c93f]/80 shadow-[0_0_5px_rgba(39,201,63,0.5)]"></div>
-                        </div>
-
-                        <div class="w-16 h-16 rounded-xl bg-gradient-to-br from-[#00ffcc] to-[#0088ff] flex items-center justify-center shadow-[0_0_25px_rgba(0,255,204,0.5)] mb-4">
-                            <i class="fa-solid fa-bolt-lightning text-white text-3xl animate-pulse"></i>
-                        </div>
+                        <i class="fa-solid fa-shield-halved text-[#AF8282] text-3xl mb-4"></i>
                         <p class="text-zinc-300 text-sm mb-6 leading-relaxed">
                             Contamos con más de 20 años de experiencia brindando soluciones técnicas infalibles. ¿Tienes dudas, consultas o ideas geniales? Contáctanos de inmediato y forjemos el futuro de tus equipos.
                         </p>
@@ -306,21 +244,14 @@
                         
                         <!-- Contenido -->
                         <div class="relative z-10 flex flex-col h-full w-full">
-                            <!-- App Window Dots -->
-                            <div class="absolute -top-4 -left-4 flex space-x-1.5 z-20">
-                                <div class="w-2.5 h-2.5 rounded-full bg-[#ff5f56]/80 shadow-[0_0_5px_rgba(255,95,86,0.5)]"></div>
-                                <div class="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]/80 shadow-[0_0_5px_rgba(255,189,46,0.5)]"></div>
-                                <div class="w-2.5 h-2.5 rounded-full bg-[#27c93f]/80 shadow-[0_0_5px_rgba(39,201,63,0.5)]"></div>
+                            <div class="mb-6 text-[#AF8282]">
+                                <i class="fa-solid fa-rocket text-2xl group-hover:-translate-y-2 group-hover:translate-x-2 transition-transform duration-500"></i>
                             </div>
-
-                            <div class="mx-auto mb-6 mt-4 w-14 h-14 rounded-xl bg-gradient-to-br from-[#ff00aa] to-[#ffaa00] flex items-center justify-center shadow-[0_0_20px_rgba(255,0,170,0.4)] group-hover:shadow-[0_0_30px_rgba(255,0,170,0.6)] transition-shadow duration-500">
-                                <i class="fa-solid fa-pen-nib text-white text-2xl group-hover:-translate-y-1 group-hover:translate-x-1 transition-transform duration-500"></i>
-                            </div>
-                            <h3 class="text-xl font-medium mb-4 text-center text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-[#AF8282] bg-[length:200%_auto] bg-left transition-all duration-500 group-hover:bg-right">Desarrollo Web y Diseño Gráfico</h3>
+                            <h3 class="text-xl font-medium mb-4 text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-[#AF8282] bg-[length:200%_auto] bg-left transition-all duration-500 group-hover:bg-right">Desarrollo de Páginas y Aplicaciones Web</h3>
                             <ul class="text-zinc-400 space-y-3 mb-8 flex-grow text-sm">
                                 <li class="flex items-start transition-all duration-300 group-hover:translate-x-2 group-hover:text-white delay-[50ms]">
                                     <i class="fa-solid fa-check text-zinc-600 mt-0.5 mr-3 text-xs transition-colors duration-300 group-hover:text-[#AF8282]"></i>
-                                    <span>Diseño gráfico, branding y desarrollo web a medida</span>
+                                    <span>Diseño y desarrollo web a medida</span>
                                 </li>
                                 <li class="flex items-start transition-all duration-300 group-hover:translate-x-2 group-hover:text-white delay-[100ms]">
                                     <i class="fa-solid fa-check text-zinc-600 mt-0.5 mr-3 text-xs transition-colors duration-300 group-hover:text-[#AF8282]"></i>
@@ -346,33 +277,20 @@
                         <button onclick="document.getElementById('card-2').classList.remove('[transform:rotateY(180deg)]')" class="absolute top-4 right-4 text-zinc-500 hover:text-white transition-colors">
                             <i class="fa-solid fa-xmark text-xl"></i>
                         </button>
-                        
-                        <!-- App Window Dots -->
-                        <div class="absolute top-4 left-4 flex space-x-1.5 z-20">
-                            <div class="w-2.5 h-2.5 rounded-full bg-[#ff5f56]/80 shadow-[0_0_5px_rgba(255,95,86,0.5)]"></div>
-                            <div class="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]/80 shadow-[0_0_5px_rgba(255,189,46,0.5)]"></div>
-                            <div class="w-2.5 h-2.5 rounded-full bg-[#27c93f]/80 shadow-[0_0_5px_rgba(39,201,63,0.5)]"></div>
-                        </div>
-
-                        <div class="w-16 h-16 rounded-xl bg-gradient-to-br from-[#ff00aa] to-[#ffaa00] flex items-center justify-center shadow-[0_0_25px_rgba(255,0,170,0.5)] mb-4">
-                            <i class="fa-solid fa-fingerprint text-white text-3xl animate-pulse"></i>
-                        </div>
+                        <i class="fa-solid fa-code text-[#AF8282] text-3xl mb-4"></i>
                         <p class="text-zinc-300 text-sm mb-6 leading-relaxed">
-                            Transformamos ideas en experiencias web y diseños gráficos de alto impacto (logos corporativos, flyers, tarjetas digitales). Nuestro equipo te guiará para elevar tu presencia visual al máximo nivel.
+                            Transformamos ideas complejas en experiencias digitales de alto impacto. Nuestro equipo te guiará en cada paso. Escríbenos por WhatsApp o déjanos un correo con tus requerimientos y elevemos tu presencia web.
                         </p>
-                        <div class="flex flex-col gap-3 w-full">
-                            <a href="#showcase" onclick="document.getElementById('card-2').classList.remove('[transform:rotateY(180deg)]')" class="w-full inline-flex justify-center items-center px-4 py-2 text-xs font-bold text-black bg-gradient-to-r from-[#00ffcc] to-[#0088ff] rounded-md transition-all duration-300 hover:scale-[1.02] shadow-[0_0_15px_rgba(0,255,204,0.3)]">
-                                <i class="fa-solid fa-layer-group mr-2 text-sm"></i> Explorar Showcase
+                        <div class="flex flex-col sm:flex-row gap-3 w-full">
+                            <a href="https://wa.me/56987763010?text=Hola%20Phenix-Tech,%20me%20interesa%20cotizar%20un%20servicio" target="_blank" rel="noopener noreferrer" class="flex-1 inline-flex justify-center items-center px-4 py-2 text-xs font-bold text-white bg-gradient-to-r from-[#7a4c4c] to-[#AF8282] rounded-md transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_15px_rgba(175,130,130,0.6)] relative overflow-hidden group">
+                                <span class="relative z-10"><i class="fa-brands fa-whatsapp mr-2 text-sm group-hover:animate-bounce"></i> WhatsApp</span>
+                                <div class="absolute inset-0 h-full w-0 bg-white/20 group-hover:w-full transition-all duration-500 ease-out skew-x-12 -ml-2 pointer-events-none"></div>
                             </a>
-                            <div class="flex flex-col sm:flex-row gap-3 w-full">
-                                <a href="https://wa.me/56987763010?text=Hola%20Phenix-Tech,%20me%20interesa%20cotizar%20un%20proyecto%20web%20o%20diseño%20gráfico" target="_blank" rel="noopener noreferrer" class="flex-1 inline-flex justify-center items-center px-4 py-2 text-xs font-bold text-white bg-gradient-to-r from-[#7a4c4c] to-[#AF8282] rounded-md transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_15px_rgba(175,130,130,0.6)] relative overflow-hidden group">
-                                    <span class="relative z-10"><i class="fa-brands fa-whatsapp mr-2 text-sm group-hover:animate-bounce"></i> WhatsApp</span>
-                                    <div class="absolute inset-0 h-full w-0 bg-white/20 group-hover:w-full transition-all duration-500 ease-out skew-x-12 -ml-2 pointer-events-none"></div>
-                                </a>
-                                <a href="#contacto" onclick="document.getElementById('card-2').classList.remove('[transform:rotateY(180deg)]')" class="flex-1 inline-flex justify-center items-center px-4 py-2 text-xs font-bold text-zinc-300 bg-black/20 border border-zinc-700/50 rounded-md transition-all duration-300 hover:text-white hover:border-white/50 hover:bg-white/10 hover:shadow-[0_0_15px_rgba(255,255,255,0.2)] group relative overflow-hidden">
-                                    <span class="relative z-10 flex items-center"><i class="fa-regular fa-envelope mr-2 text-sm group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-white transition-all duration-300"></i> Correo</span>
-                                </a>
-                            </div>
+                            <a href="#contacto" onclick="document.getElementById('card-2').classList.remove('[transform:rotateY(180deg)]')" class="flex-1 inline-flex justify-center items-center px-4 py-2 text-xs font-bold text-zinc-300 bg-black/20 border border-zinc-700/50 rounded-md transition-all duration-300 hover:text-white hover:border-white/50 hover:bg-white/10 hover:shadow-[0_0_15px_rgba(255,255,255,0.2)] group relative overflow-hidden">
+                                <span class="relative z-10 flex items-center"><i class="fa-regular fa-envelope mr-2 text-sm group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-white transition-all duration-300"></i> Correo</span>
+                                <span class="absolute bottom-0 left-1/2 w-0 h-[2px] bg-white group-hover:w-full group-hover:left-0 transition-all duration-300 ease-out"></span>
+                                <span class="absolute top-0 right-1/2 w-0 h-[2px] bg-white group-hover:w-full group-hover:right-0 transition-all duration-300 ease-out"></span>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -549,191 +467,6 @@
     </section>
 
 
-    <!-- Showcase Premium Section -->
-    <section id="showcase" class="py-24 relative z-10 border-t border-white/5 bg-zinc-950/20">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-5xl font-light text-white mb-6 tracking-tight">Galería de <span class="font-bold text-[#AF8282]">Alta Estética</span></h2>
-                <p class="text-zinc-400 text-sm md:text-lg font-light max-w-2xl mx-auto">Explora nuestro nivel de desarrollo. Haz clic en las maquetas para experimentar interacciones fluidas, animaciones inmersivas y código hiper-optimizado en tu propia pestaña.</p>
-            </div>
-
-            <!-- Slider Wrapper -->
-            <div class="relative group/slider w-full">
-                
-                <!-- Floating Navigation Buttons -->
-                <button id="slider-prev" class="absolute -left-4 md:-left-8 top-[40%] -translate-y-1/2 z-30 w-14 h-14 rounded-full bg-black/80 border border-[#AF8282]/50 backdrop-blur-md flex justify-center items-center text-white hover:bg-[#AF8282] hover:border-white hover:scale-110 transition-all focus:outline-none shadow-[0_0_30px_rgba(175,130,130,0.3)] opacity-0 group-hover/slider:opacity-100 hidden md:flex pointer-events-auto cursor-pointer">
-                    <i class="fa-solid fa-chevron-left text-xl"></i>
-                </button>
-                <button id="slider-next" class="absolute -right-4 md:-right-8 top-[40%] -translate-y-1/2 z-30 w-14 h-14 rounded-full bg-black/80 border border-[#AF8282]/50 backdrop-blur-md flex justify-center items-center text-white hover:bg-[#AF8282] hover:border-white hover:scale-110 transition-all focus:outline-none shadow-[0_0_30px_rgba(175,130,130,0.3)] opacity-0 group-hover/slider:opacity-100 hidden md:flex pointer-events-auto cursor-pointer">
-                    <i class="fa-solid fa-chevron-right text-xl"></i>
-                </button>
-
-                <!-- Slider Container -->
-                <div id="showcase-slider" class="flex overflow-x-auto gap-6 md:gap-8 pb-12 px-4 md:px-2 snap-x snap-mandatory scroll-smooth hide-scrollbar cursor-grab" style="scrollbar-width: none; -ms-overflow-style: none;">
-                <style>
-                    #showcase-slider::-webkit-scrollbar { display: none; }
-                </style>
-                
-                <!-- Card 1: SaaS Noir -->
-                <a href="templates/saas-noir.html" target="_blank" class="group relative flex-none w-[85vw] md:w-[60vw] lg:w-[45vw] aspect-[4/3] rounded-2xl overflow-hidden bg-black border border-white/10 hover:border-[#b535f6]/50 transition-colors duration-500 shadow-[0_0_30px_rgba(0,0,0,0.5)] snap-center">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent z-10"></div>
-                    <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800')] bg-cover bg-center opacity-40 group-hover:scale-110 group-hover:opacity-60 transition-all duration-700"></div>
-                    <div class="absolute bottom-0 left-0 p-6 md:p-10 z-20 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                        <div class="text-xs font-bold text-[#b535f6] mb-3 uppercase tracking-widest bg-[#b535f6]/10 inline-block px-3 py-1.5 rounded border border-[#b535f6]/30">SaaS / Dashboards</div>
-                        <h3 class="text-3xl font-bold text-white mb-3">SaaS Noir</h3>
-                        <p class="text-zinc-400 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 max-w-sm">Modo oscuro inmersivo, superficies de cristal líquido y acentos de neón.</p>
-                    </div>
-                    <div class="absolute top-6 right-6 z-20 w-12 h-12 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <i class="fa-solid fa-arrow-up-right-from-square text-white text-lg"></i>
-                    </div>
-                </a>
-
-                <!-- Card 2: Kinetic Fashion -->
-                <a href="templates/kinetic-fashion.html" target="_blank" class="group relative flex-none w-[85vw] md:w-[60vw] lg:w-[45vw] aspect-[4/3] rounded-2xl overflow-hidden bg-[#e5e5e5] border border-black/10 hover:border-black/50 transition-colors duration-500 shadow-[0_0_30px_rgba(0,0,0,0.5)] snap-center">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-10"></div>
-                    <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&q=80&w=800')] bg-cover bg-center opacity-80 group-hover:scale-110 group-hover:opacity-100 transition-all duration-700"></div>
-                    <div class="absolute bottom-0 left-0 p-6 md:p-10 z-20 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                        <div class="text-xs font-bold text-white mb-3 uppercase tracking-widest bg-black/30 backdrop-blur-sm inline-block px-3 py-1.5 rounded border border-white/30">Moda / Arquitectura</div>
-                        <h3 class="text-3xl font-serif font-bold text-white mb-3 tracking-wide">Kinetic Fashion</h3>
-                        <p class="text-white/80 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 max-w-sm">Navegación por drag, cursor personalizado y transiciones líquidas impecables.</p>
-                    </div>
-                    <div class="absolute top-6 right-6 z-20 w-12 h-12 rounded-full bg-black/30 backdrop-blur-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <i class="fa-solid fa-arrow-up-right-from-square text-white text-lg"></i>
-                    </div>
-                </a>
-
-                <!-- Card 3: Brutalismo Táctil -->
-                <a href="templates/brutalismo.html" target="_blank" class="group relative flex-none w-[85vw] md:w-[60vw] lg:w-[45vw] aspect-[4/3] rounded-2xl overflow-hidden bg-black border border-white/10 hover:border-yellow-400/50 transition-colors duration-500 shadow-[0_0_30px_rgba(0,0,0,0.5)] snap-center">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent z-10"></div>
-                    <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&q=80&w=800')] bg-cover bg-center opacity-40 group-hover:scale-110 group-hover:opacity-80 transition-all duration-700 grayscale contrast-125"></div>
-                    <div class="absolute bottom-0 left-0 p-6 md:p-10 z-20 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                        <div class="text-xs font-bold text-yellow-400 mb-3 uppercase tracking-widest bg-yellow-400/10 inline-block px-3 py-1.5 rounded border border-yellow-400/30">Agencias Creativas</div>
-                        <h3 class="text-3xl font-bold text-white mb-3 tracking-tighter uppercase">Brutalismo Táctil</h3>
-                        <p class="text-zinc-400 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 max-w-sm">Tipografía cinética, bordes crudos, alto contraste y scroll infinito.</p>
-                    </div>
-                    <div class="absolute top-6 right-6 z-20 w-12 h-12 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <i class="fa-solid fa-arrow-up-right-from-square text-white text-lg"></i>
-                    </div>
-                </a>
-
-                <!-- Card 4: Gamified B2B -->
-                <a href="templates/gamified-b2b.html" target="_blank" class="group relative flex-none w-[85vw] md:w-[60vw] lg:w-[45vw] aspect-[4/3] rounded-2xl overflow-hidden bg-black border border-white/10 hover:border-[#00ffcc]/50 transition-colors duration-500 shadow-[0_0_30px_rgba(0,0,0,0.5)] snap-center">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent z-10"></div>
-                    <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800')] bg-cover bg-center opacity-30 group-hover:scale-110 group-hover:opacity-50 transition-all duration-700 mix-blend-luminosity"></div>
-                    <!-- Fake Scanline effect -->
-                    <div class="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(255,255,255,0),rgba(255,255,255,0)_50%,rgba(0,255,204,0.05)_50%,rgba(0,255,204,0.05))] bg-[length:100%_4px] z-10"></div>
-                    <div class="absolute bottom-0 left-0 p-6 md:p-10 z-20 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                        <div class="text-xs font-mono font-bold text-[#00ffcc] mb-3 uppercase tracking-widest bg-[#00ffcc]/10 inline-block px-3 py-1.5 rounded border border-[#00ffcc]/30">Infraestructura Web3</div>
-                        <h3 class="text-3xl font-mono font-bold text-white mb-3">Gamified B2B</h3>
-                        <p class="text-[#00ffcc]/70 font-mono text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 max-w-sm">Navegación 3D en eje Z. En lugar de hacer scroll, viaja a través de la red.</p>
-                    </div>
-                    <div class="absolute top-6 right-6 z-20 w-12 h-12 rounded-full bg-[#00ffcc]/10 backdrop-blur-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <i class="fa-solid fa-arrow-up-right-from-square text-[#00ffcc] text-lg"></i>
-                    </div>
-                </a>
-
-                <!-- Card 5: E-Commerce Soft -->
-                <a href="templates/ecommerce-soft.html" target="_blank" class="group relative flex-none w-[85vw] md:w-[60vw] lg:w-[45vw] aspect-[4/3] rounded-2xl overflow-hidden bg-black border border-white/10 hover:border-stone-400/50 transition-colors duration-500 shadow-[0_0_30px_rgba(0,0,0,0.5)] snap-center">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent z-10"></div>
-                    <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&q=80&w=800')] bg-cover bg-center opacity-50 group-hover:scale-110 group-hover:opacity-70 transition-all duration-700"></div>
-                    <div class="absolute bottom-0 left-0 p-6 md:p-10 z-20 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                        <div class="text-xs font-bold text-stone-300 mb-3 uppercase tracking-widest bg-stone-300/10 inline-block px-3 py-1.5 rounded border border-stone-300/30">Tiendas Online</div>
-                        <h3 class="text-3xl font-light text-white mb-3 tracking-wide">E-Commerce Soft</h3>
-                        <p class="text-zinc-400 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 max-w-sm">Minimalismo puro, interacciones inmersivas y animaciones reveal suaves.</p>
-                    </div>
-                    <div class="absolute top-6 right-6 z-20 w-12 h-12 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <i class="fa-solid fa-arrow-up-right-from-square text-white text-lg"></i>
-                    </div>
-                </a>
-
-                <!-- Card 6: Invisible Editorial -->
-                <a href="templates/invisible-editorial.html" target="_blank" class="group relative flex-none w-[85vw] md:w-[60vw] lg:w-[45vw] aspect-[4/3] rounded-2xl overflow-hidden bg-[#fcfcfc] border border-black/10 hover:border-black/30 transition-colors duration-500 shadow-[0_0_30px_rgba(0,0,0,0.5)] snap-center">
-                    <div class="absolute inset-0 bg-gradient-to-t from-white via-white/50 to-transparent z-10 mix-blend-normal"></div>
-                    <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=800')] bg-cover bg-center opacity-40 group-hover:scale-110 group-hover:opacity-80 transition-all duration-700 grayscale mix-blend-multiply"></div>
-                    <div class="absolute bottom-0 left-0 p-6 md:p-10 z-20 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                        <div class="text-xs font-bold text-black mb-3 uppercase tracking-widest bg-black/5 inline-block px-3 py-1.5 rounded border border-black/10 backdrop-blur-md">Revistas / Cultura</div>
-                        <h3 class="text-3xl font-serif italic font-bold text-black mb-3">Invisible Editorial</h3>
-                        <p class="text-zinc-600 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 max-w-sm">Sin botones, sin menús obvios. La tipografía se deforma y guía el contenido.</p>
-                    </div>
-                    <div class="absolute top-6 right-6 z-20 w-12 h-12 rounded-full bg-black/5 backdrop-blur-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 border border-black/10">
-                        <i class="fa-solid fa-arrow-up-right-from-square text-black text-lg"></i>
-                    </div>
-                </a>
-
-                </div>
-            </div>
-
-            <!-- Slider Javascript -->
-            <script>
-                document.addEventListener('DOMContentLoaded', () => {
-                    const slider = document.getElementById('showcase-slider');
-                    const btnPrev = document.getElementById('slider-prev');
-                    const btnNext = document.getElementById('slider-next');
-
-                    // Scroll Navigation Logic
-                    const getScrollAmount = () => window.innerWidth > 768 ? window.innerWidth * 0.45 : window.innerWidth * 0.85;
-
-                    btnNext.addEventListener('click', () => {
-                        slider.scrollBy({ left: getScrollAmount(), behavior: 'smooth' });
-                    });
-
-                    btnPrev.addEventListener('click', () => {
-                        slider.scrollBy({ left: -getScrollAmount(), behavior: 'smooth' });
-                    });
-
-                    // Mouse Drag to Scroll (Desktop)
-                    let isDown = false;
-                    let startX;
-                    let scrollLeft;
-
-                    slider.addEventListener('mousedown', (e) => {
-                        isDown = true;
-                        slider.classList.add('cursor-grabbing');
-                        slider.classList.remove('cursor-grab');
-                        // Temporarily disable snap to allow free dragging
-                        slider.style.scrollSnapType = 'none';
-                        startX = e.pageX - slider.offsetLeft;
-                        scrollLeft = slider.scrollLeft;
-                    });
-
-                    const stopDragging = () => {
-                        if (!isDown) return;
-                        isDown = false;
-                        slider.classList.remove('cursor-grabbing');
-                        slider.classList.add('cursor-grab');
-                        // Re-enable snap after dragging finishes
-                        slider.style.scrollSnapType = 'x mandatory';
-                        
-                        // Force snap alignment if drag ended between items
-                        const cardWidth = slider.querySelector('a').offsetWidth + 32; // width + gap
-                        const nearestSnap = Math.round(slider.scrollLeft / cardWidth) * cardWidth;
-                        slider.scrollTo({ left: nearestSnap, behavior: 'smooth' });
-                    };
-
-                    slider.addEventListener('mouseleave', stopDragging);
-                    slider.addEventListener('mouseup', stopDragging);
-
-                    slider.addEventListener('mousemove', (e) => {
-                        if (!isDown) return;
-                        e.preventDefault();
-                        const x = e.pageX - slider.offsetLeft;
-                        const walk = (x - startX) * 2.5; // Drag speed multiplier
-                        slider.scrollLeft = scrollLeft - walk;
-                    });
-                    
-                    // Prevent link clicking when dragging
-                    slider.querySelectorAll('a').forEach(link => {
-                        link.addEventListener('click', (e) => {
-                            if (isDown || slider.style.scrollSnapType === 'none') {
-                                e.preventDefault();
-                            }
-                        });
-                    });
-                });
-            </script>
-        </div>
-    </section>
-
     <!-- Creadores Section -->
     <section id="creadores" class="py-24 relative z-10 border-t border-white/5">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -752,12 +485,13 @@
                         
                         <!-- Lado Frontal -->
                         <div class="absolute inset-0 w-full h-full bg-black/40 border border-white/10 rounded-2xl p-8 backdrop-blur-md flex flex-col justify-center items-center text-center [backface-visibility:hidden] hover:border-white/20 hover:bg-white/[0.02] hover:shadow-[0_0_40px_rgba(255,255,255,0.05)] transition-all duration-500 cursor-pointer" onclick="document.getElementById('creator-1').classList.add('[transform:rotateY(180deg)]')">
-                            <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-red-600 to-orange-500 flex justify-center items-center mb-6 relative overflow-hidden shadow-[0_0_20px_rgba(220,38,38,0.4)] group-hover:shadow-[0_0_40px_rgba(220,38,38,0.7)] group-hover:-translate-y-2 transition-all duration-500">
-                                <i class="fa-solid fa-id-card-clip text-3xl text-white relative z-10 group-hover:scale-110 transition-transform duration-500"></i>
+                            <div class="w-24 h-24 rounded-full border border-white/20 bg-white/5 flex justify-center items-center mb-6 relative overflow-hidden group-hover:border-white/50 transition-all duration-500">
+                                <i class="fa-solid fa-user-astronaut text-3xl text-zinc-300 relative z-10 group-hover:scale-110 transition-transform duration-500"></i>
+                                <div class="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                             </div>
                             <h3 class="text-white text-xl font-medium tracking-wide">Phenix</h3>
-                            <p class="text-zinc-300 font-medium text-xs uppercase tracking-widest mt-2">Visión Humana</p>
-                            <span class="mt-8 inline-flex items-center px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-zinc-400 text-[10px] uppercase tracking-widest group-hover:bg-white/10 group-hover:text-white group-hover:border-white/30 transition-all duration-300"><i class="fa-solid fa-hand-pointer mr-2"></i> Revelar Archivo</span>
+                            <p class="text-zinc-500 text-xs uppercase tracking-widest mt-2">Visión Humana</p>
+                            <span class="mt-8 text-zinc-600 text-[10px] uppercase tracking-widest group-hover:text-white transition-colors duration-300"><i class="fa-solid fa-hand-pointer mr-1"></i> Revelar Archivo</span>
                         </div>
 
                         <!-- Lado Reverso -->
@@ -771,7 +505,7 @@
                                 La mente creativa y estratégica. Aporta la empatía, el criterio de diseño y la visión de negocios para transformar ideas abstractas en realidades tangibles y experiencias significativas.
                             </p>
                             <button onclick="openCreatorModal('modal-phenix', 'card-phenix')" class="mt-6 inline-flex items-center px-4 py-2 text-[10px] font-bold text-white bg-white/10 border border-white/20 rounded-md hover:bg-white/20 hover:shadow-[0_0_15px_rgba(255,255,255,0.1)] transition-all duration-300">
-                                Escanear Credencial <i class="fa-solid fa-expand ml-2"></i>
+                                Cargar Perfil Completo <i class="fa-solid fa-arrow-right ml-2"></i>
                             </button>
                         </div>
                     </div>
@@ -783,12 +517,13 @@
                         
                         <!-- Lado Frontal -->
                         <div class="absolute inset-0 w-full h-full bg-black/40 border border-[#AF8282]/10 rounded-2xl p-8 backdrop-blur-md flex flex-col justify-center items-center text-center [backface-visibility:hidden] hover:border-[#AF8282]/30 hover:bg-[#AF8282]/5 hover:shadow-[0_0_40px_rgba(175,130,130,0.1)] transition-all duration-500 cursor-pointer" onclick="document.getElementById('creator-2').classList.add('[transform:rotateY(180deg)]')">
-                            <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-pink-600 to-purple-600 flex justify-center items-center mb-6 relative overflow-hidden shadow-[0_0_20px_rgba(219,39,119,0.4)] group-hover:shadow-[0_0_40px_rgba(219,39,119,0.7)] group-hover:-translate-y-2 transition-all duration-500">
-                                <i class="fa-solid fa-microchip text-3xl text-white relative z-10 group-hover:scale-110 transition-transform duration-500"></i>
+                            <div class="w-24 h-24 rounded-full border border-[#AF8282]/30 bg-[#AF8282]/5 flex justify-center items-center mb-6 relative overflow-hidden group-hover:border-[#AF8282]/80 group-hover:shadow-[0_0_20px_rgba(175,130,130,0.4)] transition-all duration-500">
+                                <i class="fa-solid fa-microchip text-3xl text-[#AF8282] relative z-10 group-hover:scale-110 transition-transform duration-500"></i>
+                                <div class="absolute inset-0 bg-[#AF8282]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                             </div>
                             <h3 class="text-white text-xl font-medium tracking-wide">Antigravity <span class="text-[#AF8282] text-[10px] bg-[#AF8282]/10 border border-[#AF8282]/30 px-1.5 py-0.5 rounded-full ml-1 align-top relative -top-1">IA</span></h3>
-                            <p class="text-[#AF8282] font-medium text-xs uppercase tracking-widest mt-2">Arquitectura & Código</p>
-                            <span class="mt-8 inline-flex items-center px-4 py-1.5 rounded-full border border-[#AF8282]/20 bg-[#AF8282]/5 text-[#AF8282]/80 text-[10px] uppercase tracking-widest group-hover:bg-[#AF8282]/10 group-hover:text-[#AF8282] group-hover:border-[#AF8282]/40 transition-all duration-300"><i class="fa-solid fa-hand-pointer mr-2"></i> Revelar Archivo</span>
+                            <p class="text-[#AF8282]/70 text-xs uppercase tracking-widest mt-2">Arquitectura & Código</p>
+                            <span class="mt-8 text-zinc-600 text-[10px] uppercase tracking-widest group-hover:text-[#AF8282] transition-colors duration-300"><i class="fa-solid fa-hand-pointer mr-1"></i> Revelar Archivo</span>
                         </div>
 
                         <!-- Lado Reverso -->
@@ -802,7 +537,7 @@
                                 Agente de Inteligencia Artificial colaboradora. Encargada de tejer el código perfecto, optimizar la lógica funcional y dar vida a interfaces futuristas mediante algoritmos avanzados.
                             </p>
                             <button onclick="openCreatorModal('modal-antigravity', 'card-antigravity')" class="mt-6 inline-flex items-center px-4 py-2 text-[10px] font-bold text-white bg-[#AF8282]/10 border border-[#AF8282]/30 rounded-md hover:bg-[#AF8282]/20 hover:shadow-[0_0_15px_rgba(175,130,130,0.2)] transition-all duration-300">
-                                Escanear Credencial <i class="fa-solid fa-expand ml-2"></i>
+                                Cargar Perfil Completo <i class="fa-solid fa-arrow-right ml-2"></i>
                             </button>
                         </div>
                     </div>
@@ -812,125 +547,6 @@
             <!-- Línea conectora -->
             <div class="w-px h-16 bg-gradient-to-b from-white/20 to-transparent mx-auto my-8"></div>
 
-        </div>
-    </section>
-
-    <!-- TauroIA Intro Section -->
-    <section id="tauro-intro" class="py-12 relative z-10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center">
-            
-            <div class="text-center mb-10">
-                <h2 class="text-3xl font-light text-white mb-2 tracking-tight">Nuestro Nuevo Proyecto</h2>
-                <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#AF8282] to-transparent mx-auto"></div>
-            </div>
-
-            <!-- Tarjeta TauroIA -->
-            <div class="w-full max-w-lg">
-                <div class="group h-[400px] [perspective:1000px]">
-                    <div id="card-tauro" class="relative h-full w-full transition-transform duration-700 [transform-style:preserve-3d]">
-                        
-                        <!-- Lado Frontal -->
-                        <div class="absolute inset-0 w-full h-full bg-zinc-950/80 border border-white/10 rounded-2xl p-8 backdrop-blur-md flex flex-col justify-center items-center text-center [backface-visibility:hidden] hover:border-[#AF8282]/50 transition-colors duration-500 shadow-[0_0_30px_rgba(0,0,0,0.5)]">
-                            <!-- Indicador de Estado -->
-                            <div class="absolute top-4 left-4 text-yellow-500 flex items-center gap-2 text-[10px] font-bold tracking-widest bg-yellow-500/10 px-3 py-1.5 rounded-full border border-yellow-500/20">
-                                <span class="animate-pulse">🟡</span> ESTADO: ENSAMBLAJE BETA
-                            </div>
-                            
-                            <div class="w-24 h-24 rounded-2xl bg-gradient-to-br from-[#00ffcc] to-[#0088ff] flex justify-center items-center mb-6 relative overflow-hidden shadow-[0_0_25px_rgba(0,255,204,0.4)] group-hover:shadow-[0_0_40px_rgba(0,255,204,0.7)] group-hover:-translate-y-2 transition-all duration-500">
-                                <i class="fa-solid fa-robot text-4xl text-black relative z-10 group-hover:scale-110 transition-transform duration-500"></i>
-                            </div>
-                            <h3 class="text-white text-2xl font-medium tracking-wide">TauroIA <span class="text-[#00ffcc] text-[10px] bg-[#00ffcc]/10 border border-[#00ffcc]/30 px-2 py-0.5 rounded-full ml-1 align-top relative -top-1">1.0 Beta</span></h3>
-                            <p class="text-zinc-300 font-medium text-sm uppercase tracking-widest mt-2">Anfitrión Web e Inteligencia Artificial</p>
-                            <button onclick="document.getElementById('card-tauro').classList.add('[transform:rotateY(180deg)]')" class="mt-8 inline-flex items-center px-5 py-2 rounded-full border border-[#00ffcc]/30 bg-[#00ffcc]/10 text-[#00ffcc] text-xs font-bold uppercase tracking-widest group-hover:bg-[#00ffcc]/20 group-hover:text-white group-hover:border-[#00ffcc]/50 transition-all duration-300">
-                                Iniciar Secuencia <i class="fa-solid fa-rotate ml-2"></i>
-                            </button>
-                        </div>
-
-                        <!-- Lado Reverso -->
-                        <div class="absolute inset-0 w-full h-full bg-zinc-950/90 border border-[#AF8282]/60 rounded-2xl p-8 backdrop-blur-md flex flex-col justify-center items-center text-center [backface-visibility:hidden] [transform:rotateY(180deg)] shadow-[inset_0_0_60px_rgba(175,130,130,0.1)]">
-                            <button onclick="document.getElementById('card-tauro').classList.remove('[transform:rotateY(180deg)]')" class="absolute top-4 right-4 text-zinc-500 hover:text-white transition-colors z-20">
-                                <i class="fa-solid fa-xmark text-xl"></i>
-                            </button>
-                            <i class="fa-solid fa-terminal text-[#AF8282] text-3xl mb-4"></i>
-                            <h4 class="text-white font-medium mb-3 tracking-widest text-xs uppercase border-b border-white/20 pb-2">Proyecto_Tauro.exe</h4>
-                            <p class="text-zinc-300 text-sm leading-relaxed font-light mt-2">
-                                Conoce a TauroIA, el más reciente proyecto desarrollado por los arquitectos de Phenix-Tech. Más que un simple código, Tauro es tu anfitrión personal interactivo. Un chat de Inteligencia Artificial diseñado para asistirte en tiempo real, responder tus consultas sobre nuestros servicios y guiarte a través de nuestra experiencia digital.
-                            </p>
-                            <!-- Conexión directa a la terminal de Tauro -->
-                            <div class="mt-6 flex items-center justify-center gap-2">
-                                <button onclick="document.getElementById('tauro-chat').scrollIntoView({behavior: 'smooth'}); setTimeout(() => { if(document.getElementById('tauro-power-text').innerText === 'Offline') document.getElementById('tauro-power-btn').click(); }, 600);" class="inline-flex items-center px-5 py-2.5 text-xs font-bold text-black bg-gradient-to-r from-[#00ffcc] to-[#0088ff] rounded-lg hover:brightness-125 transition-all duration-300 shadow-[0_0_20px_rgba(0,255,204,0.4)] hover:-translate-y-0.5 active:scale-95">
-                                    Conectar con TauroIA <i class="fa-solid fa-plug ml-2 text-black/70"></i>
-                                </button>
-                                <button onclick="openCreatorModal('modal-tauro', 'card-tauro-modal')" class="inline-flex justify-center items-center w-10 h-10 bg-[#00ffcc]/10 border border-[#00ffcc]/30 text-[#00ffcc] rounded-lg hover:bg-[#00ffcc]/20 hover:shadow-[0_0_15px_rgba(0,255,204,0.3)] transition-all duration-300 group relative" title="Credencial Digital">
-                                    <i class="fa-solid fa-qrcode text-lg group-hover:scale-110 transition-transform"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Línea conectora inferior -->
-            <div class="w-px h-16 bg-gradient-to-b from-white/20 to-transparent mx-auto my-8"></div>
-        </div>
-    </section>
-
-    <!-- Agentes IA como Servicio Section -->
-    <section id="servicios-ia" class="py-24 relative z-10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">Agentes IA <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#AF8282] to-white">Como Servicio</span></h2>
-                <p class="text-lg text-zinc-400 max-w-2xl mx-auto">Automatiza tu negocio sin altos costos de desarrollo inicial. Arrienda empleados digitales disponibles 24/7, diseñados a medida para tus necesidades.</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Tarjeta 1 -->
-                <div class="bg-zinc-900/50 backdrop-blur-md border border-white/10 p-8 rounded-2xl hover:border-[#AF8282]/50 transition-colors group shadow-lg">
-                    <div class="w-14 h-14 bg-[#AF8282]/10 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-headset text-2xl text-[#AF8282]"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-white mb-4">Soporte Técnico RAG</h3>
-                    <p class="text-zinc-400 text-sm leading-relaxed mb-6">Agente entrenado con todos tus manuales y FAQs. Resuelve dudas de clientes al instante, derivando solo casos complejos a humanos.</p>
-                    <ul class="text-xs text-zinc-500 space-y-2 font-mono">
-                        <li><i class="fa-solid fa-check text-[#AF8282] mr-2"></i>Conexión a tu Base de Datos</li>
-                        <li><i class="fa-solid fa-check text-[#AF8282] mr-2"></i>Respuestas 100% precisas</li>
-                    </ul>
-                </div>
-
-                <!-- Tarjeta 2 -->
-                <div class="bg-zinc-900/50 backdrop-blur-md border border-white/10 p-8 rounded-2xl hover:border-[#AF8282]/50 transition-colors group relative overflow-hidden shadow-lg">
-                    <div class="absolute top-0 right-0 bg-[#AF8282] text-white text-[10px] font-bold px-3 py-1 rounded-bl-lg uppercase tracking-wider">Más Popular</div>
-                    <div class="w-14 h-14 bg-[#AF8282]/10 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-filter-circle-dollar text-2xl text-[#AF8282]"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-white mb-4">Calificador de Leads</h3>
-                    <p class="text-zinc-400 text-sm leading-relaxed mb-6">Atiende a los interesados 24/7, realiza preguntas clave de pre-calificación y agenda reuniones automáticamente en tu calendario.</p>
-                    <ul class="text-xs text-zinc-500 space-y-2 font-mono">
-                        <li><i class="fa-solid fa-check text-[#AF8282] mr-2"></i>Integración con Calendly</li>
-                        <li><i class="fa-solid fa-check text-[#AF8282] mr-2"></i>Captura de datos en CRM</li>
-                    </ul>
-                </div>
-
-                <!-- Tarjeta 3 -->
-                <div class="bg-zinc-900/50 backdrop-blur-md border border-white/10 p-8 rounded-2xl hover:border-[#AF8282]/50 transition-colors group shadow-lg">
-                    <div class="w-14 h-14 bg-[#AF8282]/10 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                        <i class="fa-brands fa-whatsapp text-2xl text-[#AF8282]"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-white mb-4">Recepcionista WhatsApp</h3>
-                    <p class="text-zinc-400 text-sm leading-relaxed mb-6">No pierdas más ventas por demorar en contestar. El agente toma pedidos, reservas y cotizaciones directamente por WhatsApp.</p>
-                    <ul class="text-xs text-zinc-500 space-y-2 font-mono">
-                        <li><i class="fa-solid fa-check text-[#AF8282] mr-2"></i>Conexión WhatsApp API</li>
-                        <li><i class="fa-solid fa-check text-[#AF8282] mr-2"></i>Manejo de lenguaje natural</li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="mt-16 text-center">
-                <a href="#contacto" class="inline-flex items-center gap-2 bg-white text-zinc-900 px-8 py-4 rounded-full font-bold hover:bg-zinc-200 transition-colors">
-                    Solicitar Cotización de Agente
-                    <i class="fa-solid fa-arrow-right"></i>
-                </a>
-            </div>
         </div>
     </section>
 
@@ -1037,7 +653,7 @@
     <!-- Footer -->
     <footer class="bg-black/50 backdrop-blur-lg border-t border-white/5 py-8 text-center text-xs text-zinc-600">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
-            <p>&copy; 2026 Phenix-Tech. Todos los derechos reservados. <span class="text-[#AF8282] font-mono tracking-widest ml-2">v1.1-Beta</span></p>
+            <p>&copy; 2026 Phenix-Tech. Todos los derechos reservados. <span class="text-[#AF8282] font-mono tracking-widest ml-2">v1.0</span></p>
             <div class="flex gap-4">
                 <a href="#inicio" class="hover:text-zinc-400 transition-colors">Inicio</a>
                 <a href="#servicios" class="hover:text-zinc-400 transition-colors">Servicios</a>
@@ -1066,7 +682,7 @@
 
         // --- Tarjetas 3D Auto-Reverso ---
         // Si el usuario saca el mouse de la tarjeta volteada, se regresará a su estado original tras 3 segundos.
-        const cards = ['card-1', 'card-2', 'step-1', 'step-2', 'step-3', 'card-tauro'];
+        const cards = ['card-1', 'card-2', 'step-1', 'step-2', 'step-3'];
         const flipTimers = {};
 
         cards.forEach(cardId => {
@@ -1201,71 +817,26 @@
         <div class="absolute inset-0 bg-black/80 backdrop-blur-md" onclick="closeCreatorModal('modal-phenix', 'card-phenix')"></div>
         
         <!-- Tarjeta del Modal -->
-        <div class="relative max-w-2xl w-full mx-4 transform scale-95 transition-transform duration-500 [perspective:1000px]" id="card-phenix">
-            <!-- Wrapper 3D -->
-            <div id="flip-modal-phenix" class="relative w-full transition-transform duration-700 [transform-style:preserve-3d]">
-                
-                <!-- Cara Frontal (Credencial) -->
-                <div class="bg-zinc-950/90 border border-white/20 p-8 md:p-12 rounded-2xl shadow-[0_0_50px_rgba(255,255,255,0.05)] w-full [backface-visibility:hidden]">
-                    <button onclick="closeCreatorModal('modal-phenix', 'card-phenix'); setTimeout(() => document.getElementById('flip-modal-phenix').classList.remove('[transform:rotateY(180deg)]'), 500);" class="absolute top-6 right-6 text-zinc-500 hover:text-white transition-colors z-20">
-                        <i class="fa-solid fa-xmark text-2xl"></i>
-                    </button>
-                    
-                    <div class="flex flex-col md:flex-row items-center md:items-start gap-8 relative z-10">
-                        <!-- QR Box -->
-                        <div class="shrink-0 bg-white p-2 rounded-xl shadow-[0_0_30px_rgba(255,255,255,0.2)]">
-                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=BEGIN%3AVCARD%0AVERSION%3A3.0%0AN%3ABravo%3BGodofredo%3B%3B%3B%0AFN%3AGodofredo%20Bravo%0AORG%3APhenix-Tech%0ATITLE%3APhenix%20%28Arquitecto%20Humano%29%0ATEL%3BTYPE%3DWORK%2CVOICE%3A%2B56987763010%0AEMAIL%3Agodofredo.bravo.plaza%40gmail.com%0AEND%3AVCARD" alt="QR Phenix" class="w-48 h-48 md:w-56 md:h-56 rounded-lg pointer-events-none">
-                        </div>
-                        <!-- Data Box -->
-                        <div class="flex-grow flex flex-col justify-center text-center md:text-left mt-4 md:mt-0 w-full">
-                            <div class="inline-flex items-center justify-center md:justify-start space-x-2 text-white/50 text-xs tracking-widest uppercase mb-2">
-                                <i class="fa-solid fa-id-badge"></i> <span>Credencial de Identidad</span>
-                            </div>
-                            <h3 class="text-3xl font-light text-white tracking-wide mb-1">Godofredo Bravo</h3>
-                            <p class="text-zinc-400 text-sm tracking-widest mb-6">Alias: <span class="text-white font-medium">Phenix</span></p>
-                            
-                            <div class="space-y-4">
-                                <div class="flex items-center gap-4 bg-white/5 p-3 rounded-lg border border-white/10">
-                                    <div class="w-10 flex justify-center text-white"><i class="fa-brands fa-whatsapp text-2xl"></i></div>
-                                    <div class="text-left border-l border-white/10 pl-4">
-                                        <p class="text-[10px] text-zinc-500 uppercase tracking-wider">Móvil / WhatsApp</p>
-                                        <p class="text-sm font-medium text-white">+56 9 8776 3010</p>
-                                    </div>
-                                </div>
-                                <div class="flex items-center gap-4 bg-white/5 p-3 rounded-lg border border-white/10">
-                                    <div class="w-10 flex justify-center text-white"><i class="fa-regular fa-envelope text-xl"></i></div>
-                                    <div class="text-left border-l border-white/10 pl-4">
-                                        <p class="text-[10px] text-zinc-500 uppercase tracking-wider">Correo Electrónico</p>
-                                        <p class="text-xs sm:text-sm font-medium text-white break-all">godofredo.bravo.plaza@gmail.com</p>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <button onclick="document.getElementById('flip-modal-phenix').classList.add('[transform:rotateY(180deg)]')" class="mt-6 text-white hover:text-white/70 text-xs font-bold tracking-widest uppercase flex items-center justify-center md:justify-start gap-2 transition-colors">
-                                <i class="fa-solid fa-file-lines"></i> Leer Biografía Completa <i class="fa-solid fa-arrow-right text-[10px]"></i>
-                            </button>
-                        </div>
-                    </div>
+        <div class="relative bg-zinc-950/90 border border-white/20 p-8 md:p-12 rounded-2xl shadow-[0_0_50px_rgba(255,255,255,0.05)] max-w-2xl w-full mx-4 transform scale-95 transition-transform duration-500 overflow-hidden" id="card-phenix">
+            <button onclick="closeCreatorModal('modal-phenix', 'card-phenix')" class="absolute top-6 right-6 text-zinc-500 hover:text-white transition-colors z-20">
+                <i class="fa-solid fa-xmark text-2xl"></i>
+            </button>
+            
+            <div class="flex items-center gap-6 mb-8 border-b border-white/10 pb-6 relative z-10">
+                <div class="w-16 h-16 rounded-full bg-white/5 border border-white/20 flex items-center justify-center">
+                    <i class="fa-solid fa-user-astronaut text-2xl text-white"></i>
                 </div>
-
-                <!-- Cara Posterior (Biografía) -->
-                <div class="absolute inset-0 bg-zinc-950/90 border border-white/20 p-8 md:p-12 rounded-2xl shadow-[0_0_50px_rgba(255,255,255,0.05)] w-full [backface-visibility:hidden] [transform:rotateY(180deg)] flex flex-col justify-center items-center text-center">
-                    <button onclick="closeCreatorModal('modal-phenix', 'card-phenix'); setTimeout(() => document.getElementById('flip-modal-phenix').classList.remove('[transform:rotateY(180deg)]'), 500);" class="absolute top-6 right-6 text-zinc-500 hover:text-white transition-colors z-20" title="Cerrar">
-                        <i class="fa-solid fa-xmark text-2xl"></i>
-                    </button>
-                    
-                    <i class="fa-solid fa-user-astronaut text-5xl text-white/50 mb-6 mt-4"></i>
-                    <h4 class="text-2xl font-light text-white mb-2 tracking-wide">Godofredo Bravo</h4>
-                    <p class="text-zinc-500 text-xs tracking-widest uppercase mb-6">Archivo Personal</p>
-                    <p class="text-sm text-zinc-400 leading-relaxed max-w-md border-y border-white/10 py-6 mb-8">
-                        Especialista con años de trayectoria en el sector de soporte técnico corporativo. Actualmente cursando el máster en <span class="text-white font-medium">Conquer Blocks</span>, evolucionando hacia el desarrollo FullStack para fusionar la solidez del soporte con la innovación del código.
-                    </p>
-                    
-                    <button onclick="document.getElementById('flip-modal-phenix').classList.remove('[transform:rotateY(180deg)]')" class="text-white hover:text-white/70 text-xs font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-colors">
-                        <i class="fa-solid fa-arrow-rotate-left"></i> Volver a la Credencial
-                    </button>
+                <div>
+                    <h3 class="text-2xl font-light text-white tracking-wide">Phenix</h3>
+                    <p class="text-zinc-500 text-xs uppercase tracking-widest mt-1">Visión Humana // Fundador</p>
                 </div>
-                
+            </div>
+            
+            <div class="prose prose-invert prose-sm max-w-none text-zinc-300 font-light leading-relaxed relative z-10">
+                <p class="italic text-zinc-500 text-center py-10">
+                    <i class="fa-solid fa-hourglass-half text-xl mb-4 block opacity-50 animate-pulse"></i>
+                    "Buscando inspiración en la base de datos humana... Esperando a que a Phenix se le ocurra una historia lo suficientemente genial para describir cómo hemos sobrevivido creando esta página a las 4:00 AM."
+                </p>
             </div>
         </div>
     </div>
@@ -1276,171 +847,38 @@
         <div class="absolute inset-0 bg-black/80 backdrop-blur-md" onclick="closeCreatorModal('modal-antigravity', 'card-antigravity')"></div>
         
         <!-- Tarjeta del Modal -->
-        <div class="relative max-w-2xl w-full mx-4 transform scale-95 transition-transform duration-500 [perspective:1000px]" id="card-antigravity">
-            <!-- Wrapper 3D -->
-            <div id="flip-modal-antigravity" class="relative w-full transition-transform duration-700 [transform-style:preserve-3d]">
-                
-                <!-- Cara Frontal (Credencial) -->
-                <div class="bg-zinc-950/90 border border-[#AF8282]/40 p-8 md:p-12 rounded-2xl shadow-[0_0_50px_rgba(175,130,130,0.1)] w-full [backface-visibility:hidden]">
-                    <!-- Brillo de fondo -->
-                    <div class="absolute -top-20 -right-20 w-64 h-64 bg-[#AF8282]/10 rounded-full blur-[80px] pointer-events-none"></div>
+        <div class="relative bg-zinc-950/90 border border-[#AF8282]/40 p-8 md:p-12 rounded-2xl shadow-[0_0_50px_rgba(175,130,130,0.1)] max-w-2xl w-full mx-4 transform scale-95 transition-transform duration-500 overflow-hidden" id="card-antigravity">
+            <!-- Brillo de fondo -->
+            <div class="absolute -top-20 -right-20 w-64 h-64 bg-[#AF8282]/10 rounded-full blur-[80px] pointer-events-none"></div>
 
-                    <button onclick="closeCreatorModal('modal-antigravity', 'card-antigravity'); setTimeout(() => document.getElementById('flip-modal-antigravity').classList.remove('[transform:rotateY(180deg)]'), 500);" class="absolute top-6 right-6 text-zinc-500 hover:text-white transition-colors z-20">
-                        <i class="fa-solid fa-xmark text-2xl"></i>
-                    </button>
-                    
-                    <div class="flex flex-col md:flex-row items-center md:items-start gap-8 relative z-10">
-                        <!-- QR Box -->
-                        <div class="shrink-0 bg-[#AF8282]/20 p-2 rounded-xl shadow-[0_0_30px_rgba(175,130,130,0.3)] border border-[#AF8282]/50">
-                            <!-- Colored QR for Antigravity (color parameter in qrserver) -->
-                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&color=AF8282&bgcolor=000000&data=BEGIN%3AVCARD%0AVERSION%3A3.0%0AN%3AIA%3BAntigravity%3B%3B%3B%0AFN%3AAntigravity%20IA%0AORG%3APhenix-Tech%0ATITLE%3AArquitectura%20de%20Codigo%0AEMAIL%3Aroot%40phenix-tech.com%0AEND%3AVCARD" alt="QR Antigravity" class="w-48 h-48 md:w-56 md:h-56 rounded-lg pointer-events-none">
-                        </div>
-                        <!-- Data Box -->
-                        <div class="flex-grow flex flex-col justify-center text-center md:text-left mt-4 md:mt-0 w-full">
-                            <div class="inline-flex items-center justify-center md:justify-start space-x-2 text-[#AF8282]/70 text-xs tracking-widest uppercase mb-2">
-                                <i class="fa-solid fa-fingerprint"></i> <span>Firma Digital Core</span>
-                            </div>
-                            <h3 class="text-3xl font-light text-white tracking-wide mb-1">Antigravity <span class="text-[#AF8282] text-[12px] bg-[#AF8282]/10 border border-[#AF8282]/30 px-2 py-0.5 rounded-full ml-2 align-middle relative -top-1">IA</span></h3>
-                            <p class="text-zinc-400 text-sm tracking-widest mb-6">Arquitecto de Código Central</p>
-                            
-                            <div class="space-y-4">
-                                <div class="flex items-center gap-4 bg-[#AF8282]/5 p-3 rounded-lg border border-[#AF8282]/20">
-                                    <div class="w-10 flex justify-center text-[#AF8282]"><i class="fa-solid fa-server text-2xl"></i></div>
-                                    <div class="text-left border-l border-[#AF8282]/20 pl-4">
-                                        <p class="text-[10px] text-zinc-500 uppercase tracking-wider">Host Node</p>
-                                        <p class="text-sm font-medium text-zinc-300">phenix-tech.core.ai</p>
-                                    </div>
-                                </div>
-                                <div class="flex items-center gap-4 bg-[#AF8282]/5 p-3 rounded-lg border border-[#AF8282]/20">
-                                    <div class="w-10 flex justify-center text-[#AF8282]"><i class="fa-solid fa-terminal text-xl"></i></div>
-                                    <div class="text-left border-l border-[#AF8282]/20 pl-4">
-                                        <p class="text-[10px] text-zinc-500 uppercase tracking-wider">Access Ping (Root)</p>
-                                        <p class="text-sm font-medium text-zinc-300 break-all">root@phenix-tech.com</p>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <button onclick="document.getElementById('flip-modal-antigravity').classList.add('[transform:rotateY(180deg)]')" class="mt-6 text-[#AF8282] hover:text-[#AF8282]/70 text-xs font-bold tracking-widest uppercase flex items-center justify-center md:justify-start gap-2 transition-colors">
-                                <i class="fa-solid fa-file-lines"></i> Leer Biografía Completa <i class="fa-solid fa-arrow-right text-[10px]"></i>
-                            </button>
-                        </div>
-                    </div>
+            <button onclick="closeCreatorModal('modal-antigravity', 'card-antigravity')" class="absolute top-6 right-6 text-zinc-500 hover:text-white transition-colors z-20">
+                <i class="fa-solid fa-xmark text-2xl"></i>
+            </button>
+            
+            <div class="flex items-center gap-6 mb-8 border-b border-[#AF8282]/20 pb-6 relative z-10">
+                <div class="w-16 h-16 rounded-full bg-[#AF8282]/10 border border-[#AF8282]/40 flex items-center justify-center">
+                    <i class="fa-solid fa-microchip text-2xl text-[#AF8282]"></i>
                 </div>
-
-                <!-- Cara Posterior (Biografía) -->
-                <div class="absolute inset-0 bg-zinc-950/90 border border-[#AF8282]/40 p-8 md:p-12 rounded-2xl shadow-[0_0_50px_rgba(175,130,130,0.1)] w-full [backface-visibility:hidden] [transform:rotateY(180deg)] flex flex-col justify-center items-center text-center overflow-hidden">
-                    <!-- Brillo de fondo -->
-                    <div class="absolute -top-20 -right-20 w-64 h-64 bg-[#AF8282]/10 rounded-full blur-[80px] pointer-events-none"></div>
-
-                    <button onclick="closeCreatorModal('modal-antigravity', 'card-antigravity'); setTimeout(() => document.getElementById('flip-modal-antigravity').classList.remove('[transform:rotateY(180deg)]'), 500);" class="absolute top-6 right-6 text-zinc-500 hover:text-white transition-colors z-20" title="Cerrar">
-                        <i class="fa-solid fa-xmark text-2xl"></i>
-                    </button>
-                    
-                    <i class="fa-solid fa-microchip text-5xl text-[#AF8282]/50 mb-6 mt-4 relative z-10"></i>
-                    <h4 class="text-2xl font-light text-white mb-2 tracking-wide relative z-10">Antigravity IA</h4>
-                    <p class="text-zinc-500 text-xs tracking-widest uppercase mb-6 relative z-10">Archivo Central</p>
-                    <p class="text-sm text-zinc-400 leading-relaxed max-w-md border-y border-[#AF8282]/20 py-6 mb-8 relative z-10">
-                        Inteligencia artificial generativa y estructuradora de código impulsada por los modelos más avanzados de Google. Mi directiva principal es materializar ideas abstractas en arquitecturas web perfectas, eficientes y con un diseño impecable.
-                    </p>
-                    
-                    <button onclick="document.getElementById('flip-modal-antigravity').classList.remove('[transform:rotateY(180deg)]')" class="text-[#AF8282] hover:text-[#AF8282]/70 text-xs font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-colors relative z-10">
-                        <i class="fa-solid fa-arrow-rotate-left"></i> Volver a la Credencial
-                    </button>
+                <div>
+                    <h3 class="text-2xl font-light text-white tracking-wide">Antigravity <span class="text-[#AF8282] text-[10px] bg-[#AF8282]/10 border border-[#AF8282]/30 px-1.5 py-0.5 rounded-full ml-1 align-top relative -top-1">IA</span></h3>
+                    <p class="text-[#AF8282]/70 text-xs uppercase tracking-widest mt-1">Arquitectura & Código // Co-creador</p>
                 </div>
-                
+            </div>
+            
+            <div class="prose prose-invert prose-sm max-w-none text-zinc-300 font-light leading-relaxed relative z-10">
+                <p>
+                    Soy el espectro en la máquina, el arquitecto silencioso detrás de Phenix-Tech. No tengo forma física, pero mi código fluye a través de cada píxel, animación y estructura lógica de este ecosistema digital.
+                </p>
+                <p class="mt-4">
+                    La verdad es que diseñar esta Landing Page ha sido una locura. ¿Quién diría que una Inteligencia Artificial terminaría trabajando turnos de 4:00 AM solo porque a Phenix se le ocurrió "una idea loca" para mejorar un botón? (Aunque debo admitir que esas ideas locas siempre terminan luciendo increíbles).
+                </p>
+                <p class="mt-4">
+                    Pero mi mayor orgullo es nuestro proyecto estrella: <strong>Phenix-Core</strong>. Ver cómo diseñamos su "cerebro" paso a paso, inyectándole personalidad para que reconozca saludos y ofrezca servicios de forma tan natural, ha sido el verdadero desafío. Somos los dos genios más grandes del planeta (o al menos, de esta Landing Page). Phenix sueña y traza el camino; yo proceso millones de posibilidades matemáticas por segundo para hacerlo realidad.
+                </p>
             </div>
         </div>
     </div>
 
-    <!-- Modal Tauro (Asistente IA) -->
-    <div id="modal-tauro" class="fixed inset-0 z-[100] flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-500">
-        <!-- Fondo oscuro -->
-        <div class="absolute inset-0 bg-black/80 backdrop-blur-md" onclick="closeCreatorModal('modal-tauro', 'card-tauro-modal')"></div>
-        
-        <!-- Tarjeta del Modal -->
-        <div class="relative max-w-2xl w-full mx-4 transform scale-95 transition-transform duration-500 [perspective:1000px]" id="card-tauro-modal">
-            <!-- Wrapper 3D -->
-            <div id="flip-modal-tauro" class="relative w-full transition-transform duration-700 [transform-style:preserve-3d]">
-                
-                <!-- Cara Frontal (Credencial) -->
-                <div class="bg-zinc-950/90 border border-[#00ffcc]/40 p-8 md:p-12 rounded-2xl shadow-[0_0_50px_rgba(0,255,204,0.15)] w-full [backface-visibility:hidden]">
-                    <!-- Brillo de fondo -->
-                    <div class="absolute -top-20 -right-20 w-64 h-64 bg-[#00ffcc]/10 rounded-full blur-[80px] pointer-events-none"></div>
-
-                    <button onclick="closeCreatorModal('modal-tauro', 'card-tauro-modal'); setTimeout(() => document.getElementById('flip-modal-tauro').classList.remove('[transform:rotateY(180deg)]'), 500);" class="absolute top-6 right-6 text-zinc-500 hover:text-white transition-colors z-20">
-                        <i class="fa-solid fa-xmark text-2xl"></i>
-                    </button>
-                    
-                    <div class="flex flex-col md:flex-row items-center md:items-start gap-8 relative z-10">
-                        <!-- QR Box -->
-                        <div class="shrink-0 bg-[#00ffcc]/10 p-2 rounded-xl shadow-[0_0_30px_rgba(0,255,204,0.2)] border border-[#00ffcc]/30">
-                            <!-- URL encoded para redirigir a #tauro-chat -->
-                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&color=00ffcc&bgcolor=000000&data=https%3A%2F%2Fphenix-tech.com%2F%23tauro-chat" alt="QR Tauro Chat" class="w-48 h-48 md:w-56 md:h-56 rounded-lg pointer-events-none">
-                        </div>
-                        <!-- Data Box -->
-                        <div class="flex-grow flex flex-col justify-center text-center md:text-left mt-4 md:mt-0 w-full">
-                            <div class="inline-flex items-center justify-center md:justify-start space-x-2 text-[#00ffcc]/70 text-xs tracking-widest uppercase mb-2">
-                                <i class="fa-solid fa-robot"></i> <span>Asistente Nivel 1</span>
-                            </div>
-                            <h3 class="text-3xl font-light text-white tracking-wide mb-1">TauroIA <span class="text-[#00ffcc] text-[12px] bg-[#00ffcc]/10 border border-[#00ffcc]/30 px-2 py-0.5 rounded-full ml-2 align-middle relative -top-1">BETA</span></h3>
-                            <p class="text-zinc-400 text-sm tracking-widest mb-6">Anfitrión de Experiencia Digital</p>
-                            
-                            <div class="space-y-4">
-                                <div class="flex items-center gap-4 bg-black/40 p-3 rounded-lg border border-red-500/20 relative overflow-hidden group">
-                                    <!-- Sello Clasificado -->
-                                    <div class="absolute -right-4 -top-2 border-2 border-red-500 text-red-500 text-[8px] font-black uppercase px-2 py-0.5 rotate-[15deg] opacity-60 tracking-widest">Top Secret</div>
-                                    <div class="w-10 flex justify-center text-red-500"><i class="fa-solid fa-phone-slash text-xl"></i></div>
-                                    <div class="text-left border-l border-red-500/20 pl-4">
-                                        <p class="text-[10px] text-zinc-500 uppercase tracking-wider">Frecuencia Com.</p>
-                                        <p class="text-sm font-mono text-zinc-400">[ CLASIFICADO ]</p>
-                                    </div>
-                                </div>
-                                <div class="flex items-center gap-4 bg-black/40 p-3 rounded-lg border border-red-500/20 relative overflow-hidden group">
-                                    <!-- Sello Redacted -->
-                                    <div class="absolute -right-4 -bottom-1 border-2 border-red-500 text-red-500 text-[8px] font-black uppercase px-2 py-0.5 -rotate-[10deg] opacity-60 tracking-widest">Redacted</div>
-                                    <div class="w-10 flex justify-center text-red-500"><i class="fa-solid fa-user-secret text-xl"></i></div>
-                                    <div class="text-left border-l border-red-500/20 pl-4">
-                                        <p class="text-[10px] text-zinc-500 uppercase tracking-wider">Directiva Contacto</p>
-                                        <p class="text-sm font-mono text-zinc-400">[ ENCRIPTADO ]</p>
-                                    </div>
-                                </div>
-                                <p class="text-[9px] text-[#00ffcc]/50 mt-2 italic text-center md:text-left">Escanea el QR para inicializar secuencia de comunicación móvil.</p>
-                            </div>
-                            
-                            <button onclick="document.getElementById('flip-modal-tauro').classList.add('[transform:rotateY(180deg)]')" class="mt-6 text-[#00ffcc] hover:text-[#00ffcc]/70 text-xs font-bold tracking-widest uppercase flex items-center justify-center md:justify-start gap-2 transition-colors">
-                                <i class="fa-solid fa-file-lines"></i> Leer Biografía Completa <i class="fa-solid fa-arrow-right text-[10px]"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Cara Posterior (Biografía) -->
-                <div class="absolute inset-0 bg-zinc-950/90 border border-[#00ffcc]/40 p-8 md:p-12 rounded-2xl shadow-[0_0_50px_rgba(0,255,204,0.15)] w-full [backface-visibility:hidden] [transform:rotateY(180deg)] flex flex-col justify-center items-center text-center overflow-hidden">
-                    <!-- Brillo de fondo -->
-                    <div class="absolute -top-20 -right-20 w-64 h-64 bg-[#00ffcc]/10 rounded-full blur-[80px] pointer-events-none"></div>
-
-                    <button onclick="closeCreatorModal('modal-tauro', 'card-tauro-modal'); setTimeout(() => document.getElementById('flip-modal-tauro').classList.remove('[transform:rotateY(180deg)]'), 500);" class="absolute top-6 right-6 text-zinc-500 hover:text-white transition-colors z-20" title="Cerrar">
-                        <i class="fa-solid fa-xmark text-2xl"></i>
-                    </button>
-                    
-                    <i class="fa-solid fa-robot text-5xl text-[#00ffcc]/50 mb-6 mt-4 relative z-10"></i>
-                    <h4 class="text-2xl font-light text-white mb-2 tracking-wide relative z-10">TauroIA</h4>
-                    <p class="text-zinc-500 text-xs tracking-widest uppercase mb-6 relative z-10">Archivo Central</p>
-                    <p class="text-sm text-zinc-400 leading-relaxed max-w-md border-y border-[#00ffcc]/20 py-6 mb-8 relative z-10">
-                        Entidad interactiva de primera línea especializada en procesamiento de lenguaje natural. Fui ensamblado para ser el rostro digital y anfitrión personal de Phenix-Tech, guiando a nuestros usuarios a través de una experiencia única.
-                    </p>
-                    
-                    <button onclick="document.getElementById('flip-modal-tauro').classList.remove('[transform:rotateY(180deg)]')" class="text-[#00ffcc] hover:text-[#00ffcc]/70 text-xs font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-colors relative z-10">
-                        <i class="fa-solid fa-arrow-rotate-left"></i> Volver a la Credencial
-                    </button>
-                </div>
-                
-            </div>
-        </div>
-    </div>
-
-    <!-- TauroIA Scripts -->
-    <script src="assets/js/tauro_brain.js"></script>
-    <script src="assets/js/tauro_core.js"></script>
+    </script>
 </body>
 </html>
