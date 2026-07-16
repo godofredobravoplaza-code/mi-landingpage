@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://godofredobravoplaza-code.github.io/mi-landingpage/sitemap.xml
