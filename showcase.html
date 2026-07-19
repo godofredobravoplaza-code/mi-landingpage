@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phenix-Tech | Automatización IA, Páginas Web y Soporte Técnico</title>
+    <link rel="icon" type="image/jpeg" href="assets/phenix_ai_logo.jpg">
+    <meta name="description" content="En Phenix-Tech transformamos tu negocio con Agentes de IA, desarrollo de landing pages impactantes y soporte tecnológico experto. Automatiza tus procesos y crece.">
+    <meta name="keywords" content="IA, tecnología, soporte, landing, automatización IA, desarrollo web, chatbots, Phenix-Tech, agentes inteligentes">
+    <meta name="author" content="Phenix-Tech">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Redes Sociales -->
+    <meta property="og:title" content="Phenix-Tech | Innovación, Web y Automatización IA">
+    <meta property="og:description" content="Lleva tu empresa al futuro con Agentes IA como servicio, diseño de páginas web y soporte técnico integral.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://godofredobravoplaza-code.github.io/mi-landingpage/">
+    <meta property="og:image" content="https://godofredobravoplaza-code.github.io/mi-landingpage/assets/phenix_ai_logo.jpg">
+    
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    keyframes: {
+                        shake: {
+                            '0%, 90%': { transform: 'translateX(0)' },
+                            '92%': { transform: 'translateX(-4px) rotate(-4deg)' },
+                            '94%': { transform: 'translateX(4px) rotate(4deg)' },
+                            '96%': { transform: 'translateX(-4px) rotate(-4deg)' },
+                            '98%': { transform: 'translateX(4px) rotate(4deg)' },
+                            '100%': { transform: 'translateX(0)' },
+                        },
+                        breathe: {
+                            '0%, 100%': { transform: 'scale(1)', opacity: '0.4' },
+                            '50%': { transform: 'scale(1.15)', opacity: '0.8' },
+                        }
+                    },
+                    animation: {
+                        'shake-slow': 'shake 6s ease-in-out infinite',
+                        'breathe-slow': 'breathe 4s ease-in-out infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Solución para el fondo blanco de autocompletado en navegadores (Chrome/Edge/Safari) */
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover, 
+        input:-webkit-autofill:focus, 
+        input:-webkit-autofill:active {
+            transition: background-color 5000s ease-in-out 0s !important;
+            -webkit-text-fill-color: white !important;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Animaciones para Phenix-Core */
+        @keyframes scan {
+            0% { transform: translateY(-20px); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(350px); opacity: 0; }
+        }
+        }
+        .animate-scan { animation: scan 3s linear infinite; }
+        
+        @keyframes bio-scan {
+            0% { transform: translateY(-40px); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(40px); opacity: 0; }
+        }
+        .animate-bio-scan { animation: bio-scan 2s ease-in-out forwards; }
+        
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .animate-slide-in-left { animation: slideInLeft 0.3s ease-out forwards; }
+        .animate-slide-in-right { animation: slideInRight 0.3s ease-out forwards; }
+        
+        /* Efecto Voicebox KITT */
+        @keyframes kitt-eq {
+            0%, 100% { transform: scaleY(0.2); }
+            50% { transform: scaleY(1); }
+        }
+        
+        /* Efecto Cylon Scanner */
+        @keyframes cylon-scan {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+    </style>
+</head>
+<body id="inicio" class="text-zinc-400 antialiased selection:bg-zinc-800 selection:text-white pt-20 relative font-light">
+
+    <!-- Fondo Imagen IA en Sombras -->
+    <div class="fixed inset-0 z-[-3] bg-[url('assets/bg_opcion3.jpg')] bg-cover bg-center grayscale-[50%]"></div>
+    <!-- Filtro oscuro profundo para efecto 'sombra' -->
+    <div class="fixed inset-0 z-[-2] bg-black/80"></div>
+    <!-- Resplandor sutil en la parte inferior central para mantener elegancia -->
+    <div class="fixed inset-x-0 bottom-0 z-[-1] h-[80vh] bg-[radial-gradient(ellipse_at_bottom,_var(--tw-gradient-stops))] from-[#8D6868]/15 via-black/0 to-transparent pointer-events-none"></div>
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 w-full z-50 bg-black/50 backdrop-blur-lg border-b border-white/5 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="index.html#inicio" class="flex items-center gap-4 group">
+                        <div class="relative">
+                            <!-- Aura mágica que pulsa al hacer hover -->
+                            <div class="absolute inset-0 bg-gradient-to-r from-[#AF8282] to-white rounded-full blur-[12px] opacity-0 group-hover:opacity-50 group-hover:animate-pulse transition-all duration-700 pointer-events-none"></div>
+                            <img src="assets/phenix_ai_logo.jpg" alt="Phenix-Tech AI Logo" class="w-12 h-12 md:w-14 md:h-14 rounded-full object-cover border-2 border-white/10 group-hover:border-[#AF8282] transition-all duration-500 group-hover:scale-110 relative z-10">
+                        </div>
+                        <span class="font-medium text-xl md:text-2xl tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-[#AF8282] bg-[length:200%_auto] bg-left transition-all duration-700 group-hover:bg-right">Phenix-Tech</span>
+                    </a>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-6 lg:space-x-8">
+                    <a href="index.html#inicio" class="relative group text-zinc-400 hover:text-white text-sm transition-colors py-1">
+                        Inicio
+                        <span class="absolute left-0 bottom-0 w-full h-[1px] bg-[#AF8282] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
+                    </a>
+                    <a href="index.html#servicios" class="relative group text-zinc-400 hover:text-white text-sm transition-colors py-1">
+                        Servicios
+                        <span class="absolute left-0 bottom-0 w-full h-[1px] bg-[#AF8282] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
+                    </a>
+                    <a href="index.html#servicios-ia" class="relative group text-zinc-400 hover:text-white text-sm transition-colors py-1">
+                        Agentes IA
+                        <span class="absolute left-0 bottom-0 w-full h-[1px] bg-[#AF8282] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
+                    </a>
+                    <a href="index.html#proceso" class="relative group text-zinc-400 hover:text-white text-sm transition-colors py-1">
+                        Proceso
+                        <span class="absolute left-0 bottom-0 w-full h-[1px] bg-[#AF8282] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
+                    </a>
+                    <a href="#" class="relative group text-zinc-400 hover:text-white text-sm transition-colors py-1">
+                        Showcase
+                        <span class="absolute left-0 bottom-0 w-full h-[1px] bg-[#AF8282] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
+                    </a>
+                    <a href="index.html#creadores" class="relative group text-zinc-400 hover:text-white text-sm transition-colors py-1">
+                        Creadores
+                        <span class="absolute left-0 bottom-0 w-full h-[1px] bg-[#AF8282] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
+                    </a>
+                    <a href="index.html#contacto" class="relative group text-zinc-400 hover:text-white text-sm transition-colors py-1">
+                        Contacto
+                        <span class="absolute left-0 bottom-0 w-full h-[1px] bg-[#AF8282] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
+                    </a>
+
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-zinc-400 hover:text-white focus:outline-none p-2 rounded-md transition-colors" aria-label="Toggle menu">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu (Hidden by default) -->
+        <div id="mobile-menu" class="hidden md:hidden bg-black/95 backdrop-blur-xl border-b border-white/5">
+            <div class="px-4 pt-2 pb-6 space-y-1">
+                <a href="index.html#inicio" class="block px-3 py-3 text-sm text-zinc-400 hover:text-white transition-colors border-b border-white/5">Inicio</a>
+                <a href="index.html#servicios" class="block px-3 py-3 text-sm text-zinc-400 hover:text-white transition-colors border-b border-white/5">Servicios</a>
+                <a href="index.html#servicios-ia" class="block px-3 py-3 text-sm text-zinc-400 hover:text-white transition-colors border-b border-white/5">Agentes IA</a>
+                <a href="index.html#proceso" class="block px-3 py-3 text-sm text-zinc-400 hover:text-white transition-colors border-b border-white/5">Proceso</a>
+                <a href="#" class="block px-3 py-3 text-sm text-zinc-400 hover:text-white transition-colors border-b border-white/5">Showcase</a>
+                <a href="index.html#creadores" class="block px-3 py-3 text-sm text-zinc-400 hover:text-white transition-colors border-b border-white/5">Creadores</a>
+                <a href="index.html#contacto" class="block px-3 py-3 text-sm text-zinc-400 hover:text-white transition-colors border-b border-white/5">Contacto</a>
+
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <main class="relative min-h-[calc(100vh-5rem)] pb-12">
+        <!-- Header Spacing -->
+        <div class="pt-32 pb-12 relative z-10 text-center">
+            <h1 class="text-4xl md:text-5xl font-light text-white mb-4 tracking-tight">Catálogo de <span class="font-bold text-[#AF8282]">Estilos Arquitectónicos</span></h1>
+            <p class="text-zinc-400 text-sm md:text-lg max-w-2xl mx-auto px-4">Explora nuestra colección curada de diseños web premium. Elige el estilo que mejor represente a tu marca y nosotros lo construimos con tecnología de punta.</p>
+        </div>
+
+        <!-- Filters -->
+        <div class="relative z-10 flex flex-wrap justify-center gap-3 px-4 mb-16">
+            <button class="px-5 py-2 rounded-full border border-[#AF8282] bg-[#AF8282]/20 text-white text-sm font-medium transition-all">Todos</button>
+            <button class="px-5 py-2 rounded-full border border-white/10 hover:border-[#AF8282]/50 hover:bg-[#AF8282]/10 text-zinc-400 hover:text-white text-sm font-medium transition-all">E-Commerce</button>
+            <button class="px-5 py-2 rounded-full border border-white/10 hover:border-[#AF8282]/50 hover:bg-[#AF8282]/10 text-zinc-400 hover:text-white text-sm font-medium transition-all">SaaS / Dashboards</button>
+            <button class="px-5 py-2 rounded-full border border-white/10 hover:border-[#AF8282]/50 hover:bg-[#AF8282]/10 text-zinc-400 hover:text-white text-sm font-medium transition-all">Portafolios</button>
+        </div>
+
+        <!-- Grid de Plantillas -->
+        <section class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Plantilla 1 -->
+                <div class="group bg-zinc-900/50 rounded-2xl overflow-hidden border border-white/10 hover:border-[#AF8282]/50 transition-colors shadow-lg">
+                    <div class="relative aspect-[4/3] overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800" alt="SaaS Noir" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <a href="https://html5up.net/uploads/demos/solid-state/" target="_blank" class="px-5 py-3 bg-white/10 backdrop-blur-md rounded-lg border border-white/20 text-white font-medium hover:bg-white hover:text-black transition-all hover:scale-105">
+                                <i class="fa-solid fa-laptop mr-2"></i> Ver Demo en Vivo
+                            </a>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="text-xs font-bold text-[#b535f6] mb-3 uppercase tracking-widest bg-[#b535f6]/10 inline-block px-2 py-1 rounded border border-[#b535f6]/30">SaaS / Dashboards</div>
+                        <h3 class="text-xl font-bold text-white mb-2">SaaS Noir</h3>
+                        <p class="text-zinc-400 text-sm mb-6">Modo oscuro inmersivo, superficies de cristal líquido y acentos de neón para software corporativo.</p>
+                        <a href="https://wa.me/56987763010?text=Hola,%20quiero%20cotizar%20una%20web%20con%20el%20diseño%20SaaS%20Noir" target="_blank" class="block w-full text-center px-4 py-3 rounded-lg bg-gradient-to-r from-[#7a4c4c] to-[#AF8282] text-white font-bold hover:shadow-[0_0_20px_rgba(175,130,130,0.6)] transition-all duration-300 hover:-translate-y-1">
+                            <i class="fa-brands fa-whatsapp mr-2"></i> ¡Quiero este estilo!
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Plantilla 2 -->
+                <div class="group bg-zinc-900/50 rounded-2xl overflow-hidden border border-white/10 hover:border-[#AF8282]/50 transition-colors shadow-lg">
+                    <div class="relative aspect-[4/3] overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&q=80&w=800" alt="Kinetic Fashion" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <a href="https://html5up.net/uploads/demos/multiverse/" target="_blank" class="px-5 py-3 bg-white/10 backdrop-blur-md rounded-lg border border-white/20 text-white font-medium hover:bg-white hover:text-black transition-all hover:scale-105">
+                                <i class="fa-solid fa-laptop mr-2"></i> Ver Demo en Vivo
+                            </a>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="text-xs font-bold text-emerald-400 mb-3 uppercase tracking-widest bg-emerald-400/10 inline-block px-2 py-1 rounded border border-emerald-400/30">Moda / Corporativo</div>
+                        <h3 class="text-xl font-serif font-bold text-white mb-2">Kinetic Fashion</h3>
+                        <p class="text-zinc-400 text-sm mb-6">Fotografía amplia, tipografía elegante y diseño minimalista enfocado en impacto visual limpio.</p>
+                        <a href="https://wa.me/56987763010?text=Hola,%20quiero%20cotizar%20una%20web%20con%20el%20diseño%20Kinetic%20Fashion" target="_blank" class="block w-full text-center px-4 py-3 rounded-lg bg-gradient-to-r from-[#7a4c4c] to-[#AF8282] text-white font-bold hover:shadow-[0_0_20px_rgba(175,130,130,0.6)] transition-all duration-300 hover:-translate-y-1">
+                            <i class="fa-brands fa-whatsapp mr-2"></i> ¡Quiero este estilo!
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Plantilla 3 -->
+                <div class="group bg-zinc-900/50 rounded-2xl overflow-hidden border border-white/10 hover:border-[#AF8282]/50 transition-colors shadow-lg">
+                    <div class="relative aspect-[4/3] overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800" alt="E-Commerce Pro" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <a href="https://html5up.net/uploads/demos/phantom/" target="_blank" class="px-5 py-3 bg-white/10 backdrop-blur-md rounded-lg border border-white/20 text-white font-medium hover:bg-white hover:text-black transition-all hover:scale-105">
+                                <i class="fa-solid fa-laptop mr-2"></i> Ver Demo en Vivo
+                            </a>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="text-xs font-bold text-orange-400 mb-3 uppercase tracking-widest bg-orange-400/10 inline-block px-2 py-1 rounded border border-orange-400/30">E-Commerce</div>
+                        <h3 class="text-xl font-bold text-white mb-2">Pro Level Store</h3>
+                        <p class="text-zinc-400 text-sm mb-6">Diseñado para maximizar conversiones. Tarjetas de producto limpias y llamadas a la acción claras.</p>
+                        <a href="https://wa.me/56987763010?text=Hola,%20quiero%20cotizar%20una%20web%20con%20el%20diseño%20Pro%20Level%20Store" target="_blank" class="block w-full text-center px-4 py-3 rounded-lg bg-gradient-to-r from-[#7a4c4c] to-[#AF8282] text-white font-bold hover:shadow-[0_0_20px_rgba(175,130,130,0.6)] transition-all duration-300 hover:-translate-y-1">
+                            <i class="fa-brands fa-whatsapp mr-2"></i> ¡Quiero este estilo!
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Plantilla 4 -->
+                <div class="group bg-zinc-900/50 rounded-2xl overflow-hidden border border-white/10 hover:border-[#AF8282]/50 transition-colors shadow-lg">
+                    <div class="relative aspect-[4/3] overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=800" alt="Tech Agency" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <a href="https://html5up.net/uploads/demos/forty/" target="_blank" class="px-5 py-3 bg-white/10 backdrop-blur-md rounded-lg border border-white/20 text-white font-medium hover:bg-white hover:text-black transition-all hover:scale-105">
+                                <i class="fa-solid fa-laptop mr-2"></i> Ver Demo en Vivo
+                            </a>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="text-xs font-bold text-blue-400 mb-3 uppercase tracking-widest bg-blue-400/10 inline-block px-2 py-1 rounded border border-blue-400/30">Portafolios / Startups</div>
+                        <h3 class="text-xl font-bold text-white mb-2">Tech Innovator</h3>
+                        <p class="text-zinc-400 text-sm mb-6">Ideal para agencias. Colores vibrantes en fondos oscuros y enfoque en proyectos tecnológicos.</p>
+                        <a href="https://wa.me/56987763010?text=Hola,%20quiero%20cotizar%20una%20web%20con%20el%20diseño%20Tech%20Innovator" target="_blank" class="block w-full text-center px-4 py-3 rounded-lg bg-gradient-to-r from-[#7a4c4c] to-[#AF8282] text-white font-bold hover:shadow-[0_0_20px_rgba(175,130,130,0.6)] transition-all duration-300 hover:-translate-y-1">
+                            <i class="fa-brands fa-whatsapp mr-2"></i> ¡Quiero este estilo!
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+    <footer class="bg-black/50 backdrop-blur-lg border-t border-white/5 py-8 text-center text-xs text-zinc-600">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p>&copy; 2026 Phenix-Tech. Todos los derechos reservados. <span class="text-[#AF8282] font-mono tracking-widest ml-2">v1.1-Beta</span></p>
+            <div class="flex gap-4">
+                <a href="index.html#inicio" class="hover:text-zinc-400 transition-colors">Inicio</a>
+                <a href="index.html#servicios" class="hover:text-zinc-400 transition-colors">Servicios</a>
+                <a href="index.html#contacto" class="hover:text-zinc-400 transition-colors">Contacto</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // --- Menú Móvil ---
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        const icon = btn.querySelector('i');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+            if (menu.classList.contains('hidden')) {
+                icon.classList.remove('fa-xmark');
+                icon.classList.add('fa-bars');
+            } else {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-xmark');
+            }
+        });
+
+        // --- Tarjetas 3D Auto-Reverso ---
+        // Si el usuario saca el mouse de la tarjeta volteada, se regresará a su estado original tras 3 segundos.
+        const cards = ['card-1', 'card-2', 'step-1', 'step-2', 'step-3', 'card-tauro'];
+        const flipTimers = {};
+
+        cards.forEach(cardId => {
+            const cardElement = document.getElementById(cardId);
+            if (!cardElement) return;
+
+            // Cuando el mouse sale de la tarjeta
+            cardElement.addEventListener('mouseleave', () => {
+                // Solo inicia el temporizador si la tarjeta está volteada
+                if (cardElement.classList.contains('[transform:rotateY(180deg)]')) {
+                    flipTimers[cardId] = setTimeout(() => {
+                        cardElement.classList.remove('[transform:rotateY(180deg)]');
+                    }, 3000); // 3000 milisegundos = 3 segundos
+                }
+            });
+
+            // Si el mouse vuelve a entrar antes de los 3 segundos, cancelamos el giro automático
+            cardElement.addEventListener('mouseenter', () => {
+                if (flipTimers[cardId]) {
+                    clearTimeout(flipTimers[cardId]);
+                    delete flipTimers[cardId];
+                }
+            });
+        });
+
+        // --- Animación Botón Enviar y AJAX ---
+        const contactForm = document.querySelector('form[action="https://api.web3forms.com/submit"]');
+        const successModal = document.getElementById('success-modal');
+        const successCard = document.getElementById('success-card');
+        const countdownEl = document.getElementById('countdown');
+
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault(); // Detener el envío automático que recarga la página
+                
+                // Obtener el primer nombre del usuario para personalizar el mensaje
+                const nombreCompleto = document.getElementById('nombre').value;
+                const primerNombre = nombreCompleto.split(' ')[0];
+                document.getElementById('success-name').innerText = primerNombre;
+                
+                const btn = document.getElementById('submit-btn');
+                const btnText = document.getElementById('submit-text');
+                const btnIcon = document.getElementById('submit-icon');
+                
+                // Guardar estado original
+                const originalText = btnText.innerText;
+                const originalIconClass = btnIcon.className;
+                const originalBtnClass = btn.className;
+                
+                // Cambiar estado a "Enviando..."
+                btnText.innerText = "Enviando con prioridad!!!";
+                btnIcon.className = "fa-solid fa-spinner fa-spin ml-2"; // Icono de carga
+                
+                // Cambiar botón a color corporativo y efecto de pulso
+                btn.className = "w-full inline-flex items-center justify-center px-8 py-3.5 text-sm font-bold text-white bg-[#AF8282] rounded-lg transition-all duration-300 ease-out animate-pulse shadow-[0_0_20px_rgba(175,130,130,0.6)]";
+                
+                // Esperar 3 segundos antes de enviar realmente
+                setTimeout(() => {
+                    // Recolectar datos del formulario
+                    const formData = new FormData(contactForm);
+                    
+                    // Enviar vía AJAX (fetch) para no salir de la página
+                    fetch(contactForm.action, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    })
+                    .then(response => {
+                        if(response.ok) {
+                            // Restaurar botón y limpiar formulario
+                            btnText.innerText = originalText;
+                            btnIcon.className = originalIconClass;
+                            btn.className = originalBtnClass;
+                            contactForm.reset();
+                            
+                            // Mostrar Modal de Éxito
+                            successModal.classList.remove('opacity-0', 'pointer-events-none');
+                            successCard.classList.remove('scale-95');
+                            successCard.classList.add('scale-100');
+                            
+                            // Iniciar cuenta regresiva
+                            let timeLeft = 6;
+                            countdownEl.innerText = timeLeft;
+                            
+                            const timer = setInterval(() => {
+                                timeLeft--;
+                                countdownEl.innerText = timeLeft;
+                                if(timeLeft <= 0) {
+                                    clearInterval(timer);
+                                    // Ocultar Modal
+                                    successModal.classList.add('opacity-0', 'pointer-events-none');
+                                    successCard.classList.remove('scale-100');
+                                    successCard.classList.add('scale-95');
+                                }
+                            }, 1000);
+                        } else {
+                            throw new Error('Error en la respuesta del servidor');
+                        }
+                    })
+                    .catch(error => {
+                        alert("Hubo un error al enviar el mensaje. Por favor intenta contactarnos por WhatsApp.");
+                        btnText.innerText = originalText;
+                        btnIcon.className = originalIconClass;
+                        btn.className = originalBtnClass;
+                    });
+                }, 3000);
+            });
+        }
+
+        function openCreatorModal(modalId, cardId) {
+            const modal = document.getElementById(modalId);
+            const card = document.getElementById(cardId);
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            card.classList.remove('scale-95');
+            card.classList.add('scale-100');
+        }
+
+        function closeCreatorModal(modalId, cardId) {
+            const modal = document.getElementById(modalId);
+            const card = document.getElementById(cardId);
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            card.classList.remove('scale-100');
+            card.classList.add('scale-95');
+        }
+    </script>
+
+    <!-- Modal Phenix (Humano) -->
+    <div id="modal-phenix" class="fixed inset-0 z-[100] flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-500">
+        <!-- Fondo oscuro -->
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-md" onclick="closeCreatorModal('modal-phenix', 'card-phenix')"></div>
+        
+        <!-- Tarjeta del Modal -->
+        <div class="relative max-w-2xl w-full mx-4 transform scale-95 transition-transform duration-500 [perspective:1000px]" id="card-phenix">
+            <!-- Wrapper 3D -->
+            <div id="flip-modal-phenix" class="relative w-full transition-transform duration-700 [transform-style:preserve-3d]">
+                
+                <!-- Cara Frontal (Credencial) -->
+                <div class="bg-zinc-950/90 border border-white/20 p-8 md:p-12 rounded-2xl shadow-[0_0_50px_rgba(255,255,255,0.05)] w-full [backface-visibility:hidden]">
+                    <button onclick="closeCreatorModal('modal-phenix', 'card-phenix'); setTimeout(() => document.getElementById('flip-modal-phenix').classList.remove('[transform:rotateY(180deg)]'), 500);" class="absolute top-6 right-6 text-zinc-500 hover:text-white transition-colors z-20">
+                        <i class="fa-solid fa-xmark text-2xl"></i>
+                    </button>
+                    
+                    <div class="flex flex-col md:flex-row items-center md:items-start gap-8 relative z-10">
+                        <!-- QR Box -->
+                        <div class="shrink-0 bg-white p-2 rounded-xl shadow-[0_0_30px_rgba(255,255,255,0.2)]">
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=BEGIN%3AVCARD%0AVERSION%3A3.0%0AN%3ABravo%3BGodofredo%3B%3B%3B%0AFN%3AGodofredo%20Bravo%0AORG%3APhenix-Tech%0ATITLE%3APhenix%20%28Arquitecto%20Humano%29%0ATEL%3BTYPE%3DWORK%2CVOICE%3A%2B56987763010%0AEMAIL%3Agodofredo.bravo.plaza%40gmail.com%0AEND%3AVCARD" alt="QR Phenix" class="w-48 h-48 md:w-56 md:h-56 rounded-lg pointer-events-none">
+                        </div>
+                        <!-- Data Box -->
+                        <div class="flex-grow flex flex-col justify-center text-center md:text-left mt-4 md:mt-0 w-full">
+                            <div class="inline-flex items-center justify-center md:justify-start space-x-2 text-white/50 text-xs tracking-widest uppercase mb-2">
+                                <i class="fa-solid fa-id-badge"></i> <span>Credencial de Identidad</span>
+                            </div>
+                            <h3 class="text-3xl font-light text-white tracking-wide mb-1">Godofredo Bravo</h3>
+                            <p class="text-zinc-400 text-sm tracking-widest mb-6">Alias: <span class="text-white font-medium">Phenix</span></p>
+                            
+                            <div class="space-y-4">
+                                <div class="flex items-center gap-4 bg-white/5 p-3 rounded-lg border border-white/10">
+                                    <div class="w-10 flex justify-center text-white"><i class="fa-brands fa-whatsapp text-2xl"></i></div>
+                                    <div class="text-left border-l border-white/10 pl-4">
+                                        <p class="text-[10px] text-zinc-500 uppercase tracking-wider">Móvil / WhatsApp</p>
+                                        <p class="text-sm font-medium text-white">+56 9 8776 3010</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-4 bg-white/5 p-3 rounded-lg border border-white/10">
+                                    <div class="w-10 flex justify-center text-white"><i class="fa-regular fa-envelope text-xl"></i></div>
+                                    <div class="text-left border-l border-white/10 pl-4">
+                                        <p class="text-[10px] text-zinc-500 uppercase tracking-wider">Correo Electrónico</p>
+                                        <p class="text-xs sm:text-sm font-medium text-white break-all">godofredo.bravo.plaza@gmail.com</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <button onclick="document.getElementById('flip-modal-phenix').classList.add('[transform:rotateY(180deg)]')" class="mt-6 text-white hover:text-white/70 text-xs font-bold tracking-widest uppercase flex items-center justify-center md:justify-start gap-2 transition-colors">
+                                <i class="fa-solid fa-file-lines"></i> Leer Biografía Completa <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cara Posterior (Biografía) -->
+                <div class="absolute inset-0 bg-zinc-950/90 border border-white/20 p-8 md:p-12 rounded-2xl shadow-[0_0_50px_rgba(255,255,255,0.05)] w-full [backface-visibility:hidden] [transform:rotateY(180deg)] flex flex-col justify-center items-center text-center">
+                    <button onclick="closeCreatorModal('modal-phenix', 'card-phenix'); setTimeout(() => document.getElementById('flip-modal-phenix').classList.remove('[transform:rotateY(180deg)]'), 500);" class="absolute top-6 right-6 text-zinc-500 hover:text-white transition-colors z-20" title="Cerrar">
+                        <i class="fa-solid fa-xmark text-2xl"></i>
+                    </button>
+                    
+                    <i class="fa-solid fa-user-astronaut text-5xl text-white/50 mb-6 mt-4"></i>
+                    <h4 class="text-2xl font-light text-white mb-2 tracking-wide">Godofredo Bravo</h4>
+                    <p class="text-zinc-500 text-xs tracking-widest uppercase mb-6">Archivo Personal</p>
+                    <p class="text-sm text-zinc-400 leading-relaxed max-w-md border-y border-white/10 py-6 mb-8">
+                        Especialista con años de trayectoria en el sector de soporte técnico corporativo. Actualmente cursando el máster en <span class="text-white font-medium">Conquer Blocks</span>, evolucionando hacia el desarrollo FullStack para fusionar la solidez del soporte con la innovación del código.
+                    </p>
+                    
+                    <button onclick="document.getElementById('flip-modal-phenix').classList.remove('[transform:rotateY(180deg)]')" class="text-white hover:text-white/70 text-xs font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-colors">
+                        <i class="fa-solid fa-arrow-rotate-left"></i> Volver a la Credencial
+                    </button>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Antigravity (IA) -->
+    <div id="modal-antigravity" class="fixed inset-0 z-[100] flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-500">
+        <!-- Fondo oscuro -->
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-md" onclick="closeCreatorModal('modal-antigravity', 'card-antigravity')"></div>
+        
+        <!-- Tarjeta del Modal -->
+        <div class="relative max-w-2xl w-full mx-4 transform scale-95 transition-transform duration-500 [perspective:1000px]" id="card-antigravity">
+            <!-- Wrapper 3D -->
+            <div id="flip-modal-antigravity" class="relative w-full transition-transform duration-700 [transform-style:preserve-3d]">
+                
+                <!-- Cara Frontal (Credencial) -->
+                <div class="bg-zinc-950/90 border border-[#AF8282]/40 p-8 md:p-12 rounded-2xl shadow-[0_0_50px_rgba(175,130,130,0.1)] w-full [backface-visibility:hidden]">
+                    <!-- Brillo de fondo -->
+                    <div class="absolute -top-20 -right-20 w-64 h-64 bg-[#AF8282]/10 rounded-full blur-[80px] pointer-events-none"></div>
+
+                    <button onclick="closeCreatorModal('modal-antigravity', 'card-antigravity'); setTimeout(() => document.getElementById('flip-modal-antigravity').classList.remove('[transform:rotateY(180deg)]'), 500);" class="absolute top-6 right-6 text-zinc-500 hover:text-white transition-colors z-20">
+                        <i class="fa-solid fa-xmark text-2xl"></i>
+                    </button>
+                    
+                    <div class="flex flex-col md:flex-row items-center md:items-start gap-8 relative z-10">
+                        <!-- QR Box -->
+                        <div class="shrink-0 bg-[#AF8282]/20 p-2 rounded-xl shadow-[0_0_30px_rgba(175,130,130,0.3)] border border-[#AF8282]/50">
+                            <!-- Colored QR for Antigravity (color parameter in qrserver) -->
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&color=AF8282&bgcolor=000000&data=BEGIN%3AVCARD%0AVERSION%3A3.0%0AN%3AIA%3BAntigravity%3B%3B%3B%0AFN%3AAntigravity%20IA%0AORG%3APhenix-Tech%0ATITLE%3AArquitectura%20de%20Codigo%0AEMAIL%3Aroot%40phenix-tech.com%0AEND%3AVCARD" alt="QR Antigravity" class="w-48 h-48 md:w-56 md:h-56 rounded-lg pointer-events-none">
+                        </div>
+                        <!-- Data Box -->
+                        <div class="flex-grow flex flex-col justify-center text-center md:text-left mt-4 md:mt-0 w-full">
+                            <div class="inline-flex items-center justify-center md:justify-start space-x-2 text-[#AF8282]/70 text-xs tracking-widest uppercase mb-2">
+                                <i class="fa-solid fa-fingerprint"></i> <span>Firma Digital Core</span>
+                            </div>
+                            <h3 class="text-3xl font-light text-white tracking-wide mb-1">Antigravity <span class="text-[#AF8282] text-[12px] bg-[#AF8282]/10 border border-[#AF8282]/30 px-2 py-0.5 rounded-full ml-2 align-middle relative -top-1">IA</span></h3>
+                            <p class="text-zinc-400 text-sm tracking-widest mb-6">Arquitecto de Código Central</p>
+                            
+                            <div class="space-y-4">
+                                <div class="flex items-center gap-4 bg-[#AF8282]/5 p-3 rounded-lg border border-[#AF8282]/20">
+                                    <div class="w-10 flex justify-center text-[#AF8282]"><i class="fa-solid fa-server text-2xl"></i></div>
+                                    <div class="text-left border-l border-[#AF8282]/20 pl-4">
+                                        <p class="text-[10px] text-zinc-500 uppercase tracking-wider">Host Node</p>
+                                        <p class="text-sm font-medium text-zinc-300">phenix-tech.core.ai</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-4 bg-[#AF8282]/5 p-3 rounded-lg border border-[#AF8282]/20">
+                                    <div class="w-10 flex justify-center text-[#AF8282]"><i class="fa-solid fa-terminal text-xl"></i></div>
+                                    <div class="text-left border-l border-[#AF8282]/20 pl-4">
+                                        <p class="text-[10px] text-zinc-500 uppercase tracking-wider">Access Ping (Root)</p>
+                                        <p class="text-sm font-medium text-zinc-300 break-all">root@phenix-tech.com</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <button onclick="document.getElementById('flip-modal-antigravity').classList.add('[transform:rotateY(180deg)]')" class="mt-6 text-[#AF8282] hover:text-[#AF8282]/70 text-xs font-bold tracking-widest uppercase flex items-center justify-center md:justify-start gap-2 transition-colors">
+                                <i class="fa-solid fa-file-lines"></i> Leer Biografía Completa <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cara Posterior (Biografía) -->
+                <div class="absolute inset-0 bg-zinc-950/90 border border-[#AF8282]/40 p-8 md:p-12 rounded-2xl shadow-[0_0_50px_rgba(175,130,130,0.1)] w-full [backface-visibility:hidden] [transform:rotateY(180deg)] flex flex-col justify-center items-center text-center overflow-hidden">
+                    <!-- Brillo de fondo -->
+                    <div class="absolute -top-20 -right-20 w-64 h-64 bg-[#AF8282]/10 rounded-full blur-[80px] pointer-events-none"></div>
+
+                    <button onclick="closeCreatorModal('modal-antigravity', 'card-antigravity'); setTimeout(() => document.getElementById('flip-modal-antigravity').classList.remove('[transform:rotateY(180deg)]'), 500);" class="absolute top-6 right-6 text-zinc-500 hover:text-white transition-colors z-20" title="Cerrar">
+                        <i class="fa-solid fa-xmark text-2xl"></i>
+                    </button>
+                    
+                    <i class="fa-solid fa-microchip text-5xl text-[#AF8282]/50 mb-6 mt-4 relative z-10"></i>
+                    <h4 class="text-2xl font-light text-white mb-2 tracking-wide relative z-10">Antigravity IA</h4>
+                    <p class="text-zinc-500 text-xs tracking-widest uppercase mb-6 relative z-10">Archivo Central</p>
+                    <p class="text-sm text-zinc-400 leading-relaxed max-w-md border-y border-[#AF8282]/20 py-6 mb-8 relative z-10">
+                        Inteligencia artificial generativa y estructuradora de código impulsada por los modelos más avanzados de Google. Mi directiva principal es materializar ideas abstractas en arquitecturas web perfectas, eficientes y con un diseño impecable.
+                    </p>
+                    
+                    <button onclick="document.getElementById('flip-modal-antigravity').classList.remove('[transform:rotateY(180deg)]')" class="text-[#AF8282] hover:text-[#AF8282]/70 text-xs font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-colors relative z-10">
+                        <i class="fa-solid fa-arrow-rotate-left"></i> Volver a la Credencial
+                    </button>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+
+</body>
+</html>
