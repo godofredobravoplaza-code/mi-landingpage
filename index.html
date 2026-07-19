@@ -26,6 +26,24 @@
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
                     },
+                    keyframes: {
+                        shake: {
+                            '0%, 90%': { transform: 'translateX(0)' },
+                            '92%': { transform: 'translateX(-4px) rotate(-4deg)' },
+                            '94%': { transform: 'translateX(4px) rotate(4deg)' },
+                            '96%': { transform: 'translateX(-4px) rotate(-4deg)' },
+                            '98%': { transform: 'translateX(4px) rotate(4deg)' },
+                            '100%': { transform: 'translateX(0)' },
+                        },
+                        breathe: {
+                            '0%, 100%': { transform: 'scale(1)', opacity: '0.4' },
+                            '50%': { transform: 'scale(1.15)', opacity: '0.8' },
+                        }
+                    },
+                    animation: {
+                        'shake-slow': 'shake 6s ease-in-out infinite',
+                        'breathe-slow': 'breathe 4s ease-in-out infinite',
+                    }
                 }
             }
         }
@@ -575,6 +593,25 @@
                     #showcase-slider::-webkit-scrollbar { display: none; }
                 </style>
                 
+                <!-- Card 0: Agente Social Media -->
+                <a href="https://www.instagram.com/phenix_tech580/" target="_blank" class="group relative flex-none w-[85vw] md:w-[60vw] lg:w-[45vw] aspect-[4/3] rounded-2xl overflow-hidden bg-black border border-white/10 hover:border-[#bc1888]/50 transition-colors duration-500 shadow-[0_0_30px_rgba(0,0,0,0.5)] snap-center">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent z-10"></div>
+                    <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&q=80&w=800')] bg-cover bg-center opacity-40 group-hover:scale-110 group-hover:opacity-60 transition-all duration-700"></div>
+                    <div class="absolute bottom-0 left-0 p-6 md:p-10 z-20 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                        <div class="text-xs font-bold text-white mb-3 uppercase tracking-widest bg-gradient-to-r from-[#f09433] via-[#dc2743] to-[#bc1888] inline-block px-3 py-1.5 rounded border border-white/20">Caso de Éxito / Social Media</div>
+                        <h3 class="text-3xl font-bold text-white mb-3">Agente Community Manager</h3>
+                        <p class="text-zinc-300 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 max-w-sm">Nuestro agente IA autónomo diseña, redacta y publica contenido diario en nuestro propio Instagram. Haz clic para verlo trabajar en vivo.</p>
+                    </div>
+                    <div class="absolute top-6 right-6 z-20 w-12 h-12 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <i class="fa-brands fa-instagram text-white text-xl"></i>
+                    </div>
+                    <!-- Live indicator pulse -->
+                    <div class="absolute top-6 left-6 z-20 flex items-center gap-2 bg-black/50 backdrop-blur-md px-3 py-1 rounded-full border border-white/10">
+                        <div class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
+                        <span class="text-[10px] text-white font-bold tracking-wider uppercase">Live AI</span>
+                    </div>
+                </a>
+
                 <!-- Card 1: SaaS Noir -->
                 <a href="templates/saas-noir.html" target="_blank" class="group relative flex-none w-[85vw] md:w-[60vw] lg:w-[45vw] aspect-[4/3] rounded-2xl overflow-hidden bg-black border border-white/10 hover:border-[#b535f6]/50 transition-colors duration-500 shadow-[0_0_30px_rgba(0,0,0,0.5)] snap-center">
                     <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent z-10"></div>
@@ -956,12 +993,34 @@
         </div>
     </div>
 
+    <!-- Botón Flotante de Instagram (IA) -->
+    <a href="https://www.instagram.com/phenix_tech580/" target="_blank" rel="noopener noreferrer" 
+       class="fixed bottom-24 right-6 z-[89] group flex items-center justify-center">
+        
+        <!-- Efecto Resplandor (Breathe) -->
+        <div class="absolute inset-0 bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] rounded-full animate-breathe-slow transition-opacity duration-300"></div>
+        
+        <!-- Contenedor principal -->
+        <div class="relative flex items-center bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] rounded-full p-3.5 shadow-[0_0_20px_rgba(220,39,67,0.4)] group-hover:shadow-[0_0_30px_rgba(220,39,67,0.8)] transition-all duration-300 overflow-hidden cursor-pointer hover:-translate-y-1">
+            
+            <i class="fa-brands fa-instagram text-white text-3xl w-[30px] h-[30px] flex items-center justify-center z-10 relative"></i>
+            
+            <!-- Texto que se revela al pasar el mouse -->
+            <div class="max-w-0 overflow-hidden group-hover:max-w-[200px] transition-all duration-500 ease-in-out flex items-center">
+                <span class="text-white font-bold text-sm whitespace-nowrap pl-3 relative z-10">¡Mira la IA en acción!</span>
+            </div>
+            
+            <!-- Brillo láser de hover -->
+            <div class="absolute inset-0 h-full w-0 bg-white/20 group-hover:w-full transition-all duration-700 ease-out skew-x-12 -ml-4 pointer-events-none"></div>
+        </div>
+    </a>
+
     <!-- Botón Flotante de WhatsApp -->
     <a href="https://wa.me/56987763010?text=Hola%20Phenix-Tech,%20necesito%20asistencia%20inmediata" target="_blank" rel="noopener noreferrer" 
-       class="fixed bottom-6 right-6 z-[90] group flex items-center justify-center">
+       class="fixed bottom-6 right-6 z-[90] group flex items-center justify-center animate-shake-slow">
         
-        <!-- Efecto de pulso (Aura) -->
-        <div class="absolute inset-0 bg-[#AF8282] rounded-full animate-ping opacity-30 group-hover:opacity-0 transition-opacity duration-300"></div>
+        <!-- Quitamos el aura ping para dejar el diseño más limpio y centrar la atención en el zumbido -->
+        <div class="absolute inset-0 bg-[#AF8282] rounded-full opacity-0 transition-opacity duration-300"></div>
         
         <!-- Contenedor principal -->
         <div class="relative flex items-center bg-gradient-to-r from-[#7a4c4c] to-[#AF8282] rounded-full p-3.5 shadow-[0_0_20px_rgba(175,130,130,0.4)] group-hover:shadow-[0_0_30px_rgba(175,130,130,0.8)] transition-all duration-300 overflow-hidden cursor-pointer hover:-translate-y-1">
