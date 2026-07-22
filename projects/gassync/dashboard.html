@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CertiGas AI - Dashboard Analítico</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { navy: { 800: '#1e293b', 900: '#0f172a', 950: '#020617' } },
+                    fontFamily: { sans: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+        
+        .gantt-bar {
+            background-size: 2rem 2rem;
+            background-image: linear-gradient(45deg, rgba(255,255,255,.1) 25%, transparent 25%, transparent 50%, rgba(255,255,255,.1) 50%, rgba(255,255,255,.1) 75%, transparent 75%, transparent);
+            animation: moveStripes 2s linear infinite;
+        }
+        @keyframes moveStripes {
+            0% { background-position: 0 0; }
+            100% { background-position: 2rem 0; }
+        }
+    </style>
+</head>
+<body class="bg-navy-900 text-slate-300 font-sans h-screen overflow-hidden flex">
+
+    <!-- Sidebar -->
+    <aside class="w-64 bg-navy-950 border-r border-slate-800 flex flex-col transition-all duration-300 z-20">
+        <div class="h-20 flex items-center px-6 border-b border-slate-800">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="window.location.href='login.html'">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-400 to-orange-600 shadow-lg shadow-orange-500/20 flex items-center justify-center">
+                    <i class="fa-solid fa-fire-flame-curved text-white text-lg"></i>
+                </div>
+                <span class="text-xl font-bold text-white tracking-tight">CertiGas <span class="text-orange-500">AI</span></span>
+            </div>
+        </div>
+        <nav class="flex-1 py-6 px-4 space-y-2 overflow-y-auto">
+            <a href="dashboard.html" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-orange-500/10 text-orange-500 font-semibold border border-orange-500/20 shadow-sm transition-colors">
+                <i class="fa-solid fa-chart-pie w-5"></i>
+                <span>Resumen Analítico</span>
+            </a>
+            <a href="directorio.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/50 transition-colors">
+                <i class="fa-solid fa-building-user w-5"></i>
+                <span class="font-medium">Directorio de Clientes</span>
+            </a>
+            <a href="inspectors.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/50 transition-colors">
+                <i class="fa-solid fa-hard-hat w-5"></i>
+                <span class="font-medium">Inspectores (Dispatch)</span>
+            </a>
+            <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/50 transition-colors">
+                <i class="fa-solid fa-file-invoice-dollar w-5"></i>
+                <span class="font-medium">Cotizaciones</span>
+            </a>
+        </nav>
+        <div class="p-4 border-t border-slate-800">
+            <div class="flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-800/30 border border-slate-700/50">
+                <div class="w-10 h-10 rounded-full bg-blue-900 flex items-center justify-center border border-blue-700 text-blue-300 font-bold">GA</div>
+                <div class="flex-1 overflow-hidden">
+                    <p class="text-sm font-semibold text-white truncate">Gast Admin</p>
+                    <p class="text-xs text-slate-400 truncate">admin@gast.cl</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col h-screen overflow-hidden relative">
+        <div class="absolute top-0 right-1/4 w-[500px] h-[500px] bg-orange-600/5 rounded-full mix-blend-screen filter blur-[120px] pointer-events-none"></div>
+
+        <!-- Topbar -->
+        <header class="h-20 flex items-center justify-between px-8 border-b border-slate-800/50 z-10 bg-navy-900/80 backdrop-blur-md">
+            <div>
+                <h1 class="text-2xl font-bold text-white">Dashboard Analítico</h1>
+                <p class="text-sm text-slate-400">KPIs de Inspección Técnica y Gestión de Proyectos SEC.</p>
+            </div>
+            <div class="flex items-center gap-4">
+                <button class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white text-sm font-bold rounded-lg border border-slate-700 transition-colors flex items-center gap-2">
+                    <i class="fa-solid fa-download"></i> Exportar Reporte
+                </button>
+            </div>
+        </header>
+
+        <!-- Contenido -->
+        <div class="flex-1 overflow-y-auto p-8 z-10 space-y-8">
+            
+            <!-- Fila 1: KPIs de Industria -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <!-- KPI 1 -->
+                <div class="glass-card rounded-2xl p-6 relative overflow-hidden group">
+                    <div class="absolute -right-4 -top-4 w-24 h-24 bg-emerald-500/10 rounded-full blur-xl group-hover:bg-emerald-500/20 transition-colors"></div>
+                    <div class="flex justify-between items-start mb-4">
+                        <div><p class="text-xs font-bold text-slate-500 uppercase tracking-wider">First-Time Yield</p><h3 class="text-3xl font-bold text-white mt-1">87%</h3></div>
+                        <div class="w-10 h-10 rounded-xl bg-emerald-500/20 flex items-center justify-center text-emerald-400"><i class="fa-solid fa-check-double"></i></div>
+                    </div>
+                    <div class="flex items-center text-xs text-slate-400"><span class="text-emerald-400 font-bold mr-1"><i class="fa-solid fa-arrow-trend-up"></i> +4%</span> Sello Verde en 1ra visita</div>
+                </div>
+
+                <!-- KPI 2 -->
+                <div class="glass-card rounded-2xl p-6 relative overflow-hidden group">
+                    <div class="absolute -right-4 -top-4 w-24 h-24 bg-blue-500/10 rounded-full blur-xl group-hover:bg-blue-500/20 transition-colors"></div>
+                    <div class="flex justify-between items-start mb-4">
+                        <div><p class="text-xs font-bold text-slate-500 uppercase tracking-wider">Efec. de Visitas</p><h3 class="text-3xl font-bold text-white mt-1">94%</h3></div>
+                        <div class="w-10 h-10 rounded-xl bg-blue-500/20 flex items-center justify-center text-blue-400"><i class="fa-solid fa-location-dot"></i></div>
+                    </div>
+                    <div class="flex items-center text-xs text-slate-400"><span class="text-blue-400 font-bold mr-1"><i class="fa-solid fa-calendar-check"></i> 142/150</span> Agendadas vs Ejecutadas</div>
+                </div>
+
+                <!-- KPI 3 -->
+                <div class="glass-card rounded-2xl p-6 relative overflow-hidden group">
+                    <div class="absolute -right-4 -top-4 w-24 h-24 bg-purple-500/10 rounded-full blur-xl group-hover:bg-purple-500/20 transition-colors"></div>
+                    <div class="flex justify-between items-start mb-4">
+                        <div><p class="text-xs font-bold text-slate-500 uppercase tracking-wider">Lead Time Prom.</p><h3 class="text-3xl font-bold text-white mt-1">4.2 <span class="text-lg text-slate-400">días</span></h3></div>
+                        <div class="w-10 h-10 rounded-xl bg-purple-500/20 flex items-center justify-center text-purple-400"><i class="fa-solid fa-stopwatch"></i></div>
+                    </div>
+                    <div class="flex items-center text-xs text-slate-400"><span class="text-purple-400 font-bold mr-1"><i class="fa-solid fa-arrow-trend-down"></i> -1.5d</span> Desde inspección a Sello</div>
+                </div>
+
+                <!-- KPI 4 -->
+                <div class="glass-card rounded-2xl p-6 relative overflow-hidden group">
+                    <div class="absolute -right-4 -top-4 w-24 h-24 bg-orange-500/10 rounded-full blur-xl group-hover:bg-orange-500/20 transition-colors"></div>
+                    <div class="flex justify-between items-start mb-4">
+                        <div><p class="text-xs font-bold text-slate-500 uppercase tracking-wider">Proyectos Activos</p><h3 class="text-3xl font-bold text-white mt-1">12</h3></div>
+                        <div class="w-10 h-10 rounded-xl bg-orange-500/20 flex items-center justify-center text-orange-400"><i class="fa-solid fa-folder-tree"></i></div>
+                    </div>
+                    <div class="flex items-center text-xs text-slate-400"><span class="text-orange-400 font-bold mr-1"><i class="fa-solid fa-industry"></i> 3 Ind</span> | 4 Com | 5 Res</div>
+                </div>
+            </div>
+
+            <!-- Fila 2: Carta Gantt Dinámica -->
+            <div class="glass-card rounded-2xl border border-slate-700/50 p-6 flex flex-col min-h-[400px]">
+                <div class="flex justify-between items-center mb-6">
+                    <div>
+                        <h2 class="text-lg font-bold text-white">Carta Gantt de Proyectos SEC</h2>
+                        <p class="text-xs text-slate-400 mt-1">Control visual del pipeline de inspección y certificación.</p>
+                    </div>
+                    
+                    <div class="flex gap-4 items-center bg-navy-950 p-2 rounded-xl border border-slate-800">
+                        <label class="text-sm text-slate-400 ml-2"><i class="fa-solid fa-filter text-slate-500 mr-1"></i> Rubro:</label>
+                        <select id="filter-rubro" onchange="renderGantt()" class="bg-slate-800 border-none rounded-lg text-sm text-white font-medium focus:ring-0 p-1.5 px-3">
+                            <option value="industrial">Industrial / Público (Largo Plazo)</option>
+                            <option value="residencial">Residencial / Comercial (Corto Plazo)</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="flex-1 bg-navy-950/50 rounded-xl border border-slate-800 p-4 overflow-x-auto relative">
+                    
+                    <!-- Eje de Tiempo (Columnas) -->
+                    <div id="gantt-header" class="grid grid-cols-8 gap-2 mb-4 border-b border-slate-800 pb-2 min-w-[700px]">
+                        <!-- Se llena con JS -->
+                    </div>
+                    
+                    <!-- Lineas de Grid verticales de fondo -->
+                    <div class="absolute inset-0 top-[3.5rem] bottom-4 left-4 right-4 grid grid-cols-8 gap-2 pointer-events-none min-w-[700px]">
+                        <div class="border-l border-slate-800/50"></div>
+                        <div class="border-l border-slate-800/50"></div>
+                        <div class="border-l border-slate-800/50"></div>
+                        <div class="border-l border-slate-800/50"></div>
+                        <div class="border-l border-slate-800/50"></div>
+                        <div class="border-l border-slate-800/50"></div>
+                        <div class="border-l border-slate-800/50"></div>
+                        <div class="border-l border-slate-800/50"></div>
+                    </div>
+
+                    <!-- Proyectos / Barras -->
+                    <div id="gantt-body" class="space-y-4 min-w-[700px] relative z-10">
+                        <!-- Se llena con JS -->
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        // Datos de proyectos simulados
+        const projects = {
+            "industrial": {
+                scaleLabel: "Semana",
+                totalCols: 8,
+                items: [
+                    { name: "Hospital San José (TC5)", desc: "12 Salas de calderas", colStart: 1, colSpan: 5, color: "bg-teal-600", progress: 60, status: "En Terreno" },
+                    { name: "Cerámicas BioBío S.A.", desc: "Red industrial 4 bar", colStart: 3, colSpan: 6, color: "bg-purple-600", progress: 30, status: "Diseño SEC" },
+                    { name: "Planta Nestlé Macul", desc: "Renovación 5 años", colStart: 5, colSpan: 4, color: "bg-orange-600", progress: 10, status: "Agendado" }
+                ]
+            },
+            "residencial": {
+                scaleLabel: "Día",
+                totalCols: 8,
+                items: [
+                    { name: "Condominio Las Rosas", desc: "145 Deptos", colStart: 1, colSpan: 2, color: "bg-blue-600", progress: 100, status: "Sello Verde" },
+                    { name: "Edificio Los Alerces", desc: "Regularización", colStart: 2, colSpan: 3, color: "bg-red-600", progress: 80, status: "Reparando Fuga" },
+                    { name: "Restaurante La Parrilla", desc: "Cocina comercial", colStart: 4, colSpan: 2, color: "bg-indigo-600", progress: 50, status: "En Terreno" },
+                    { name: "Edificio Vista Hermosa", desc: "Cert. Periódica", colStart: 6, colSpan: 2, color: "bg-blue-500", progress: 0, status: "Agendado" }
+                ]
+            }
+        };
+
+        function renderGantt() {
+            const filter = document.getElementById("filter-rubro").value;
+            const data = projects[filter];
+            
+            const headerEl = document.getElementById("gantt-header");
+            const bodyEl = document.getElementById("gantt-body");
+
+            // Limpiar
+            headerEl.innerHTML = '';
+            bodyEl.innerHTML = '';
+
+            // 1. Render Header (Scale)
+            for (let i = 1; i <= data.totalCols; i++) {
+                headerEl.innerHTML += `
+                    <div class="text-center text-xs font-bold text-slate-500 uppercase tracking-wider">
+                        ${data.scaleLabel} ${i}
+                    </div>
+                `;
+            }
+
+            // 2. Render Bars
+            data.items.forEach(proj => {
+                // Calcular estilos de Grid para la barra
+                // colStart indica en qué columna empieza (1 a 8). colSpan es cuánto abarca.
+                const gridStyle = `grid-column: ${proj.colStart} / span ${proj.colSpan};`;
+                
+                // Efecto animado si está en curso, sólido si terminó
+                const barClass = proj.progress < 100 && proj.progress > 0 ? "gantt-bar" : "";
+                
+                // Badge de status
+                let statusBadge = "";
+                if (proj.status === "Sello Verde") statusBadge = `<i class="fa-solid fa-check-circle text-emerald-400"></i>`;
+                else if (proj.status === "Agendado") statusBadge = `<i class="fa-regular fa-calendar text-slate-400"></i>`;
+                else if (proj.status.includes("Reparando")) statusBadge = `<i class="fa-solid fa-triangle-exclamation text-yellow-400"></i>`;
+                else statusBadge = `<i class="fa-solid fa-person-digging text-white"></i>`;
+
+                bodyEl.innerHTML += `
+                    <div class="grid grid-cols-8 gap-2 group">
+                        <div onclick="openProjectModal('${proj.name}', '${proj.status}')" class="relative h-14 rounded-lg shadow-md flex flex-col justify-center px-4 overflow-hidden ${proj.color} hover:brightness-110 transition-all cursor-pointer border border-white/10" style="${gridStyle}">
+                            
+                            <!-- Progress Background -->
+                            <div class="absolute left-0 top-0 bottom-0 bg-black/20 ${barClass}" style="width: ${proj.progress}%;"></div>
+                            
+                            <!-- Content -->
+                            <div class="relative z-10 flex justify-between items-center">
+                                <div>
+                                    <h4 class="text-white font-bold text-sm truncate drop-shadow-md">${proj.name}</h4>
+                                    <p class="text-white/70 text-xs truncate drop-shadow-md">${proj.desc}</p>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-xs font-bold text-white/90 bg-black/20 px-2 py-0.5 rounded shadow-sm">${proj.progress}%</span>
+                                    ${statusBadge}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // Init initial state
+        window.onload = () => {
+            renderGantt();
+        };
+
+        // --- Modal & Simulator Logic ---
+        let currentBaseLeadTime = 7.0;
+        let simulatedLeadTime = 7.0;
+
+        function openProjectModal(name, status) {
+            document.getElementById('modal-project-title').textContent = name;
+            
+            // Set status badge style
+            const statusEl = document.getElementById('modal-project-status');
+            statusEl.textContent = status;
+            statusEl.className = 'px-3 py-1 rounded-full text-xs font-bold border ';
+            if (status === 'Sello Verde') statusEl.classList.add('bg-emerald-500/10', 'text-emerald-400', 'border-emerald-500/20');
+            else if (status.includes('Reparando')) statusEl.classList.add('bg-red-500/10', 'text-red-400', 'border-red-500/20');
+            else if (status === 'Agendado') statusEl.classList.add('bg-slate-500/10', 'text-slate-400', 'border-slate-500/20');
+            else statusEl.classList.add('bg-indigo-500/10', 'text-indigo-400', 'border-indigo-500/20');
+
+            // Reset simulation
+            simulateAction('reset');
+
+            document.getElementById('project-modal').classList.remove('hidden');
+        }
+
+        function closeProjectModal() {
+            document.getElementById('project-modal').classList.add('hidden');
+        }
+
+        function simulateAction(action) {
+            const leadTimeEl = document.getElementById('sim-lead-time');
+            const indicatorEl = document.getElementById('sim-indicator');
+            const inspectorList = document.getElementById('inspector-list');
+
+            if (action === 'reset') {
+                simulatedLeadTime = currentBaseLeadTime;
+                
+                // Reset inspectors HTML
+                inspectorList.innerHTML = `
+                    <div class="flex items-center gap-3 p-3 rounded-xl bg-slate-800/50 border border-slate-700/50 w-64" id="inspector-1">
+                        <img src="https://ui-avatars.com/api/?name=Juan+Perez&background=0D8ABC&color=fff" class="w-10 h-10 rounded-full" alt="Inspector">
+                        <div>
+                            <p class="text-sm font-bold text-white">Juan Pérez</p>
+                            <p class="text-xs text-slate-400">Inspector Clase 2 (Jefe)</p>
+                        </div>
+                    </div>
+                `;
+            } else if (action === 'add_inspector') {
+                if (simulatedLeadTime <= 2) return; // limit
+                simulatedLeadTime -= 1.5;
+                
+                // Add an inspector visually
+                if (!document.getElementById('inspector-2')) {
+                    inspectorList.innerHTML += `
+                        <div class="flex items-center gap-3 p-3 rounded-xl bg-indigo-900/30 border border-indigo-500/50 w-64 animate-pulse" id="inspector-2">
+                            <img src="https://ui-avatars.com/api/?name=Ana+Gomez&background=F59E0B&color=fff" class="w-10 h-10 rounded-full" alt="Inspector">
+                            <div>
+                                <p class="text-sm font-bold text-white">Ana Gómez</p>
+                                <p class="text-xs text-indigo-300">Apoyo Terreno</p>
+                            </div>
+                        </div>
+                    `;
+                }
+            } else if (action === 'report_delay') {
+                simulatedLeadTime += 2.0;
+            }
+
+            // Update UI
+            leadTimeEl.textContent = simulatedLeadTime.toFixed(1);
+
+            // Update Indicator Color/Icon
+            if (simulatedLeadTime < currentBaseLeadTime) {
+                indicatorEl.className = 'w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-sm transition-colors';
+                indicatorEl.innerHTML = '<i class="fa-solid fa-arrow-down"></i>';
+                leadTimeEl.parentElement.className = "text-2xl font-bold text-emerald-400 mt-1 flex items-baseline gap-1 transition-colors";
+            } else if (simulatedLeadTime > currentBaseLeadTime) {
+                indicatorEl.className = 'w-8 h-8 rounded-full bg-red-500/20 text-red-400 flex items-center justify-center text-sm transition-colors';
+                indicatorEl.innerHTML = '<i class="fa-solid fa-arrow-up"></i>';
+                leadTimeEl.parentElement.className = "text-2xl font-bold text-red-400 mt-1 flex items-baseline gap-1 transition-colors";
+            } else {
+                indicatorEl.className = 'w-8 h-8 rounded-full bg-slate-800 text-slate-500 flex items-center justify-center text-sm transition-colors';
+                indicatorEl.innerHTML = '<i class="fa-solid fa-minus"></i>';
+                leadTimeEl.parentElement.className = "text-2xl font-bold text-white mt-1 flex items-baseline gap-1 transition-colors";
+            }
+        }
+    </script>
+
+    <!-- Modal Detalle de Proyecto -->
+    <div id="project-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-navy-950/80 backdrop-blur-sm cursor-pointer" onclick="closeProjectModal()"></div>
+        
+        <!-- Modal Content -->
+        <div class="glass-card relative w-full max-w-5xl rounded-2xl shadow-2xl border border-slate-700 overflow-hidden flex flex-col max-h-[90vh] mx-4 animate-[fadeIn_0.2s_ease-out]">
+            <!-- Modal Header -->
+            <div class="px-8 py-5 border-b border-slate-700/50 bg-navy-900/50 flex justify-between items-center">
+                <div>
+                    <h2 id="modal-project-title" class="text-2xl font-bold text-white">Nombre del Proyecto</h2>
+                    <p class="text-sm text-slate-400 mt-1">Inspección Técnica y Certificación SEC</p>
+                </div>
+                <div class="flex items-center gap-4">
+                    <span id="modal-project-status" class="px-3 py-1 rounded-full bg-slate-800 text-xs font-bold border border-slate-700">Estado</span>
+                    <button onclick="closeProjectModal()" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 flex items-center justify-center transition-colors">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="flex-1 overflow-y-auto p-8 flex flex-col lg:flex-row gap-8">
+                <!-- Izquierda: Puntos de Control e Inspectores (60%) -->
+                <div class="flex-1 space-y-8">
+                    <!-- Inspectores -->
+                    <div>
+                        <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2"><i class="fa-solid fa-hard-hat text-orange-500"></i> Equipo en Terreno</h3>
+                        <div class="flex flex-wrap gap-4" id="inspector-list">
+                            <!-- Se llena por JS al hacer reset -->
+                        </div>
+                    </div>
+
+                    <!-- Checklist ITO -->
+                    <div>
+                        <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2"><i class="fa-solid fa-list-check text-blue-500"></i> Puntos de Control Estratégicos</h3>
+                        <div class="space-y-3">
+                            <label class="flex items-center gap-4 p-4 rounded-xl bg-slate-800/30 border border-slate-700/50 cursor-pointer hover:bg-slate-800/60 transition-colors">
+                                <input type="checkbox" checked class="w-5 h-5 rounded border-slate-600 text-emerald-500 focus:ring-emerald-500 bg-slate-900">
+                                <div class="flex-1">
+                                    <p class="text-sm font-bold text-white">Revisión Documental</p>
+                                    <p class="text-xs text-slate-400">Planos, memorias y certificaciones de materiales.</p>
+                                </div>
+                            </label>
+                            <label class="flex items-center gap-4 p-4 rounded-xl bg-slate-800/30 border border-slate-700/50 cursor-pointer hover:bg-slate-800/60 transition-colors">
+                                <input type="checkbox" class="w-5 h-5 rounded border-slate-600 text-emerald-500 focus:ring-emerald-500 bg-slate-900">
+                                <div class="flex-1">
+                                    <p class="text-sm font-bold text-white">Verificación de Instalación</p>
+                                    <p class="text-xs text-slate-400">Trazados, ventilaciones y distancias normativas.</p>
+                                </div>
+                            </label>
+                            <label class="flex items-center gap-4 p-4 rounded-xl bg-slate-800/30 border border-slate-700/50 cursor-pointer hover:bg-slate-800/60 transition-colors">
+                                <input type="checkbox" class="w-5 h-5 rounded border-slate-600 text-emerald-500 focus:ring-emerald-500 bg-slate-900">
+                                <div class="flex-1">
+                                    <p class="text-sm font-bold text-white">Pruebas de Hermeticidad</p>
+                                    <p class="text-xs text-slate-400">Control con manómetro (baja/alta presión).</p>
+                                </div>
+                            </label>
+                            <label class="flex items-center gap-4 p-4 rounded-xl bg-slate-800/30 border border-slate-700/50 cursor-pointer hover:bg-slate-800/60 transition-colors opacity-60">
+                                <input type="checkbox" class="w-5 h-5 rounded border-slate-600 text-emerald-500 focus:ring-emerald-500 bg-slate-900">
+                                <div class="flex-1">
+                                    <p class="text-sm font-bold text-slate-400">Emisión SEC (TC5/TC6)</p>
+                                    <p class="text-xs text-slate-500">Carga de expediente en portal CIIGe.</p>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Derecha: Simulador Predictivo (40%) -->
+                <div class="w-full lg:w-[350px] flex flex-col gap-6">
+                    <div class="p-6 rounded-2xl bg-gradient-to-br from-slate-800 to-navy-900 border border-purple-500/30 relative overflow-hidden shadow-lg shadow-purple-500/10">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-purple-500/20 rounded-full blur-2xl"></div>
+                        
+                        <h3 class="text-md font-bold text-white mb-2 flex items-center gap-2"><i class="fa-solid fa-wand-magic-sparkles text-purple-400"></i> Simulador Predictivo</h3>
+                        <p class="text-xs text-slate-400 mb-6">Proyecta el impacto en los KPIs antes de guardar los cambios.</p>
+
+                        <!-- Live KPI -->
+                        <div class="mb-6 bg-slate-950/50 rounded-xl p-4 border border-slate-800 flex justify-between items-center">
+                            <div>
+                                <p class="text-xs font-bold text-slate-500 uppercase">Lead Time Proyectado</p>
+                                <p class="text-2xl font-bold text-white mt-1 flex items-baseline gap-1 transition-colors">
+                                    <span id="sim-lead-time">7.0</span> <span class="text-sm text-slate-400 font-normal">días</span>
+                                </p>
+                            </div>
+                            <div id="sim-indicator" class="w-8 h-8 rounded-full bg-slate-800 text-slate-500 flex items-center justify-center text-sm transition-colors">
+                                <i class="fa-solid fa-minus"></i>
+                            </div>
+                        </div>
+
+                        <!-- Actions -->
+                        <div class="space-y-3 relative z-10">
+                            <button onclick="simulateAction('add_inspector')" class="w-full px-4 py-3 bg-slate-800 hover:bg-slate-700 rounded-xl text-sm font-semibold text-white border border-slate-700 transition-all flex justify-between items-center group">
+                                <span><i class="fa-solid fa-user-plus text-emerald-400 mr-2"></i> + Inspector Refuerzo</span>
+                                <span class="text-xs text-slate-500 group-hover:text-emerald-400 transition-colors">-1.5d</span>
+                            </button>
+                            <button onclick="simulateAction('report_delay')" class="w-full px-4 py-3 bg-slate-800 hover:bg-slate-700 rounded-xl text-sm font-semibold text-white border border-slate-700 transition-all flex justify-between items-center group">
+                                <span><i class="fa-solid fa-cloud-rain text-yellow-400 mr-2"></i> Retraso (Clima)</span>
+                                <span class="text-xs text-slate-500 group-hover:text-yellow-400 transition-colors">+2.0d</span>
+                            </button>
+                            <button onclick="simulateAction('reset')" class="w-full px-4 py-2 text-xs text-slate-400 hover:text-white transition-colors underline text-center mt-2">
+                                Restablecer
+                            </button>
+                        </div>
+                    </div>
+
+                    <button onclick="closeProjectModal()" class="w-full py-4 rounded-xl bg-orange-600 hover:bg-orange-500 text-white font-bold shadow-lg shadow-orange-600/20 transition-colors">
+                        Guardar Cambios
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

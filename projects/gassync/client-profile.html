@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CertiGas AI - Perfil Cliente</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { navy: { 800: '#1e293b', 900: '#0f172a', 950: '#020617' } },
+                    fontFamily: { sans: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+    </style>
+</head>
+<body class="bg-navy-900 text-slate-300 font-sans h-screen overflow-hidden flex">
+
+    <!-- Sidebar -->
+    <aside class="w-64 bg-navy-950 border-r border-slate-800 flex flex-col transition-all duration-300">
+        <div class="h-20 flex items-center px-6 border-b border-slate-800">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="window.location.href='dashboard.html'">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-400 to-orange-600 shadow-lg shadow-orange-500/20 flex items-center justify-center">
+                    <i class="fa-solid fa-fire-flame-curved text-white text-lg"></i>
+                </div>
+                <span class="text-xl font-bold text-white tracking-tight">CertiGas <span class="text-orange-500">AI</span></span>
+            </div>
+        </div>
+        <nav class="flex-1 py-6 px-4 space-y-2 overflow-y-auto">
+            <a href="directorio.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/50 transition-colors">
+                <i class="fa-solid fa-arrow-left w-5"></i>
+                <span class="font-medium">Volver al Directorio</span>
+            </a>
+            <div class="pt-4 pb-2 px-4">
+                <p class="text-xs font-bold text-slate-500 uppercase tracking-wider">Perfil Actual</p>
+            </div>
+            <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-orange-500/10 text-orange-500 font-semibold border border-orange-500/20 shadow-sm transition-colors">
+                <i class="fa-solid fa-chart-line w-5"></i>
+                <span>Vista 360°</span>
+            </a>
+            <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/50 transition-colors">
+                <i class="fa-regular fa-folder-open w-5"></i>
+                <span class="font-medium">Documentos (TC-6)</span>
+            </a>
+            <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/50 transition-colors">
+                <i class="fa-solid fa-file-invoice-dollar w-5"></i>
+                <span class="font-medium">Historial Pagos</span>
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col h-screen overflow-hidden relative">
+        <div class="absolute top-0 left-0 w-[600px] h-[600px] bg-red-600/5 rounded-full mix-blend-screen filter blur-[120px] pointer-events-none"></div>
+
+        <!-- Header: Cliente -->
+        <header class="h-24 flex items-center justify-between px-8 border-b border-slate-800/50 z-10 bg-navy-900/80 backdrop-blur-md">
+            <div class="flex items-center gap-5">
+                <div class="w-14 h-14 rounded-2xl bg-indigo-500/10 flex items-center justify-center text-indigo-400 border border-indigo-500/20 text-2xl shadow-lg">
+                    <i class="fa-solid fa-utensils"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold text-white flex items-center gap-3">
+                        La Parrilla de Juan
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-red-500/10 text-red-400 text-xs font-bold border border-red-500/20">
+                            <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span> Sello Vencido
+                        </span>
+                    </h1>
+                    <div class="flex items-center gap-4 mt-1 text-sm text-slate-400">
+                        <span class="flex items-center gap-1"><i class="fa-solid fa-tag text-slate-500"></i> Comercial - Restaurante</span>
+                        <span class="text-slate-600">|</span>
+                        <span class="flex items-center gap-1"><i class="fa-solid fa-location-dot text-slate-500"></i> Av. Providencia 1234, Santiago</span>
+                    </div>
+                </div>
+            </div>
+            <div class="flex gap-3">
+                <button class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white text-sm font-semibold rounded-lg border border-slate-700 transition-colors">
+                    <i class="fa-regular fa-calendar-plus mr-2"></i> Agendar Inspección
+                </button>
+                <button class="px-4 py-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-400 hover:to-orange-500 text-white text-sm font-bold rounded-lg shadow-lg shadow-orange-500/20 transition-transform hover:-translate-y-0.5">
+                    <i class="fa-solid fa-file-signature mr-2"></i> Generar Cotización
+                </button>
+            </div>
+        </header>
+
+        <!-- Contenido 360 -->
+        <div class="flex-1 overflow-y-auto p-8 z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                
+                <!-- Columna Izquierda: Detalles y Puntos -->
+                <div class="lg:col-span-2 space-y-6">
+                    
+                    <!-- Puntos de Inspección -->
+                    <div class="glass-card rounded-2xl border border-slate-700/50 p-6">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                                <i class="fa-solid fa-fire-burner text-orange-500"></i> Puntos de Inspección (8 Artefactos)
+                            </h2>
+                            <button onclick="openBlueprintModal()" class="text-sm text-orange-400 hover:text-orange-300 font-medium transition-colors"><i class="fa-solid fa-map-location-dot mr-1"></i> Ver Plano SEC</button>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Artefacto 1 -->
+                            <div class="bg-navy-950 rounded-xl p-4 border border-slate-800">
+                                <div class="flex justify-between items-start">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-lg bg-slate-800 flex items-center justify-center text-slate-400"><i class="fa-solid fa-sink"></i></div>
+                                        <div>
+                                            <p class="font-bold text-white text-sm">Cocina Industrial Principal</p>
+                                            <p class="text-xs text-slate-500">Ubicación: Cocina Piso 1</p>
+                                        </div>
+                                    </div>
+                                    <span class="w-3 h-3 rounded-full bg-red-500 mt-1 shadow-[0_0_8px_rgba(239,68,68,0.6)]"></span>
+                                </div>
+                                <div class="mt-3 text-xs text-red-400 bg-red-500/10 border border-red-500/20 rounded-md p-2">
+                                    <i class="fa-solid fa-triangle-exclamation mr-1"></i> Fuga detectada en llave de paso. Requiere reparación urgente.
+                                </div>
+                            </div>
+
+                            <!-- Artefacto 2 -->
+                            <div class="bg-navy-950 rounded-xl p-4 border border-slate-800">
+                                <div class="flex justify-between items-start">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-lg bg-slate-800 flex items-center justify-center text-slate-400"><i class="fa-solid fa-fire"></i></div>
+                                        <div>
+                                            <p class="font-bold text-white text-sm">Horno Pizzero (Gas Natural)</p>
+                                            <p class="text-xs text-slate-500">Ubicación: Cocina Piso 1</p>
+                                        </div>
+                                    </div>
+                                    <span class="w-3 h-3 rounded-full bg-emerald-500 mt-1"></span>
+                                </div>
+                            </div>
+
+                             <!-- Artefacto 3 -->
+                             <div class="bg-navy-950 rounded-xl p-4 border border-slate-800">
+                                <div class="flex justify-between items-start">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-lg bg-slate-800 flex items-center justify-center text-slate-400"><i class="fa-solid fa-fan"></i></div>
+                                        <div>
+                                            <p class="font-bold text-white text-sm">Campana de Ventilación</p>
+                                            <p class="text-xs text-slate-500">Ubicación: Techo Cocina</p>
+                                        </div>
+                                    </div>
+                                    <span class="w-3 h-3 rounded-full bg-emerald-500 mt-1"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Datos Comerciales y Contacto -->
+                    <div class="glass-card rounded-2xl border border-slate-700/50 p-6">
+                        <h2 class="text-lg font-bold text-white mb-6">Contactos Clave del Cliente</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            
+                            <!-- Admin -->
+                            <div class="flex items-start gap-4">
+                                <div class="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center text-slate-300 font-bold border border-slate-700">MR</div>
+                                <div>
+                                    <p class="text-xs font-bold text-orange-500 uppercase tracking-wide mb-1">Administración y Pagos</p>
+                                    <p class="font-bold text-white text-sm">Mario Robles</p>
+                                    <p class="text-xs text-slate-400 mt-1"><i class="fa-solid fa-envelope w-4"></i> m.robles@laparrilladejuan.cl</p>
+                                    <p class="text-xs text-slate-400"><i class="fa-solid fa-phone w-4"></i> +56 9 1234 5678</p>
+                                </div>
+                            </div>
+
+                            <!-- Técnico -->
+                            <div class="flex items-start gap-4">
+                                <div class="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center text-slate-300 font-bold border border-slate-700">JP</div>
+                                <div>
+                                    <p class="text-xs font-bold text-orange-500 uppercase tracking-wide mb-1">Jefe de Local / Recepción</p>
+                                    <p class="font-bold text-white text-sm">Juan Pérez</p>
+                                    <p class="text-xs text-slate-400 mt-1"><i class="fa-solid fa-envelope w-4"></i> j.perez@laparrilladejuan.cl</p>
+                                    <p class="text-xs text-slate-400"><i class="fa-solid fa-phone w-4"></i> +56 9 8765 4321</p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Columna Derecha: Timeline de Certificaciones -->
+                <div class="space-y-6">
+                    <div class="glass-card rounded-2xl border border-slate-700/50 p-6 h-full">
+                        <h2 class="text-lg font-bold text-white flex items-center gap-2 mb-6">
+                            <i class="fa-solid fa-clock-rotate-left text-orange-500"></i> Historial SEC
+                        </h2>
+
+                        <!-- Timeline -->
+                        <div class="relative pl-4 space-y-8 before:absolute before:inset-y-0 before:left-[23px] before:w-0.5 before:bg-slate-700">
+                            
+                            <!-- 2026 -->
+                            <div class="relative">
+                                <div class="absolute left-[-23px] w-4 h-4 rounded-full bg-red-500 border-4 border-navy-900 shadow-[0_0_0_2px_#ef4444]"></div>
+                                <div class="bg-red-500/5 border border-red-500/20 rounded-xl p-4 ml-6">
+                                    <span class="text-xs font-bold text-red-500 mb-1 block">ACTUALIDAD</span>
+                                    <p class="font-bold text-white text-sm">Sello Rojo Emitido</p>
+                                    <p class="text-xs text-slate-400 mt-1">15 Octubre 2026</p>
+                                    <p class="text-xs text-slate-300 mt-2">Inspección fallida debido a fuga de gas en línea principal de cocina. Suministro cortado por seguridad.</p>
+                                </div>
+                            </div>
+
+                            <!-- 2024 -->
+                            <div class="relative">
+                                <div class="absolute left-[-23px] w-4 h-4 rounded-full bg-emerald-500 border-4 border-navy-900 shadow-[0_0_0_2px_#10b981]"></div>
+                                <div class="bg-navy-950 border border-slate-800 rounded-xl p-4 ml-6">
+                                    <span class="text-xs font-bold text-emerald-500 mb-1 block">HACE 2 AÑOS</span>
+                                    <p class="font-bold text-white text-sm">Sello Verde Obtenido</p>
+                                    <p class="text-xs text-slate-400 mt-1">20 Septiembre 2024</p>
+                                    <a href="#" class="inline-flex items-center gap-1 mt-2 text-xs text-orange-400 hover:text-orange-300">
+                                        <i class="fa-solid fa-file-pdf"></i> Ver Certificado (TC-6)
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- 2022 -->
+                            <div class="relative">
+                                <div class="absolute left-[-23px] w-4 h-4 rounded-full bg-yellow-500 border-4 border-navy-900 shadow-[0_0_0_2px_#eab308]"></div>
+                                <div class="bg-navy-950 border border-slate-800 rounded-xl p-4 ml-6">
+                                    <span class="text-xs font-bold text-yellow-500 mb-1 block">HACE 4 AÑOS</span>
+                                    <p class="font-bold text-white text-sm">Sello Amarillo (Reparado)</p>
+                                    <p class="text-xs text-slate-400 mt-1">10 Agosto 2022</p>
+                                    <p class="text-xs text-slate-400 mt-1">Reparación de ducto de ventilación completada en 15 días.</p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Blueprint Modal -->
+    <div id="blueprint-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center opacity-0 transition-opacity duration-300">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-navy-950/90 backdrop-blur-md cursor-pointer" onclick="closeBlueprintModal()"></div>
+        
+        <!-- Modal Content -->
+        <div class="glass-card relative w-[95vw] h-[90vh] max-w-7xl rounded-2xl shadow-2xl border border-slate-700 overflow-hidden flex flex-col lg:flex-row transition-transform duration-300 scale-95" id="blueprint-modal-content">
+            
+            <!-- Close Button -->
+            <button onclick="closeBlueprintModal()" class="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-slate-800/80 hover:bg-slate-700 text-white flex items-center justify-center border border-slate-600 transition-colors">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <!-- Izquierda: Plano Interactivo -->
+            <div class="flex-1 bg-slate-900 relative overflow-hidden group">
+                <!-- Imagen de fondo genérica de plano arquitectónico -->
+                <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=2000&auto=format&fit=crop" class="w-full h-full object-cover opacity-60 mix-blend-screen" alt="Plano Isométrico SEC">
+                
+                <!-- Controles de Zoom simulados -->
+                <div class="absolute bottom-6 left-6 flex flex-col gap-2 z-10">
+                    <button class="w-10 h-10 rounded-lg bg-navy-900/80 border border-slate-700 text-white hover:bg-slate-800 flex items-center justify-center backdrop-blur-sm"><i class="fa-solid fa-plus"></i></button>
+                    <button class="w-10 h-10 rounded-lg bg-navy-900/80 border border-slate-700 text-white hover:bg-slate-800 flex items-center justify-center backdrop-blur-sm"><i class="fa-solid fa-minus"></i></button>
+                </div>
+
+                <!-- Puntos / Pines -->
+                <!-- Pin 1: Cocina (Rojo, Parpadeante) -->
+                <div class="absolute top-[40%] left-[30%] -translate-x-1/2 -translate-y-1/2 cursor-pointer z-10 group/pin" onclick="selectArtifact('art-1')">
+                    <div class="relative flex items-center justify-center">
+                        <div id="pin-ring-1" class="absolute w-14 h-14 bg-red-500/30 rounded-full animate-ping"></div>
+                        <div id="pin-dot-1" class="w-7 h-7 bg-red-500 rounded-full border-2 border-white shadow-[0_0_15px_rgba(239,68,68,0.8)] flex items-center justify-center text-[12px] font-bold text-white z-10 ring-4 ring-red-500/20 transition-transform group-hover/pin:scale-110">1</div>
+                    </div>
+                </div>
+
+                <!-- Pin 2: Horno (Verde) -->
+                <div class="absolute top-[60%] left-[50%] -translate-x-1/2 -translate-y-1/2 cursor-pointer z-10 group/pin" onclick="selectArtifact('art-2')">
+                    <div class="relative flex items-center justify-center">
+                        <div id="pin-ring-2" class="absolute w-12 h-12 bg-emerald-500/30 rounded-full hidden"></div>
+                        <div id="pin-dot-2" class="w-6 h-6 bg-emerald-500 rounded-full border-2 border-white shadow-lg flex items-center justify-center text-[10px] font-bold text-white z-10 transition-transform group-hover/pin:scale-110">2</div>
+                    </div>
+                </div>
+
+                <!-- Pin 3: Campana (Verde) -->
+                <div class="absolute top-[35%] left-[70%] -translate-x-1/2 -translate-y-1/2 cursor-pointer z-10 group/pin" onclick="selectArtifact('art-3')">
+                    <div class="relative flex items-center justify-center">
+                        <div id="pin-ring-3" class="absolute w-12 h-12 bg-emerald-500/30 rounded-full hidden"></div>
+                        <div id="pin-dot-3" class="w-6 h-6 bg-emerald-500 rounded-full border-2 border-white shadow-lg flex items-center justify-center text-[10px] font-bold text-white z-10 transition-transform group-hover/pin:scale-110">3</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Derecha: Detalles del Artefacto -->
+            <div class="w-full lg:w-[400px] bg-navy-950/90 border-l border-slate-800 p-8 flex flex-col h-full overflow-y-auto">
+                <h3 class="text-xl font-bold text-white mb-2"><i class="fa-solid fa-map-location-dot text-orange-500 mr-2"></i> Detalles de Trazado</h3>
+                <p class="text-sm text-slate-400 mb-8 border-b border-slate-800 pb-4">Haz clic en un punto del plano para ver su estado técnico.</p>
+
+                <div class="space-y-4">
+                    <!-- Detalle 1 -->
+                    <div id="detail-art-1" class="p-4 rounded-xl bg-slate-800/50 border border-red-500/50 cursor-pointer hover:bg-slate-800 transition-colors" onclick="selectArtifact('art-1')">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="px-2 py-0.5 rounded bg-red-500/20 text-red-400 text-xs font-bold border border-red-500/20">Punto 1</span>
+                            <span class="w-2.5 h-2.5 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)]"></span>
+                        </div>
+                        <p class="font-bold text-white text-md">Cocina Industrial Principal</p>
+                        <p class="text-xs text-slate-400 mt-1"><i class="fa-solid fa-fire-burner w-4"></i> Potencia: 45 kW | GN</p>
+                        <div class="mt-3 bg-red-500/10 border border-red-500/20 rounded p-3">
+                            <p class="text-xs text-red-400 font-bold mb-1"><i class="fa-solid fa-triangle-exclamation"></i> Fuga Detectada</p>
+                            <p class="text-[11px] text-red-300">Presión cayó 0.2 bar en prueba de 15 min. Fuga en llave de paso general. Ubicación verificada vía GPS.</p>
+                        </div>
+                    </div>
+
+                    <!-- Detalle 2 -->
+                    <div id="detail-art-2" class="p-4 rounded-xl bg-slate-900 border border-slate-800 cursor-pointer hover:bg-slate-800 transition-colors opacity-60" onclick="selectArtifact('art-2')">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="px-2 py-0.5 rounded bg-slate-800 text-slate-400 text-xs font-bold border border-slate-700">Punto 2</span>
+                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+                        </div>
+                        <p class="font-bold text-slate-300 text-md">Horno Pizzero</p>
+                        <p class="text-xs text-slate-500 mt-1"><i class="fa-solid fa-fire w-4"></i> Potencia: 20 kW | GN</p>
+                        <p class="text-[11px] text-emerald-400 mt-2"><i class="fa-solid fa-check"></i> Prueba de hermeticidad aprobada.</p>
+                    </div>
+
+                    <!-- Detalle 3 -->
+                    <div id="detail-art-3" class="p-4 rounded-xl bg-slate-900 border border-slate-800 cursor-pointer hover:bg-slate-800 transition-colors opacity-60" onclick="selectArtifact('art-3')">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="px-2 py-0.5 rounded bg-slate-800 text-slate-400 text-xs font-bold border border-slate-700">Punto 3</span>
+                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+                        </div>
+                        <p class="font-bold text-slate-300 text-md">Campana de Ventilación</p>
+                        <p class="text-xs text-slate-500 mt-1"><i class="fa-solid fa-fan w-4"></i> Ducto 400mm | Tiraje Forzado</p>
+                        <p class="text-[11px] text-emerald-400 mt-2"><i class="fa-solid fa-check"></i> Medición de tiro aprobada.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openBlueprintModal() {
+            const modal = document.getElementById('blueprint-modal');
+            const content = document.getElementById('blueprint-modal-content');
+            modal.classList.remove('hidden');
+            // Timeout to allow display:block to apply before animating opacity
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                content.classList.remove('scale-95');
+                content.classList.add('scale-100');
+            }, 10);
+            selectArtifact('art-1'); // Default selection
+        }
+
+        function closeBlueprintModal() {
+            const modal = document.getElementById('blueprint-modal');
+            const content = document.getElementById('blueprint-modal-content');
+            modal.classList.add('opacity-0');
+            content.classList.remove('scale-100');
+            content.classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        function selectArtifact(id) {
+            // Reset all lists
+            ['art-1', 'art-2', 'art-3'].forEach(art => {
+                const detailEl = document.getElementById('detail-' + art);
+                const pinDot = document.getElementById('pin-dot-' + art.split('-')[1]);
+                const pinRing = document.getElementById('pin-ring-' + art.split('-')[1]);
+                
+                // Style list
+                detailEl.classList.add('bg-slate-900', 'border-slate-800', 'opacity-60');
+                detailEl.classList.remove('bg-slate-800/50', 'opacity-100');
+                if (art === 'art-1') detailEl.classList.remove('border-red-500/50');
+                else detailEl.classList.remove('border-emerald-500/50');
+
+                // Style pin
+                pinDot.classList.remove('ring-4', 'ring-red-500/20', 'ring-emerald-500/20');
+                pinRing.classList.add('hidden');
+                pinRing.classList.remove('animate-ping');
+            });
+
+            // Highlight selected
+            const selectedDetail = document.getElementById('detail-' + id);
+            const num = id.split('-')[1];
+            const selectedPinDot = document.getElementById('pin-dot-' + num);
+            const selectedPinRing = document.getElementById('pin-ring-' + num);
+
+            selectedDetail.classList.remove('bg-slate-900', 'border-slate-800', 'opacity-60');
+            selectedDetail.classList.add('bg-slate-800/50', 'opacity-100');
+            
+            if (id === 'art-1') {
+                selectedDetail.classList.add('border-red-500/50');
+                selectedPinDot.classList.add('ring-4', 'ring-red-500/20');
+                selectedPinRing.classList.remove('hidden');
+                selectedPinRing.classList.add('animate-ping');
+            } else {
+                selectedDetail.classList.add('border-emerald-500/50');
+                selectedPinDot.classList.add('ring-4', 'ring-emerald-500/20');
+                selectedPinRing.classList.remove('hidden');
+                // Optional: make it ping once or just show static ring
+            }
+        }
+    </script>
+</body>
+</html>

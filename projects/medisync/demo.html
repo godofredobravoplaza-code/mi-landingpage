@@ -1,0 +1,1532 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthSync AI - SaaS Médico</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        medical: { 50: '#f0fdfa', 100: '#ccfbf1', 500: '#14b8a6', 600: '#0d9488', 800: '#115e59', 900: '#134e4a', 950: '#042f2e' },
+                        wa: { light: '#dcf8c6', dark: '#075e54', green: '#25D366' }
+                    },
+                    animation: { 'slide-up': 'slideUp 0.3s ease-out forwards', 'fade-in': 'fadeIn 0.2s ease-out' },
+                    keyframes: { slideUp: { '0%': { transform: 'translateY(10px)', opacity: '0' }, '100%': { transform: 'translateY(0)', opacity: '1' } }, fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } } }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        .phone-mockup { border: 12px solid #1e293b; border-radius: 40px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); overflow: hidden; background: #f8fafc; position: relative; }
+        .phone-notch { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 120px; height: 25px; background: #1e293b; border-bottom-left-radius: 16px; border-bottom-right-radius: 16px; z-index: 50; }
+        .wa-bg { background-image: url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png'); background-size: cover; opacity: 0.1; position: absolute; inset: 0; z-index: 0; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        
+        .tab-content { display: none !important; }
+        .tab-content.active { display: flex !important; animation: slideUp 0.3s ease-out forwards; }
+        .bottom-nav-item.active { color: #0d9488; }
+        .sidebar-item.active { background-color: #f0fdfa; color: #0d9488; border-right: 3px solid #0d9488; }
+        .pat-subtab.active { border-bottom: 2px solid #0d9488; color: #0d9488; font-weight: bold; }
+        .doc-subtab.active { border-bottom: 2px solid #0d9488; color: #0d9488; font-weight: bold; }
+    </style>
+</head>
+<body class="h-screen w-full overflow-hidden flex flex-col md:flex-row bg-slate-900 justify-center relative">
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="fixed top-8 left-1/2 transform -translate-x-1/2 bg-slate-800 text-white px-6 py-3 rounded-full shadow-2xl z-[100] flex items-center gap-3 transition-all duration-300 -translate-y-20 opacity-0">
+        <i class="fa-solid fa-circle-check text-green-400"></i>
+        <span id="toast-msg" class="text-sm font-medium"></span>
+    </div>
+
+    <a href="login.html" class="absolute top-4 left-4 z-50 bg-white/10 hover:bg-white/20 backdrop-blur-md text-white px-4 py-2 rounded-full text-sm font-medium transition-all shadow-lg border border-white/20 flex items-center gap-2">
+        <i class="fa-solid fa-arrow-left"></i> Cambiar Personaje
+    </a>
+
+    <div id="auth-loader" class="absolute inset-0 bg-white z-50 flex flex-col items-center justify-center">
+        <i class="fa-solid fa-circle-notch fa-spin text-4xl text-medical-600 mb-4"></i>
+        <h2 class="font-bold text-slate-700">Conectando a HealthSync SaaS...</h2>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- VIEW: DOCTOR EHR DASHBOARD -->
+    <!-- ============================================== -->
+    <div id="view-doctor" class="hidden w-full h-screen bg-white shadow-2xl mx-auto flex">
+        
+        <!-- Sidebar Médico -->
+        <div class="w-64 bg-white border-r border-slate-200 flex flex-col shrink-0">
+            <div class="h-16 border-b border-slate-200 flex items-center px-6">
+                <div class="w-8 h-8 rounded bg-medical-600 flex items-center justify-center text-white mr-3"><i class="fa-solid fa-plus"></i></div>
+                <h1 class="font-bold text-slate-800 text-lg tracking-tight">HealthSync</h1>
+            </div>
+            <div class="p-6 pb-2">
+                <p class="text-xs text-slate-400 font-bold uppercase tracking-wider mb-2">Panel Médico</p>
+                <div class="font-bold text-slate-800 text-sm mb-6" id="user-name-display">Dr.</div>
+            </div>
+            <nav class="flex-1">
+                <button onclick="docSwitchTab('dashboard')" id="nav-dashboard" class="sidebar-item active w-full flex items-center gap-3 px-6 py-3 text-slate-600 hover:bg-slate-50 transition-colors text-sm font-medium text-left">
+                    <i class="fa-solid fa-list-ul w-5 text-center"></i> Mi Agenda
+                </button>
+                <button onclick="docSwitchTab('calendario')" id="nav-calendario" class="sidebar-item w-full flex items-center gap-3 px-6 py-3 text-slate-600 hover:bg-slate-50 transition-colors text-sm font-medium text-left">
+                    <i class="fa-solid fa-calendar-day w-5 text-center"></i> Mi Calendario
+                </button>
+                <button onclick="docSwitchTab('pacientes')" id="nav-pacientes" class="sidebar-item w-full flex items-center gap-3 px-6 py-3 text-slate-600 hover:bg-slate-50 transition-colors text-sm font-medium text-left">
+                    <i class="fa-solid fa-users w-5 text-center"></i> Mis Pacientes
+                </button>
+            </nav>
+        </div>
+
+        <!-- Main Content Médico -->
+        <div class="flex-1 overflow-hidden bg-slate-50 relative flex flex-col">
+            
+            <!-- TAB: DASHBOARD (Agenda Diaria) -->
+            <div id="doc-tab-dashboard" class="tab-content active p-8 overflow-y-auto h-full">
+                <div class="max-w-4xl mx-auto">
+                    <div class="mb-8 flex justify-between items-end">
+                        <div>
+                            <h2 class="text-2xl font-bold text-slate-800 mb-2">Mi Agenda Diaria</h2>
+                            <p class="text-slate-500 text-sm">Consultas y exámenes programados.</p>
+                        </div>
+                        <div id="dashboard-clock" class="text-sm font-medium text-slate-400">--:--</div>
+                    </div>
+
+                    <div id="agenda-list" class="space-y-4">
+                        <div class="text-center p-12"><i class="fa-solid fa-spinner fa-spin text-3xl text-slate-300"></i></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB: CALENDARIO (Google Calendar style) -->
+            <div id="doc-tab-calendario" class="tab-content hidden h-full flex flex-col bg-white">
+                <div class="h-16 border-b border-slate-200 flex items-center px-6 justify-between shrink-0 shadow-sm relative z-20">
+                    <div class="flex items-center gap-4">
+                        <h2 class="text-lg font-bold text-slate-800" id="calendar-current-date-label" style="min-width: 180px;">Hoy</h2>
+                        <div class="flex bg-slate-100 rounded-lg p-1 border border-slate-200">
+                            <button onclick="window.calendarPrevDay()" class="w-8 h-8 rounded flex items-center justify-center text-slate-600 hover:bg-white hover:shadow-sm transition-all"><i class="fa-solid fa-chevron-left"></i></button>
+                            <button onclick="window.calendarHoy()" class="px-4 h-8 rounded flex items-center justify-center text-slate-700 hover:bg-white hover:shadow-sm text-xs font-bold transition-all">Hoy</button>
+                            <button onclick="window.calendarNextDay()" class="w-8 h-8 rounded flex items-center justify-center text-slate-600 hover:bg-white hover:shadow-sm transition-all"><i class="fa-solid fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+                    <div class="flex bg-slate-100 rounded-lg p-1 border border-slate-200 text-xs font-bold">
+                        <button onclick="window.setCalendarView('day')" id="cal-btn-day" class="px-3 h-8 rounded text-slate-700 bg-white shadow-sm transition-all">Día</button>
+                        <button onclick="window.setCalendarView('week')" id="cal-btn-week" class="px-3 h-8 rounded text-slate-500 hover:text-slate-700 transition-all">Semana</button>
+                        <button onclick="window.setCalendarView('month')" id="cal-btn-month" class="px-3 h-8 rounded text-slate-500 hover:text-slate-700 transition-all">Mes</button>
+                    </div>
+                </div>
+                <div class="flex-1 overflow-y-auto bg-slate-50 relative p-6">
+                    <div class="max-w-4xl mx-auto border-t border-l border-slate-200 bg-white shadow-sm rounded-lg overflow-hidden relative" id="calendar-grid" style="min-height: 800px;">
+                        <!-- JS renders hours and blocks here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB: PACIENTES (Directorio y Ficha) -->
+            <div id="doc-tab-pacientes" class="tab-content h-full flex flex-col">
+                <div class="flex h-full">
+                    <!-- Lista de Pacientes -->
+                    <div class="w-1/3 border-r border-slate-200 bg-white flex flex-col">
+                        <div class="p-4 border-b border-slate-200">
+                            <h2 class="font-bold text-slate-800">Directorio de Pacientes</h2>
+                            <input type="text" placeholder="Buscar paciente..." class="mt-3 w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-medical-500">
+                        </div>
+                        <div class="flex-1 overflow-y-auto p-2" id="doc-patients-list">
+                            <!-- JS Fills -->
+                            <div class="text-center p-4 text-slate-400"><i class="fa-solid fa-spinner fa-spin"></i></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Ficha del Paciente Seleccionado -->
+                    <div class="w-2/3 bg-slate-50 flex flex-col relative">
+                        <div id="no-patient-selected" class="absolute inset-0 flex flex-col items-center justify-center text-slate-400">
+                            <i class="fa-solid fa-hospital-user text-5xl mb-4 text-slate-300"></i>
+                            <p>Selecciona un paciente de la lista para abrir su ficha.</p>
+                        </div>
+                        
+                        <div id="patient-chart" class="hidden flex-col h-full animate-fade-in">
+                            <!-- Header de Ficha -->
+                            <div class="bg-white p-6 border-b border-slate-200 shadow-sm shrink-0 flex justify-between items-center">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-14 h-14 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-xl font-bold" id="chart-pat-initials">XX</div>
+                                    <div>
+                                        <h2 class="text-xl font-bold text-slate-800" id="chart-pat-name">Nombre Paciente</h2>
+                                        <p class="text-xs text-slate-500" id="chart-pat-id">ID: ---</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-2" id="encounter-buttons">
+                                    <button onclick="openNewRecordModal()" id="btn-encounter-main" class="bg-medical-600 hover:bg-medical-700 text-white px-4 py-2 rounded-lg text-sm font-bold shadow-sm flex items-center gap-2">
+                                        <i class="fa-solid fa-play"></i> Iniciar Atención
+                                    </button>
+                                    <button onclick="closeEncounter()" id="btn-encounter-close" class="hidden bg-slate-800 hover:bg-black text-white px-4 py-2 rounded-lg text-sm font-bold shadow-sm flex items-center gap-2">
+                                        <i class="fa-solid fa-check-double"></i> Cerrar Atención
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Subtabs de la Ficha -->
+                            <div class="flex border-b border-slate-200 bg-white px-6 shrink-0">
+                                <button onclick="docChartSubtab('historial')" class="doc-subtab active py-3 px-4 text-sm text-slate-500 hover:text-slate-800 transition-colors" data-tab="historial">Historial Clínico</button>
+                                <button onclick="docChartSubtab('examenes')" class="doc-subtab py-3 px-4 text-sm text-slate-500 hover:text-slate-800 transition-colors" data-tab="examenes">Exámenes</button>
+                                <button onclick="docChartSubtab('recetas')" class="doc-subtab py-3 px-4 text-sm text-slate-500 hover:text-slate-800 transition-colors" data-tab="recetas">Recetas</button>
+                            </div>
+
+                            <!-- Contenido de Ficha -->
+                            <div class="flex-1 overflow-y-auto p-6">
+                                <div id="chart-content-historial" class="chart-tab-content block space-y-4"></div>
+                                <div id="chart-content-examenes" class="chart-tab-content hidden space-y-4"></div>
+                                <div id="chart-content-recetas" class="chart-tab-content hidden space-y-4"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: NUEVA EVOLUCIÓN MEDICA -->
+    <div id="modal-new-record" style="display: none;" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex-col items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-xl w-full max-w-2xl overflow-hidden animate-slide-up flex flex-col max-h-full">
+            <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+                <h3 class="font-bold text-slate-800 text-lg flex items-center gap-2"><i class="fa-solid fa-stethoscope text-medical-600"></i> Nueva Evolución Clínica</h3>
+                <button onclick="closeNewRecordModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-xl"></i></button>
+            </div>
+            <div class="p-6 overflow-y-auto space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 mb-1 uppercase">Diagnóstico</label>
+                    <input type="text" id="modal-diag" class="w-full border border-slate-300 rounded-lg p-2 text-sm focus:border-medical-500 focus:outline-none" placeholder="Ej. Faringitis aguda">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 mb-1 uppercase">Tratamiento / Indicaciones</label>
+                    <textarea id="modal-trat" rows="3" class="w-full border border-slate-300 rounded-lg p-2 text-sm focus:border-medical-500 focus:outline-none" placeholder="Reposo, abundante líquido..."></textarea>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-indigo-50 p-4 rounded-xl border border-indigo-100">
+                        <label class="flex items-center gap-2 text-indigo-800 font-bold text-sm mb-2"><i class="fa-solid fa-pills"></i> Recetar Medicamentos</label>
+                        <input type="text" id="modal-receta" class="w-full border border-indigo-200 rounded p-2 text-xs" placeholder="Ej. Paracetamol 500mg c/8h">
+                    </div>
+                    <div class="bg-blue-50 p-4 rounded-xl border border-blue-100">
+                        <label class="flex items-center gap-2 text-blue-800 font-bold text-sm mb-2"><i class="fa-solid fa-flask"></i> Solicitar Examen</label>
+                        <input type="text" id="modal-examen" class="w-full border border-blue-200 rounded p-2 text-xs" placeholder="Ej. Test Rápido Estreptococo">
+                    </div>
+                </div>
+            </div>
+            <div class="p-4 border-t border-slate-100 flex justify-end gap-3 bg-slate-50">
+                <button onclick="closeNewRecordModal()" class="px-4 py-2 text-slate-600 font-bold text-sm hover:bg-slate-200 rounded-lg transition-colors">Cancelar</button>
+                <button onclick="saveNewRecord()" id="btn-save-record" class="px-6 py-2 bg-medical-600 hover:bg-medical-700 text-white font-bold text-sm rounded-lg shadow-sm transition-colors flex items-center gap-2">
+                    <i class="fa-solid fa-save"></i> Guardar en Ficha
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ============================================== -->
+    <!-- VIEW: PATIENT MOBILE APP (PWA SIMULATION)      -->
+    <!-- ============================================== -->
+    <div id="view-patient" class="hidden w-full h-screen flex items-center justify-center relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-64 h-64 bg-medical-600 rounded-full mix-blend-multiply filter blur-[80px] opacity-40"></div>
+        <div class="absolute bottom-0 left-0 w-64 h-64 bg-wa-green rounded-full mix-blend-multiply filter blur-[80px] opacity-20"></div>
+
+        <div class="w-[320px] h-[650px] max-h-[90vh] phone-mockup flex flex-col transform shadow-2xl relative z-10" id="phone-container">
+            <div class="phone-notch"></div>
+            
+            <div class="bg-white flex-1 flex flex-col overflow-hidden relative pb-16"> <!-- Padding bottom for nav -->
+                
+                <!-- PATIENT TAB: HOME -->
+                <div id="pat-tab-home" class="tab-content active h-full flex flex-col bg-slate-50">
+                    <div class="bg-medical-600 text-white pt-12 pb-6 px-5 rounded-b-3xl shadow-sm relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-10 -mt-10"></div>
+                        <p class="text-medical-100 text-xs mb-1">Tu Portal PWA</p>
+                        <h2 class="font-bold text-2xl" id="patient-greeting">Hola</h2>
+                    </div>
+                    
+                    <div class="p-5 flex-1 overflow-y-auto space-y-4">
+                        <h3 class="font-bold text-slate-800 text-sm">Próximos Pasos</h3>
+                        
+                        <div id="pat-home-status" class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm relative overflow-hidden">
+                            <div class="flex items-center gap-3 mb-2">
+                                <div class="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex justify-center items-center text-lg"><i class="fa-solid fa-shield-heart"></i></div>
+                                <div>
+                                    <p class="text-xs text-slate-500">Estado</p>
+                                    <p class="font-bold text-slate-800 text-sm">Salud al día</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button onclick="patSwitchTab('agendar')" class="w-full bg-slate-800 hover:bg-slate-700 text-white font-bold py-3 px-4 rounded-xl transition-all shadow-md flex items-center justify-between">
+                            <span>Agendar Nueva Cita</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- PATIENT TAB: AGENDAR -->
+                <div id="pat-tab-agendar" class="tab-content h-full flex flex-col bg-slate-50">
+                    <div class="bg-white pt-12 pb-4 px-5 border-b border-slate-200 shadow-sm shrink-0">
+                        <h2 class="font-bold text-lg text-slate-800">Reservar Cita</h2>
+                        <p class="text-xs text-slate-500 mt-1">Especialistas disponibles hoy</p>
+                    </div>
+                    <div class="flex-1 p-4 overflow-y-auto space-y-3">
+                        <div class="bg-white rounded-2xl p-3 border border-slate-200 shadow-sm flex gap-3 items-center">
+                            <img src="https://i.pravatar.cc/150?img=11" class="w-12 h-12 rounded-full object-cover">
+                            <div class="flex-1">
+                                <h4 class="font-bold text-slate-800 text-sm">Dr. Roberto Sánchez</h4>
+                                <p class="text-[11px] text-medical-600 font-medium">Traumatología</p>
+                            </div>
+                            <button onclick="openBookingModal('Dr. Roberto Sánchez', 'consulta')" class="w-8 h-8 rounded-full bg-medical-600 text-white flex justify-center items-center hover:bg-medical-700 shadow-sm"><i class="fa-solid fa-calendar-check"></i></button>
+                        </div>
+                        <div class="bg-white rounded-2xl p-3 border border-slate-200 shadow-sm flex gap-3 items-center">
+                            <img src="https://i.pravatar.cc/150?img=47" class="w-12 h-12 rounded-full object-cover">
+                            <div class="flex-1">
+                                <h4 class="font-bold text-slate-800 text-sm">Dra. Elena Valdés</h4>
+                                <p class="text-[11px] text-medical-600 font-medium">Medicina General</p>
+                            </div>
+                            <button onclick="openBookingModal('Dra. Elena Valdés', 'consulta')" class="w-8 h-8 rounded-full bg-medical-600 text-white flex justify-center items-center hover:bg-medical-700 shadow-sm"><i class="fa-solid fa-calendar-check"></i></button>
+                        </div>
+                        <div class="bg-white rounded-2xl p-3 border border-slate-200 shadow-sm flex gap-3 items-center">
+                            <img src="https://i.pravatar.cc/150?img=12" class="w-12 h-12 rounded-full object-cover">
+                            <div class="flex-1">
+                                <h4 class="font-bold text-slate-800 text-sm">Dr. Sheldon Cooper</h4>
+                                <p class="text-[11px] text-medical-600 font-medium">Neurología</p>
+                            </div>
+                            <button onclick="openBookingModal('Dr. Sheldon Cooper', 'consulta')" class="w-8 h-8 rounded-full bg-medical-600 text-white flex justify-center items-center hover:bg-medical-700 shadow-sm"><i class="fa-solid fa-calendar-check"></i></button>
+                        </div>
+                        <div class="bg-white rounded-2xl p-3 border border-slate-200 shadow-sm flex gap-3 items-center border-l-4 border-l-blue-500">
+                            <img src="https://i.pravatar.cc/150?img=33" class="w-12 h-12 rounded-full object-cover">
+                            <div class="flex-1">
+                                <h4 class="font-bold text-slate-800 text-sm">Klgo. Matías F.</h4>
+                                <p class="text-[11px] text-blue-600 font-medium">Kinesiología</p>
+                            </div>
+                            <button onclick="openBookingModal('Klgo. Matías Fernández', 'consulta')" class="w-8 h-8 rounded-full bg-blue-600 text-white flex justify-center items-center hover:bg-blue-700 shadow-sm"><i class="fa-solid fa-calendar-check"></i></button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- PATIENT TAB: CALENDARIO -->
+                <div id="pat-tab-calendario" class="tab-content h-full flex flex-col bg-slate-50">
+                    <div class="bg-white pt-12 pb-4 px-5 border-b border-slate-200 shadow-sm shrink-0">
+                        <h2 class="font-bold text-lg text-slate-800">Mi Agenda</h2>
+                        <p class="text-xs text-slate-500 mt-1">Tus próximas atenciones</p>
+                    </div>
+                    
+                    <!-- Simple graphical week header -->
+                    <div class="bg-white px-4 py-3 border-b border-slate-200 flex justify-between gap-1 shadow-sm shrink-0">
+                        <button class="flex flex-col items-center bg-medical-50 border border-medical-200 text-medical-700 rounded-xl py-2 px-3 w-12 cursor-pointer transition-colors" onclick="window.patFilterCalendar(0)">
+                            <span class="text-[10px] font-bold uppercase mb-1">Lun</span>
+                            <span class="text-lg font-bold">14</span>
+                        </button>
+                        <button class="flex flex-col items-center hover:bg-slate-50 border border-transparent text-slate-400 rounded-xl py-2 px-3 w-12 cursor-pointer transition-colors" onclick="window.patFilterCalendar(1)">
+                            <span class="text-[10px] font-bold uppercase mb-1">Mar</span>
+                            <span class="text-lg font-bold">15</span>
+                        </button>
+                        <button class="flex flex-col items-center hover:bg-slate-50 border border-transparent text-slate-400 rounded-xl py-2 px-3 w-12 cursor-pointer transition-colors" onclick="window.patFilterCalendar(2)">
+                            <span class="text-[10px] font-bold uppercase mb-1">Mie</span>
+                            <span class="text-lg font-bold">16</span>
+                        </button>
+                        <button class="flex flex-col items-center hover:bg-slate-50 border border-transparent text-slate-400 rounded-xl py-2 px-3 w-12 cursor-pointer transition-colors" onclick="window.patFilterCalendar(3)">
+                            <span class="text-[10px] font-bold uppercase mb-1">Jue</span>
+                            <span class="text-lg font-bold">17</span>
+                        </button>
+                        <button class="flex flex-col items-center hover:bg-slate-50 border border-transparent text-slate-400 rounded-xl py-2 px-3 w-12 cursor-pointer transition-colors" onclick="window.patFilterCalendar(4)">
+                            <span class="text-[10px] font-bold uppercase mb-1">Vie</span>
+                            <span class="text-lg font-bold">18</span>
+                        </button>
+                    </div>
+                    
+                    <div class="flex-1 p-4 overflow-y-auto space-y-3" id="pat-calendar-list">
+                        <!-- JS renders appointments here -->
+                        <div class="text-center p-10"><i class="fa-solid fa-spinner fa-spin text-2xl text-slate-300"></i></div>
+                    </div>
+                </div>
+
+                <!-- PATIENT TAB: MI SALUD (EHR, Recetas, Exámenes) -->
+                <div id="pat-tab-salud" class="tab-content h-full flex flex-col bg-slate-50">
+                    <div class="bg-white pt-12 pb-0 border-b border-slate-200 shadow-sm shrink-0">
+                        <div class="px-5 mb-3">
+                            <h2 class="font-bold text-lg text-slate-800">Mi Salud</h2>
+                        </div>
+                        <div class="flex px-4 overflow-x-auto no-scrollbar">
+                            <button onclick="patSaludSubtab('historial')" class="pat-subtab active px-3 py-2 text-xs text-slate-500 whitespace-nowrap" data-tab="historial">Historial</button>
+                            <button onclick="patSaludSubtab('examenes')" class="pat-subtab px-3 py-2 text-xs text-slate-500 whitespace-nowrap" data-tab="examenes">Exámenes</button>
+                            <button onclick="patSaludSubtab('recetas')" class="pat-subtab px-3 py-2 text-xs text-slate-500 whitespace-nowrap" data-tab="recetas">Recetas</button>
+                        </div>
+                    </div>
+                    <div class="flex-1 p-4 overflow-y-auto">
+                        <div id="pat-ehr-loader" class="text-center py-10"><i class="fa-solid fa-circle-notch fa-spin text-2xl text-medical-600"></i></div>
+                        
+                        <div id="pat-content-historial" class="pat-tab-content block space-y-3 hidden"></div>
+                        <div id="pat-content-examenes" class="pat-tab-content hidden space-y-3"></div>
+                        <div id="pat-content-recetas" class="pat-tab-content hidden space-y-3"></div>
+                    </div>
+                </div>
+
+                <!-- LOADING BOOKING -->
+                <div id="booking-loader" class="hidden absolute inset-0 bg-white/90 backdrop-blur-sm z-50 flex flex-col items-center justify-center">
+                    <i class="fa-solid fa-circle-notch fa-spin text-3xl text-medical-600 mb-3"></i>
+                    <p class="text-slate-800 font-bold text-sm">Agendando...</p>
+                </div>
+                
+                <!-- BOOKING DATE/TIME MODAL -->
+                <div id="modal-booking" class="hidden absolute inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex flex-col justify-end">
+                    <div class="bg-white rounded-t-3xl p-5 shadow-2xl animate-slide-up">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="font-bold text-slate-800 text-lg" id="booking-title">Agendar</h3>
+                            <button onclick="closeBookingModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-xl"></i></button>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-500 mb-1">Fecha de la cita</label>
+                                <input type="date" id="booking-date" class="w-full border border-slate-200 rounded-xl p-3 text-sm focus:border-medical-500 focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-500 mb-1">Bloque Horario</label>
+                                <select id="booking-time" class="w-full border border-slate-200 rounded-xl p-3 text-sm focus:border-medical-500 focus:outline-none bg-white">
+                                    <option value="09:00">09:00 AM</option>
+                                    <option value="09:30">09:30 AM</option>
+                                    <option value="10:00">10:00 AM</option>
+                                    <option value="10:30">10:30 AM</option>
+                                    <option value="11:00">11:00 AM</option>
+                                    <option value="11:30">11:30 AM</option>
+                                    <option value="15:00">03:00 PM</option>
+                                    <option value="15:30">03:30 PM</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <button onclick="confirmBooking()" class="w-full bg-medical-600 hover:bg-medical-700 text-white font-bold py-3 px-4 rounded-xl mt-6 shadow-sm transition-all flex justify-center items-center gap-2">
+                            <i class="fa-solid fa-calendar-check"></i> Confirmar Reserva
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PATIENT BOTTOM NAVIGATION -->
+            <div class="absolute bottom-0 left-0 right-0 h-16 bg-white border-t border-slate-200 flex justify-around items-center px-2 z-40 pb-2 pt-1">
+                <button onclick="patSwitchTab('home')" id="nav-pat-home" class="bottom-nav-item active flex flex-col items-center gap-1 text-slate-400 hover:text-medical-600 w-16">
+                    <i class="fa-solid fa-house text-lg"></i><span class="text-[10px] font-medium">Inicio</span>
+                </button>
+                <button onclick="patSwitchTab('agendar')" id="nav-pat-agendar" class="bottom-nav-item flex flex-col items-center gap-1 text-slate-400 hover:text-medical-600 w-16">
+                    <i class="fa-regular fa-calendar-plus text-lg"></i><span class="text-[10px] font-medium">Agendar</span>
+                </button>
+                <button onclick="patSwitchTab('calendario')" id="nav-pat-calendario" class="bottom-nav-item flex flex-col items-center gap-1 text-slate-400 hover:text-medical-600 w-16">
+                    <i class="fa-regular fa-calendar-days text-lg"></i><span class="text-[10px] font-medium">Agenda</span>
+                </button>
+                <button onclick="patSwitchTab('salud')" id="nav-pat-salud" class="bottom-nav-item flex flex-col items-center gap-1 text-slate-400 hover:text-medical-600 w-16">
+                    <i class="fa-solid fa-notes-medical text-lg"></i><span class="text-[10px] font-medium">Mi Salud</span>
+                </button>
+            </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- VIEW: ADMIN DASHBOARD -->
+    <div id="view-admin" class="hidden w-full h-screen bg-slate-100 flex flex-col items-center justify-center p-6">
+        <div class="bg-white p-8 rounded-2xl shadow-xl max-w-lg w-full text-center">
+            <div class="w-20 h-20 bg-red-100 text-red-600 rounded-full flex items-center justify-center text-4xl mx-auto mb-4">
+                <i class="fa-solid fa-server"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-slate-800 mb-2">Panel de Administración</h2>
+            <p class="text-slate-500 mb-8">Herramientas de mantenimiento y limpieza de datos.</p>
+            
+            <div class="space-y-4 max-h-[500px] overflow-y-auto">
+                <div class="p-4 border border-slate-200 bg-white rounded-xl text-left shadow-sm">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="font-bold text-slate-800 flex items-center gap-2"><i class="fa-solid fa-users-gear"></i> Gestión de Usuarios</h3>
+                        <button onclick="window.loadAdminUsers()" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1 rounded font-bold transition-colors">Cargar Usuarios</button>
+                    </div>
+                    <div id="admin-users-list" class="space-y-2">
+                        <p class="text-xs text-slate-500 text-center">Presiona "Cargar Usuarios" para listar la base de datos.</p>
+                    </div>
+                </div>
+
+                <div class="p-4 border border-red-200 bg-red-50 rounded-xl text-left">
+                    <h3 class="font-bold text-red-800 flex items-center gap-2 mb-2"><i class="fa-solid fa-broom"></i> Limpiar Demo Rápido</h3>
+                    <p class="text-xs text-red-600 mb-3">Borra todos los clones de "Penny".</p>
+                    <button onclick="window.adminWipePenny()" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition-colors shadow-sm mb-2">
+                        Ejecutar Limpieza de Penny
+                    </button>
+                    
+                    <h3 class="font-bold text-red-800 flex items-center gap-2 mb-2 mt-4"><i class="fa-solid fa-skull"></i> Borrar Base de Datos Completa</h3>
+                    <p class="text-xs text-red-600 mb-3">Borra TODOS los pacientes, médicos y registros para una prueba limpia.</p>
+                    <button onclick="window.adminWipeAll()" class="w-full bg-slate-800 hover:bg-black text-white font-bold py-2 px-4 rounded-lg transition-colors shadow-sm">
+                        Borrar TODO
+                    </button>
+                </div>
+            </div>
+            
+            <button onclick="window.logout()" class="mt-8 text-slate-400 hover:text-slate-600 font-bold text-sm transition-colors">
+                <i class="fa-solid fa-arrow-right-from-bracket mr-1"></i> Cerrar Sesión
+            </button>
+        </div>
+    </div>
+    
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, onSnapshot, collection, query, where, getDocs, addDoc, deleteDoc, updateDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDu8c2RvKIre4MsYyTQI8cm2md26Puf2RQ",
+            authDomain: "healthsync-demo-2be71.firebaseapp.com",
+            projectId: "healthsync-demo-2be71",
+            storageBucket: "healthsync-demo-2be71.firebasestorage.app",
+            messagingSenderId: "207870052713",
+            appId: "1:207870052713:web:d0c4fe26751a3136d195f8"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        let currentRole = null;
+        let currentUserId = null;
+        let currentUserName = null;
+        
+        let doctorSelectedPatientId = null;
+        let doctorSelectedPatientName = null;
+        
+        let pendingExamUploadId = null;
+
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                currentRole = sessionStorage.getItem('healthsync_role');
+                currentUserName = sessionStorage.getItem('healthsync_name');
+                currentUserId = sessionStorage.getItem('healthsync_uid') || user.uid;
+
+                if (!currentRole) { window.location.href = 'login.html'; return; }
+                document.getElementById('auth-loader').classList.add('hidden');
+
+                if (currentRole === 'medico') {
+                    document.getElementById('view-doctor').classList.remove('hidden');
+                    document.getElementById('user-name-display').innerText = currentUserName;
+                    initDoctorApp();
+                } else if (currentRole === 'admin') {
+                    document.getElementById('view-admin').classList.remove('hidden');
+                } else {
+                    document.getElementById('view-patient').classList.remove('hidden');
+                    document.getElementById('patient-greeting').innerText = "Hola, " + currentUserName.split(' ')[0];
+                    initPatientApp();
+                }
+            } else {
+                window.location.href = 'login.html';
+            }
+        });
+
+        // UI TABS NAVIGATION
+        window.docSwitchTab = function(tab) {
+            document.querySelectorAll('#view-doctor .tab-content').forEach(el => el.classList.remove('active', 'hidden'));
+            document.querySelectorAll('#view-doctor .tab-content').forEach(el => el.classList.add('hidden'));
+            
+            const target = document.getElementById('doc-tab-' + tab);
+            if(target) {
+                target.classList.remove('hidden');
+                target.classList.add('active');
+            }
+
+            document.querySelectorAll('.sidebar-item').forEach(el => {
+                el.classList.remove('active', 'bg-medical-50', 'text-medical-600', 'border-r-4', 'border-medical-600');
+            });
+            const navItem = document.getElementById('nav-' + tab);
+            if(navItem) {
+                navItem.classList.add('active', 'bg-medical-50', 'text-medical-600', 'border-r-4', 'border-medical-600');
+            }
+            
+            if(tab === 'calendario') {
+                window.renderDoctorCalendar();
+            }
+        };
+
+
+        window.docChartSubtab = function(tab) {
+            document.querySelectorAll('.doc-subtab').forEach(e => e.classList.remove('active'));
+            document.querySelectorAll('.chart-tab-content').forEach(e => e.classList.add('hidden'));
+            document.querySelector(`.doc-subtab[data-tab='${tab}']`).classList.add('active');
+            document.getElementById('chart-content-' + tab).classList.remove('hidden');
+        };
+
+        window.patSwitchTab = function(tab) {
+            try {
+                ['home', 'agendar', 'calendario', 'salud'].forEach(t => {
+                    const nav = document.getElementById('nav-pat-' + t);
+                    const tabEl = document.getElementById('pat-tab-' + t);
+                    if(nav) nav.classList.remove('active');
+                    if(tabEl) tabEl.classList.remove('active');
+                });
+                document.getElementById('nav-pat-' + tab).classList.add('active');
+                document.getElementById('pat-tab-' + tab).classList.add('active');
+                
+                if (tab === 'calendario') {
+                    loadPatientCalendar();
+                }
+            } catch(e) { console.error(e); }
+        };
+
+        window.loadPatientCalendar = async function() {
+            const listEl = document.getElementById('pat-calendar-list');
+            listEl.innerHTML = '<div class="text-center p-10"><i class="fa-solid fa-spinner fa-spin text-2xl text-slate-300"></i></div>';
+            try {
+                const q = query(collection(db, "citas"), where("id_paciente", "==", currentUserId));
+                const snap = await getDocs(q);
+                
+                if(snap.empty) {
+                    listEl.innerHTML = `
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm text-center">
+                            <i class="fa-regular fa-calendar-xmark text-4xl text-slate-300 mb-3"></i>
+                            <p class="text-slate-500 text-sm font-medium">No tienes citas programadas.</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                let citasArray = [];
+                snap.forEach(doc => citasArray.push({id: doc.id, ...doc.data()}));
+                citasArray.sort((a,b) => {
+                    if (a.fecha === b.fecha) return a.hora.localeCompare(b.hora);
+                    return (a.fecha || '').localeCompare(b.fecha || '');
+                });
+                
+                let html = '';
+                citasArray.forEach(data => {
+                    const isPast = data.estado === 'atendido';
+                    const iconColor = isPast ? 'text-slate-400' : 'text-medical-600';
+                    const bgColor = isPast ? 'bg-slate-100' : 'bg-medical-100';
+                    
+                    html += `
+                        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex gap-3 ${isPast ? 'opacity-60' : ''}">
+                            <div class="w-12 h-12 rounded-full ${bgColor} ${iconColor} flex justify-center items-center shrink-0">
+                                <i class="fa-solid ${data.tipo === 'examen' ? 'fa-flask' : 'fa-user-doctor'} text-xl"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="font-bold text-slate-800 text-sm">${data.tipo === 'examen' ? 'Examen: ' + data.nombre_examen : 'Consulta Médica'}</h4>
+                                <p class="text-[11px] text-slate-500 mt-1">${data.medico_seleccionado}</p>
+                                <div class="flex items-center gap-3 mt-2">
+                                    <span class="text-xs font-bold text-slate-700 bg-slate-100 px-2 py-1 rounded"><i class="fa-regular fa-calendar mr-1"></i> ${data.fecha || 'Sin fecha'}</span>
+                                    <span class="text-xs font-bold text-slate-700 bg-slate-100 px-2 py-1 rounded"><i class="fa-regular fa-clock mr-1"></i> ${data.hora || 'Sin hora'}</span>
+                                </div>
+                            </div>
+                            <div class="flex flex-col justify-center items-end">
+                                ${isPast ? '<span class="text-[10px] font-bold text-slate-500 uppercase">Realizada</span>' : '<span class="text-[10px] font-bold text-medical-600 uppercase">Pendiente</span>'}
+                            </div>
+                        </div>
+                    `;
+                });
+                listEl.innerHTML = html;
+            } catch (e) {
+                listEl.innerHTML = '<p class="text-center text-sm text-red-500">Error cargando calendario.</p>';
+            }
+        };
+        window.patSaludSubtab = function(tab) {
+            try {
+                ['historial', 'examenes', 'recetas'].forEach(t => {
+                    const subtab = document.querySelector(`.pat-subtab[data-tab='${t}']`);
+                    const content = document.getElementById('pat-content-' + t);
+                    if(subtab) subtab.classList.remove('active');
+                    if(content) content.classList.add('hidden');
+                });
+                document.querySelector(`.pat-subtab[data-tab='${tab}']`).classList.add('active');
+                document.getElementById('pat-content-' + tab).classList.remove('hidden');
+            } catch(e) { console.error(e); }
+        };
+        
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            document.getElementById('toast-msg').innerText = msg;
+            t.classList.remove('-translate-y-20', 'opacity-0');
+            t.classList.add('translate-y-0', 'opacity-100');
+            setTimeout(() => {
+                t.classList.add('-translate-y-20', 'opacity-0');
+                t.classList.remove('translate-y-0', 'opacity-100');
+            }, 4000);
+        }
+        
+        // ==============================================
+        // ADMIN APP LOGIC
+        // ==============================================
+        window.loadAdminUsers = async function() {
+            const list = document.getElementById('admin-users-list');
+            list.innerHTML = '<div class="text-center py-4"><i class="fa-solid fa-spinner fa-spin text-slate-400"></i></div>';
+            try {
+                const snap = await getDocs(collection(db, "users"));
+                let html = '';
+                snap.forEach(doc => {
+                    const data = doc.data();
+                    html += `
+                        <div class="flex justify-between items-center p-2 bg-slate-50 border border-slate-100 rounded-lg">
+                            <div>
+                                <p class="text-sm font-bold text-slate-800">${data.nombre}</p>
+                                <p class="text-[10px] text-slate-500 uppercase">${data.rol}</p>
+                            </div>
+                            <button onclick="window.adminDeleteUser('${doc.id}', '${data.nombre}')" class="text-red-500 hover:text-red-700 p-2"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                    `;
+                });
+                list.innerHTML = html || '<p class="text-xs text-slate-500 text-center">No hay usuarios.</p>';
+            } catch(e) {
+                list.innerHTML = '<p class="text-xs text-red-500 text-center">Error al cargar.</p>';
+            }
+        };
+
+        window.adminDeleteUser = async function(uid, nombre) {
+            if(!confirm(`¿Estás seguro de que quieres borrar a ${nombre} y TODO su historial permanentemente?`)) return;
+            try {
+                // Delete user doc
+                await deleteDoc(doc(db, "users", uid));
+                
+                // Delete associated records
+                const collections = ["historial_clinico", "examenes", "recetas", "citas"];
+                for(let coll of collections) {
+                    const q1 = query(collection(db, coll), where("id_paciente", "==", uid));
+                    const snap1 = await getDocs(q1);
+                    for(let d of snap1.docs) await deleteDoc(d.ref);
+                }
+                
+                alert(`¡Usuario ${nombre} y todos sus datos borrados!`);
+                window.loadAdminUsers(); // refresh list
+            } catch(e) {
+                alert("Error al borrar: " + e.message);
+            }
+        };
+
+        window.adminWipePenny = async function() {
+            if(!confirm("¿Estás seguro de que quieres borrar TODOS los registros de Penny para empezar desde cero?")) return;
+            try {
+                // Delete all Penny users
+                const usersQ = query(collection(db, "users"), where("nombre", "==", "Penny"));
+                const usersSnap = await getDocs(usersQ);
+                let uids = [];
+                for(let d of usersSnap.docs) { uids.push(d.id); await deleteDoc(d.ref); }
+                
+                // Delete all her records
+                for(let uid of uids) {
+                    const collections = ["historial_clinico", "examenes", "recetas", "citas"];
+                    for(let coll of collections) {
+                        const q = query(collection(db, coll), where("id_paciente", "==", uid));
+                        const snap = await getDocs(q);
+                        for(let d of snap.docs) await deleteDoc(d.ref);
+                    }
+                }
+                alert("¡Base de datos de Penny limpiada con éxito!");
+                if(document.getElementById('view-admin').classList.contains('hidden') === false) {
+                    window.loadAdminUsers();
+                }
+            } catch(e) {
+                alert("Error al limpiar: " + e.message);
+            }
+        };
+
+        window.adminWipeAll = async function() {
+            if(!confirm("⚠️ ADVERTENCIA: Estás a punto de borrar TODOS los usuarios, médicos y registros de la plataforma. ¿Estás absolutamente seguro?")) return;
+            try {
+                // Delete all users
+                const usersSnap = await getDocs(collection(db, "users"));
+                for(let d of usersSnap.docs) await deleteDoc(d.ref);
+                
+                // Delete all records in other collections
+                const collections = ["historial_clinico", "examenes", "recetas", "citas"];
+                for(let coll of collections) {
+                    const snap = await getDocs(collection(db, coll));
+                    for(let d of snap.docs) await deleteDoc(d.ref);
+                }
+                
+                alert("💥 Base de datos eliminada por completo. Plataforma limpia.");
+                if(document.getElementById('view-admin').classList.contains('hidden') === false) {
+                    window.loadAdminUsers();
+                }
+            } catch(e) {
+                alert("Error al limpiar: " + e.message);
+            }
+        };
+
+        // ==============================================
+        // DOCTOR APP LOGIC
+        // ==============================================
+        let dashboardAppointmentId = null;
+        let dashboardPatientId = null;
+        
+        async function initDoctorApp() {
+            // Clock
+            setInterval(() => {
+                const now = new Date();
+                let h = now.getHours(); let m = now.getMinutes(); const am = h >= 12 ? 'PM' : 'AM';
+                h = h % 12; h = h ? h : 12; m = m < 10 ? '0'+m : m;
+                document.getElementById('dashboard-clock').innerText = `${h}:${m} ${am}`;
+            }, 1000);
+
+            // Listen to Appointments for Dashboard (Agenda Diaria)
+            const qCitas = query(collection(db, "citas"), where("medico_seleccionado", "==", currentUserName), where("estado", "==", "programada"));
+            onSnapshot(qCitas, (snapshot) => {
+                const agendaList = document.getElementById('agenda-list');
+                if(snapshot.empty) {
+                    agendaList.innerHTML = `
+                        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-12 text-center flex flex-col items-center justify-center">
+                            <i class="fa-solid fa-mug-hot text-4xl text-slate-300 mb-4"></i>
+                            <h3 class="font-bold text-slate-600 text-lg">Agenda Libre</h3>
+                            <p class="text-slate-400 text-sm mt-2 max-w-sm">No tienes pacientes programados para hoy.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                let html = '';
+                // Sort by fecha, hora locally since we don't have composite index set up necessarily
+                let citasArray = [];
+                snapshot.forEach(doc => citasArray.push({id: doc.id, ...doc.data()}));
+                citasArray.sort((a,b) => {
+                    if (a.fecha === b.fecha) return a.hora.localeCompare(b.hora);
+                    return a.fecha.localeCompare(b.fecha);
+                });
+
+                citasArray.forEach(data => {
+                    html += `
+                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 animate-slide-up flex flex-col sm:flex-row items-center gap-4">
+                        <div class="w-16 h-16 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center text-2xl font-bold shrink-0">
+                            ${data.nombre_paciente.substring(0,2).toUpperCase()}
+                        </div>
+                        <div class="flex-1 text-center sm:text-left">
+                            <h3 class="font-bold text-lg text-slate-800">${data.nombre_paciente}</h3>
+                            <p class="text-sm text-slate-500"><i class="fa-regular fa-calendar text-medical-600 mr-1"></i> ${data.fecha} &nbsp;|&nbsp; <i class="fa-regular fa-clock text-medical-600 mr-1"></i> ${data.hora}</p>
+                            ${data.tipo === 'examen' ? `<span class="inline-block mt-2 px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded font-bold">Examen: ${data.nombre_examen}</span>` : `<span class="inline-block mt-2 px-2 py-1 bg-green-100 text-green-700 text-xs rounded font-bold">Consulta Médica</span>`}
+                        </div>
+                        <div class="w-full sm:w-auto mt-4 sm:mt-0">
+                            <button onclick="attendPatientFromDashboard('${data.id}', '${data.id_paciente}')" class="w-full sm:w-auto bg-medical-600 hover:bg-medical-700 text-white font-bold py-2 px-6 rounded-lg shadow-sm transition-all flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-stethoscope"></i> Iniciar Atención
+                            </button>
+                        </div>
+                    </div>
+                    `;
+                });
+                agendaList.innerHTML = html;
+            });
+
+            // Load Patient Directory
+            loadDoctorPatientsList();
+        }
+
+        window.attendPatientFromDashboard = async function(appointmentId, patientId) {
+            if(!patientId) return;
+            // Get patient name
+            const d = await getDoc(doc(db, "users", patientId));
+            if(d.exists()) {
+                // Change status so it clears from dashboard agenda
+                if(appointmentId) await setDoc(doc(db, "citas", appointmentId), { estado: 'atendido' }, { merge: true });
+                
+                // Navigate to Chart
+                docSwitchTab('pacientes');
+                selectPatientForChart(patientId, d.data().nombre);
+            }
+        }
+
+        async function loadDoctorPatientsList() {
+            const listEl = document.getElementById('doc-patients-list');
+            try {
+                // PRIVACY FILTER: Only patients that have authorized this specific doctor
+                const q = query(collection(db, "users"), where("rol", "==", "paciente"), where("medicos_tratantes", "array-contains", currentUserName));
+                const querySnapshot = await getDocs(q);
+                let html = '';
+                querySnapshot.forEach((doc) => {
+                    const pat = doc.data();
+                    html += `
+                        <div onclick="selectPatientForChart('${doc.id}', '${pat.nombre}')" class="p-3 border-b border-slate-100 hover:bg-medical-50 cursor-pointer flex items-center gap-3 transition-colors rounded-lg mb-1 relative">
+                            ${pat.examenes_pendientes_revision ? '<div class="absolute top-3 right-8 w-3 h-3 bg-red-500 rounded-full animate-pulse border-2 border-white shadow-sm"></div>' : ''}
+                            <div class="w-10 h-10 rounded-full bg-indigo-100 text-indigo-600 flex justify-center items-center font-bold text-sm">${pat.nombre.substring(0,2).toUpperCase()}</div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 text-sm">${pat.nombre}</h4>
+                                <p class="text-[10px] text-slate-400">ID: ${doc.id.substring(0,6)}</p>
+                            </div>
+                            <i class="fa-solid fa-chevron-right text-slate-300 ml-auto text-xs"></i>
+                        </div>
+                    `;
+                });
+                listEl.innerHTML = html;
+            } catch(e) { listEl.innerHTML = "<p class='p-4 text-red-500'>Error loading directory</p>"; }
+        }
+
+        window.selectPatientForChart = async function(uid, name) {
+            doctorSelectedPatientId = uid;
+            doctorSelectedPatientName = name;
+            
+            document.getElementById('no-patient-selected').classList.add('hidden');
+            document.getElementById('patient-chart').classList.remove('hidden');
+            document.getElementById('patient-chart').classList.add('flex');
+            
+            document.getElementById('chart-pat-name').innerText = name;
+            document.getElementById('chart-pat-initials').innerText = name.substring(0,2).toUpperCase();
+            document.getElementById('chart-pat-id').innerText = "ID: " + uid;
+            
+            docChartSubtab('historial');
+            refreshDoctorChartData(uid);
+            await checkForActiveEncounter(uid);
+            
+            // Clear notifications for this patient
+            await updateDoc(doc(db, "users", uid), {
+                examenes_pendientes_revision: false
+            }).catch(e=>console.log(e));
+        }
+
+        let activeEncounterId = null;
+        let activeEncounterData = null;
+
+        async function checkForActiveEncounter(uid) {
+            activeEncounterId = null;
+            activeEncounterData = null;
+            const btnMain = document.getElementById('btn-encounter-main');
+            const btnClose = document.getElementById('btn-encounter-close');
+            
+            const q = query(collection(db, "historial_clinico"), where("id_paciente", "==", uid), where("medico", "==", currentUserName), where("estado", "==", "abierto"));
+            const snap = await getDocs(q);
+            
+            if(!snap.empty) {
+                activeEncounterId = snap.docs[0].id;
+                activeEncounterData = snap.docs[0].data();
+                btnMain.innerHTML = '<i class="fa-solid fa-pen-to-square"></i> Editar Atención';
+                btnMain.classList.replace('bg-medical-600', 'bg-amber-500');
+                btnMain.classList.replace('hover:bg-medical-700', 'hover:bg-amber-600');
+                btnClose.classList.remove('hidden');
+            } else {
+                btnMain.innerHTML = '<i class="fa-solid fa-play"></i> Iniciar Atención';
+                btnMain.classList.replace('bg-amber-500', 'bg-medical-600');
+                btnMain.classList.replace('hover:bg-amber-600', 'hover:bg-medical-700');
+                btnClose.classList.add('hidden');
+            }
+        }
+
+        let docCalendarDate = new Date();
+        let docCalendarViewMode = 'day';
+
+        window.setCalendarView = function(view) {
+            docCalendarViewMode = view;
+            document.querySelectorAll('[id^="cal-btn-"]').forEach(el => {
+                el.classList.remove('bg-white', 'shadow-sm', 'text-slate-700');
+                el.classList.add('text-slate-500');
+            });
+            const activeBtn = document.getElementById('cal-btn-' + view);
+            if(activeBtn) {
+                activeBtn.classList.remove('text-slate-500');
+                activeBtn.classList.add('bg-white', 'shadow-sm', 'text-slate-700');
+            }
+            window.renderDoctorCalendar();
+        };
+
+        window.calendarHoy = () => { docCalendarDate = new Date(); window.renderDoctorCalendar(); };
+        window.calendarPrevDay = () => { 
+            if(docCalendarViewMode === 'day') docCalendarDate.setDate(docCalendarDate.getDate() - 1); 
+            else if(docCalendarViewMode === 'week') docCalendarDate.setDate(docCalendarDate.getDate() - 7);
+            else if(docCalendarViewMode === 'month') docCalendarDate.setMonth(docCalendarDate.getMonth() - 1);
+            window.renderDoctorCalendar(); 
+        };
+        window.calendarNextDay = () => { 
+            if(docCalendarViewMode === 'day') docCalendarDate.setDate(docCalendarDate.getDate() + 1); 
+            else if(docCalendarViewMode === 'week') docCalendarDate.setDate(docCalendarDate.getDate() + 7);
+            else if(docCalendarViewMode === 'month') docCalendarDate.setMonth(docCalendarDate.getMonth() + 1);
+            window.renderDoctorCalendar(); 
+        };
+
+        window.renderDoctorCalendar = async function() {
+            if(!currentUserName || currentRole !== 'medico') return;
+            const grid = document.getElementById('calendar-grid');
+            grid.innerHTML = '<div class="text-center p-20 text-slate-400">Cargando...</div>';
+            
+            const q = query(collection(db, "citas"), where("medico_seleccionado", "==", currentUserName));
+            const snap = await getDocs(q);
+            let todasCitas = [];
+            snap.forEach(d => todasCitas.push({id: d.id, ...d.data()}));
+            
+            let html = '';
+            
+            if(docCalendarViewMode === 'day') {
+                const dateStr = docCalendarDate.toISOString().split('T')[0];
+                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                document.getElementById('calendar-current-date-label').innerText = docCalendarDate.toLocaleDateString('es-ES', options).replace(/^\w/, (c) => c.toUpperCase());
+                
+                const citas = todasCitas.filter(c => c.fecha === dateStr);
+                
+                for(let i = 8; i <= 18; i++) {
+                    html += `
+                    <div class="flex border-b border-slate-200 h-16 relative">
+                        <div class="w-16 border-r border-slate-200 flex justify-center text-[10px] text-slate-400 font-bold -mt-2 bg-white relative z-10 py-1">${i.toString().padStart(2, '0')}:00</div>
+                        <div class="flex-1 relative" id="cal-hour-${i}"></div>
+                    </div>`;
+                }
+                grid.innerHTML = html;
+                
+                citas.forEach(cita => {
+                    const hourPart = parseInt(cita.hora.split(':')[0]);
+                    const minPart = parseInt(cita.hora.split(':')[1]);
+                    const container = document.getElementById('cal-hour-' + hourPart);
+                    if(container) {
+                        const topOffset = (minPart / 60) * 100;
+                        const blockHeight = '48px';
+                        const isAttended = cita.estado === 'atendida';
+                        const colorClasses = isAttended ? 'bg-slate-100 border-slate-300 text-slate-600' : 'bg-medical-100 border-medical-400 text-medical-800 cursor-pointer hover:bg-medical-200 hover:shadow-md transition-all';
+                        const clickEv = isAttended ? '' : `onclick="docSwitchTab('pacientes'); window.selectPatientForChart('${cita.id_paciente}', '${cita.nombre_paciente}');"`;
+                        
+                        container.innerHTML += `
+                        <div ${clickEv} class="absolute left-4 right-4 border-l-4 rounded-r p-2 shadow-sm overflow-hidden text-xs ${colorClasses}" style="top: ${topOffset}%; height: ${blockHeight}; z-index: 20;">
+                            <div class="font-bold whitespace-nowrap overflow-hidden text-ellipsis">${cita.hora} - ${cita.nombre_paciente}</div>
+                            <div class="text-[10px] opacity-80 font-medium">${cita.tipo === 'examen' ? 'Examen: ' + cita.nombre_examen : 'Consulta Médica'}</div>
+                        </div>`;
+                    }
+                });
+            } 
+            else if(docCalendarViewMode === 'week') {
+                const startOfWeek = new Date(docCalendarDate);
+                const day = startOfWeek.getDay(), diff = startOfWeek.getDate() - day + (day == 0 ? -6:1);
+                startOfWeek.setDate(diff);
+                const endOfWeek = new Date(startOfWeek);
+                endOfWeek.setDate(startOfWeek.getDate() + 6);
+                
+                document.getElementById('calendar-current-date-label').innerText = `Semana del ${startOfWeek.getDate()} al ${endOfWeek.getDate()} de ${startOfWeek.toLocaleDateString('es-ES', {month: 'long'})}`;
+                
+                let daysHtml = '<div class="flex h-full min-w-[600px] overflow-x-auto"><div class="w-16 shrink-0 border-r border-slate-200"></div>';
+                let currentDay = new Date(startOfWeek);
+                const weekDays = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
+                for(let i=0; i<7; i++) {
+                    const dateStr = currentDay.toISOString().split('T')[0];
+                    const isToday = dateStr === new Date().toISOString().split('T')[0];
+                    daysHtml += `<div class="flex-1 min-w-[120px] border-r border-slate-200"><div class="h-12 border-b border-slate-200 flex flex-col items-center justify-center ${isToday?'bg-medical-50':''}"><span class="text-[10px] text-slate-500 uppercase font-bold">${weekDays[i]}</span><span class="text-sm font-bold ${isToday?'text-medical-600':'text-slate-800'}">${currentDay.getDate()}</span></div><div class="relative h-[660px]" id="cal-week-${dateStr}">`;
+                    for(let h = 8; h <= 18; h++) {
+                        daysHtml += `<div class="absolute w-full border-b border-slate-100 h-16" style="top: ${(h-8)*64}px;"></div>`;
+                    }
+                    daysHtml += `</div></div>`;
+                    currentDay.setDate(currentDay.getDate() + 1);
+                }
+                
+                // Add hours axis
+                daysHtml += `<div class="absolute left-0 top-12 bottom-0 w-16 pointer-events-none">`;
+                for(let h = 8; h <= 18; h++) {
+                    daysHtml += `<div class="h-16 flex justify-center"><span class="text-[9px] text-slate-400 font-bold bg-white -mt-2 h-4 px-1">${h.toString().padStart(2, '0')}:00</span></div>`;
+                }
+                daysHtml += `</div></div>`;
+                grid.innerHTML = daysHtml;
+                
+                todasCitas.forEach(cita => {
+                    const container = document.getElementById('cal-week-' + cita.fecha);
+                    if(container) {
+                        const hourPart = parseInt(cita.hora.split(':')[0]);
+                        const minPart = parseInt(cita.hora.split(':')[1]);
+                        const topOffset = ((hourPart - 8) * 64) + ((minPart / 60) * 64);
+                        const isAttended = cita.estado === 'atendida';
+                        const colorClasses = isAttended ? 'bg-slate-100 border-slate-300 text-slate-600' : 'bg-medical-100 border-medical-400 text-medical-800 cursor-pointer hover:bg-medical-200 shadow-sm';
+                        const clickEv = isAttended ? '' : `onclick="docSwitchTab('pacientes'); window.selectPatientForChart('${cita.id_paciente}', '${cita.nombre_paciente}');"`;
+                        
+                        container.innerHTML += `
+                        <div ${clickEv} class="absolute left-1 right-1 border-l-4 rounded-r p-1 overflow-hidden text-[9px] leading-tight ${colorClasses}" style="top: ${topOffset}px; height: 48px; z-index: 20;">
+                            <div class="font-bold">${cita.hora}</div>
+                            <div class="whitespace-nowrap overflow-hidden text-ellipsis">${cita.nombre_paciente}</div>
+                        </div>`;
+                    }
+                });
+            }
+            else if(docCalendarViewMode === 'month') {
+                const month = docCalendarDate.getMonth();
+                const year = docCalendarDate.getFullYear();
+                document.getElementById('calendar-current-date-label').innerText = docCalendarDate.toLocaleDateString('es-ES', {month: 'long', year: 'numeric'}).replace(/^\w/, c => c.toUpperCase());
+                
+                const firstDay = new Date(year, month, 1).getDay();
+                const daysInMonth = new Date(year, month + 1, 0).getDate();
+                const offset = firstDay === 0 ? 6 : firstDay - 1;
+                
+                let monthHtml = '<div class="grid grid-cols-7 h-full text-center">';
+                const weekDays = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
+                weekDays.forEach(wd => monthHtml += `<div class="h-10 border-b border-slate-200 flex items-center justify-center text-[10px] uppercase font-bold text-slate-500 bg-slate-50">${wd}</div>`);
+                
+                let dayCounter = 1;
+                for(let i=0; i<42; i++) {
+                    if(i < offset || dayCounter > daysInMonth) {
+                        monthHtml += `<div class="border-r border-b border-slate-100 bg-slate-50/50 min-h-[100px]"></div>`;
+                    } else {
+                        const dateStr = `${year}-${(month+1).toString().padStart(2,'0')}-${dayCounter.toString().padStart(2,'0')}`;
+                        const isToday = dateStr === new Date().toISOString().split('T')[0];
+                        monthHtml += `
+                        <div class="border-r border-b border-slate-100 min-h-[120px] p-1 flex flex-col">
+                            <div class="text-right mb-1"><span class="${isToday?'bg-medical-500 text-white rounded-full w-6 h-6 inline-flex items-center justify-center':'text-slate-600'} text-xs font-bold">${dayCounter}</span></div>
+                            <div class="flex-1 flex flex-col gap-1 overflow-y-auto" id="cal-month-${dateStr}"></div>
+                        </div>`;
+                        dayCounter++;
+                    }
+                }
+                monthHtml += '</div>';
+                grid.innerHTML = monthHtml;
+                
+                todasCitas.forEach(cita => {
+                    const container = document.getElementById('cal-month-' + cita.fecha);
+                    if(container) {
+                        const isAttended = cita.estado === 'atendida';
+                        const colorClasses = isAttended ? 'bg-slate-100 text-slate-500' : 'bg-medical-50 text-medical-700 cursor-pointer hover:bg-medical-100';
+                        const clickEv = isAttended ? '' : `onclick="docSwitchTab('pacientes'); window.selectPatientForChart('${cita.id_paciente}', '${cita.nombre_paciente}');"`;
+                        
+                        container.innerHTML += `
+                        <div ${clickEv} class="text-[9px] p-1 rounded font-bold text-left whitespace-nowrap overflow-hidden text-ellipsis ${colorClasses}">
+                            ${cita.hora} - ${cita.nombre_paciente.split(' ')[0]}
+                        </div>`;
+                    }
+                });
+            }
+        };
+
+        function refreshDoctorChartData(uid) {
+            // Listen to Historial (Only records by this doctor)
+            onSnapshot(query(collection(db, "historial_clinico"), where("id_paciente", "==", uid), where("medico", "==", currentUserName)), (snap) => {
+                let html = '';
+                let items = [];
+                snap.forEach(d => items.push(d.data()));
+                items.sort((a,b) => b.timestamp - a.timestamp);
+                
+                if(items.length===0) html = '<div class="text-center p-8 text-slate-400">Sin registros.</div>';
+                items.forEach(d => {
+                    html += `
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-1 h-full bg-medical-500"></div>
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-[10px] font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded uppercase">${d.fecha}</span>
+                            <span class="text-[10px] font-bold text-medical-600"><i class="fa-solid fa-user-doctor"></i> ${d.medico}</span>
+                        </div>
+                        <p class="text-[11px] text-slate-500 uppercase font-bold mt-2">Diagnóstico</p>
+                        <p class="text-sm font-medium text-slate-800">${d.diagnostico}</p>
+                        <p class="text-[11px] text-slate-500 uppercase font-bold mt-2">Tratamiento / Indicaciones</p>
+                        <p class="text-xs text-slate-600 bg-slate-50 p-2 rounded mt-1">${d.tratamiento}</p>
+                    </div>`;
+                });
+                document.getElementById('chart-content-historial').innerHTML = html;
+            });
+
+            // Listen to Examenes
+            onSnapshot(query(collection(db, "examenes"), where("id_paciente", "==", uid)), (snap) => {
+                let html = '';
+                let items = [];
+                snap.forEach(d => items.push(d.data()));
+                items.sort((a,b) => b.timestamp - a.timestamp);
+                
+                if(items.length===0) html = '<div class="text-center p-8 text-slate-400">Sin exámenes.</div>';
+                items.forEach(d => {
+                    const isPend = d.estado === 'pendiente';
+                    html += `
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full ${isPend?'bg-orange-100 text-orange-600':'bg-blue-100 text-blue-600'} flex items-center justify-center">
+                                <i class="fa-solid fa-file-medical"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 text-sm">${d.tipo}</h4>
+                                <p class="text-xs text-slate-500">${d.fecha}</p>
+                            </div>
+                        </div>
+                        <div>
+                            ${isPend ? `
+                                <div class="flex flex-col items-end gap-2">
+                                    <span class="text-[10px] bg-orange-100 text-orange-700 px-2 py-1 rounded font-bold">Pendiente Paciente</span>
+                                    <div class="flex gap-2">
+                                        <button onclick="window.openBookingModal('Laboratorio Clínico', 'examen', '${d.tipo}')" class="text-[10px] bg-slate-800 text-white px-2 py-1 rounded font-bold hover:bg-slate-700 transition-colors shadow-sm">
+                                            <i class="fa-solid fa-calendar-plus"></i> Agendar
+                                        </button>
+                                        <button onclick="window.downloadOrder('${d.id}')" class="text-[10px] bg-white border border-slate-300 text-slate-700 px-2 py-1 rounded font-bold hover:bg-slate-50 transition-colors shadow-sm">
+                                            <i class="fa-solid fa-download"></i> Bajar Orden
+                                        </button>
+                                    </div>
+                                </div>
+                            ` 
+                                     : '<span class="text-[10px] bg-green-100 text-green-700 px-2 py-1 rounded font-bold cursor-pointer hover:bg-green-200"><i class="fa-solid fa-eye"></i> Ver PDF Subido</span>'}
+                        </div>
+                    </div>`;
+                });
+                document.getElementById('chart-content-examenes').innerHTML = html;
+            });
+
+            // Listen to Recetas
+            onSnapshot(query(collection(db, "recetas"), where("id_paciente", "==", uid)), (snap) => {
+                let html = '';
+                let items = [];
+                snap.forEach(d => items.push(d.data()));
+                items.sort((a,b) => b.timestamp - a.timestamp);
+                
+                if(items.length===0) html = '<div class="text-center p-8 text-slate-400">Sin recetas.</div>';
+                items.forEach(d => {
+                    html += `
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-start gap-3">
+                        <i class="fa-solid fa-prescription-bottle-medical text-indigo-500 text-xl mt-1"></i>
+                        <div>
+                            <span class="text-[10px] font-bold text-slate-400">${d.fecha}</span>
+                            <p class="text-sm font-bold text-slate-800 mt-1">${d.medicamentos}</p>
+                        </div>
+                    </div>`;
+                });
+                document.getElementById('chart-content-recetas').innerHTML = html;
+            });
+        }
+
+        // New Record Logic
+        window.openNewRecordModal = () => {
+            if(activeEncounterData) {
+                document.getElementById('modal-diag').value = activeEncounterData.diagnostico || "";
+                document.getElementById('modal-trat').value = activeEncounterData.tratamiento || "";
+                document.getElementById('modal-receta').value = ""; // Assuming prescriptions are one-off for demo
+                document.getElementById('modal-examen').value = activeEncounterData.examen_solicitado || "";
+            } else {
+                document.getElementById('modal-diag').value = "";
+                document.getElementById('modal-trat').value = "";
+                document.getElementById('modal-receta').value = "";
+                document.getElementById('modal-examen').value = "";
+            }
+            const el = document.getElementById('modal-new-record');
+            el.style.display = 'flex';
+        };
+        window.closeNewRecordModal = () => {
+            const el = document.getElementById('modal-new-record');
+            el.style.display = 'none';
+        };
+        window.saveNewRecord = async function() {
+            const diag = document.getElementById('modal-diag').value;
+            const trat = document.getElementById('modal-trat').value;
+            const rec = document.getElementById('modal-receta').value;
+            const exam = document.getElementById('modal-examen').value;
+            
+            // Diagnosis is NO longer required to save an open encounter.
+            const btn = document.getElementById('btn-save-record');
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Guardando...';
+            
+            const today = new Date().toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
+            const ts = new Date().getTime();
+
+            // 1. Add Exam if provided
+            let examIdRef = null;
+            if(exam) {
+                const examDoc = await addDoc(collection(db, "examenes"), {
+                    id_paciente: doctorSelectedPatientId,
+                    fecha: today,
+                    tipo: exam,
+                    medico: currentUserName,
+                    estado: "pendiente",
+                    resultado: "",
+                    timestamp: ts
+                });
+                examIdRef = examDoc.id;
+            }
+
+            // 2. Add or Update History
+            const docData = {
+                id_paciente: doctorSelectedPatientId,
+                fecha: today,
+                especialidad: "Atención Clínica",
+                medico: currentUserName,
+                diagnostico: diag,
+                tratamiento: trat,
+                examen_solicitado: exam || "",
+                estado: "abierto",
+                timestamp: ts
+            };
+            if (examIdRef) docData.examen_id = examIdRef;
+            
+            if(activeEncounterId) {
+                await setDoc(doc(db, "historial_clinico", activeEncounterId), docData, { merge: true });
+            } else {
+                await addDoc(collection(db, "historial_clinico"), docData);
+            }
+
+            // 3. Add Prescription if provided
+            if(rec) {
+                await addDoc(collection(db, "recetas"), {
+                    id_paciente: doctorSelectedPatientId,
+                    fecha: today,
+                    medico: currentUserName,
+                    medicamento: rec,
+                    timestamp: ts
+                });
+            }
+
+            btn.innerHTML = '<i class="fa-solid fa-pen-to-square"></i> Guardar';
+            closeNewRecordModal();
+            checkForActiveEncounter(doctorSelectedPatientId);
+        }
+
+        window.closeEncounter = async function() {
+            if(!activeEncounterId) return;
+            if(!confirm("¿Seguro que deseas CERRAR esta atención? Ya no podrás editarla y será marcada como finalizada.")) return;
+            
+            await setDoc(doc(db, "historial_clinico", activeEncounterId), { estado: "cerrado" }, { merge: true });
+            await checkForActiveEncounter(doctorSelectedPatientId);
+        }
+
+        // ==============================================
+        // PATIENT APP LOGIC (PWA)
+        // ==============================================
+        function initPatientApp() {
+            // Book logic is already defined globally
+            
+            // Listen to My History
+            onSnapshot(query(collection(db, "historial_clinico"), where("id_paciente", "==", currentUserId)), (snap) => {
+                let html = '';
+                let items = [];
+                snap.forEach(d => items.push(d.data()));
+                items.sort((a,b) => b.timestamp - a.timestamp);
+                
+                document.getElementById('pat-ehr-loader').classList.add('hidden');
+                document.getElementById('pat-content-historial').classList.remove('hidden');
+                
+                if(items.length===0) html = '<div class="text-center p-6 text-slate-400 bg-white rounded-xl border border-slate-200 shadow-sm mt-4">Sin registros.</div>';
+                items.forEach(d => {
+                    html += `
+                    <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-1 h-full bg-medical-500"></div>
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-[9px] font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-md uppercase">${d.fecha}</span>
+                            <span class="text-[9px] font-bold text-medical-600">${d.medico}</span>
+                        </div>
+                        <h4 class="font-bold text-slate-800 text-sm mt-1">${d.diagnostico}</h4>
+                        <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 mt-2">
+                            <p class="text-[10px] text-slate-500 uppercase font-bold mb-1">Tratamiento / Indicaciones</p>
+                            <p class="text-xs text-slate-700">${d.tratamiento}</p>
+                        </div>
+                        ${d.examen_solicitado ? `
+                        <div class="mt-3 p-3 bg-blue-50/50 border border-blue-100 rounded-xl">
+                            <p class="text-[10px] text-blue-600 uppercase font-bold mb-1"><i class="fa-solid fa-flask"></i> Examen Solicitado</p>
+                            <p class="text-xs text-slate-800 font-medium mb-2">${d.examen_solicitado}</p>
+                            <button id="btn-send-${d.examen_id}" onclick="window.sendExamToDoctor('${d.examen_id}')" class="w-full text-xs font-bold bg-white border border-blue-200 text-blue-600 py-2 rounded-lg hover:bg-blue-50 transition-colors shadow-sm">
+                                <i class="fa-solid fa-cloud-arrow-up"></i> Subir Resultado al Médico
+                            </button>
+                        </div>
+                        ` : ''}
+                    </div>`;
+                });
+                document.getElementById('pat-content-historial').innerHTML = html;
+            });
+
+            // Listen to My Exams
+            onSnapshot(query(collection(db, "examenes"), where("id_paciente", "==", currentUserId)), (snap) => {
+                let html = '';
+                let items = [];
+                snap.forEach(d => { items.push({...d.data(), id: d.id}); });
+                items.sort((a,b) => b.timestamp - a.timestamp);
+                
+                let hasPending = false;
+
+                if(items.length===0) html = '<div class="text-center p-6 text-slate-400 bg-white rounded-xl border border-slate-200 shadow-sm mt-4">Sin exámenes.</div>';
+                items.forEach(d => {
+                    const isPend = d.estado === 'pendiente';
+                    if(isPend) hasPending = true;
+                    html += `
+                        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col gap-3">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full ${isPend?'bg-orange-100 text-orange-600':'bg-green-100 text-green-600'} flex items-center justify-center shrink-0">
+                                    <i class="fa-solid ${isPend?'fa-file-signature':'fa-file-medical'}"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-slate-800 text-sm leading-tight">${d.tipo}</h4>
+                                    <p class="text-[11px] text-slate-500 mt-0.5">${d.fecha} &bull; Solicitado por ${d.medico}</p>
+                                </div>
+                            </div>
+                            
+                            ${isPend ? `
+                                <div class="grid grid-cols-2 gap-2 mt-1">
+                                    <button onclick="window.openBookingModal('Laboratorio Clínico', 'examen', '${d.tipo}', '${d.id}')" class="bg-slate-800 text-white text-[11px] font-bold py-2 rounded-lg hover:bg-slate-700 transition-colors shadow-sm">
+                                        <i class="fa-solid fa-calendar-plus"></i> Agendar Aquí
+                                    </button>
+                                    <button onclick="window.downloadOrder('${d.id}')" class="bg-white border border-slate-300 text-slate-700 text-[11px] font-bold py-2 rounded-lg hover:bg-slate-50 transition-colors shadow-sm">
+                                        <i class="fa-solid fa-download"></i> Bajar Orden
+                                    </button>
+                                </div>
+                                ${d.gestionado ? `
+                                <button id="btn-send-${d.id}" onclick="window.sendExamToDoctor('${d.id}')" class="w-full mt-2 text-xs font-bold bg-blue-50 border border-blue-200 text-blue-600 py-2 rounded-lg hover:bg-blue-100 transition-colors shadow-sm">
+                                    <i class="fa-solid fa-cloud-arrow-up"></i> Ya me lo tomé (Subir PDF)
+                                </button>
+                                ` : ''}
+                            ` : `
+                                <div class="bg-green-50 text-green-700 text-xs font-bold p-2 rounded-lg text-center border border-green-100">
+                                    <i class="fa-solid fa-check-circle"></i> Entregado al médico
+                                </div>
+                            `}
+                        </div>`;
+                });
+                document.getElementById('pat-content-examenes').innerHTML = html;
+                
+                // Update Home widget
+                const homeWidget = document.getElementById('pat-home-status');
+                if(hasPending) {
+                    homeWidget.innerHTML = `
+                        <div class="flex items-center gap-3 mb-2">
+                            <div class="w-10 h-10 rounded-full bg-orange-100 text-orange-600 flex justify-center items-center text-lg"><i class="fa-solid fa-bell"></i></div>
+                            <div>
+                                <p class="text-xs text-orange-600 font-bold uppercase tracking-wider">Acción Requerida</p>
+                                <p class="font-bold text-slate-800 text-sm">Tienes órdenes médicas vigentes</p>
+                            </div>
+                        </div>
+                        <button onclick="window.goToExams()" class="w-full mt-2 py-2 bg-orange-50 hover:bg-orange-100 text-orange-700 text-xs font-bold rounded-xl transition-colors border border-orange-200">Ver órdenes médicas</button>
+                    `;
+                } else {
+                    homeWidget.innerHTML = `
+                        <div class="flex items-center gap-3 mb-2">
+                            <div class="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex justify-center items-center text-lg"><i class="fa-solid fa-shield-heart"></i></div>
+                            <div>
+                                <p class="text-xs text-slate-500">Estado general</p>
+                                <p class="font-bold text-slate-800 text-sm">Salud al día</p>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+
+            // Listen to My Prescriptions
+            onSnapshot(query(collection(db, "recetas"), where("id_paciente", "==", currentUserId)), (snap) => {
+                let html = '';
+                let items = [];
+                snap.forEach(d => items.push(d.data()));
+                items.sort((a,b) => b.timestamp - a.timestamp);
+                
+                if(items.length===0) html = '<div class="text-center p-6 text-slate-400 bg-white rounded-xl border border-slate-200 shadow-sm mt-4">Sin recetas médicas.</div>';
+                items.forEach(d => {
+                    html += `
+                    <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+                        <div class="flex items-start gap-3 mb-3">
+                            <div class="w-8 h-8 rounded bg-indigo-50 text-indigo-500 flex items-center justify-center shrink-0 mt-1"><i class="fa-solid fa-prescription-bottle-medical"></i></div>
+                            <div class="flex-1">
+                                <span class="text-[9px] font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-md uppercase">${d.fecha}</span>
+                                <p class="font-bold text-slate-800 text-sm mt-1 leading-tight">${d.medicamentos}</p>
+                            </div>
+                        </div>
+                        <button class="w-full py-2 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 font-bold text-xs rounded-lg transition-colors flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-download"></i> Descargar PDF Receta
+                        </button>
+                    </div>`;
+                });
+                document.getElementById('pat-content-recetas').innerHTML = html;
+            });
+            
+            // Listen to new appointments (booking flow)
+            onSnapshot(query(collection(db, "citas"), where("id_paciente", "==", currentUserId)), (snap) => {
+                snap.docChanges().forEach((change) => {
+                    const data = change.doc.data();
+                    if (data.estado === 'en_consulta') {
+                        document.getElementById('booking-loader').classList.add('hidden');
+                        patSwitchTab('home');
+                        showToast(`Hora confirmada con ${data.medico_seleccionado}`);
+                        // Change home widget
+                        document.getElementById('pat-home-status').innerHTML = `
+                            <div class="flex items-center gap-3 mb-2">
+                                <div class="w-10 h-10 rounded-full bg-green-100 text-green-600 flex justify-center items-center text-lg"><i class="fa-solid fa-check"></i></div>
+                                <div>
+                                    <p class="text-xs text-slate-500">Próxima cita</p>
+                                    <p class="font-bold text-slate-800 text-sm">Esperando atención online</p>
+                                </div>
+                            </div>
+                        `;
+                    }
+                });
+            });
+        }
+
+        // NEW BOOKING LOGIC WITH CALENDAR
+        let pendingBookingDoctor = null;
+        let pendingBookingType = null;
+        let pendingBookingExamName = null;
+        let pendingBookingExamId = null;
+
+        window.openBookingModal = function(doctorName, tipo, examName = '', examId = null) {
+            pendingBookingDoctor = doctorName;
+            pendingBookingType = tipo;
+            pendingBookingExamName = examName;
+            pendingBookingExamId = examId;
+            
+            if(tipo === 'examen') {
+                document.getElementById('booking-title').innerText = `Agendar ${examName}`;
+            } else {
+                document.getElementById('booking-title').innerText = `Agendar con ${doctorName}`;
+            }
+            
+            document.getElementById('modal-booking').classList.remove('hidden');
+        };
+        
+        window.closeBookingModal = function() {
+            document.getElementById('modal-booking').classList.add('hidden');
+        };
+
+        window.confirmBooking = async function() {
+            const date = document.getElementById('booking-date').value;
+            const time = document.getElementById('booking-time').value;
+            
+            if(!date || !time) {
+                alert("Por favor selecciona una fecha y hora.");
+                return;
+            }
+
+            document.getElementById('modal-booking').classList.add('hidden');
+            document.getElementById('booking-loader').classList.remove('hidden');
+            
+            // Add doctor to patient's authorized list if it's a doctor (not generic lab)
+            if(pendingBookingDoctor !== 'Laboratorio Clínico') {
+                try {
+                    await updateDoc(doc(db, "users", currentUserId), {
+                        medicos_tratantes: arrayUnion(pendingBookingDoctor)
+                    });
+                } catch (e) {
+                    console.log("Error autorizando al medico", e);
+                }
+            }
+
+            const docData = {
+                id_paciente: currentUserId,
+                nombre_paciente: currentUserName,
+                medico_seleccionado: pendingBookingDoctor,
+                estado: 'programada', // Changed from en_consulta
+                tipo: pendingBookingType,
+                nombre_examen: pendingBookingExamName,
+                fecha: date,
+                hora: time,
+                timestamp: new Date().getTime()
+            };
+
+            // We use addDoc to allow multiple appointments per user instead of setDoc with fixed id
+            await addDoc(collection(db, "citas"), docData);
+            
+            if(pendingBookingExamId) {
+                await setDoc(doc(db, "examenes", pendingBookingExamId), { gestionado: true }, { merge: true });
+            }
+            
+            document.getElementById('booking-loader').classList.add('hidden');
+            
+            // Navigate to Home or Calendar to see the booked appointment
+            patSwitchTab('home');
+            alert(`¡Cita agendada para el ${date} a las ${time}!`);
+        };
+
+        window.goToExams = function() {
+            patSwitchTab('salud');
+            patSaludSubtab('examenes');
+        }
+
+        // NEW EXAM FLOW LOGIC
+        window.downloadOrder = async function(examId) {
+            showToast("Descargando orden médica. Revisa tu carpeta de descargas.");
+            await setDoc(doc(db, "examenes", examId), { gestionado: true }, { merge: true });
+        }
+        
+        window.sendExamToDoctor = async function(examId) {
+            const btn = document.getElementById('btn-send-' + examId);
+            if(btn) {
+                btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Enviando...';
+                btn.disabled = true;
+            }
+            
+            setTimeout(async () => {
+                try {
+                    await setDoc(doc(db, "examenes", examId), { estado: "subido", resultado: "PDF Archivo enviado por Paciente" }, { merge: true });
+                    await setDoc(doc(db, "users", currentUserId), { examenes_pendientes_revision: true }, { merge: true });
+                    showToast("El examen ha sido enviado al médico exitosamente.");
+                } catch (error) {
+                    alert("Error Firebase: " + error.message);
+                    if(btn) {
+                        btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Enviar al Médico';
+                        btn.disabled = false;
+                    }
+                }
+            }, 800);
+        }
+    </script>
+</body>
+</html>

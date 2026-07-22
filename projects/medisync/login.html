@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthSync AI - Modo Demo Rápido</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        medical: { 50: '#f0fdfa', 100: '#ccfbf1', 500: '#14b8a6', 600: '#0d9488', 800: '#115e59', 900: '#134e4a', 950: '#042f2e' }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-slate-50 flex items-center justify-center min-h-screen">
+    <div class="relative w-full max-w-5xl px-6 py-12">
+        <div class="absolute top-10 left-10 w-96 h-96 bg-medical-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10"></div>
+        <div class="absolute bottom-10 right-10 w-96 h-96 bg-indigo-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10"></div>
+
+        <div class="bg-white rounded-3xl shadow-xl border border-slate-100 p-8 md:p-10 relative z-10">
+            <div class="text-center mb-10">
+                <div class="w-16 h-16 bg-medical-600 text-white rounded-2xl flex items-center justify-center text-3xl mx-auto mb-4 shadow-lg shadow-medical-500/30">
+                    <i class="fa-solid fa-bolt"></i>
+                </div>
+                <h2 class="text-3xl font-bold text-slate-800">HealthSync Portfolio Demo</h2>
+                <p class="text-slate-500 mt-2 max-w-xl mx-auto">Selecciona un personaje para probar el sistema interactivo. Si es la primera vez que haces clic, la cuenta y su historial médico hiperrealista se crearán en la nube.</p>
+            </div>
+
+            <div id="loading-overlay" class="hidden absolute inset-0 bg-white/90 backdrop-blur-sm z-20 flex-col items-center justify-center rounded-3xl">
+                <i class="fa-solid fa-circle-notch fa-spin text-5xl text-medical-600 mb-4"></i>
+                <h3 class="text-xl font-bold text-slate-800">Conectando a la Nube...</h3>
+                <p class="text-slate-500 mt-2" id="loading-text">Autenticando usuario pre-registrado</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- PANEL MÉDICOS -->
+                <div class="bg-slate-50 rounded-2xl p-6 border border-slate-200">
+                    <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+                        <i class="fa-solid fa-user-doctor text-medical-600"></i> Entrar como Médico
+                    </h3>
+                    <div class="grid grid-cols-1 gap-3">
+                        <button onclick="fastLogin('roberto@demo.cl', 'Dr. Roberto Sánchez', 'medico')" class="w-full bg-white hover:bg-medical-50 border border-slate-200 hover:border-medical-300 transition-all rounded-xl p-4 flex items-center gap-4 group shadow-sm text-left">
+                            <img src="https://i.pravatar.cc/150?img=11" class="w-12 h-12 rounded-full object-cover">
+                            <div>
+                                <h4 class="font-bold text-slate-800 group-hover:text-medical-700">Dr. Roberto Sánchez</h4>
+                                <p class="text-xs text-slate-500">Traumatología</p>
+                            </div>
+                        </button>
+                        
+                        <button onclick="fastLogin('elena@demo.cl', 'Dra. Elena Valdés', 'medico')" class="w-full bg-white hover:bg-medical-50 border border-slate-200 hover:border-medical-300 transition-all rounded-xl p-4 flex items-center gap-4 group shadow-sm text-left">
+                            <img src="https://i.pravatar.cc/150?img=47" class="w-12 h-12 rounded-full object-cover">
+                            <div>
+                                <h4 class="font-bold text-slate-800 group-hover:text-medical-700">Dra. Elena Valdés</h4>
+                                <p class="text-xs text-slate-500">Medicina General</p>
+                            </div>
+                        </button>
+
+                        <button onclick="fastLogin('sheldon@demo.cl', 'Dr. Sheldon Cooper', 'medico')" class="w-full bg-white hover:bg-medical-50 border border-slate-200 hover:border-medical-300 transition-all rounded-xl p-4 flex items-center gap-4 group shadow-sm text-left">
+                            <img src="https://i.pravatar.cc/150?img=12" class="w-12 h-12 rounded-full object-cover">
+                            <div>
+                                <h4 class="font-bold text-slate-800 group-hover:text-medical-700">Dr. Sheldon Cooper</h4>
+                                <p class="text-xs text-slate-500">Neurología</p>
+                            </div>
+                        </button>
+
+                        <button onclick="fastLogin('matias@demo.cl', 'Klgo. Matías Fernández', 'medico')" class="w-full bg-white hover:bg-medical-50 border border-slate-200 hover:border-medical-300 transition-all rounded-xl p-4 flex items-center gap-4 group shadow-sm text-left border-l-4 border-l-blue-500">
+                            <img src="https://i.pravatar.cc/150?img=33" class="w-12 h-12 rounded-full object-cover">
+                            <div>
+                                <h4 class="font-bold text-slate-800 group-hover:text-medical-700">Klgo. Matías Fernández</h4>
+                                <p class="text-xs text-slate-500">Kinesiología y Rehabilitación</p>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- PANEL PACIENTES -->
+                <div class="bg-slate-50 rounded-2xl p-6 border border-slate-200">
+                    <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+                        <i class="fa-solid fa-hospital-user text-indigo-600"></i> Entrar como Paciente
+                    </h3>
+                    <div class="space-y-3">
+                        <button onclick="fastLogin('juan@demo.cl', 'Juan Carlos', 'paciente')" class="w-full bg-white hover:bg-indigo-50 border border-slate-200 hover:border-indigo-300 transition-all rounded-xl p-4 flex items-center gap-4 group shadow-sm text-left">
+                            <div class="w-12 h-12 rounded-full bg-indigo-100 text-indigo-600 flex justify-center items-center font-bold text-xl">JC</div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 group-hover:text-indigo-700">Juan Carlos</h4>
+                                <p class="text-xs text-slate-500">Paciente (Con Examen Subido)</p>
+                            </div>
+                        </button>
+
+                        <button onclick="fastLogin('penny@demo.cl', 'Penny', 'paciente')" class="w-full bg-white hover:bg-indigo-50 border border-slate-200 hover:border-indigo-300 transition-all rounded-xl p-4 flex items-center gap-4 group shadow-sm text-left border-l-4 border-l-pink-500">
+                            <div class="w-12 h-12 rounded-full bg-pink-100 text-pink-600 flex justify-center items-center font-bold text-xl">PE</div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 group-hover:text-indigo-700">Penny</h4>
+                                <p class="text-xs text-slate-500">Paciente en Tratamiento (Kine)</p>
+                            </div>
+                        </button>
+
+                        <button onclick="fastLogin('leonard@demo.cl', 'Leonard', 'paciente')" class="w-full bg-white hover:bg-indigo-50 border border-slate-200 hover:border-indigo-300 transition-all rounded-xl p-4 flex items-center gap-4 group shadow-sm text-left border-l-4 border-l-amber-500">
+                            <div class="w-12 h-12 rounded-full bg-amber-100 text-amber-600 flex justify-center items-center font-bold text-xl">LE</div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 group-hover:text-indigo-700">Leonard</h4>
+                                <p class="text-xs text-slate-500">Paciente (Con Examen Pendiente)</p>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- PANEL ADMIN -->
+                <div class="bg-red-50 rounded-2xl p-6 border border-red-200">
+                    <h3 class="text-lg font-bold text-red-800 mb-4 flex items-center gap-2">
+                        <i class="fa-solid fa-shield-halved text-red-600"></i> Administración de Plataforma
+                    </h3>
+                    <button onclick="fastLogin('admin@demo.cl', 'Administrador', 'admin')" class="w-full bg-white hover:bg-red-100 border border-red-200 hover:border-red-300 transition-all rounded-xl p-4 flex items-center justify-center gap-3 group shadow-sm text-center">
+                        <i class="fa-solid fa-server text-red-600 text-xl"></i>
+                        <span class="font-bold text-red-700">Entrar como Administrador</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="mt-10 text-center">
+                <a href="../../proyectos.html" class="inline-block text-sm text-slate-400 hover:text-slate-600 font-medium">
+                    <i class="fa-solid fa-arrow-left mr-1"></i> Volver al catálogo de proyectos
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, addDoc, collection, query, where, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDu8c2RvKIre4MsYyTQI8cm2md26Puf2RQ",
+            authDomain: "healthsync-demo-2be71.firebaseapp.com",
+            projectId: "healthsync-demo-2be71",
+            storageBucket: "healthsync-demo-2be71.firebasestorage.app",
+            messagingSenderId: "207870052713",
+            appId: "1:207870052713:web:d0c4fe26751a3136d195f8"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        const loadingOverlay = document.getElementById('loading-overlay');
+        const loadingText = document.getElementById('loading-text');
+
+        window.fastLogin = async function(email, name, role) {
+            loadingOverlay.classList.remove('hidden');
+            loadingOverlay.classList.add('flex');
+            const password = "password123"; 
+
+            try {
+                loadingText.innerText = "Iniciando sesión segura...";
+                const userCred = await signInWithEmailAndPassword(auth, email, password);
+                
+                const userDoc = await getDoc(doc(db, "users", userCred.user.uid));
+                if (!userDoc.exists()) {
+                    let userData = { nombre: name, rol: role, email: email };
+                    if(role === 'paciente') userData.medicos_tratantes = [];
+                    await setDoc(doc(db, "users", userCred.user.uid), userData);
+                }
+                
+                await seedDemoData(userCred.user.uid, email, role);
+
+                sessionStorage.setItem('healthsync_role', role);
+                sessionStorage.setItem('healthsync_name', name);
+                sessionStorage.setItem('healthsync_uid', userCred.user.uid);
+                window.location.href = 'demo-clinica.html';
+
+            } catch (error) {
+                if (error.code === 'auth/user-not-found' || error.code === 'auth/invalid-credential') {
+                    loadingText.innerText = "Creando base de datos médica hiperrealista para la demo...";
+                    try {
+                        const newCred = await createUserWithEmailAndPassword(auth, email, password);
+                        const uid = newCred.user.uid;
+                        
+                        let userData = { nombre: name, rol: role, email: email };
+                        if(role === 'paciente') userData.medicos_tratantes = [];
+                        await setDoc(doc(db, "users", uid), userData);
+
+                        // Cargar datos demo siempre (si no existen)
+                        await seedDemoData(uid, email, role);
+
+                        sessionStorage.setItem('healthsync_role', role);
+                        sessionStorage.setItem('healthsync_name', name);
+                        sessionStorage.setItem('healthsync_uid', uid);
+                        window.location.href = 'demo-clinica.html';
+
+                    } catch (regError) {
+                        alert("Error al auto-registrar: " + regError.message);
+                        loadingOverlay.classList.add('hidden'); loadingOverlay.classList.remove('flex');
+                    }
+                } else {
+                    alert("Error desconocido: " + error.message);
+                    loadingOverlay.classList.add('hidden'); loadingOverlay.classList.remove('flex');
+                }
+            }
+        };
+
+        // Función para inyectar datos falsos robustos para la demo
+        async function seedDemoData(uid, email, role) {
+            if (role !== 'paciente') return;
+            
+            const histRef = collection(db, "historial_clinico");
+            const examRef = collection(db, "examenes");
+            const recRef = collection(db, "recetas");
+
+            // Verificar si ya tiene historial (para no duplicar en cada login)
+            const q = query(histRef, where("id_paciente", "==", uid));
+            const snap = await getDocs(q);
+            if (!snap.empty) return; // Ya tiene datos
+
+            if (email === 'penny@demo.cl') {
+                await setDoc(doc(db, "users", uid), { medicos_tratantes: ["Klgo. Matías Fernández"] }, { merge: true });
+                await addDoc(histRef, { id_paciente: uid, fecha: "10 de Julio, 2026", especialidad: "Kinesiología", medico: "Klgo. Matías Fernández", diagnostico: "Esguince de Tobillo Grado II (Pie derecho)", tratamiento: "Ejercicios de propiocepción, TENS, Ultrasonido 3Mhz", progreso_sesion: "Sesión 5 de 12", timestamp: new Date().getTime() - 864000000 });
+                await addDoc(histRef, { id_paciente: uid, fecha: "18 de Julio, 2026", especialidad: "Kinesiología", medico: "Klgo. Matías Fernández", diagnostico: "Esguince de Tobillo Grado II (Pie derecho)", tratamiento: "Aumento de carga isométrica, trabajo de marcha. Buen avance.", progreso_sesion: "Sesión 6 de 12", timestamp: new Date().getTime() - 172800000 });
+                await addDoc(recRef, { id_paciente: uid, fecha: "10 de Julio, 2026", medico: "Dr. Roberto Sánchez", medicamentos: "Ibuprofeno 400mg c/8h por 5 días", estado: "inactiva", timestamp: new Date().getTime() - 864000000 });
+            } 
+            else if (email === 'juan@demo.cl') {
+                await setDoc(doc(db, "users", uid), { medicos_tratantes: ["Dra. Elena Valdés"] }, { merge: true });
+                await addDoc(histRef, { id_paciente: uid, fecha: "15 de Junio, 2026", especialidad: "Medicina General", medico: "Dra. Elena Valdés", diagnostico: "Hipertensión Arterial Esencial", tratamiento: "Derivación a cardiología. Iniciar losartán.", progreso_sesion: "", timestamp: new Date().getTime() - 2592000000 });
+                await addDoc(examRef, { id_paciente: uid, fecha: "15 de Junio, 2026", tipo: "Perfil Bioquímico y Hemograma", medico: "Dra. Elena Valdés", estado: "subido", resultado: "Colesterol LDL elevado (160 mg/dL)", timestamp: new Date().getTime() - 2592000000 });
+                await addDoc(recRef, { id_paciente: uid, fecha: "15 de Junio, 2026", medico: "Dra. Elena Valdés", medicamentos: "Losartán 50mg (1 comprimido cada 12h) - 30 días", estado: "activa", timestamp: new Date().getTime() - 2592000000 });
+            } 
+            else if (email === 'leonard@demo.cl') {
+                await setDoc(doc(db, "users", uid), { medicos_tratantes: ["Dr. Roberto Sánchez"] }, { merge: true });
+                await addDoc(histRef, { id_paciente: uid, fecha: "01 de Julio, 2026", especialidad: "Traumatología", medico: "Dr. Roberto Sánchez", diagnostico: "Gonalgia Izquierda (Sospecha lesión meniscal)", tratamiento: "Reposo preventivo. Uso de rodillera articulada.", progreso_sesion: "", timestamp: new Date().getTime() - 1592000000 });
+                await addDoc(examRef, { id_paciente: uid, fecha: "01 de Julio, 2026", tipo: "Resonancia Magnética de Rodilla Izquierda", medico: "Dr. Roberto Sánchez", estado: "pendiente", resultado: "", timestamp: new Date().getTime() - 1592000000 });
+                await addDoc(recRef, { id_paciente: uid, fecha: "01 de Julio, 2026", medico: "Dr. Roberto Sánchez", medicamentos: "Ketorolaco 10mg SOS dolor agudo", estado: "activa", timestamp: new Date().getTime() - 1592000000 });
+            }
+        }
+    </script>
+</body>
+</html>
