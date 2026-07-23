@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Cotizaciones - CertiGas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        brand: { 50: '#f0f9ff', 100: '#e0f2fe', 500: '#0ea5e9', 600: '#0284c7', 900: '#0c4a6e' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #f8fafc; }
+        .glass-header {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        .card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+    </style>
+</head>
+<body class="text-slate-800 font-sans min-h-screen flex flex-col">
+
+    <!-- Top Navigation -->
+    <header class="glass-header sticky top-0 z-50 h-20 flex items-center justify-between px-8">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-brand-500 flex items-center justify-center shadow-lg shadow-brand-500/20">
+                <i class="fa-solid fa-building-user text-white"></i>
+            </div>
+            <div>
+                <h1 class="text-xl font-bold text-slate-900 leading-tight">Portal Cliente</h1>
+                <p class="text-xs text-slate-500 font-medium">Condominio Jardines del Sur</p>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-6">
+            <nav class="hidden md:flex gap-6">
+                <a href="portal-dashboard.html" class="text-slate-500 hover:text-slate-800 font-medium pb-1 transition-colors">Resumen</a>
+                <a href="portal-cotizaciones-lista.html" class="text-brand-600 font-bold border-b-2 border-brand-500 pb-1">Mis Cotizaciones</a>
+                <a href="portal-soporte.html" class="text-slate-500 hover:text-slate-800 font-medium pb-1 transition-colors">Soporte</a>
+            </nav>
+            <div class="w-px h-8 bg-slate-200"></div>
+            <div class="flex items-center gap-3 cursor-pointer" onclick="window.location.href='login.html'">
+                <div class="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 font-bold border border-slate-300">
+                    JS
+                </div>
+                <div class="hidden md:block text-sm">
+                    <p class="font-bold text-slate-800">Juan Pérez</p>
+                    <p class="text-xs text-slate-500">Cerrar Sesión</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-1 max-w-7xl mx-auto w-full p-8 flex flex-col gap-8">
+        
+        <div class="flex justify-between items-end">
+            <div>
+                <h2 class="text-3xl font-bold text-slate-900 tracking-tight">Historial de Documentos</h2>
+                <p class="text-slate-500 mt-1">Revisa, aprueba o descarga tus cotizaciones y certificados pasados.</p>
+            </div>
+            <div class="relative">
+                <i class="fa-solid fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                <input type="text" placeholder="Buscar por ID..." class="pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-all w-64 shadow-sm">
+            </div>
+        </div>
+
+        <div class="card overflow-hidden flex flex-col">
+            <!-- Tabs -->
+            <div class="flex border-b border-slate-200 bg-slate-50/50 px-6">
+                <button class="px-4 py-4 text-sm font-bold text-brand-600 border-b-2 border-brand-500">Todas</button>
+                <button class="px-4 py-4 text-sm font-medium text-slate-500 hover:text-slate-800 transition-colors">Pendientes (1)</button>
+                <button class="px-4 py-4 text-sm font-medium text-slate-500 hover:text-slate-800 transition-colors">Aprobadas</button>
+                <button class="px-4 py-4 text-sm font-medium text-slate-500 hover:text-slate-800 transition-colors">Histórico TC6</button>
+            </div>
+
+            <!-- Table -->
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-white border-b border-slate-200 text-xs uppercase tracking-wider text-slate-500">
+                            <th class="p-6 font-bold">Documento / ID</th>
+                            <th class="p-6 font-bold">Tipo de Servicio</th>
+                            <th class="p-6 font-bold">Fecha de Emisión</th>
+                            <th class="p-6 font-bold">Monto (Bruto)</th>
+                            <th class="p-6 font-bold">Estado</th>
+                            <th class="p-6 font-bold text-right">Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-sm">
+                        <!-- Row 1: Pendiente -->
+                        <tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
+                            <td class="p-6">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-lg bg-orange-100 flex items-center justify-center text-orange-600">
+                                        <i class="fa-solid fa-file-invoice-dollar text-lg"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-bold text-slate-800">COT-2026-089</p>
+                                        <p class="text-xs text-slate-500">Cotización</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="p-6">
+                                <p class="font-bold text-slate-700">Renovación General (120 Dptos)</p>
+                            </td>
+                            <td class="p-6 text-slate-600 font-medium">10 Ago 2026</td>
+                            <td class="p-6 font-bold text-slate-800 font-mono">$2.140.810</td>
+                            <td class="p-6">
+                                <span class="px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-700 border border-amber-200">Por Aprobar</span>
+                            </td>
+                            <td class="p-6 text-right">
+                                <button onclick="window.location.href='portal-cotizacion.html'" class="bg-brand-50 text-brand-600 hover:bg-brand-100 px-4 py-2 rounded-lg font-bold text-xs transition-colors border border-brand-200 shadow-sm">
+                                    Revisar
+                                </button>
+                            </td>
+                        </tr>
+                        
+                        <!-- Row 2: Re-inspeccion (Aprobada) -->
+                        <tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
+                            <td class="p-6">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center text-slate-600">
+                                        <i class="fa-solid fa-file-invoice text-lg"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-bold text-slate-800">COT-2024-412</p>
+                                        <p class="text-xs text-slate-500">Cotización</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="p-6">
+                                <p class="font-bold text-slate-700">Levantamiento (Re-inspección)</p>
+                                <p class="text-xs text-slate-500">12 Dptos rezagados</p>
+                            </td>
+                            <td class="p-6 text-slate-600 font-medium">05 Nov 2024</td>
+                            <td class="p-6 font-bold text-slate-800 font-mono">$214.200</td>
+                            <td class="p-6">
+                                <span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-700 border border-emerald-200">Aprobada</span>
+                            </td>
+                            <td class="p-6 text-right">
+                                <button class="text-slate-400 hover:text-brand-600 px-3 py-2 transition-colors" title="Descargar PDF">
+                                    <i class="fa-solid fa-download text-lg"></i>
+                                </button>
+                            </td>
+                        </tr>
+
+                        <!-- Row 3: TC6 Antiguo -->
+                        <tr class="hover:bg-slate-50 transition-colors">
+                            <td class="p-6">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center text-blue-600">
+                                        <i class="fa-solid fa-file-pdf text-lg"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-bold text-slate-800">TC6-2024-998</p>
+                                        <p class="text-xs text-slate-500">Certificado SEC</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="p-6">
+                                <p class="font-bold text-slate-700">Sello Verde General</p>
+                            </td>
+                            <td class="p-6 text-slate-600 font-medium">15 Oct 2024</td>
+                            <td class="p-6 font-bold text-slate-800 font-mono">-</td>
+                            <td class="p-6">
+                                <span class="px-3 py-1 rounded-full text-xs font-bold bg-blue-100 text-blue-700 border border-blue-200">Vigente</span>
+                            </td>
+                            <td class="p-6 text-right">
+                                <button class="text-slate-400 hover:text-brand-600 px-3 py-2 transition-colors" title="Descargar PDF">
+                                    <i class="fa-solid fa-download text-lg"></i>
+                                </button>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Pagination -->
+            <div class="p-4 border-t border-slate-100 bg-slate-50 flex items-center justify-between text-sm text-slate-500">
+                <span>Mostrando 1 a 3 de 12 documentos</span>
+                <div class="flex gap-1">
+                    <button class="w-8 h-8 rounded bg-white border border-slate-200 flex items-center justify-center hover:bg-slate-50 disabled:opacity-50"><i class="fa-solid fa-chevron-left"></i></button>
+                    <button class="w-8 h-8 rounded bg-brand-500 text-white font-bold flex items-center justify-center">1</button>
+                    <button class="w-8 h-8 rounded bg-white border border-slate-200 flex items-center justify-center hover:bg-slate-50">2</button>
+                    <button class="w-8 h-8 rounded bg-white border border-slate-200 flex items-center justify-center hover:bg-slate-50"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+</body>
+</html>

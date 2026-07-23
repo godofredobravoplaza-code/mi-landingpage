@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CertiGas AI - Cotizador Inteligente</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { navy: { 800: '#1e293b', 900: '#0f172a', 950: '#020617' } },
+                    fontFamily: { sans: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+        
+        /* Slider styling */
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #f97316;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body class="bg-navy-900 text-slate-300 font-sans h-screen overflow-hidden flex">
+
+    <!-- Sidebar -->
+    <aside class="w-64 bg-navy-950 border-r border-slate-800 flex flex-col transition-all duration-300 z-20">
+        <div class="h-20 flex items-center px-6 border-b border-slate-800">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="window.location.href='login.html'">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-400 to-orange-600 shadow-lg shadow-orange-500/20 flex items-center justify-center">
+                    <i class="fa-solid fa-fire-flame-curved text-white text-lg"></i>
+                </div>
+                <span class="text-xl font-bold text-white tracking-tight">CertiGas <span class="text-orange-500">AI</span></span>
+            </div>
+        </div>
+        <nav class="flex-1 py-6 px-4 space-y-2 overflow-y-auto">
+            <a href="dashboard.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/50 transition-colors">
+                <i class="fa-solid fa-chart-pie w-5"></i>
+                <span class="font-medium">Resumen Analítico</span>
+            </a>
+            <a href="directorio.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/50 transition-colors">
+                <i class="fa-solid fa-building-user w-5"></i>
+                <span class="font-medium">Directorio de Clientes</span>
+            </a>
+            <a href="inspectors.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/50 transition-colors">
+                <i class="fa-solid fa-hard-hat w-5"></i>
+                <span class="font-medium">Inspectores (Dispatch)</span>
+            </a>
+            <a href="cotizador.html" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-orange-500/10 text-orange-500 font-semibold border border-orange-500/20 shadow-sm transition-colors">
+                <i class="fa-solid fa-file-invoice-dollar w-5"></i>
+                <span>Cotizaciones</span>
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col h-screen overflow-hidden relative">
+        <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-orange-600/5 rounded-full mix-blend-screen filter blur-[150px] pointer-events-none"></div>
+
+        <!-- Topbar -->
+        <header class="h-20 flex items-center justify-between px-8 border-b border-slate-800/50 z-10 bg-navy-900/80 backdrop-blur-md">
+            <div>
+                <h1 class="text-2xl font-bold text-white">Generador de Cotizaciones</h1>
+                <p class="text-sm text-slate-400">Cotizador inteligente con cálculo de rentabilidad B2B.</p>
+            </div>
+            <div class="flex items-center gap-4">
+                <button class="bg-navy-950 px-4 py-2 rounded-lg border border-slate-800 text-sm font-medium hover:bg-slate-800 transition-colors">
+                    <i class="fa-solid fa-history mr-2 text-slate-400"></i> Historial
+                </button>
+            </div>
+        </header>
+
+        <!-- Contenido Dividido -->
+        <div class="flex-1 p-6 z-10 flex gap-6 h-[calc(100vh-5rem)] overflow-hidden">
+            
+            <!-- PANEL IZQUIERDO: Constructor de Cotización (Inputs) -->
+            <div class="w-1/2 flex flex-col glass-card rounded-2xl border border-slate-700/50 overflow-hidden">
+                <div class="p-6 border-b border-slate-800/50 bg-slate-800/30">
+                    <h2 class="text-lg font-bold text-white"><i class="fa-solid fa-sliders mr-2 text-slate-400"></i> Parámetros del Proyecto</h2>
+                </div>
+                
+                <div class="p-6 overflow-y-auto space-y-6 flex-1">
+                    
+                    <!-- Datos del Cliente -->
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Cliente / Institución</label>
+                        <input type="text" value="Condominio Nuevo Sur" class="w-full px-4 py-3 bg-navy-950 border border-slate-700 rounded-xl text-white focus:outline-none focus:border-orange-500 transition-colors">
+                    </div>
+
+                    <!-- Tipo de Proyecto -->
+                    <div class="grid grid-cols-3 gap-3">
+                        <div class="bg-orange-500/10 border-2 border-orange-500 rounded-xl p-4 text-center cursor-pointer">
+                            <i class="fa-solid fa-building text-orange-500 text-xl mb-2"></i>
+                            <h3 class="font-bold text-orange-500 text-sm">Residencial</h3>
+                        </div>
+                        <div class="bg-navy-950 border border-slate-700 rounded-xl p-4 text-center cursor-pointer hover:border-slate-500 transition-colors opacity-60">
+                            <i class="fa-solid fa-store text-slate-400 text-xl mb-2"></i>
+                            <h3 class="font-bold text-slate-300 text-sm">Comercial</h3>
+                        </div>
+                        <div class="bg-navy-950 border border-slate-700 rounded-xl p-4 text-center cursor-pointer hover:border-slate-500 transition-colors opacity-60">
+                            <i class="fa-solid fa-industry text-slate-400 text-xl mb-2"></i>
+                            <h3 class="font-bold text-slate-300 text-sm">Industrial</h3>
+                        </div>
+                    </div>
+
+                    <!-- Volumen -->
+                    <div class="grid grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Nº de Departamentos</label>
+                            <input type="number" id="input-deptos" value="45" oninput="calculateQuote()" class="w-full px-4 py-3 bg-navy-950 border border-slate-700 rounded-xl text-white text-lg font-bold focus:outline-none focus:border-orange-500 transition-colors">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Artefactos por Depto (Promedio)</label>
+                            <select id="input-artefactos" onchange="calculateQuote()" class="w-full px-4 py-3 bg-navy-950 border border-slate-700 rounded-xl text-white focus:outline-none focus:border-orange-500 transition-colors appearance-none">
+                                <option value="1">1 (Solo Cocina)</option>
+                                <option value="2" selected>2 (Cocina + Calefont)</option>
+                                <option value="3">3 (Cocina + Calefont + Estufa)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Logística y Extras -->
+                    <div class="space-y-4 pt-4 border-t border-slate-800">
+                        <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider">Logística y Operación</label>
+                        
+                        <label class="flex items-center justify-between p-4 bg-navy-950 border border-slate-700 rounded-xl cursor-pointer hover:border-slate-500 transition-colors">
+                            <div class="flex items-center gap-3">
+                                <i class="fa-solid fa-magnifying-glass text-blue-400"></i>
+                                <div>
+                                    <h4 class="font-bold text-white text-sm">Visita de Diagnóstico Previa</h4>
+                                    <p class="text-xs text-slate-400">Facturar levantamiento inicial (+ $35.000)</p>
+                                </div>
+                            </div>
+                            <input type="checkbox" id="input-visita" checked onchange="calculateQuote()" class="w-5 h-5 rounded border-slate-600 bg-slate-700 text-orange-500 focus:ring-orange-500 focus:ring-offset-navy-950">
+                        </label>
+
+                        <label class="flex items-center justify-between p-4 bg-navy-950 border border-slate-700 rounded-xl cursor-pointer hover:border-slate-500 transition-colors">
+                            <div class="flex items-center gap-3">
+                                <i class="fa-solid fa-truck-fast text-emerald-400"></i>
+                                <div>
+                                    <h4 class="font-bold text-white text-sm">Traslado Fuera de Región</h4>
+                                    <p class="text-xs text-slate-400">Aplica recargo logístico de peajes/combustible</p>
+                                </div>
+                            </div>
+                            <input type="checkbox" id="input-traslado" onchange="calculateQuote()" class="w-5 h-5 rounded border-slate-600 bg-slate-700 text-orange-500 focus:ring-orange-500 focus:ring-offset-navy-950">
+                        </label>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- PANEL DERECHO: Desglose y Rentabilidad -->
+            <div class="w-1/2 flex flex-col bg-navy-950 rounded-2xl border border-slate-800 overflow-hidden shadow-2xl relative">
+                
+                <!-- View Toggle (Internal vs Client) -->
+                <div class="p-2 bg-navy-900 border-b border-slate-800 flex justify-center sticky top-0 z-20 shadow-md">
+                    <div class="inline-flex bg-navy-950 rounded-lg p-1 border border-slate-800">
+                        <button id="btn-view-internal" onclick="toggleViewMode('internal')" class="px-4 py-2 bg-slate-700 rounded-md text-white text-sm font-bold shadow transition-colors flex items-center gap-2">
+                            <i class="fa-solid fa-eye"></i> Vista Interna (Admin)
+                        </button>
+                        <button id="btn-view-client" onclick="toggleViewMode('client')" class="px-4 py-2 text-slate-400 hover:text-white text-sm font-medium transition-colors cursor-pointer flex items-center gap-2">
+                            <i class="fa-solid fa-user-tie"></i> Vista Cliente (Preview)
+                        </button>
+                    </div>
+                </div>
+
+                <div class="flex-1 p-8 overflow-y-auto flex flex-col relative">
+                    
+                    <div class="text-center mb-8">
+                        <img src="https://via.placeholder.com/150x50/1e293b/f97316?text=CERTIGAS+LOGO" class="mx-auto rounded-lg mb-4 opacity-50" alt="Logo">
+                        <h2 class="text-2xl font-bold text-white">Cotización Comercial</h2>
+                        <p class="text-slate-400">Ref: CTZ-2026-0892</p>
+                    </div>
+
+                    <!-- Desglose Interno (Oculto en Vista Cliente) -->
+                    <div id="breakdown-internal" class="space-y-6 flex-1">
+                        
+                        <!-- Costos Directos -->
+                        <div>
+                            <h3 class="text-sm font-bold text-slate-300 uppercase tracking-wider mb-3 border-b border-slate-800 pb-2">Costos Directos (Operación)</h3>
+                            <div class="space-y-3 text-sm">
+                                <div class="flex justify-between text-slate-400">
+                                    <span>Mano de Obra (Inspector) - <span id="val-hh-qty">24</span> HH estimadas</span>
+                                    <span class="font-mono text-slate-300">$<span id="val-mo">360.000</span></span>
+                                </div>
+                                <div class="flex justify-between text-slate-400">
+                                    <span>Visita de Diagnóstico Previa</span>
+                                    <span class="font-mono text-slate-300">$<span id="val-visita">35.000</span></span>
+                                </div>
+                                <div class="flex justify-between text-slate-400" id="row-traslado" style="display:none;">
+                                    <span>Recargo Logístico (Fuera Región)</span>
+                                    <span class="font-mono text-slate-300">$<span id="val-traslado">0</span></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Costos Indirectos -->
+                        <div>
+                            <h3 class="text-sm font-bold text-slate-300 uppercase tracking-wider mb-3 border-b border-slate-800 pb-2">Costos Fijos / Indirectos</h3>
+                            <div class="space-y-3 text-sm">
+                                <div class="flex justify-between text-slate-400">
+                                    <span>Amortización Equipos (Calibración)</span>
+                                    <span class="font-mono text-slate-300">$<span id="val-amort">45.000</span></span>
+                                </div>
+                                <div class="flex justify-between text-slate-400">
+                                    <span>Gestión Administrativa SEC (TC6)</span>
+                                    <span class="font-mono text-slate-300">$<span id="val-admin">50.000</span></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Suma de Costos -->
+                        <div class="flex justify-between items-center p-3 bg-slate-800/30 rounded-lg border border-slate-700/50">
+                            <span class="font-bold text-white text-sm">Costo Total Operativo (Base)</span>
+                            <span class="font-mono font-bold text-white text-lg">$<span id="val-costo-total">490.000</span></span>
+                        </div>
+
+                        <!-- Margen de Ganancia (Slider) -->
+                        <div class="p-5 bg-orange-500/10 border border-orange-500/30 rounded-xl mt-4">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="font-bold text-orange-400">Margen de Utilidad (Profit)</h3>
+                                <span class="bg-orange-500 text-white font-bold px-2 py-1 rounded text-sm"><span id="val-margin-pct">35</span>%</span>
+                            </div>
+                            <input type="range" id="input-margin" min="10" max="80" value="35" oninput="calculateQuote()" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer">
+                            <div class="flex justify-between text-xs text-slate-400 mt-2">
+                                <span>10% (Riesgo)</span>
+                                <span>Ganancia Proyectada: <span class="font-mono text-emerald-400 font-bold">$<span id="val-ganancia">171.500</span></span></span>
+                                <span>80% (Premium)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Desglose Cliente (Oculto por defecto) -->
+                    <div id="breakdown-client" class="space-y-6 flex-1 hidden">
+                        <div class="p-6 bg-slate-800/20 border border-slate-700 rounded-xl mt-4">
+                            <p class="text-sm text-slate-300 mb-6 leading-relaxed">
+                                Por medio de la presente, remitimos nuestra propuesta técnica y económica para la certificación de instalaciones de gas bajo normativa SEC vigente, con la finalidad de obtener el Sello Verde de sus instalaciones.
+                            </p>
+                            
+                            <table class="w-full text-sm text-left text-slate-300">
+                                <thead class="text-xs text-slate-400 uppercase bg-slate-800/50">
+                                    <tr>
+                                        <th class="px-4 py-3 rounded-l-lg">Descripción del Servicio</th>
+                                        <th class="px-4 py-3 rounded-r-lg text-right">Valor Neto</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-b border-slate-700">
+                                        <td class="px-4 py-4">
+                                            <p class="font-bold text-white">Inspección y Certificación Sello Verde SEC</p>
+                                            <p class="text-xs text-slate-400 mt-1">Incluye inspección técnica de <span id="client-deptos">45</span> departamentos, pruebas de hermeticidad a la red general y tramitación de informe TC6 ante la Superintendencia.</p>
+                                        </td>
+                                        <td class="px-4 py-4 text-right font-mono text-white font-bold" id="client-service-cost">$661.500</td>
+                                    </tr>
+                                    <tr class="border-b border-slate-700" id="client-row-visita">
+                                        <td class="px-4 py-4">
+                                            <p class="font-bold text-white">Visita de Diagnóstico Inicial</p>
+                                            <p class="text-xs text-slate-400 mt-1">Levantamiento en terreno previo a pruebas.</p>
+                                        </td>
+                                        <td class="px-4 py-4 text-right font-mono text-white">$35.000</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Total Final (Visible en ambos modos) -->
+                    <div class="mt-8 border-t border-slate-700 pt-6">
+                        <div class="flex justify-between items-end mb-2">
+                            <span class="text-slate-400 text-lg font-bold">Valor Neto Total</span>
+                            <span class="text-4xl font-bold text-white font-mono">$<span id="val-precio-final">661.500</span></span>
+                        </div>
+                        <div class="flex justify-between items-center text-sm text-slate-500 mb-6">
+                            <span>No incluye IVA (19%)</span>
+                            <span>Validez de la oferta: 15 días</span>
+                        </div>
+                        
+                        <button class="w-full py-4 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-xl shadow-lg shadow-orange-500/20 transition-all flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-file-pdf"></i> Generar Propuesta PDF y Enviar
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        // Logica de calculo
+        const COSTO_HH = 15000; // Costo por Hora Hombre
+        const COSTO_VISITA = 35000;
+        const COSTO_AMORTIZACION = 45000; // Fijo por proyecto
+        const COSTO_ADMIN = 50000; // Fijo TC6
+        const RECARGO_TRASLADO = 80000;
+
+        function formatCurrency(num) {
+            return num.toLocaleString('es-CL');
+        }
+
+        function calculateQuote() {
+            const deptos = parseInt(document.getElementById('input-deptos').value) || 0;
+            const artefactos = parseInt(document.getElementById('input-artefactos').value) || 1;
+            const tieneVisita = document.getElementById('input-visita').checked;
+            const tieneTraslado = document.getElementById('input-traslado').checked;
+            const marginPct = parseInt(document.getElementById('input-margin').value) || 0;
+
+            document.getElementById('val-margin-pct').innerText = marginPct;
+
+            // Logica de estimación de tiempo (1 hora por depto si tiene 2 artefactos)
+            const hhEstimadas = Math.ceil(deptos * (0.4 + (0.3 * artefactos))); 
+            document.getElementById('val-hh-qty').innerText = hhEstimadas;
+
+            // Costos
+            const costoMO = hhEstimadas * COSTO_HH;
+            const costoVisita = tieneVisita ? COSTO_VISITA : 0;
+            const costoTraslado = tieneTraslado ? RECARGO_TRASLADO : 0;
+            
+            document.getElementById('val-mo').innerText = formatCurrency(costoMO);
+            document.getElementById('val-visita').innerText = formatCurrency(costoVisita);
+            
+            const rowTraslado = document.getElementById('row-traslado');
+            if(tieneTraslado) {
+                rowTraslado.style.display = 'flex';
+                document.getElementById('val-traslado').innerText = formatCurrency(costoTraslado);
+            } else {
+                rowTraslado.style.display = 'none';
+            }
+
+            const costoTotalOp = costoMO + costoVisita + costoTraslado + COSTO_AMORTIZACION + COSTO_ADMIN;
+            document.getElementById('val-costo-total').innerText = formatCurrency(costoTotalOp);
+
+            // Ganancia y Precio Venta
+            // Formula precio venta: Costo / (1 - Margen)
+            const precioVenta = Math.round(costoTotalOp / (1 - (marginPct / 100)));
+            const ganancia = precioVenta - costoTotalOp;
+
+            document.getElementById('val-ganancia').innerText = formatCurrency(ganancia);
+            document.getElementById('val-precio-final').innerText = formatCurrency(precioVenta);
+
+            // Actualizar Vista Cliente
+            document.getElementById('client-deptos').innerText = deptos;
+            document.getElementById('client-row-visita').style.display = tieneVisita ? 'table-row' : 'none';
+            
+            const clientServiceCost = precioVenta - costoVisita; // Al cliente le mostramos la visita separada del resto del servicio, y todos los demas costos + ganancia consolidados en 1 item
+            document.getElementById('client-service-cost').innerText = "$" + formatCurrency(clientServiceCost);
+        }
+
+        function toggleViewMode(mode) {
+            const btnInternal = document.getElementById('btn-view-internal');
+            const btnClient = document.getElementById('btn-view-client');
+            const bdInternal = document.getElementById('breakdown-internal');
+            const bdClient = document.getElementById('breakdown-client');
+
+            if (mode === 'internal') {
+                btnInternal.className = "px-4 py-2 bg-slate-700 rounded-md text-white text-sm font-bold shadow transition-colors flex items-center gap-2";
+                btnClient.className = "px-4 py-2 text-slate-400 hover:text-white text-sm font-medium transition-colors cursor-pointer flex items-center gap-2";
+                bdInternal.classList.remove('hidden');
+                bdClient.classList.add('hidden');
+            } else {
+                btnClient.className = "px-4 py-2 bg-slate-700 rounded-md text-white text-sm font-bold shadow transition-colors flex items-center gap-2";
+                btnInternal.className = "px-4 py-2 text-slate-400 hover:text-white text-sm font-medium transition-colors cursor-pointer flex items-center gap-2";
+                bdClient.classList.remove('hidden');
+                bdInternal.classList.add('hidden');
+            }
+        }
+
+        // Init
+        calculateQuote();
+    </script>
+</body>
+</html>

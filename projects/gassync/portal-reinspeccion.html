@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitud de Re-inspección - CertiGas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        brand: { 50: '#f0f9ff', 100: '#e0f2fe', 500: '#0ea5e9', 600: '#0284c7', 900: '#0c4a6e' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #f8fafc; } /* slate-50 */
+        .glass-header {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        .card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+        
+        /* Custom Checkbox */
+        .depto-checkbox {
+            appearance: none;
+            width: 1.5rem;
+            height: 1.5rem;
+            border: 2px solid #cbd5e1;
+            border-radius: 0.375rem;
+            background-color: white;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s;
+        }
+        .depto-checkbox:checked {
+            background-color: #10b981;
+            border-color: #10b981;
+        }
+        .depto-checkbox:checked::after {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            color: white;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 0.875rem;
+        }
+        
+        .depto-row {
+            transition: all 0.2s;
+        }
+        .depto-row:hover {
+            background-color: #f8fafc;
+        }
+        .depto-row.selected {
+            background-color: #ecfdf5;
+            border-color: #a7f3d0;
+        }
+    </style>
+</head>
+<body class="text-slate-800 font-sans min-h-screen flex flex-col">
+
+    <!-- Top Navigation -->
+    <header class="glass-header sticky top-0 z-50 h-20 flex items-center justify-between px-8">
+        <div class="flex items-center gap-4">
+            <a href="portal-dashboard.html" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:bg-slate-200 transition-colors">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center border border-emerald-100">
+                    <i class="fa-solid fa-screwdriver-wrench text-emerald-500 text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold text-slate-900 leading-tight">Levantamiento de Defectos</h1>
+                    <p class="text-xs text-slate-500 font-medium">Condominio Jardines del Sur - 5 Pendientes</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-4 text-sm font-medium text-slate-500">
+            <i class="fa-solid fa-circle-info"></i> Paso 1 de 1
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-1 max-w-6xl mx-auto w-full p-8 flex flex-col lg:flex-row gap-8">
+        
+        <!-- Columna Izquierda: Selección de Departamentos -->
+        <div class="w-full lg:w-2/3 flex flex-col gap-6">
+            
+            <div class="mb-2">
+                <h2 class="text-2xl font-bold text-slate-900 mb-2">Selecciona las unidades listas</h2>
+                <p class="text-slate-500">Marca los departamentos que ya han reparado sus observaciones y están listos para recibir una nueva inspección.</p>
+            </div>
+
+            <div class="card overflow-hidden">
+                <div class="p-4 border-b border-slate-100 bg-slate-50/50 flex justify-between items-center">
+                    <h3 class="font-bold text-slate-700 text-sm uppercase tracking-wider">Unidades con Observaciones</h3>
+                    <button class="text-sm font-medium text-brand-600 hover:text-brand-700 transition-colors" onclick="selectAll()">Marcar Todos</button>
+                </div>
+                
+                <div class="divide-y divide-slate-100" id="depto-list">
+                    
+                    <!-- Depto 1 (Rojo) -->
+                    <label class="depto-row p-5 flex items-center gap-4 cursor-pointer border-l-4 border-transparent">
+                        <input type="checkbox" class="depto-checkbox depto-calc" value="15000" onchange="updateRowStyle(this); calculateTotal();">
+                        <div class="w-12 h-12 rounded-lg bg-red-50 flex items-center justify-center border border-red-100 shrink-0">
+                            <span class="font-bold text-red-600 text-lg">204</span>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-red-100 text-red-700">Sello Rojo</span>
+                                <span class="text-xs text-slate-400 font-medium"><i class="fa-solid fa-calendar text-slate-300"></i> Insp: 12 Ago</span>
+                            </div>
+                            <p class="text-sm font-medium text-slate-900">Fuga detectada en prueba de hermeticidad de calefón.</p>
+                        </div>
+                    </label>
+
+                    <!-- Depto 2 (Rojo) -->
+                    <label class="depto-row p-5 flex items-center gap-4 cursor-pointer border-l-4 border-transparent">
+                        <input type="checkbox" class="depto-checkbox depto-calc" value="15000" onchange="updateRowStyle(this); calculateTotal();">
+                        <div class="w-12 h-12 rounded-lg bg-red-50 flex items-center justify-center border border-red-100 shrink-0">
+                            <span class="font-bold text-red-600 text-lg">510</span>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-red-100 text-red-700">Sello Rojo</span>
+                                <span class="text-xs text-slate-400 font-medium"><i class="fa-solid fa-calendar text-slate-300"></i> Insp: 14 Ago</span>
+                            </div>
+                            <p class="text-sm font-medium text-slate-900">Conducto de evacuación obstruido y monóxido elevado.</p>
+                        </div>
+                    </label>
+
+                    <!-- Depto 3 (Rojo) -->
+                    <label class="depto-row p-5 flex items-center gap-4 cursor-pointer border-l-4 border-transparent">
+                        <input type="checkbox" class="depto-checkbox depto-calc" value="15000" onchange="updateRowStyle(this); calculateTotal();">
+                        <div class="w-12 h-12 rounded-lg bg-red-50 flex items-center justify-center border border-red-100 shrink-0">
+                            <span class="font-bold text-red-600 text-lg">802</span>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-red-100 text-red-700">Sello Rojo</span>
+                                <span class="text-xs text-slate-400 font-medium"><i class="fa-solid fa-calendar text-slate-300"></i> Insp: 14 Ago</span>
+                            </div>
+                            <p class="text-sm font-medium text-slate-900">Fuga en flexible de cocina. Válvula vencida.</p>
+                        </div>
+                    </label>
+
+                    <!-- Depto 4 (Amarillo) -->
+                    <label class="depto-row p-5 flex items-center gap-4 cursor-pointer border-l-4 border-transparent">
+                        <input type="checkbox" class="depto-checkbox depto-calc" value="15000" onchange="updateRowStyle(this); calculateTotal();">
+                        <div class="w-12 h-12 rounded-lg bg-yellow-50 flex items-center justify-center border border-yellow-100 shrink-0">
+                            <span class="font-bold text-yellow-700 text-lg">305</span>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-yellow-100 text-yellow-700">Sello Amarillo</span>
+                                <span class="text-xs text-slate-400 font-medium"><i class="fa-solid fa-calendar text-slate-300"></i> Insp: 12 Ago</span>
+                            </div>
+                            <p class="text-sm font-medium text-slate-900">Rejilla de ventilación superior parcialmente tapada.</p>
+                        </div>
+                    </label>
+
+                    <!-- Depto 5 (Amarillo) -->
+                    <label class="depto-row p-5 flex items-center gap-4 cursor-pointer border-l-4 border-transparent">
+                        <input type="checkbox" class="depto-checkbox depto-calc" value="15000" onchange="updateRowStyle(this); calculateTotal();">
+                        <div class="w-12 h-12 rounded-lg bg-yellow-50 flex items-center justify-center border border-yellow-100 shrink-0">
+                            <span class="font-bold text-yellow-700 text-lg">1104</span>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-yellow-100 text-yellow-700">Sello Amarillo</span>
+                                <span class="text-xs text-slate-400 font-medium"><i class="fa-solid fa-calendar text-slate-300"></i> Insp: 15 Ago</span>
+                            </div>
+                            <p class="text-sm font-medium text-slate-900">Llave de paso de cocina dura, se recomienda cambio.</p>
+                        </div>
+                    </label>
+
+                </div>
+            </div>
+
+            <!-- Agendamiento -->
+            <div class="card p-6 mt-2">
+                <h3 class="font-bold text-slate-900 mb-4"><i class="fa-solid fa-calendar-day text-brand-500 mr-2"></i> Preferencia de Agendamiento</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-2">Fecha Sugerida</label>
+                        <input type="date" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-slate-700 focus:outline-none focus:border-brand-500 transition-colors">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-2">Jornada Preferida</label>
+                        <select class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-slate-700 focus:outline-none focus:border-brand-500 transition-colors appearance-none">
+                            <option>Cualquier horario</option>
+                            <option>Mañana (09:00 - 13:00)</option>
+                            <option>Tarde (14:00 - 18:00)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Columna Derecha: Cotizador y Resumen -->
+        <div class="w-full lg:w-1/3">
+            <div class="card sticky top-28 overflow-hidden">
+                <div class="p-6 bg-slate-900 text-white">
+                    <h3 class="font-bold text-lg mb-1">Resumen de Cotización</h3>
+                    <p class="text-slate-400 text-sm">Visita de re-inspección</p>
+                </div>
+                
+                <div class="p-6 space-y-4">
+                    
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="text-slate-500">Deptos Seleccionados:</span>
+                        <span class="font-bold text-slate-900"><span id="summary-count">0</span> de 5</span>
+                    </div>
+                    
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="text-slate-500">Costo Unitario Base:</span>
+                        <span class="font-medium text-slate-700">$15.000</span>
+                    </div>
+
+                    <div class="h-px w-full bg-slate-100 my-4"></div>
+
+                    <div class="flex justify-between text-slate-500 text-sm">
+                        <span>Subtotal Neto:</span>
+                        <span class="font-mono text-slate-700">$<span id="summary-neto">0</span></span>
+                    </div>
+                    <div class="flex justify-between text-slate-500 text-sm">
+                        <span>IVA (19%):</span>
+                        <span class="font-mono text-slate-700">$<span id="summary-iva">0</span></span>
+                    </div>
+
+                    <div class="flex justify-between items-end pt-4">
+                        <span class="text-slate-700 font-bold">Total a Pagar:</span>
+                        <span class="text-3xl font-black text-brand-600 font-mono">$<span id="summary-total">0</span></span>
+                    </div>
+
+                </div>
+
+                <div class="p-6 bg-slate-50 border-t border-slate-100">
+                    <button id="btn-submit" onclick="submitRequest()" disabled class="w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow-lg shadow-emerald-500/20 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none">
+                        <i class="fa-solid fa-paper-plane"></i> Enviar Solicitud
+                    </button>
+                    <p class="text-xs text-center text-slate-400 mt-4">Al enviar, nuestro equipo de operaciones confirmará la factibilidad de la fecha solicitada.</p>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        function updateRowStyle(checkbox) {
+            const row = checkbox.closest('.depto-row');
+            if (checkbox.checked) {
+                row.classList.add('selected');
+                row.classList.remove('border-transparent');
+                row.classList.add('border-emerald-400');
+            } else {
+                row.classList.remove('selected');
+                row.classList.add('border-transparent');
+                row.classList.remove('border-emerald-400');
+            }
+        }
+
+        function calculateTotal() {
+            const checkboxes = document.querySelectorAll('.depto-calc');
+            let count = 0;
+            let totalNeto = 0;
+
+            checkboxes.forEach(cb => {
+                if (cb.checked) {
+                    count++;
+                    totalNeto += parseInt(cb.value);
+                }
+            });
+
+            const iva = Math.round(totalNeto * 0.19);
+            const total = totalNeto + iva;
+
+            // Format numbers
+            const format = (num) => num.toLocaleString('es-CL');
+
+            document.getElementById('summary-count').innerText = count;
+            document.getElementById('summary-neto').innerText = format(totalNeto);
+            document.getElementById('summary-iva').innerText = format(iva);
+            document.getElementById('summary-total').innerText = format(total);
+
+            // Enable/Disable button
+            const btn = document.getElementById('btn-submit');
+            btn.disabled = count === 0;
+        }
+
+        function selectAll() {
+            const checkboxes = document.querySelectorAll('.depto-calc');
+            const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+            
+            checkboxes.forEach(cb => {
+                cb.checked = !allChecked; // Toggle state
+                updateRowStyle(cb);
+            });
+            calculateTotal();
+        }
+
+        function submitRequest() {
+            alert('¡Solicitud de Re-inspección enviada con éxito! Esto se comunicará al área de Operaciones (Dispatch).');
+            window.location.href = 'portal-dashboard.html';
+        }
+
+        // Init
+        calculateTotal();
+    </script>
+</body>
+</html>

@@ -3,96 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CertiGas AI - Acceso</title>
+    <title>CertiGas AI - Selección de Rol</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: { navy: { 800: '#1e293b', 900: '#0f172a', 950: '#020617' } }
+                }
+            }
+        }
+    </script>
     <style>
-        body { font-family: 'Inter', sans-serif; }
+        body { font-family: 'Inter', sans-serif; transition: background 0.5s ease; }
         .bg-industrial {
-            background-image: linear-gradient(to bottom right, #0f172a, #1e3a8a, #0f172a);
-            background-size: cover;
-            background-position: center;
+            background-color: #0f172a; /* navy-900 */
+        }
+        .bg-glow {
+            position: absolute;
+            width: 800px;
+            height: 800px;
+            border-radius: 50%;
+            filter: blur(150px);
+            opacity: 0.15;
+            transition: all 0.5s ease;
+            pointer-events: none;
+            mix-blend-mode: screen;
         }
         .glass-panel {
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        .role-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255,255,255,0.3);
         }
     </style>
 </head>
 <body class="bg-industrial min-h-screen flex items-center justify-center relative overflow-hidden">
     
-    <!-- Decoración de Fondo -->
-    <div class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-orange-600 rounded-full mix-blend-multiply filter blur-[128px] opacity-20 animate-pulse"></div>
-    <div class="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-[128px] opacity-20"></div>
+    <!-- Background Glows -->
+    <div id="glow-1" class="bg-glow top-[-20%] left-[-10%] bg-slate-500"></div>
+    <div id="glow-2" class="bg-glow bottom-[-20%] right-[-10%] bg-slate-500"></div>
 
     <!-- Botón Volver -->
-    <a href="../../proyectos.html" class="absolute top-6 left-6 text-slate-300 hover:text-white transition-colors flex items-center gap-2 font-medium z-10">
+    <a href="../../proyectos.html" class="absolute top-6 left-6 text-slate-400 hover:text-white transition-colors flex items-center gap-2 font-medium z-10">
         <i class="fa-solid fa-arrow-left"></i> Volver al Portafolio
     </a>
 
-    <div class="w-full max-w-md px-6 relative z-10">
-        <div class="glass-panel rounded-3xl p-10 shadow-2xl">
+    <div class="w-full max-w-4xl px-6 relative z-10">
+        
+        <!-- Logo & Titulo -->
+        <div class="text-center mb-12">
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-slate-700 to-slate-800 shadow-lg mb-4" id="main-icon-bg">
+                <i class="fa-solid fa-fire-flame-curved text-3xl text-white" id="main-icon"></i>
+            </div>
+            <h1 class="text-3xl font-bold text-white tracking-tight mb-2">Selecciona un Rol</h1>
+            <p class="text-slate-400">Entorno de Demostración</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             
-            <!-- Logo & Titulo -->
-            <div class="text-center mb-10">
-                <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-400 to-orange-600 shadow-lg shadow-orange-500/30 mb-4">
-                    <i class="fa-solid fa-fire-flame-curved text-3xl text-white"></i>
-                </div>
-                <h1 class="text-3xl font-bold text-white tracking-tight">CertiGas AI</h1>
-                <p class="text-slate-400 mt-2">Plataforma de Gestión B2B</p>
-            </div>
-
-            <!-- Formulario (Simulado) -->
-            <form onsubmit="event.preventDefault(); window.location.href='dashboard.html';" class="space-y-6">
-                
-                <div>
-                    <label class="block text-sm font-medium text-slate-300 mb-2">Correo Electrónico</label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <i class="fa-regular fa-envelope text-slate-500"></i>
-                        </div>
-                        <input type="email" value="admin@gast.cl" class="block w-full pl-10 pr-3 py-3 border border-slate-700 rounded-xl leading-5 bg-slate-800/50 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors sm:text-sm" placeholder="usuario@empresa.cl" required>
+            <!-- Tarjeta Admin -->
+            <button onclick="window.location.href='dashboard.html'" onmouseenter="setTheme('admin')" onmouseleave="resetTheme()" class="role-card glass-panel rounded-3xl p-8 text-left group relative overflow-hidden cursor-pointer w-full">
+                <div class="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div class="relative z-10">
+                    <div class="w-14 h-14 rounded-full bg-slate-800 group-hover:bg-orange-500 flex items-center justify-center mb-6 transition-colors duration-300">
+                        <i class="fa-solid fa-user-shield text-xl text-slate-400 group-hover:text-white transition-colors"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-white mb-2 group-hover:text-orange-400 transition-colors">Administrador</h2>
+                    <p class="text-slate-400 text-sm mb-6">Accede al panel de control principal. Gestiona clientes, inspectores, despachos y cotizaciones con visibilidad completa de costos.</p>
+                    <div class="flex items-center text-sm font-bold text-slate-500 group-hover:text-orange-400 transition-colors">
+                        Ingresar como Admin <i class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-2 transition-transform"></i>
                     </div>
                 </div>
+            </button>
 
-                <div>
-                    <label class="block text-sm font-medium text-slate-300 mb-2">Contraseña</label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <i class="fa-solid fa-lock text-slate-500"></i>
-                        </div>
-                        <input type="password" value="123456" class="block w-full pl-10 pr-3 py-3 border border-slate-700 rounded-xl leading-5 bg-slate-800/50 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors sm:text-sm" placeholder="••••••••" required>
+            <!-- Tarjeta Cliente -->
+            <button onclick="window.location.href='portal-dashboard.html'" onmouseenter="setTheme('client')" onmouseleave="resetTheme()" class="role-card glass-panel rounded-3xl p-8 text-left group relative overflow-hidden cursor-pointer w-full">
+                <div class="absolute inset-0 bg-gradient-to-br from-sky-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div class="relative z-10">
+                    <div class="w-14 h-14 rounded-full bg-slate-800 group-hover:bg-sky-500 flex items-center justify-center mb-6 transition-colors duration-300">
+                        <i class="fa-solid fa-building-user text-xl text-slate-400 group-hover:text-white transition-colors"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-white mb-2 group-hover:text-sky-400 transition-colors">Portal Cliente</h2>
+                    <p class="text-slate-400 text-sm mb-6">Accede a la vista del cliente final. Revisa el estado del Sello Verde, próximas visitas y descarga documentos y cotizaciones.</p>
+                    <div class="flex items-center text-sm font-bold text-slate-500 group-hover:text-sky-400 transition-colors">
+                        Ingresar como Cliente <i class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-2 transition-transform"></i>
                     </div>
                 </div>
+            </button>
 
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center">
-                        <input id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 text-orange-500 focus:ring-orange-500 border-slate-700 bg-slate-800 rounded">
-                        <label for="remember-me" class="ml-2 block text-sm text-slate-300">
-                            Recordarme
-                        </label>
-                    </div>
-
-                    <div class="text-sm">
-                        <a href="#" class="font-medium text-orange-400 hover:text-orange-300 transition-colors">
-                            ¿Olvidaste tu contraseña?
-                        </a>
-                    </div>
-                </div>
-
-                <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-lg text-sm font-bold text-white bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-400 hover:to-orange-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-900 focus:ring-orange-500 transform transition hover:-translate-y-0.5">
-                    Ingresar al Panel
-                </button>
-                
-            </form>
-
-            <div class="mt-8 pt-6 border-t border-slate-700/50 text-center">
-                <p class="text-xs text-slate-500">Demostración B2B • Módulo de Gestión de Clientes</p>
-            </div>
         </div>
     </div>
+
+    <script>
+        function setTheme(role) {
+            const glow1 = document.getElementById('glow-1');
+            const glow2 = document.getElementById('glow-2');
+            const mainIconBg = document.getElementById('main-icon-bg');
+            const mainIcon = document.getElementById('main-icon');
+
+            // Reset classes
+            glow1.className = "bg-glow top-[-20%] left-[-10%]";
+            glow2.className = "bg-glow bottom-[-20%] right-[-10%]";
+            mainIconBg.className = "inline-flex items-center justify-center w-16 h-16 rounded-2xl shadow-lg mb-4 transition-all duration-300";
+            
+            if (role === 'admin') {
+                glow1.classList.add('bg-orange-600');
+                glow2.classList.add('bg-orange-500');
+                mainIconBg.classList.add('bg-gradient-to-br', 'from-orange-400', 'to-orange-600', 'shadow-orange-500/30');
+            } else if (role === 'client') {
+                glow1.classList.add('bg-sky-600');
+                glow2.classList.add('bg-sky-500');
+                mainIconBg.classList.add('bg-gradient-to-br', 'from-sky-400', 'to-sky-600', 'shadow-sky-500/30');
+            }
+        }
+
+        function resetTheme() {
+            const glow1 = document.getElementById('glow-1');
+            const glow2 = document.getElementById('glow-2');
+            const mainIconBg = document.getElementById('main-icon-bg');
+
+            glow1.className = "bg-glow top-[-20%] left-[-10%] bg-slate-500";
+            glow2.className = "bg-glow bottom-[-20%] right-[-10%] bg-slate-500";
+            mainIconBg.className = "inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-slate-700 to-slate-800 shadow-lg mb-4 transition-all duration-300";
+        }
+    </script>
 </body>
 </html>

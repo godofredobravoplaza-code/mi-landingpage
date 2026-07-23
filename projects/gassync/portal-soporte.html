@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soporte - CertiGas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        brand: { 50: '#f0f9ff', 100: '#e0f2fe', 500: '#0ea5e9', 600: '#0284c7', 900: '#0c4a6e' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #f8fafc; }
+        .glass-header {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        .card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+    </style>
+</head>
+<body class="text-slate-800 font-sans min-h-screen flex flex-col">
+
+    <!-- Top Navigation -->
+    <header class="glass-header sticky top-0 z-50 h-20 flex items-center justify-between px-8">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-brand-500 flex items-center justify-center shadow-lg shadow-brand-500/20">
+                <i class="fa-solid fa-building-user text-white"></i>
+            </div>
+            <div>
+                <h1 class="text-xl font-bold text-slate-900 leading-tight">Portal Cliente</h1>
+                <p class="text-xs text-slate-500 font-medium">Condominio Jardines del Sur</p>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-6">
+            <nav class="hidden md:flex gap-6">
+                <a href="portal-dashboard.html" class="text-slate-500 hover:text-slate-800 font-medium pb-1 transition-colors">Resumen</a>
+                <a href="portal-cotizaciones-lista.html" class="text-slate-500 hover:text-slate-800 font-medium pb-1 transition-colors">Mis Cotizaciones</a>
+                <a href="portal-soporte.html" class="text-brand-600 font-bold border-b-2 border-brand-500 pb-1">Soporte</a>
+            </nav>
+            <div class="w-px h-8 bg-slate-200"></div>
+            <div class="flex items-center gap-3 cursor-pointer" onclick="window.location.href='login.html'">
+                <div class="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 font-bold border border-slate-300">
+                    JS
+                </div>
+                <div class="hidden md:block text-sm">
+                    <p class="font-bold text-slate-800">Juan Pérez</p>
+                    <p class="text-xs text-slate-500">Cerrar Sesión</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-1 max-w-7xl mx-auto w-full p-8 flex flex-col gap-8">
+        
+        <div>
+            <h2 class="text-3xl font-bold text-slate-900 tracking-tight">Centro de Ayuda</h2>
+            <p class="text-slate-500 mt-1">Envía tus consultas o reporta problemas directamente a nuestro equipo.</p>
+        </div>
+
+        <div class="flex flex-col lg:flex-row gap-8">
+            
+            <!-- Crear Ticket -->
+            <div class="w-full lg:w-1/2">
+                <div class="card p-8">
+                    <h3 class="text-xl font-bold text-slate-900 mb-6">Abrir nuevo ticket</h3>
+                    
+                    <form class="space-y-5" onsubmit="event.preventDefault(); alert('Ticket enviado. Redirigiendo...'); window.location.reload();">
+                        
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 mb-2">Categoría del problema</label>
+                            <div class="grid grid-cols-2 gap-3">
+                                <label class="border border-slate-200 rounded-xl p-3 cursor-pointer hover:border-brand-500 transition-colors flex items-center gap-3">
+                                    <input type="radio" name="category" class="w-4 h-4 text-brand-500" checked>
+                                    <span class="text-sm font-medium text-slate-700">Comercial / Cotizaciones</span>
+                                </label>
+                                <label class="border border-slate-200 rounded-xl p-3 cursor-pointer hover:border-red-500 transition-colors flex items-center gap-3">
+                                    <input type="radio" name="category" class="w-4 h-4 text-red-500">
+                                    <span class="text-sm font-medium text-slate-700">Emergencia / Fuga</span>
+                                </label>
+                                <label class="border border-slate-200 rounded-xl p-3 cursor-pointer hover:border-brand-500 transition-colors flex items-center gap-3">
+                                    <input type="radio" name="category" class="w-4 h-4 text-brand-500">
+                                    <span class="text-sm font-medium text-slate-700">Coordinación Visita</span>
+                                </label>
+                                <label class="border border-slate-200 rounded-xl p-3 cursor-pointer hover:border-brand-500 transition-colors flex items-center gap-3">
+                                    <input type="radio" name="category" class="w-4 h-4 text-brand-500">
+                                    <span class="text-sm font-medium text-slate-700">Otro</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 mb-2">Asunto</label>
+                            <input type="text" placeholder="Ej. Duda sobre cobro de re-inspección" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-all">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 mb-2">Descripción Detallada</label>
+                            <textarea rows="4" placeholder="Describe tu problema o consulta..." required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-all resize-none"></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full py-3 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl shadow-lg shadow-brand-500/20 transition-all flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-paper-plane"></i> Enviar Ticket
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Historial de Tickets -->
+            <div class="w-full lg:w-1/2">
+                <div class="card overflow-hidden h-full flex flex-col">
+                    <div class="p-6 border-b border-slate-100 bg-slate-50/50">
+                        <h3 class="text-lg font-bold text-slate-900">Mis Consultas Recientes</h3>
+                    </div>
+                    
+                    <div class="flex-1 overflow-y-auto divide-y divide-slate-100 p-2">
+                        
+                        <!-- Ticket 1 -->
+                        <div class="p-4 hover:bg-slate-50 rounded-xl transition-colors cursor-pointer group">
+                            <div class="flex justify-between items-start mb-2">
+                                <span class="px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider bg-brand-100 text-brand-700">Abierto</span>
+                                <span class="text-xs text-slate-400">Hace 2 horas</span>
+                            </div>
+                            <h4 class="font-bold text-slate-900 group-hover:text-brand-600 transition-colors">No he recibido el PDF de la cotización</h4>
+                            <p class="text-sm text-slate-500 mt-1 line-clamp-1">Hola, aprobé la cotización hace un rato pero no encuentro donde descargar el PDF...</p>
+                            <div class="text-xs font-medium text-slate-400 mt-3 flex items-center gap-2">
+                                <i class="fa-solid fa-ticket"></i> Ticket #8922
+                            </div>
+                        </div>
+
+                        <!-- Ticket 2 -->
+                        <div class="p-4 hover:bg-slate-50 rounded-xl transition-colors cursor-pointer group">
+                            <div class="flex justify-between items-start mb-2">
+                                <span class="px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider bg-emerald-100 text-emerald-700">Resuelto</span>
+                                <span class="text-xs text-slate-400">12 Ago 2024</span>
+                            </div>
+                            <h4 class="font-bold text-slate-900 group-hover:text-brand-600 transition-colors">Re-agendar visita depto 502</h4>
+                            <p class="text-sm text-slate-500 mt-1 line-clamp-1">El residente del 502 no estará mañana en la mañana. ¿Podemos pasarlo para la tarde?</p>
+                            <div class="text-xs font-medium text-slate-400 mt-3 flex items-center gap-2">
+                                <i class="fa-solid fa-ticket"></i> Ticket #4102
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+</body>
+</html>

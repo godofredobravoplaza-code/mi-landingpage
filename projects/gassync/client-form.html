@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CertiGas AI - Nuevo Cliente</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { navy: { 800: '#1e293b', 900: '#0f172a', 950: '#020617' } },
+                    fontFamily: { sans: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+    </style>
+</head>
+<body class="bg-navy-900 text-slate-300 font-sans h-screen overflow-hidden flex">
+
+    <!-- Sidebar -->
+    <aside class="w-64 bg-navy-950 border-r border-slate-800 flex flex-col transition-all duration-300 z-20">
+        <div class="h-20 flex items-center px-6 border-b border-slate-800">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="window.location.href='login.html'">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-400 to-orange-600 shadow-lg shadow-orange-500/20 flex items-center justify-center">
+                    <i class="fa-solid fa-fire-flame-curved text-white text-lg"></i>
+                </div>
+                <span class="text-xl font-bold text-white tracking-tight">CertiGas <span class="text-orange-500">AI</span></span>
+            </div>
+        </div>
+        <nav class="flex-1 py-6 px-4 space-y-2 overflow-y-auto">
+            <a href="dashboard.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/50 transition-colors">
+                <i class="fa-solid fa-chart-pie w-5"></i>
+                <span class="font-medium">Resumen Analítico</span>
+            </a>
+            <a href="directorio.html" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-orange-500/10 text-orange-500 font-semibold border border-orange-500/20 shadow-sm transition-colors">
+                <i class="fa-solid fa-building-user w-5"></i>
+                <span>Directorio de Clientes</span>
+            </a>
+            <a href="inspectors.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/50 transition-colors">
+                <i class="fa-solid fa-hard-hat w-5"></i>
+                <span class="font-medium">Inspectores (Dispatch)</span>
+            </a>
+            <a href="cotizador.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/50 transition-colors">
+                <i class="fa-solid fa-file-invoice-dollar w-5"></i>
+                <span class="font-medium">Cotizaciones</span>
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col h-screen overflow-hidden relative">
+        <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-emerald-600/5 rounded-full mix-blend-screen filter blur-[150px] pointer-events-none" id="bg-glow"></div>
+
+        <!-- Topbar -->
+        <header class="h-20 flex items-center justify-between px-8 border-b border-slate-800/50 z-10 bg-navy-900/80 backdrop-blur-md">
+            <div class="flex items-center gap-4">
+                <button onclick="window.location.href='directorio.html'" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 hover:text-white hover:bg-slate-700 transition-colors">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </button>
+                <div>
+                    <h1 class="text-2xl font-bold text-white">Alta de Nuevo Cliente</h1>
+                    <p class="text-sm text-slate-400">Completa los datos para registrar un nuevo proyecto o comunidad.</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-4">
+                <button onclick="window.location.href='directorio.html'" class="text-slate-400 hover:text-white px-4 py-2 font-medium transition-colors">Cancelar</button>
+                <button onclick="window.location.href='client-profile.html'" class="bg-emerald-500 hover:bg-emerald-600 px-6 py-2 rounded-lg text-white font-bold shadow-lg shadow-emerald-500/20 transition-all flex items-center gap-2">
+                    <i class="fa-solid fa-check"></i> Guardar Perfil
+                </button>
+            </div>
+        </header>
+
+        <!-- Contenido Dividido -->
+        <div class="flex-1 p-6 z-10 flex gap-8 h-[calc(100vh-5rem)] overflow-hidden max-w-7xl mx-auto w-full">
+            
+            <!-- PANEL IZQUIERDO: Formulario de Entrada -->
+            <div class="w-3/5 flex flex-col overflow-y-auto pr-4 space-y-8 pb-10">
+                
+                <!-- Sección 1: Institución -->
+                <div class="glass-card p-8 rounded-2xl">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400">
+                            1
+                        </div>
+                        <h2 class="text-lg font-bold text-white">Identificación de la Institución</h2>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="col-span-2 md:col-span-1">
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">RUT Institución</label>
+                            <input type="text" id="input-rut" placeholder="Ej. 76.123.456-7" oninput="updatePreview()" class="w-full px-4 py-3 bg-navy-950 border border-slate-700 rounded-xl text-white focus:outline-none focus:border-emerald-500 transition-colors">
+                        </div>
+                        <div class="col-span-2">
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Nombre Comercial / Razón Social</label>
+                            <input type="text" id="input-nombre" placeholder="Ej. Condominio Jardines del Sur" oninput="updatePreview()" class="w-full px-4 py-3 bg-navy-950 border border-slate-700 rounded-xl text-white font-bold text-lg focus:outline-none focus:border-emerald-500 transition-colors">
+                        </div>
+                        <div class="col-span-2">
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Rubro SEC (Clasificación)</label>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="rubro" value="Residencial" checked onchange="updatePreview(); updateTipos();" class="peer sr-only">
+                                    <div class="p-4 rounded-xl border border-slate-700 bg-navy-950 peer-checked:border-emerald-500 peer-checked:bg-emerald-500/10 text-center transition-all">
+                                        <i class="fa-solid fa-building text-slate-400 peer-checked:text-emerald-400 text-xl mb-2 block"></i>
+                                        <span class="text-xs font-bold text-slate-400 peer-checked:text-emerald-400">Residencial</span>
+                                    </div>
+                                </label>
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="rubro" value="Comercial" onchange="updatePreview(); updateTipos();" class="peer sr-only">
+                                    <div class="p-4 rounded-xl border border-slate-700 bg-navy-950 peer-checked:border-blue-500 peer-checked:bg-blue-500/10 text-center transition-all">
+                                        <i class="fa-solid fa-store text-slate-400 peer-checked:text-blue-400 text-xl mb-2 block"></i>
+                                        <span class="text-xs font-bold text-slate-400 peer-checked:text-blue-400">Comercial</span>
+                                    </div>
+                                </label>
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="rubro" value="Industrial" onchange="updatePreview(); updateTipos();" class="peer sr-only">
+                                    <div class="p-4 rounded-xl border border-slate-700 bg-navy-950 peer-checked:border-purple-500 peer-checked:bg-purple-500/10 text-center transition-all">
+                                        <i class="fa-solid fa-industry text-slate-400 peer-checked:text-purple-400 text-xl mb-2 block"></i>
+                                        <span class="text-xs font-bold text-slate-400 peer-checked:text-purple-400">Industrial</span>
+                                    </div>
+                                </label>
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="rubro" value="Público" onchange="updatePreview(); updateTipos();" class="peer sr-only">
+                                    <div class="p-4 rounded-xl border border-slate-700 bg-navy-950 peer-checked:border-orange-500 peer-checked:bg-orange-500/10 text-center transition-all">
+                                        <i class="fa-solid fa-hospital text-slate-400 peer-checked:text-orange-400 text-xl mb-2 block"></i>
+                                        <span class="text-xs font-bold text-slate-400 peer-checked:text-orange-400">Público</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-span-2">
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Tipo Específico</label>
+                            <select id="input-tipo" onchange="updatePreview()" class="w-full px-4 py-3 bg-navy-950 border border-slate-700 rounded-xl text-white focus:outline-none focus:border-emerald-500 transition-colors appearance-none">
+                                <!-- Opciones cargadas por JS -->
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección 2: Ubicación y Contacto -->
+                <div class="glass-card p-8 rounded-2xl">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400">
+                            2
+                        </div>
+                        <h2 class="text-lg font-bold text-white">Ubicación y Contacto</h2>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="col-span-2">
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Dirección Completa</label>
+                            <input type="text" id="input-direccion" placeholder="Ej. Av. Providencia 1234, Providencia, RM" oninput="updatePreview()" class="w-full px-4 py-3 bg-navy-950 border border-slate-700 rounded-xl text-white focus:outline-none focus:border-emerald-500 transition-colors">
+                        </div>
+                        <div class="col-span-2 md:col-span-1">
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Encargado / Administrador</label>
+                            <input type="text" id="input-encargado" placeholder="Ej. Juan Pérez" oninput="updatePreview()" class="w-full px-4 py-3 bg-navy-950 border border-slate-700 rounded-xl text-white focus:outline-none focus:border-emerald-500 transition-colors">
+                        </div>
+                        <div class="col-span-2 md:col-span-1">
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Teléfono</label>
+                            <input type="text" id="input-telefono" placeholder="+56 9 1234 5678" oninput="updatePreview()" class="w-full px-4 py-3 bg-navy-950 border border-slate-700 rounded-xl text-white focus:outline-none focus:border-emerald-500 transition-colors">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección 3: Datos Operativos -->
+                <div class="glass-card p-8 rounded-2xl">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400">
+                            3
+                        </div>
+                        <h2 class="text-lg font-bold text-white">Volumen Operativo (Para Cotizaciones)</h2>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Total de Departamentos / Unidades</label>
+                            <input type="number" id="input-unidades" placeholder="Ej. 120" oninput="updatePreview()" class="w-full px-4 py-3 bg-navy-950 border border-slate-700 rounded-xl text-white text-lg font-bold focus:outline-none focus:border-emerald-500 transition-colors">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Estado Sello Verde Actual</label>
+                            <select id="input-estado" onchange="updatePreview()" class="w-full px-4 py-3 bg-navy-950 border border-slate-700 rounded-xl text-white focus:outline-none focus:border-emerald-500 transition-colors appearance-none">
+                                <option value="Sin Información">Sin Información</option>
+                                <option value="Vencido">Vencido</option>
+                                <option value="Por Vencer (3 Meses)">Por Vencer (Próximos 3 meses)</option>
+                                <option value="Vigente">Vigente (Al día)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- PANEL DERECHO: Previsualización en Vivo (ID Card) -->
+            <div class="w-2/5 flex flex-col justify-start sticky top-6">
+                
+                <h3 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-eye"></i> Previsualización del Perfil
+                </h3>
+
+                <!-- Tarjeta Principal -->
+                <div class="bg-navy-950 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl relative transition-all duration-300" id="preview-card">
+                    <!-- Banda Superior Color (Dinámica según rubro) -->
+                    <div class="h-2 w-full bg-emerald-500" id="preview-band"></div>
+                    
+                    <div class="p-8">
+                        <div class="flex justify-between items-start mb-6">
+                            <div>
+                                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold mb-3 border bg-emerald-500/10 text-emerald-400 border-emerald-500/20" id="preview-badge-rubro">
+                                    <i class="fa-solid fa-building" id="preview-icon-rubro"></i> <span id="preview-text-rubro">Residencial</span>
+                                </div>
+                                <h2 class="text-2xl font-bold text-white mb-1" id="preview-nombre">Nombre de la Institución</h2>
+                                <p class="text-slate-400 font-mono text-sm" id="preview-rut">RUT: 00.000.000-0</p>
+                            </div>
+                        </div>
+
+                        <!-- Detalles -->
+                        <div class="space-y-4 border-t border-slate-800 pt-6">
+                            <div class="flex items-start gap-4">
+                                <div class="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center text-slate-400 shrink-0">
+                                    <i class="fa-solid fa-location-dot"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-slate-500 uppercase font-bold tracking-wider mb-1">Dirección</p>
+                                    <p class="text-white text-sm" id="preview-direccion">Av. Ejemplo 123, Comuna</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-4">
+                                <div class="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center text-slate-400 shrink-0">
+                                    <i class="fa-solid fa-user-tie"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-slate-500 uppercase font-bold tracking-wider mb-1">Contacto Principal</p>
+                                    <p class="text-white text-sm font-medium" id="preview-encargado">Nombre del Contacto</p>
+                                    <p class="text-slate-400 text-sm mt-0.5" id="preview-telefono">+56 9 XXXX XXXX</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Stats -->
+                        <div class="grid grid-cols-2 gap-4 mt-8 pt-6 border-t border-slate-800">
+                            <div class="bg-navy-900 rounded-xl p-4 border border-slate-700/50">
+                                <p class="text-xs text-slate-500 uppercase font-bold mb-1">Unidades</p>
+                                <p class="text-xl font-bold text-white font-mono" id="preview-unidades">0</p>
+                            </div>
+                            <div class="bg-navy-900 rounded-xl p-4 border border-slate-700/50">
+                                <p class="text-xs text-slate-500 uppercase font-bold mb-1">Estado Sello</p>
+                                <div class="flex items-center gap-2 mt-1">
+                                    <div class="w-2 h-2 rounded-full bg-slate-500" id="preview-estado-dot"></div>
+                                    <p class="text-sm font-bold text-slate-300" id="preview-estado">Sin Info</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+
+                <div class="mt-6 p-4 bg-blue-500/10 border border-blue-500/20 rounded-xl flex items-start gap-3">
+                    <i class="fa-solid fa-circle-info text-blue-400 mt-1"></i>
+                    <p class="text-xs text-slate-300 leading-relaxed">Al guardar este perfil, se habilitará automáticamente la opción para generar <strong>Cotizaciones Inteligentes</strong> y gestionar inspecciones en terreno para esta propiedad.</p>
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        const tiposPorRubro = {
+            "Residencial": ["Condominio", "Edificio de Departamentos", "Casa Particular", "Conjunto Habitacional"],
+            "Comercial": ["Restaurante / Gastronómico", "Centro Comercial (Mall)", "Local Comercial Independiente", "Hotel / Alojamiento"],
+            "Industrial": ["Planta de Producción", "Fábrica Manufacturera", "Galpón Industrial", "Bodega / Centro Logístico"],
+            "Público": ["Establecimiento Educacional", "Recinto de Salud", "Edificio Gubernamental", "Centro Deportivo / Cultural"]
+        };
+
+        function updateTipos() {
+            const rubroRadios = document.getElementsByName('rubro');
+            let rubro = 'Residencial';
+            for (let i = 0; i < rubroRadios.length; i++) {
+                if (rubroRadios[i].checked) {
+                    rubro = rubroRadios[i].value;
+                    break;
+                }
+            }
+
+            const selectTipo = document.getElementById('input-tipo');
+            selectTipo.innerHTML = '';
+            
+            tiposPorRubro[rubro].forEach(tipo => {
+                const option = document.createElement('option');
+                option.value = tipo;
+                option.innerText = tipo;
+                selectTipo.appendChild(option);
+            });
+        }
+
+        function updatePreview() {
+            // Get values
+            const nombre = document.getElementById('input-nombre').value || 'Nombre de la Institución';
+            const rut = document.getElementById('input-rut').value || 'RUT: 00.000.000-0';
+            const direccion = document.getElementById('input-direccion').value || 'Dirección no ingresada';
+            const encargado = document.getElementById('input-encargado').value || 'Sin contacto asignado';
+            const telefono = document.getElementById('input-telefono').value || '';
+            const unidades = document.getElementById('input-unidades').value || '0';
+            const estado = document.getElementById('input-estado').value;
+            
+            // Get selected radio for Rubro
+            const rubroRadios = document.getElementsByName('rubro');
+            let rubro = 'Residencial';
+            for (let i = 0; i < rubroRadios.length; i++) {
+                if (rubroRadios[i].checked) {
+                    rubro = rubroRadios[i].value;
+                    break;
+                }
+            }
+            
+            const tipo = document.getElementById('input-tipo').value || tiposPorRubro[rubro][0];
+
+            // Update DOM Elements
+            document.getElementById('preview-nombre').innerText = nombre;
+            document.getElementById('preview-rut').innerText = (rut.includes('RUT') ? rut : 'RUT: ' + rut);
+            document.getElementById('preview-direccion').innerText = direccion;
+            document.getElementById('preview-encargado').innerText = encargado;
+            document.getElementById('preview-telefono').innerText = telefono;
+            document.getElementById('preview-unidades').innerText = unidades;
+            
+            // Update Rubro Styling (Wow Factor dynamically changing colors)
+            const band = document.getElementById('preview-band');
+            const badge = document.getElementById('preview-badge-rubro');
+            const icon = document.getElementById('preview-icon-rubro');
+            const text = document.getElementById('preview-text-rubro');
+            const bgGlow = document.getElementById('bg-glow');
+
+            text.innerText = rubro + " - " + tipo;
+            
+            // Reset classes
+            band.className = "h-2 w-full";
+            badge.className = "inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold mb-3 border";
+            icon.className = "fa-solid";
+            bgGlow.className = "absolute top-0 right-0 w-[600px] h-[600px] rounded-full mix-blend-screen filter blur-[150px] pointer-events-none transition-colors duration-500";
+
+            if(rubro === 'Residencial') {
+                band.classList.add('bg-emerald-500');
+                badge.classList.add('bg-emerald-500/10', 'text-emerald-400', 'border-emerald-500/20');
+                icon.classList.add('fa-building');
+                bgGlow.classList.add('bg-emerald-600/5');
+            } else if (rubro === 'Comercial') {
+                band.classList.add('bg-blue-500');
+                badge.classList.add('bg-blue-500/10', 'text-blue-400', 'border-blue-500/20');
+                icon.classList.add('fa-store');
+                bgGlow.classList.add('bg-blue-600/5');
+            } else if (rubro === 'Industrial') {
+                band.classList.add('bg-purple-500');
+                badge.classList.add('bg-purple-500/10', 'text-purple-400', 'border-purple-500/20');
+                icon.classList.add('fa-industry');
+                bgGlow.classList.add('bg-purple-600/5');
+            } else if (rubro === 'Público') {
+                band.classList.add('bg-orange-500');
+                badge.classList.add('bg-orange-500/10', 'text-orange-400', 'border-orange-500/20');
+                icon.classList.add('fa-hospital');
+                bgGlow.classList.add('bg-orange-600/5');
+            }
+
+            // Update Estado Sello
+            const textEstado = document.getElementById('preview-estado');
+            const dotEstado = document.getElementById('preview-estado-dot');
+            
+            textEstado.innerText = estado;
+            dotEstado.className = "w-2 h-2 rounded-full";
+
+            if(estado === 'Vencido') {
+                textEstado.classList.add('text-red-400');
+                textEstado.classList.remove('text-slate-300');
+                dotEstado.classList.add('bg-red-500', 'shadow-[0_0_8px_rgba(239,68,68,0.8)]');
+            } else if(estado === 'Por Vencer (3 Meses)') {
+                textEstado.classList.add('text-yellow-400');
+                textEstado.classList.remove('text-slate-300');
+                dotEstado.classList.add('bg-yellow-500', 'shadow-[0_0_8px_rgba(234,179,8,0.8)]');
+            } else if(estado === 'Vigente') {
+                textEstado.classList.add('text-emerald-400');
+                textEstado.classList.remove('text-slate-300');
+                dotEstado.classList.add('bg-emerald-500');
+            } else {
+                textEstado.classList.remove('text-red-400', 'text-yellow-400', 'text-emerald-400');
+                textEstado.classList.add('text-slate-300');
+                dotEstado.classList.add('bg-slate-500');
+            }
+        }
+        
+        
+        // Initial setup
+        updateTipos();
+        updatePreview();
+    </script>
+</body>
+</html>
