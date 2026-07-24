@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { collection, getDocs, query, orderBy } from 'firebase/firestore';
+import { collection, getDocs, query, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '@/lib/firebase/config';
 
 // Tipos de datos para el sistema multi-tenant
@@ -21,35 +21,74 @@ interface Company {
 export default function SuperDashboard() {
   const [companies, setCompanies] = useState<Company[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Stats simuladas por ahora
+  // Form state
+  const [formData, setFormData] = useState({
+    name: '',
+    rut: '',
+    contactEmail: '',
+    crm: true,
+    portal: false
+  });
+
   const stats = {
     totalTenants: companies.length,
-    activeUsers: 142,
-    mrr: '$1,250',
+    activeUsers: companies.length * 5, // Ficticio
+    mrr: `$${companies.length * 150}`, // Ficticio
     serverLoad: '12%'
   };
 
-  useEffect(() => {
-    // Función para cargar las empresas reales desde Firestore
-    const fetchCompanies = async () => {
-      try {
-        const q = query(collection(db, 'companies'));
-        const querySnapshot = await getDocs(q);
-        const companiesData: Company[] = [];
-        querySnapshot.forEach((doc) => {
-          companiesData.push({ id: doc.id, ...doc.data() } as Company);
-        });
-        setCompanies(companiesData);
-      } catch (error) {
-        console.error("Error cargando empresas:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchCompanies = async () => {
+    setLoading(true);
+    try {
+      const q = query(collection(db, 'companies'));
+      const querySnapshot = await getDocs(q);
+      const companiesData: Company[] = [];
+      querySnapshot.forEach((doc) => {
+        companiesData.push({ id: doc.id, ...doc.data() } as Company);
+      });
+      setCompanies(companiesData);
+    } catch (error) {
+      console.error("Error cargando empresas:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchCompanies();
   }, []);
+
+  const handleCreateCompany = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    
+    try {
+      await addDoc(collection(db, 'companies'), {
+        name: formData.name,
+        rut: formData.rut,
+        contactEmail: formData.contactEmail,
+        modules: {
+          crm: formData.crm,
+          portal: formData.portal
+        },
+        status: 'ACTIVE',
+        createdAt: serverTimestamp()
+      });
+      
+      // Limpiar y recargar
+      setIsModalOpen(false);
+      setFormData({ name: '', rut: '', contactEmail: '', crm: true, portal: false });
+      await fetchCompanies();
+    } catch (error) {
+      console.error("Error al crear empresa:", error);
+      alert("Hubo un error al crear la empresa. Revisa la consola.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <div className="space-y-8 animate-[fadeIn_0.5s_ease-out]">
@@ -60,7 +99,10 @@ export default function SuperDashboard() {
           <h2 className="text-3xl font-black text-white">Tenants (Empresas)</h2>
           <p className="text-slate-400 mt-1">Gestión global del ecosistema SaaS</p>
         </div>
-        <button className="bg-purple-600 hover:bg-purple-500 text-white font-semibold py-2.5 px-6 rounded-xl transition-all shadow-lg shadow-purple-600/20 active:scale-[0.98] flex items-center gap-2">
+        <button 
+          onClick={() => setIsModalOpen(true)}
+          className="bg-purple-600 hover:bg-purple-500 text-white font-semibold py-2.5 px-6 rounded-xl transition-all shadow-lg shadow-purple-600/20 active:scale-[0.98] flex items-center gap-2"
+        >
           <i className="fa-solid fa-plus"></i> Nueva Empresa
         </button>
       </div>
@@ -82,7 +124,7 @@ export default function SuperDashboard() {
         <div className="bg-slate-900 border border-slate-800 p-6 rounded-2xl">
           <div className="flex justify-between items-start">
             <div>
-              <p className="text-slate-400 text-sm font-medium">Usuarios Globales</p>
+              <p className="text-slate-400 text-sm font-medium">Usuarios Estimados</p>
               <h3 className="text-3xl font-bold text-white mt-2">{stats.activeUsers}</h3>
             </div>
             <div className="w-10 h-10 bg-emerald-500/10 rounded-lg flex items-center justify-center">
@@ -120,16 +162,6 @@ export default function SuperDashboard() {
       <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
         <div className="p-6 border-b border-slate-800 flex justify-between items-center">
           <h3 className="text-lg font-bold text-white">Empresas Activas</h3>
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500">
-              <i className="fa-solid fa-search"></i>
-            </div>
-            <input 
-              type="text" 
-              className="bg-slate-950 border border-slate-800 rounded-lg py-2 pl-10 pr-4 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 w-64 transition-colors"
-              placeholder="Buscar por RUT o Nombre..."
-            />
-          </div>
         </div>
 
         <div className="overflow-x-auto">
@@ -169,8 +201,8 @@ export default function SuperDashboard() {
                     <td className="px-6 py-4">{company.contactEmail}</td>
                     <td className="px-6 py-4">
                       <div className="flex gap-2">
-                        {company.modules.crm && <span className="bg-blue-500/10 text-blue-400 px-2 py-1 rounded text-xs">CRM</span>}
-                        {company.modules.portal && <span className="bg-emerald-500/10 text-emerald-400 px-2 py-1 rounded text-xs">Portal</span>}
+                        {company.modules.crm && <span className="bg-blue-500/10 text-blue-400 px-2 py-1 rounded text-xs border border-blue-500/20">CRM</span>}
+                        {company.modules.portal && <span className="bg-emerald-500/10 text-emerald-400 px-2 py-1 rounded text-xs border border-emerald-500/20">Portal</span>}
                       </div>
                     </td>
                     <td className="px-6 py-4">
@@ -196,6 +228,115 @@ export default function SuperDashboard() {
           </table>
         </div>
       </div>
+
+      {/* Modal de Nueva Empresa */}
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-[fadeIn_0.2s_ease-out]">
+          <div className="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-lg shadow-2xl overflow-hidden animate-[slideUp_0.3s_ease-out]">
+            <div className="p-6 border-b border-slate-800 flex justify-between items-center bg-slate-950/50">
+              <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                <i className="fa-solid fa-building text-purple-500"></i> Registrar Empresa
+              </h3>
+              <button 
+                onClick={() => setIsModalOpen(false)}
+                className="text-slate-400 hover:text-white w-8 h-8 flex items-center justify-center rounded-lg hover:bg-slate-800 transition-colors"
+              >
+                <i className="fa-solid fa-xmark"></i>
+              </button>
+            </div>
+            
+            <form onSubmit={handleCreateCompany} className="p-6 space-y-5">
+              
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-1.5">Nombre Legal (Razón Social)</label>
+                  <input 
+                    type="text" 
+                    required
+                    value={formData.name}
+                    onChange={(e) => setFormData({...formData, name: e.target.value})}
+                    className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all"
+                    placeholder="Ej. Gas Santiago SpA"
+                  />
+                </div>
+                
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-slate-300 mb-1.5">RUT / Identificador</label>
+                    <input 
+                      type="text" 
+                      required
+                      value={formData.rut}
+                      onChange={(e) => setFormData({...formData, rut: e.target.value})}
+                      className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 transition-all"
+                      placeholder="76.123.456-7"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-300 mb-1.5">Correo de Contacto</label>
+                    <input 
+                      type="email" 
+                      required
+                      value={formData.contactEmail}
+                      onChange={(e) => setFormData({...formData, contactEmail: e.target.value})}
+                      className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 transition-all"
+                      placeholder="admin@empresa.cl"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-2">
+                <label className="block text-sm font-medium text-slate-300 mb-3">Módulos a Activar</label>
+                <div className="space-y-3">
+                  <label className="flex items-start gap-3 p-3 border border-slate-700 rounded-xl bg-slate-950/50 hover:border-purple-500/50 cursor-pointer transition-colors">
+                    <input 
+                      type="checkbox" 
+                      checked={formData.crm}
+                      onChange={(e) => setFormData({...formData, crm: e.target.checked})}
+                      className="mt-1 w-4 h-4 text-purple-600 bg-slate-800 border-slate-600 rounded focus:ring-purple-600 focus:ring-2"
+                    />
+                    <div>
+                      <p className="text-white font-medium text-sm">CRM y Gestión Interna</p>
+                      <p className="text-slate-400 text-xs mt-0.5">Permite a la empresa usar el panel azul para gestionar proyectos, inspectores y clientes.</p>
+                    </div>
+                  </label>
+                  
+                  <label className="flex items-start gap-3 p-3 border border-slate-700 rounded-xl bg-slate-950/50 hover:border-purple-500/50 cursor-pointer transition-colors">
+                    <input 
+                      type="checkbox" 
+                      checked={formData.portal}
+                      onChange={(e) => setFormData({...formData, portal: e.target.checked})}
+                      className="mt-1 w-4 h-4 text-purple-600 bg-slate-800 border-slate-600 rounded focus:ring-purple-600 focus:ring-2"
+                    />
+                    <div>
+                      <p className="text-white font-medium text-sm">Portal Público de Clientes</p>
+                      <p className="text-slate-400 text-xs mt-0.5">Habilita la búsqueda pública de certificados para los clientes de esta empresa.</p>
+                    </div>
+                  </label>
+                </div>
+              </div>
+
+              <div className="pt-6 border-t border-slate-800 flex justify-end gap-3">
+                <button 
+                  type="button"
+                  onClick={() => setIsModalOpen(false)}
+                  className="px-5 py-2.5 text-sm font-medium text-slate-300 hover:text-white transition-colors"
+                >
+                  Cancelar
+                </button>
+                <button 
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="bg-purple-600 hover:bg-purple-500 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-semibold px-6 py-2.5 rounded-xl transition-colors flex items-center gap-2 shadow-lg shadow-purple-600/20"
+                >
+                  {isSubmitting ? <><i className="fa-solid fa-spinner fa-spin"></i> Creando...</> : 'Crear y Asignar Espacio'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
       
     </div>
   );
