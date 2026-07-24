@@ -17,7 +17,7 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ProtectedRoute>
+    <ProtectedRoute allowedRoles={['SUPERADMIN', 'ADMIN', 'BACKOFFICE']}>
       <div className="bg-navy-900 text-slate-300 font-sans h-screen overflow-hidden flex">
         {/* Navegación Lateral Constante */}
         <Sidebar />
