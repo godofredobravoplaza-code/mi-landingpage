@@ -28,6 +28,9 @@ export default function SuperAdminLayout({
               <Link href="/super" className="px-4 py-1.5 rounded-md text-sm font-medium transition-colors hover:text-white hover:bg-slate-800 text-slate-400">
                 <i className="fa-solid fa-building mr-2"></i> Tenants
               </Link>
+              <Link href="/super/users" className="px-4 py-1.5 rounded-md text-sm font-medium transition-colors hover:text-white hover:bg-slate-800 text-slate-400">
+                <i className="fa-solid fa-users mr-2"></i> Usuarios
+              </Link>
               <Link href="/super/finance" className="px-4 py-1.5 rounded-md text-sm font-medium transition-colors hover:text-white hover:bg-slate-800 text-slate-400">
                 <i className="fa-solid fa-chart-line mr-2"></i> Finanzas
               </Link>
