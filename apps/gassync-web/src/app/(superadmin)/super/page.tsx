@@ -10,6 +10,7 @@ interface Company {
   rut: string;
   contactEmail: string;
   monthlyFee: number;
+  billingDay: number;
   paymentStatus: 'PAID' | 'PENDING' | 'OVERDUE';
   modules: {
     crm: boolean;
@@ -34,6 +35,7 @@ export default function SuperDashboard() {
     rut: '',
     contactEmail: '',
     monthlyFee: 150000,
+    billingDay: 1,
     crm: true,
     portal: false,
     status: 'ACTIVE' as 'ACTIVE' | 'SUSPENDED'
@@ -64,7 +66,7 @@ export default function SuperDashboard() {
     setModalMode('CREATE');
     setEditingCompanyId(null);
     setFormData({
-      name: '', rut: '', contactEmail: '', monthlyFee: 150000, crm: true, portal: false, status: 'ACTIVE'
+      name: '', rut: '', contactEmail: '', monthlyFee: 150000, billingDay: 1, crm: true, portal: false, status: 'ACTIVE'
     });
     setIsModalOpen(true);
   };
@@ -77,6 +79,7 @@ export default function SuperDashboard() {
       rut: company.rut,
       contactEmail: company.contactEmail,
       monthlyFee: company.monthlyFee || 0,
+      billingDay: company.billingDay || 1,
       crm: company.modules?.crm || false,
       portal: company.modules?.portal || false,
       status: company.status || 'ACTIVE'
@@ -94,6 +97,7 @@ export default function SuperDashboard() {
         rut: formData.rut,
         contactEmail: formData.contactEmail,
         monthlyFee: Number(formData.monthlyFee),
+        billingDay: Number(formData.billingDay),
         modules: {
           crm: formData.crm,
           portal: formData.portal
@@ -161,6 +165,7 @@ export default function SuperDashboard() {
                 <th className="px-6 py-4">Empresa / RUT</th>
                 <th className="px-6 py-4">Módulos</th>
                 <th className="px-6 py-4">Tarifa Mensual</th>
+                <th className="px-6 py-4">Día Cobro</th>
                 <th className="px-6 py-4">Estado de Pago</th>
                 <th className="px-6 py-4">Acceso</th>
                 <th className="px-6 py-4 text-right">Acciones</th>
@@ -198,6 +203,9 @@ export default function SuperDashboard() {
                     </td>
                     <td className="px-6 py-4 font-mono text-slate-300">
                       ${company.monthlyFee?.toLocaleString('es-CL') || '0'}
+                    </td>
+                    <td className="px-6 py-4 text-slate-400 font-medium">
+                      Día {company.billingDay || 1}
                     </td>
                     <td className="px-6 py-4">
                       <button 
@@ -258,14 +266,18 @@ export default function SuperDashboard() {
                   <input type="text" required value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-purple-500" placeholder="Ej. Gas Santiago SpA" />
                 </div>
                 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-slate-300 mb-1.5">RUT</label>
                     <input type="text" required value={formData.rut} onChange={(e) => setFormData({...formData, rut: e.target.value})} className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-purple-500" placeholder="76.123.456-7" />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-1.5">Tarifa Mensual ($)</label>
+                    <label className="block text-sm font-medium text-slate-300 mb-1.5">Tarifa ($)</label>
                     <input type="number" required value={formData.monthlyFee} onChange={(e) => setFormData({...formData, monthlyFee: Number(e.target.value)})} className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-purple-500" placeholder="150000" />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-300 mb-1.5">Día Cobro</label>
+                    <input type="number" min="1" max="31" required value={formData.billingDay} onChange={(e) => setFormData({...formData, billingDay: Number(e.target.value)})} className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-purple-500" placeholder="5" />
                   </div>
                 </div>
               </div>
