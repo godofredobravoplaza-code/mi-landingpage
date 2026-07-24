@@ -44,6 +44,12 @@ export default function Sidebar() {
           <i className="fa-solid fa-file-invoice-dollar w-5"></i>
           <span className="font-medium">Cotizaciones</span>
         </Link>
+        {profile?.role === 'ADMIN' && (
+          <Link href="/team" className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/50 transition-colors">
+            <i className="fa-solid fa-users-gear w-5"></i>
+            <span className="font-medium">Mi Equipo</span>
+          </Link>
+        )}
       </nav>
 
       {/* Perfil del Usuario Logueado */}
