@@ -45,7 +45,10 @@ export default function Home() {
 
         </div>
         
-        <p className="text-xs text-slate-500 font-medium mt-12">v2.0 • Prototipo Funcional</p>
+        <div className="text-xs text-slate-500 font-medium mt-12 flex items-center justify-center gap-2">
+          <Link href="/super" className="hover:text-purple-400 transition-colors cursor-default">v2.0</Link>
+          <span>• Prototipo Funcional</span>
+        </div>
 
       </div>
     </main>
