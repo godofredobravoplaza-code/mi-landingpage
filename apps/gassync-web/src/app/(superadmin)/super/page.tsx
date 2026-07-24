@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { collection, getDocs, query, addDoc, serverTimestamp, doc, updateDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase/config';
+import Link from 'next/link';
 
 interface Company {
   id: string;
@@ -27,8 +28,6 @@ export default function SuperDashboard() {
   
   // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalMode, setModalMode] = useState<'CREATE' | 'EDIT'>('CREATE');
-  const [editingCompanyId, setEditingCompanyId] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -65,27 +64,8 @@ export default function SuperDashboard() {
   }, []);
 
   const openCreateModal = () => {
-    setModalMode('CREATE');
-    setEditingCompanyId(null);
     setFormData({
       name: '', rut: '', contactEmail: '', monthlyFee: 150000, billingDay: 1, expirationDate: '', crm: true, portal: false, status: 'ACTIVE'
-    });
-    setIsModalOpen(true);
-  };
-
-  const openEditModal = (company: Company) => {
-    setModalMode('EDIT');
-    setEditingCompanyId(company.id);
-    setFormData({
-      name: company.name,
-      rut: company.rut,
-      contactEmail: company.contactEmail,
-      monthlyFee: company.monthlyFee || 0,
-      billingDay: company.billingDay || 1,
-      expirationDate: company.expirationDate || '',
-      crm: company.modules?.crm || false,
-      portal: company.modules?.portal || false,
-      status: company.status || 'ACTIVE'
     });
     setIsModalOpen(true);
   };
@@ -109,15 +89,11 @@ export default function SuperDashboard() {
         status: formData.status
       };
 
-      if (modalMode === 'CREATE') {
         await addDoc(collection(db, 'companies'), {
           ...dataToSave,
           paymentStatus: 'PAID',
           createdAt: serverTimestamp()
         });
-      } else if (modalMode === 'EDIT' && editingCompanyId) {
-        await updateDoc(doc(db, 'companies', editingCompanyId), dataToSave);
-      }
       
       setIsModalOpen(false);
       await fetchCompanies();
@@ -240,13 +216,13 @@ export default function SuperDashboard() {
                       )}
                     </td>
                     <td className="px-6 py-4 text-right">
-                      <button 
-                        onClick={() => openEditModal(company)}
-                        className="text-slate-500 hover:text-white px-3 py-2 transition-colors rounded-lg hover:bg-slate-800"
-                        title="Editar Empresa"
+                      <Link 
+                        href={`/super/company/${company.id}`}
+                        className="bg-slate-800 hover:bg-purple-600 text-white px-4 py-2 transition-colors rounded-lg text-xs font-bold inline-flex items-center gap-2"
+                        title="Administrar Empresa"
                       >
-                        <i className="fa-solid fa-pen"></i>
-                      </button>
+                        Administrar <i className="fa-solid fa-arrow-right"></i>
+                      </Link>
                     </td>
                   </tr>
                 ))
@@ -261,8 +237,8 @@ export default function SuperDashboard() {
           <div className="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-lg shadow-2xl overflow-hidden animate-[slideUp_0.3s_ease-out]">
             <div className="p-6 border-b border-slate-800 flex justify-between items-center bg-slate-950/50">
               <h3 className="text-xl font-bold text-white flex items-center gap-2">
-                <i className={`fa-solid ${modalMode === 'CREATE' ? 'fa-building' : 'fa-pen-to-square'} text-purple-500`}></i> 
-                {modalMode === 'CREATE' ? 'Registrar Empresa' : 'Editar Empresa'}
+                <i className="fa-solid fa-building text-purple-500"></i> 
+                Registrar Empresa
               </h3>
             </div>
             
@@ -313,33 +289,12 @@ export default function SuperDashboard() {
                 </div>
               </div>
 
-              {/* Botón de Pánico (Suspender Servicio) */}
-              {modalMode === 'EDIT' && (
-                <div className="pt-4 border-t border-slate-800">
-                  <label className="flex items-center justify-between p-4 border border-red-900/30 rounded-xl bg-red-950/10 cursor-pointer hover:bg-red-950/20 transition-colors">
-                    <div>
-                      <p className="text-red-400 font-bold text-sm">Suspender Servicio al Cliente</p>
-                      <p className="text-slate-400 text-xs mt-1">Corta el acceso inmediatamente a toda la empresa.</p>
-                    </div>
-                    <div className="relative inline-flex items-center cursor-pointer">
-                      <input 
-                        type="checkbox" 
-                        className="sr-only peer"
-                        checked={formData.status === 'SUSPENDED'}
-                        onChange={(e) => setFormData({...formData, status: e.target.checked ? 'SUSPENDED' : 'ACTIVE'})}
-                      />
-                      <div className="w-11 h-6 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-red-500"></div>
-                    </div>
-                  </label>
-                </div>
-              )}
-
               <div className="pt-4 border-t border-slate-800 flex justify-end gap-3">
                 <button type="button" onClick={() => setIsModalOpen(false)} className="px-5 py-2.5 text-sm font-medium text-slate-300 hover:text-white transition-colors">
                   Cancelar
                 </button>
                 <button type="submit" disabled={isSubmitting} className="bg-purple-600 hover:bg-purple-500 disabled:opacity-50 text-white text-sm font-semibold px-6 py-2.5 rounded-xl transition-colors flex items-center gap-2">
-                  {isSubmitting ? 'Guardando...' : (modalMode === 'CREATE' ? 'Crear Empresa' : 'Guardar Cambios')}
+                  {isSubmitting ? 'Guardando...' : 'Crear Empresa'}
                 </button>
               </div>
             </form>
