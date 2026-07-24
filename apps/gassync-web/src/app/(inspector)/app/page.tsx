@@ -97,26 +97,6 @@ export default function InspectorAppHome() {
         <div className="h-24"></div> {/* Spacer for bottom bar */}
       </div>
 
-      {/* Bottom Navigation Bar */}
-      <div className="bg-white border-t border-slate-200 px-6 py-4 flex justify-between items-center absolute bottom-0 inset-x-0 z-20 shadow-[0_-10px_20px_rgba(0,0,0,0.05)]">
-        <button className="flex flex-col items-center gap-1 text-orange-500">
-          <i className="fa-solid fa-house text-xl"></i>
-          <span className="text-[10px] font-bold">Inicio</span>
-        </button>
-        <button className="flex flex-col items-center gap-1 text-slate-400 hover:text-slate-600 transition-colors">
-          <i className="fa-solid fa-calendar-check text-xl"></i>
-          <span className="text-[10px] font-bold">Agenda</span>
-        </button>
-        <button className="flex flex-col items-center gap-1 text-slate-400 hover:text-slate-600 transition-colors">
-          <i className="fa-solid fa-file-lines text-xl"></i>
-          <span className="text-[10px] font-bold">Formularios</span>
-        </button>
-        <button className="flex flex-col items-center gap-1 text-slate-400 hover:text-slate-600 transition-colors">
-          <i className="fa-solid fa-gear text-xl"></i>
-          <span className="text-[10px] font-bold">Ajustes</span>
-        </button>
-      </div>
-
     </div>
   );
 }
