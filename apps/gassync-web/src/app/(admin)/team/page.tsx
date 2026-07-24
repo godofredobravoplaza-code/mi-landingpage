@@ -19,8 +19,10 @@ export default function TeamPage() {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [createEmail, setCreateEmail] = useState('');
   const [createPassword, setCreatePassword] = useState('');
+  const [createPasswordConfirm, setCreatePasswordConfirm] = useState('');
   const [createRole, setCreateRole] = useState('INSPECTOR');
   const [isCreating, setIsCreating] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   // Modal de Cambiar Rol
   const [roleModalUser, setRoleModalUser] = useState<any>(null);
@@ -62,6 +64,11 @@ export default function TeamPage() {
       alert("La contraseña debe tener al menos 6 caracteres.");
       return;
     }
+    
+    if (createPassword !== createPasswordConfirm) {
+      alert("Las contraseñas no coinciden.");
+      return;
+    }
 
     setIsCreating(true);
 
@@ -87,8 +94,9 @@ export default function TeamPage() {
       setIsCreateModalOpen(false);
       setCreateEmail('');
       setCreatePassword('');
+      setCreatePasswordConfirm('');
       setCreateRole('INSPECTOR');
-      alert(`Usuario creado exitosamente con la clave: ${createPassword}`);
+      alert(`Usuario creado exitosamente.`);
     } catch (error: any) {
       console.error("Error creando usuario:", error);
       alert(`Error al crear usuario: ${error.message}`);
@@ -270,14 +278,35 @@ export default function TeamPage() {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-slate-400 mb-1">Contraseña Temporal</label>
+                  <div className="relative">
+                    <input 
+                      type={showPassword ? "text" : "password"} 
+                      required 
+                      minLength={6}
+                      value={createPassword}
+                      onChange={(e) => setCreatePassword(e.target.value)}
+                      className="w-full bg-slate-900 border border-slate-700 text-white rounded-lg p-2.5 focus:border-blue-500 focus:outline-none pr-10"
+                      placeholder="Mínimo 6 caracteres"
+                    />
+                    <button 
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white"
+                    >
+                      <i className={`fa-solid ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+                    </button>
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-400 mb-1">Repetir Contraseña</label>
                   <input 
-                    type="text" 
+                    type={showPassword ? "text" : "password"} 
                     required 
                     minLength={6}
-                    value={createPassword}
-                    onChange={(e) => setCreatePassword(e.target.value)}
+                    value={createPasswordConfirm}
+                    onChange={(e) => setCreatePasswordConfirm(e.target.value)}
                     className="w-full bg-slate-900 border border-slate-700 text-white rounded-lg p-2.5 focus:border-blue-500 focus:outline-none"
-                    placeholder="Mínimo 6 caracteres"
+                    placeholder="Repite la contraseña"
                   />
                 </div>
                 <div>
