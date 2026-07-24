@@ -18,12 +18,8 @@ export default function DirectorioPage() {
   const [estadoFilter, setEstadoFilter] = useState('');
   const [selectedClient, setSelectedClient] = useState<any>(null);
 
-  // Datos simulados (mock)
-  const clients = [
-    { id: 1, name: 'La Parrilla de Juan', address: 'Providencia 1234', rubro: 'comercial', type: 'Restaurante', units: '8', unitDesc: 'Artefactos', date: '15 Oct 2026', dateDesc: 'En 12 días', status: 'rojo', statusText: 'Alerta Crítica', icon: 'fa-solid fa-utensils', colorBase: 'indigo' },
-    { id: 2, name: 'Cerámicas BioBío S.A.', address: 'Parque Industrial, Lote 4', rubro: 'industrial', type: 'Planta Prod.', units: '3', unitDesc: 'Calderas Ind.', date: '22 Mar 2028', dateDesc: 'Vigente', status: 'verde', statusText: 'Sello Verde', icon: 'fa-solid fa-industry', colorBase: 'purple' },
-    { id: 3, name: 'Hospital San José', address: 'Independencia 1100', rubro: 'publico', type: 'Salud', units: '12', unitDesc: 'Salas', date: '10 Ene 2027', dateDesc: 'Programado', status: 'amarillo', statusText: 'En Trámite', icon: 'fa-solid fa-hospital', colorBase: 'teal' },
-  ];
+  // Datos simulados (mock) vacíos para panel limpio
+  const clients: any[] = [];
 
   // Filtrado básico en cliente
   const filteredClients = clients.filter(client => {
@@ -110,7 +106,18 @@ export default function DirectorioPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-700/50">
-                {filteredClients.map((client) => {
+                {filteredClients.length === 0 ? (
+                  <tr>
+                    <td colSpan={7} className="px-6 py-12 text-center text-slate-500">
+                      <div className="flex flex-col items-center justify-center">
+                        <i className="fa-solid fa-folder-open text-4xl mb-4 opacity-30"></i>
+                        <p className="text-lg">No hay clientes registrados.</p>
+                        <p className="text-sm mt-1">Utiliza el botón "Nuevo Cliente" para empezar.</p>
+                      </div>
+                    </td>
+                  </tr>
+                ) : (
+                  filteredClients.map((client) => {
                   
                   // Mapeo seguro para Tailwind JIT
                   const statusStyles = {
@@ -175,7 +182,8 @@ export default function DirectorioPage() {
                       </td>
                     </tr>
                   );
-                })}
+                })
+                )}
               </tbody>
             </table>
           </div>

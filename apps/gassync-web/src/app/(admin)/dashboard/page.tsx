@@ -14,24 +14,15 @@ export default function DashboardPage() {
   const [filter, setFilter] = useState('industrial');
   const [selectedProject, setSelectedProject] = useState<any>(null);
 
-  // Datos simulados (igual que el prototipo original)
+  // Datos simulados (vacíos para panel limpio)
   const projectsData = {
     industrial: {
       scaleLabel: "Semana",
-      items: [
-        { name: "Hospital San José (TC5)", desc: "12 Salas de calderas", colStart: 1, colSpan: 5, color: "bg-teal-600", progress: 60, status: "En Terreno" },
-        { name: "Cerámicas BioBío S.A.", desc: "Red industrial 4 bar", colStart: 3, colSpan: 6, color: "bg-purple-600", progress: 30, status: "Diseño SEC" },
-        { name: "Planta Nestlé Macul", desc: "Renovación 5 años", colStart: 5, colSpan: 4, color: "bg-orange-600", progress: 10, status: "Agendado" }
-      ]
+      items: [] as any[]
     },
     residencial: {
       scaleLabel: "Día",
-      items: [
-        { name: "Condominio Las Rosas", desc: "145 Deptos", colStart: 1, colSpan: 2, color: "bg-blue-600", progress: 100, status: "Sello Verde" },
-        { name: "Edificio Los Alerces", desc: "Regularización", colStart: 2, colSpan: 3, color: "bg-red-600", progress: 80, status: "Reparando Fuga" },
-        { name: "Restaurante La Parrilla", desc: "Cocina comercial", colStart: 4, colSpan: 2, color: "bg-indigo-600", progress: 50, status: "En Terreno" },
-        { name: "Edificio Vista Hermosa", desc: "Cert. Periódica", colStart: 6, colSpan: 2, color: "bg-blue-500", progress: 0, status: "Agendado" }
-      ]
+      items: [] as any[]
     }
   };
 
@@ -136,32 +127,39 @@ export default function DashboardPage() {
             </div>
 
             {/* Barras de Proyectos */}
-            <div className="space-y-4 min-w-[700px] relative z-10">
-              {activeData.items.map((proj, idx) => (
-                <div key={idx} className="grid grid-cols-8 gap-2 group">
-                  <div 
-                    className={`relative h-14 rounded-lg shadow-md flex flex-col justify-center px-4 overflow-hidden ${proj.color} hover:brightness-110 transition-all cursor-pointer border border-white/10`} 
-                    style={{ gridColumn: `${proj.colStart} / span ${proj.colSpan}` }}
-                    onClick={() => setSelectedProject(proj)}
-                  >
-                    
-                    {/* Barra de progreso visual (se omite bg-animado por simplicidad en primer paso) */}
-                    <div className="absolute left-0 top-0 bottom-0 bg-black/20" style={{ width: `${proj.progress}%` }}></div>
-                    
-                    <div className="relative z-10 flex justify-between items-center">
-                      <div>
-                        <h4 className="text-white font-bold text-sm truncate drop-shadow-md">{proj.name}</h4>
-                        <p className="text-white/70 text-xs truncate drop-shadow-md">{proj.desc}</p>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs font-bold text-white/90 bg-black/20 px-2 py-0.5 rounded shadow-sm">{proj.progress}%</span>
-                        {/* Icono simplificado */}
-                        <i className="fa-solid fa-circle-info text-white/70"></i>
+            <div className="space-y-4 min-w-[700px] relative z-10 min-h-[150px]">
+              {activeData.items.length === 0 ? (
+                <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-500">
+                  <i className="fa-solid fa-chart-gantt text-4xl mb-3 opacity-30"></i>
+                  <p>No hay proyectos activos en esta categoría.</p>
+                </div>
+              ) : (
+                activeData.items.map((proj, idx) => (
+                  <div key={idx} className="grid grid-cols-8 gap-2 group">
+                    <div 
+                      className={`relative h-14 rounded-lg shadow-md flex flex-col justify-center px-4 overflow-hidden ${proj.color} hover:brightness-110 transition-all cursor-pointer border border-white/10`} 
+                      style={{ gridColumn: `${proj.colStart} / span ${proj.colSpan}` }}
+                      onClick={() => setSelectedProject(proj)}
+                    >
+                      
+                      {/* Barra de progreso visual (se omite bg-animado por simplicidad en primer paso) */}
+                      <div className="absolute left-0 top-0 bottom-0 bg-black/20" style={{ width: `${proj.progress}%` }}></div>
+                      
+                      <div className="relative z-10 flex justify-between items-center">
+                        <div>
+                          <h4 className="text-white font-bold text-sm truncate drop-shadow-md">{proj.name}</h4>
+                          <p className="text-white/70 text-xs truncate drop-shadow-md">{proj.desc}</p>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs font-bold text-white/90 bg-black/20 px-2 py-0.5 rounded shadow-sm">{proj.progress}%</span>
+                          {/* Icono simplificado */}
+                          <i className="fa-solid fa-circle-info text-white/70"></i>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))
+              )}
             </div>
 
           </div>
