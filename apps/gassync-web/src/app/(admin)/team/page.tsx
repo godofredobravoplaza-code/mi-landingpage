@@ -173,12 +173,12 @@ export default function TeamPage() {
                     </div>
                   </td>
                   <td className="px-6 py-4">
-                    <span className={\`px-3 py-1 rounded-full text-xs font-semibold \${
+                    <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
                       u.role === 'ADMIN' ? 'bg-orange-500/20 text-orange-400 border border-orange-500/30' : 
                       u.role === 'INSPECTOR' ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30' :
                       u.role === 'SUSPENDED' ? 'bg-red-500/20 text-red-400 border border-red-500/30' :
                       'bg-slate-700 text-slate-300'
-                    }\`}>
+                    }`}>
                       {u.role}
                     </span>
                   </td>
@@ -194,7 +194,7 @@ export default function TeamPage() {
                       <button 
                         onClick={() => handleRoleChange(u.id, u.role)}
                         disabled={u.id === profile?.uid}
-                        className={\`p-2 rounded-lg transition-colors \${u.id === profile?.uid ? 'text-slate-600 cursor-not-allowed' : 'text-slate-400 hover:text-orange-400 hover:bg-orange-500/10'}\`}
+                        className={`p-2 rounded-lg transition-colors ${u.id === profile?.uid ? 'text-slate-600 cursor-not-allowed' : 'text-slate-400 hover:text-orange-400 hover:bg-orange-500/10'}`}
                         title="Cambiar Rol"
                       >
                         <i className="fa-solid fa-user-shield"></i>
@@ -202,7 +202,7 @@ export default function TeamPage() {
                       <button 
                         onClick={() => handleRevokeAccess(u.id, u.email)}
                         disabled={u.id === profile?.uid}
-                        className={\`p-2 rounded-lg transition-colors \${u.id === profile?.uid ? 'text-slate-600 cursor-not-allowed' : 'text-slate-400 hover:text-red-400 hover:bg-red-500/10'}\`}
+                        className={`p-2 rounded-lg transition-colors ${u.id === profile?.uid ? 'text-slate-600 cursor-not-allowed' : 'text-slate-400 hover:text-red-400 hover:bg-red-500/10'}`}
                         title="Revocar Acceso"
                       >
                         <i className="fa-solid fa-ban"></i>
