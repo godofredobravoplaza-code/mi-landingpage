@@ -1,9 +1,10 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { doc, getDoc, collection, query, where, getDocs, updateDoc, deleteDoc } from 'firebase/firestore';
-import { sendPasswordResetEmail } from 'firebase/auth';
-import { auth, db } from '@/lib/firebase/config';
+import { doc, getDoc, collection, query, where, getDocs, updateDoc, deleteDoc, setDoc } from 'firebase/firestore';
+import { sendPasswordResetEmail, createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
+import { initializeApp } from 'firebase/app';
+import { auth, db, app as primaryApp } from '@/lib/firebase/config';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
@@ -140,6 +141,34 @@ export default function CompanyDetail() {
     }
   };
 
+  const handleCreateAdmin = async (email: string, password: string) => {
+    if (!company) return;
+    try {
+      // Usamos una app secundaria para no cerrar la sesión del superadmin actual
+      const secondaryApp = initializeApp(primaryApp.options, 'SecondaryApp');
+      const secondaryAuth = getAuth(secondaryApp);
+      
+      const userCredential = await createUserWithEmailAndPassword(secondaryAuth, email, password);
+      const user = userCredential.user;
+      
+      const newUser = {
+        email,
+        name: 'Administrador Cliente',
+        role: 'ADMIN',
+        companyId: company.id,
+        createdAt: new Date().toISOString()
+      };
+      
+      await setDoc(doc(db, 'users', user.uid), newUser);
+      
+      setUsers([...users, { id: user.uid, ...newUser }]);
+      alert(`Admin creado exitosamente con la clave: ${password}`);
+    } catch (error: any) {
+      console.error("Error creando admin:", error);
+      alert(`Error al crear usuario: ${error.message}`);
+    }
+  };
+
   const handleRoleChange = async (userId: string, currentRole: string) => {
     const newRole = prompt(`Cambiar rol (Actual: ${currentRole}). Opciones: ADMIN, INSPECTOR, BACKOFFICE, CLIENT`, currentRole);
     if (newRole && ['ADMIN', 'INSPECTOR', 'BACKOFFICE', 'CLIENT'].includes(newRole.toUpperCase())) {
@@ -229,8 +258,17 @@ export default function CompanyDetail() {
       <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
         <div className="p-6 border-b border-slate-800 flex justify-between items-center bg-slate-950/30">
           <h3 className="text-lg font-bold text-white"><i className="fa-solid fa-users text-blue-500 mr-2"></i> Equipo de Trabajo</h3>
-          <button onClick={() => alert('Función de invitar próximamente...')} className="bg-blue-600/20 text-blue-400 hover:bg-blue-600/30 border border-blue-500/30 px-4 py-2 rounded-lg text-sm font-semibold transition-colors">
-            <i className="fa-solid fa-user-plus mr-2"></i> Pre-registro Admin
+          <button 
+            onClick={() => {
+              const email = prompt('Email del nuevo administrador:');
+              if (!email) return;
+              const password = prompt('Contraseña temporal (mín. 6 caracteres):');
+              if (!password) return;
+              handleCreateAdmin(email, password);
+            }} 
+            className="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-colors shadow-lg"
+          >
+            <i className="fa-solid fa-user-plus mr-2"></i> Crear Admin
           </button>
         </div>
         <div className="overflow-x-auto">
