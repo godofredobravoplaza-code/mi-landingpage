@@ -8,6 +8,7 @@ import {
 } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
 import { auth, db } from '@/lib/firebase/config';
+import { useRouter, usePathname } from 'next/navigation';
 
 export interface UserProfile {
   uid: string;
@@ -37,6 +38,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<FirebaseUser | null>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
@@ -44,21 +47,34 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       
       if (currentUser) {
         try {
-          // Intentar obtener el perfil del usuario desde Firestore
           const docRef = doc(db, 'users', currentUser.uid);
           const docSnap = await getDoc(docRef);
           
           if (docSnap.exists()) {
-            setProfile(docSnap.data() as UserProfile);
+            const userData = docSnap.data() as UserProfile;
+            setProfile(userData);
+
+            // Verificación de Apagón / Suspensión de Empresa
+            if (userData.role !== 'SUPERADMIN' && userData.companyId) {
+              const companyRef = doc(db, 'companies', userData.companyId);
+              const companySnap = await getDoc(companyRef);
+              
+              if (companySnap.exists()) {
+                const companyData = companySnap.data();
+                if (companyData.status === 'SUSPENDED') {
+                  if (pathname !== '/suspended') {
+                    router.replace('/suspended');
+                  }
+                }
+              }
+            }
+
           } else {
-            // Si el documento no existe (ej: recién registrado, o modo dev)
-            // Le asignamos un perfil por defecto temporalmente, pero sin privilegios altos
             setProfile({
               uid: currentUser.uid,
               email: currentUser.email || '',
-              role: 'CLIENT' // Nivel más bajo por seguridad
+              role: 'CLIENT'
             });
-            console.warn("Usuario sin documento en Firestore. Se asignó rol por defecto.");
           }
         } catch (error) {
           console.error("Error obteniendo perfil de Firestore:", error);
@@ -72,7 +88,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [router, pathname]);
 
   const logout = async () => {
     try {
@@ -80,6 +96,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       await firebaseSignOut(auth);
       setProfile(null);
       setUser(null);
+      router.push('/login');
     } catch (error) {
       console.error("Error al cerrar sesión", error);
     } finally {

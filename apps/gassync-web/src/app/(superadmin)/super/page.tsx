@@ -22,17 +22,21 @@ interface Company {
 export default function SuperDashboard() {
   const [companies, setCompanies] = useState<Company[]>([]);
   const [loading, setLoading] = useState(true);
+  
+  // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMode, setModalMode] = useState<'CREATE' | 'EDIT'>('CREATE');
+  const [editingCompanyId, setEditingCompanyId] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Modal State
   const [formData, setFormData] = useState({
     name: '',
     rut: '',
     contactEmail: '',
     monthlyFee: 150000,
     crm: true,
-    portal: false
+    portal: false,
+    status: 'ACTIVE' as 'ACTIVE' | 'SUSPENDED'
   });
 
   const fetchCompanies = async () => {
@@ -56,31 +60,62 @@ export default function SuperDashboard() {
     fetchCompanies();
   }, []);
 
-  const handleCreateCompany = async (e: React.FormEvent) => {
+  const openCreateModal = () => {
+    setModalMode('CREATE');
+    setEditingCompanyId(null);
+    setFormData({
+      name: '', rut: '', contactEmail: '', monthlyFee: 150000, crm: true, portal: false, status: 'ACTIVE'
+    });
+    setIsModalOpen(true);
+  };
+
+  const openEditModal = (company: Company) => {
+    setModalMode('EDIT');
+    setEditingCompanyId(company.id);
+    setFormData({
+      name: company.name,
+      rut: company.rut,
+      contactEmail: company.contactEmail,
+      monthlyFee: company.monthlyFee || 0,
+      crm: company.modules?.crm || false,
+      portal: company.modules?.portal || false,
+      status: company.status || 'ACTIVE'
+    });
+    setIsModalOpen(true);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     
     try {
-      await addDoc(collection(db, 'companies'), {
+      const dataToSave = {
         name: formData.name,
         rut: formData.rut,
         contactEmail: formData.contactEmail,
         monthlyFee: Number(formData.monthlyFee),
-        paymentStatus: 'PAID', // Al iniciar, asumimos que pagó la inscripción
         modules: {
           crm: formData.crm,
           portal: formData.portal
         },
-        status: 'ACTIVE',
-        createdAt: serverTimestamp()
-      });
+        status: formData.status
+      };
+
+      if (modalMode === 'CREATE') {
+        await addDoc(collection(db, 'companies'), {
+          ...dataToSave,
+          paymentStatus: 'PAID',
+          createdAt: serverTimestamp()
+        });
+      } else if (modalMode === 'EDIT' && editingCompanyId) {
+        await updateDoc(doc(db, 'companies', editingCompanyId), dataToSave);
+      }
       
       setIsModalOpen(false);
-      setFormData({ name: '', rut: '', contactEmail: '', monthlyFee: 150000, crm: true, portal: false });
       await fetchCompanies();
     } catch (error) {
-      console.error("Error al crear empresa:", error);
-      alert("Hubo un error al crear la empresa.");
+      console.error("Error guardando empresa:", error);
+      alert("Hubo un error al guardar la empresa.");
     } finally {
       setIsSubmitting(false);
     }
@@ -92,7 +127,6 @@ export default function SuperDashboard() {
       await updateDoc(doc(db, 'companies', companyId), {
         paymentStatus: nextStatus
       });
-      // Actualización optimista
       setCompanies(companies.map(c => c.id === companyId ? { ...c, paymentStatus: nextStatus as any } : c));
     } catch(e) {
       console.error(e);
@@ -108,7 +142,7 @@ export default function SuperDashboard() {
           <p className="text-slate-400 mt-1">Gestión global de inquilinos y control de acceso.</p>
         </div>
         <button 
-          onClick={() => setIsModalOpen(true)}
+          onClick={openCreateModal}
           className="bg-purple-600 hover:bg-purple-500 text-white font-semibold py-2.5 px-6 rounded-xl transition-all shadow-lg shadow-purple-600/20 active:scale-[0.98] flex items-center gap-2"
         >
           <i className="fa-solid fa-plus"></i> Nueva Empresa
@@ -190,7 +224,11 @@ export default function SuperDashboard() {
                       )}
                     </td>
                     <td className="px-6 py-4 text-right">
-                      <button className="text-slate-500 hover:text-white px-2 transition-colors opacity-0 group-hover:opacity-100">
+                      <button 
+                        onClick={() => openEditModal(company)}
+                        className="text-slate-500 hover:text-white px-3 py-2 transition-colors rounded-lg hover:bg-slate-800"
+                        title="Editar Empresa"
+                      >
                         <i className="fa-solid fa-pen"></i>
                       </button>
                     </td>
@@ -207,16 +245,17 @@ export default function SuperDashboard() {
           <div className="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-lg shadow-2xl overflow-hidden animate-[slideUp_0.3s_ease-out]">
             <div className="p-6 border-b border-slate-800 flex justify-between items-center bg-slate-950/50">
               <h3 className="text-xl font-bold text-white flex items-center gap-2">
-                <i className="fa-solid fa-building text-purple-500"></i> Registrar Empresa
+                <i className={`fa-solid ${modalMode === 'CREATE' ? 'fa-building' : 'fa-pen-to-square'} text-purple-500`}></i> 
+                {modalMode === 'CREATE' ? 'Registrar Empresa' : 'Editar Empresa'}
               </h3>
             </div>
             
-            <form onSubmit={handleCreateCompany} className="p-6 space-y-5">
+            <form onSubmit={handleSubmit} className="p-6 space-y-5">
               
               <div className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-slate-300 mb-1.5">Nombre Legal (Razón Social)</label>
-                  <input type="text" required value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500" placeholder="Ej. Gas Santiago SpA" />
+                  <input type="text" required value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-purple-500" placeholder="Ej. Gas Santiago SpA" />
                 </div>
                 
                 <div className="grid grid-cols-2 gap-4">
@@ -250,12 +289,33 @@ export default function SuperDashboard() {
                 </div>
               </div>
 
-              <div className="pt-6 border-t border-slate-800 flex justify-end gap-3">
+              {/* Botón de Pánico (Suspender Servicio) */}
+              {modalMode === 'EDIT' && (
+                <div className="pt-4 border-t border-slate-800">
+                  <label className="flex items-center justify-between p-4 border border-red-900/30 rounded-xl bg-red-950/10 cursor-pointer hover:bg-red-950/20 transition-colors">
+                    <div>
+                      <p className="text-red-400 font-bold text-sm">Suspender Servicio al Cliente</p>
+                      <p className="text-slate-400 text-xs mt-1">Corta el acceso inmediatamente a toda la empresa.</p>
+                    </div>
+                    <div className="relative inline-flex items-center cursor-pointer">
+                      <input 
+                        type="checkbox" 
+                        className="sr-only peer"
+                        checked={formData.status === 'SUSPENDED'}
+                        onChange={(e) => setFormData({...formData, status: e.target.checked ? 'SUSPENDED' : 'ACTIVE'})}
+                      />
+                      <div className="w-11 h-6 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-red-500"></div>
+                    </div>
+                  </label>
+                </div>
+              )}
+
+              <div className="pt-4 border-t border-slate-800 flex justify-end gap-3">
                 <button type="button" onClick={() => setIsModalOpen(false)} className="px-5 py-2.5 text-sm font-medium text-slate-300 hover:text-white transition-colors">
                   Cancelar
                 </button>
                 <button type="submit" disabled={isSubmitting} className="bg-purple-600 hover:bg-purple-500 disabled:opacity-50 text-white text-sm font-semibold px-6 py-2.5 rounded-xl transition-colors flex items-center gap-2">
-                  {isSubmitting ? 'Creando...' : 'Crear y Asignar Espacio'}
+                  {isSubmitting ? 'Guardando...' : (modalMode === 'CREATE' ? 'Crear Empresa' : 'Guardar Cambios')}
                 </button>
               </div>
             </form>
