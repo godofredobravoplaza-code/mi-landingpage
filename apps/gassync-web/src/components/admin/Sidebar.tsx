@@ -1,4 +1,6 @@
+'use client';
 import Link from 'next/link';
+import { useAuth } from '@/contexts/AuthContext';
 
 // ----------------------------------------------------------------------
 // COMPONENTE: Sidebar (Navegación Lateral del Admin)
@@ -8,6 +10,10 @@ import Link from 'next/link';
 // ----------------------------------------------------------------------
 
 export default function Sidebar() {
+  const { user, profile, logout } = useAuth();
+  const userName = profile?.name || user?.email?.split('@')[0] || 'Usuario';
+  const initial = userName.charAt(0).toUpperCase();
+
   return (
     <aside className="w-64 bg-navy-950 border-r border-slate-800 flex flex-col transition-all duration-300 z-20 h-full">
       {/* Logo y Branding */}
@@ -42,14 +48,23 @@ export default function Sidebar() {
 
       {/* Perfil del Usuario Logueado */}
       <div className="p-4 border-t border-slate-800 shrink-0">
-        <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-800/30 border border-slate-700/50">
-          <div className="w-10 h-10 rounded-full bg-blue-900 flex items-center justify-center border border-blue-700 text-blue-300 font-bold">
-            GA
+        <div className="flex items-center justify-between px-4 py-3 rounded-xl bg-slate-800/30 border border-slate-700/50">
+          <div className="flex items-center gap-3 overflow-hidden">
+            <div className="w-10 h-10 rounded-full bg-blue-900 flex items-center justify-center border border-blue-700 text-blue-300 font-bold shrink-0">
+              {initial}
+            </div>
+            <div className="flex-1 overflow-hidden">
+              <p className="text-sm font-semibold text-white truncate" title={userName}>{userName}</p>
+              <p className="text-xs text-slate-400 truncate" title={user?.email || ''}>{user?.email}</p>
+            </div>
           </div>
-          <div className="flex-1 overflow-hidden">
-            <p className="text-sm font-semibold text-white truncate">Gast Admin</p>
-            <p className="text-xs text-slate-400 truncate">admin@gast.cl</p>
-          </div>
+          <button 
+            onClick={logout}
+            className="text-slate-400 hover:text-red-400 p-2 rounded-lg hover:bg-slate-800 transition-colors"
+            title="Cerrar sesión"
+          >
+            <i className="fa-solid fa-arrow-right-from-bracket"></i>
+          </button>
         </div>
       </div>
     </aside>
