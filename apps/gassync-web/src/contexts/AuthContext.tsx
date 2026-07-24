@@ -13,7 +13,7 @@ import { useRouter, usePathname } from 'next/navigation';
 export interface UserProfile {
   uid: string;
   email: string;
-  role: 'SUPERADMIN' | 'ADMIN' | 'INSPECTOR' | 'CLIENT';
+  role: 'SUPERADMIN' | 'ADMIN' | 'BACKOFFICE' | 'INSPECTOR' | 'CLIENT' | 'SUSPENDED';
   companyId?: string;
   name?: string;
 }
