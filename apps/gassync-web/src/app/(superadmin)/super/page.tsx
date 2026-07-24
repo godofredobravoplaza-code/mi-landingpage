@@ -11,6 +11,7 @@ interface Company {
   contactEmail: string;
   monthlyFee: number;
   billingDay: number;
+  expirationDate?: string;
   paymentStatus: 'PAID' | 'PENDING' | 'OVERDUE';
   modules: {
     crm: boolean;
@@ -36,6 +37,7 @@ export default function SuperDashboard() {
     contactEmail: '',
     monthlyFee: 150000,
     billingDay: 1,
+    expirationDate: '',
     crm: true,
     portal: false,
     status: 'ACTIVE' as 'ACTIVE' | 'SUSPENDED'
@@ -66,7 +68,7 @@ export default function SuperDashboard() {
     setModalMode('CREATE');
     setEditingCompanyId(null);
     setFormData({
-      name: '', rut: '', contactEmail: '', monthlyFee: 150000, billingDay: 1, crm: true, portal: false, status: 'ACTIVE'
+      name: '', rut: '', contactEmail: '', monthlyFee: 150000, billingDay: 1, expirationDate: '', crm: true, portal: false, status: 'ACTIVE'
     });
     setIsModalOpen(true);
   };
@@ -80,6 +82,7 @@ export default function SuperDashboard() {
       contactEmail: company.contactEmail,
       monthlyFee: company.monthlyFee || 0,
       billingDay: company.billingDay || 1,
+      expirationDate: company.expirationDate || '',
       crm: company.modules?.crm || false,
       portal: company.modules?.portal || false,
       status: company.status || 'ACTIVE'
@@ -98,6 +101,7 @@ export default function SuperDashboard() {
         contactEmail: formData.contactEmail,
         monthlyFee: Number(formData.monthlyFee),
         billingDay: Number(formData.billingDay),
+        expirationDate: formData.expirationDate,
         modules: {
           crm: formData.crm,
           portal: formData.portal
@@ -166,6 +170,7 @@ export default function SuperDashboard() {
                 <th className="px-6 py-4">Módulos</th>
                 <th className="px-6 py-4">Tarifa Mensual</th>
                 <th className="px-6 py-4">Día Cobro</th>
+                <th className="px-6 py-4">Caducidad</th>
                 <th className="px-6 py-4">Estado de Pago</th>
                 <th className="px-6 py-4">Acceso</th>
                 <th className="px-6 py-4 text-right">Acciones</th>
@@ -206,6 +211,9 @@ export default function SuperDashboard() {
                     </td>
                     <td className="px-6 py-4 text-slate-400 font-medium">
                       Día {company.billingDay || 1}
+                    </td>
+                    <td className="px-6 py-4 text-slate-400 text-xs">
+                      {company.expirationDate ? new Date(company.expirationDate).toLocaleDateString('es-CL', { timeZone: 'UTC' }) : 'Sin caducidad'}
                     </td>
                     <td className="px-6 py-4">
                       <button 
@@ -266,7 +274,7 @@ export default function SuperDashboard() {
                   <input type="text" required value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-purple-500" placeholder="Ej. Gas Santiago SpA" />
                 </div>
                 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-slate-300 mb-1.5">RUT</label>
                     <input type="text" required value={formData.rut} onChange={(e) => setFormData({...formData, rut: e.target.value})} className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-purple-500" placeholder="76.123.456-7" />
@@ -278,6 +286,10 @@ export default function SuperDashboard() {
                   <div>
                     <label className="block text-sm font-medium text-slate-300 mb-1.5">Día Cobro</label>
                     <input type="number" min="1" max="31" required value={formData.billingDay} onChange={(e) => setFormData({...formData, billingDay: Number(e.target.value)})} className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-purple-500" placeholder="5" />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-300 mb-1.5">Caducidad</label>
+                    <input type="date" value={formData.expirationDate} onChange={(e) => setFormData({...formData, expirationDate: e.target.value})} className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-purple-500" />
                   </div>
                 </div>
               </div>
