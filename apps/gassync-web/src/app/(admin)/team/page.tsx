@@ -15,6 +15,18 @@ export default function TeamPage() {
   const [users, setUsers] = useState<any[]>([]);
   const [loadingData, setLoadingData] = useState(true);
 
+  // Modal de Crear Usuario
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [createEmail, setCreateEmail] = useState('');
+  const [createPassword, setCreatePassword] = useState('');
+  const [createRole, setCreateRole] = useState('INSPECTOR');
+  const [isCreating, setIsCreating] = useState(false);
+
+  // Modal de Cambiar Rol
+  const [roleModalUser, setRoleModalUser] = useState<any>(null);
+  const [newRole, setNewRole] = useState('');
+  const [isUpdatingRole, setIsUpdatingRole] = useState(false);
+
   useEffect(() => {
     if (loading) return;
     
@@ -42,34 +54,29 @@ export default function TeamPage() {
     fetchUsers();
   }, [profile, loading, router]);
 
-  const handleCreateUser = async () => {
+  const handleCreateUserSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     if (!profile?.companyId) return;
     
-    const email = prompt('Email del nuevo integrante:');
-    if (!email) return;
-    const password = prompt('Contraseña temporal (mín. 6 caracteres):');
-    if (!password) return;
-    const roleInput = prompt('Rol del usuario (ADMIN, INSPECTOR, BACKOFFICE):', 'INSPECTOR');
-    if (!roleInput) return;
-    
-    const role = roleInput.toUpperCase();
-    if (!['ADMIN', 'INSPECTOR', 'BACKOFFICE'].includes(role)) {
-      alert('Rol inválido. Debe ser ADMIN, INSPECTOR o BACKOFFICE.');
+    if (createPassword.length < 6) {
+      alert("La contraseña debe tener al menos 6 caracteres.");
       return;
     }
+
+    setIsCreating(true);
 
     try {
       // Usamos una app secundaria para no cerrar la sesión del admin actual
       const secondaryApp = initializeApp(primaryApp.options, 'SecondaryApp');
       const secondaryAuth = getAuth(secondaryApp);
       
-      const userCredential = await createUserWithEmailAndPassword(secondaryAuth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(secondaryAuth, createEmail, createPassword);
       const user = userCredential.user;
       
       const newUser = {
-        email,
-        name: `Nuevo ${role}`,
-        role: role,
+        email: createEmail,
+        name: `Nuevo ${createRole}`,
+        role: createRole,
         companyId: profile.companyId,
         createdAt: new Date().toISOString()
       };
@@ -77,26 +84,46 @@ export default function TeamPage() {
       await setDoc(doc(db, 'users', user.uid), newUser);
       
       setUsers([...users, { id: user.uid, ...newUser }]);
-      alert(`Usuario creado exitosamente con la clave: ${password}`);
+      setIsCreateModalOpen(false);
+      setCreateEmail('');
+      setCreatePassword('');
+      setCreateRole('INSPECTOR');
+      alert(`Usuario creado exitosamente con la clave: ${createPassword}`);
     } catch (error: any) {
       console.error("Error creando usuario:", error);
       alert(`Error al crear usuario: ${error.message}`);
+    } finally {
+      setIsCreating(false);
     }
   };
 
-  const handleRoleChange = async (userId: string, currentRole: string) => {
-    if (userId === profile?.uid) {
+  const handleOpenRoleModal = (user: any) => {
+    if (user.id === profile?.uid) {
       alert("No puedes cambiar tu propio rol.");
       return;
     }
-    
-    const newRole = prompt(`Cambiar rol (Actual: ${currentRole}). Opciones: ADMIN, INSPECTOR, BACKOFFICE`, currentRole);
-    if (newRole && ['ADMIN', 'INSPECTOR', 'BACKOFFICE'].includes(newRole.toUpperCase())) {
-      if (newRole.toUpperCase() === currentRole) return;
-      if (confirm(`¿Estás seguro de cambiar el rol a ${newRole.toUpperCase()}?`)) {
-        await updateDoc(doc(db, 'users', userId), { role: newRole.toUpperCase() });
-        setUsers(users.map(u => u.id === userId ? { ...u, role: newRole.toUpperCase() } : u));
-      }
+    setRoleModalUser(user);
+    setNewRole(user.role);
+  };
+
+  const handleRoleChangeSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!roleModalUser) return;
+    if (newRole === roleModalUser.role) {
+      setRoleModalUser(null);
+      return;
+    }
+
+    setIsUpdatingRole(true);
+    try {
+      await updateDoc(doc(db, 'users', roleModalUser.id), { role: newRole });
+      setUsers(users.map(u => u.id === roleModalUser.id ? { ...u, role: newRole } : u));
+      setRoleModalUser(null);
+    } catch (error: any) {
+      console.error("Error al actualizar rol:", error);
+      alert("Error al actualizar rol: " + error.message);
+    } finally {
+      setIsUpdatingRole(false);
     }
   };
 
@@ -143,7 +170,7 @@ export default function TeamPage() {
         <div className="p-6 border-b border-slate-800 flex justify-between items-center bg-slate-950/30">
           <h3 className="text-lg font-bold text-white"><i className="fa-solid fa-users text-blue-500 mr-2"></i> Integrantes</h3>
           <button 
-            onClick={handleCreateUser} 
+            onClick={() => setIsCreateModalOpen(true)} 
             className="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-colors shadow-lg"
           >
             <i className="fa-solid fa-user-plus mr-2"></i> Nuevo Integrante
@@ -192,7 +219,7 @@ export default function TeamPage() {
                         <i className="fa-solid fa-key"></i>
                       </button>
                       <button 
-                        onClick={() => handleRoleChange(u.id, u.role)}
+                        onClick={() => handleOpenRoleModal(u)}
                         disabled={u.id === profile?.uid}
                         className={`p-2 rounded-lg transition-colors ${u.id === profile?.uid ? 'text-slate-600 cursor-not-allowed' : 'text-slate-400 hover:text-orange-400 hover:bg-orange-500/10'}`}
                         title="Cambiar Rol"
@@ -222,6 +249,113 @@ export default function TeamPage() {
           </table>
         </div>
       </div>
+
+      {/* MODAL CREAR USUARIO */}
+      {isCreateModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+          <div className="bg-navy-950 border border-slate-700 p-6 rounded-2xl w-full max-w-md shadow-2xl animate-[fadeIn_0.2s_ease-out]">
+            <h2 className="text-xl font-bold text-white mb-4">Nuevo Integrante</h2>
+            <form onSubmit={handleCreateUserSubmit}>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-slate-400 mb-1">Correo Electrónico</label>
+                  <input 
+                    type="email" 
+                    required 
+                    value={createEmail}
+                    onChange={(e) => setCreateEmail(e.target.value)}
+                    className="w-full bg-slate-900 border border-slate-700 text-white rounded-lg p-2.5 focus:border-blue-500 focus:outline-none"
+                    placeholder="ejemplo@gaschile.cl"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-400 mb-1">Contraseña Temporal</label>
+                  <input 
+                    type="text" 
+                    required 
+                    minLength={6}
+                    value={createPassword}
+                    onChange={(e) => setCreatePassword(e.target.value)}
+                    className="w-full bg-slate-900 border border-slate-700 text-white rounded-lg p-2.5 focus:border-blue-500 focus:outline-none"
+                    placeholder="Mínimo 6 caracteres"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-400 mb-1">Rol en la Plataforma</label>
+                  <select 
+                    value={createRole}
+                    onChange={(e) => setCreateRole(e.target.value)}
+                    className="w-full bg-slate-900 border border-slate-700 text-white rounded-lg p-2.5 focus:border-blue-500 focus:outline-none"
+                  >
+                    <option value="INSPECTOR">Inspector (Terreno)</option>
+                    <option value="BACKOFFICE">BackOffice (Oficina)</option>
+                    <option value="ADMIN">Administrador (Total)</option>
+                  </select>
+                </div>
+              </div>
+              <div className="flex gap-3 mt-6">
+                <button 
+                  type="button" 
+                  onClick={() => setIsCreateModalOpen(false)}
+                  className="flex-1 px-4 py-2 rounded-lg border border-slate-700 text-slate-300 hover:bg-slate-800 transition-colors"
+                >
+                  Cancelar
+                </button>
+                <button 
+                  type="submit" 
+                  disabled={isCreating}
+                  className="flex-1 px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-bold transition-colors disabled:opacity-50"
+                >
+                  {isCreating ? 'Creando...' : 'Crear Integrante'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL CAMBIAR ROL */}
+      {roleModalUser && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+          <div className="bg-navy-950 border border-slate-700 p-6 rounded-2xl w-full max-w-md shadow-2xl animate-[fadeIn_0.2s_ease-out]">
+            <h2 className="text-xl font-bold text-white mb-4">Modificar Acceso</h2>
+            <p className="text-sm text-slate-400 mb-4">
+              Estás modificando el rol de <span className="text-white font-bold">{roleModalUser.email}</span>
+            </p>
+            <form onSubmit={handleRoleChangeSubmit}>
+              <div className="mb-6">
+                <label className="block text-sm font-medium text-slate-400 mb-2">Nuevo Rol</label>
+                <select 
+                  value={newRole}
+                  onChange={(e) => setNewRole(e.target.value)}
+                  className="w-full bg-slate-900 border border-slate-700 text-white rounded-lg p-2.5 focus:border-blue-500 focus:outline-none"
+                >
+                  <option value="INSPECTOR">Inspector (Terreno)</option>
+                  <option value="BACKOFFICE">BackOffice (Oficina)</option>
+                  <option value="ADMIN">Administrador (Total)</option>
+                  <option value="SUSPENDED">Suspendido (Sin Acceso)</option>
+                </select>
+              </div>
+              <div className="flex gap-3">
+                <button 
+                  type="button" 
+                  onClick={() => setRoleModalUser(null)}
+                  className="flex-1 px-4 py-2 rounded-lg border border-slate-700 text-slate-300 hover:bg-slate-800 transition-colors"
+                >
+                  Cancelar
+                </button>
+                <button 
+                  type="submit" 
+                  disabled={isUpdatingRole}
+                  className="flex-1 px-4 py-2 rounded-lg bg-orange-600 hover:bg-orange-500 text-white font-bold transition-colors disabled:opacity-50"
+                >
+                  {isUpdatingRole ? 'Guardando...' : 'Actualizar Rol'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
 
     </div>
   );
