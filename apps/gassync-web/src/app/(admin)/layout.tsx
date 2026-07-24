@@ -1,5 +1,6 @@
 import Sidebar from '@/components/admin/Sidebar';
 import Topbar from '@/components/admin/Topbar';
+import ProtectedRoute from '@/components/ProtectedRoute';
 import '@/app/globals.css';
 
 // ----------------------------------------------------------------------
@@ -16,18 +17,20 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="bg-navy-900 text-slate-300 font-sans h-screen overflow-hidden flex">
-      {/* Navegación Lateral Constante */}
-      <Sidebar />
+    <ProtectedRoute>
+      <div className="bg-navy-900 text-slate-300 font-sans h-screen overflow-hidden flex">
+        {/* Navegación Lateral Constante */}
+        <Sidebar />
 
-      {/* Área Principal Dinámica */}
-      <main className="flex-1 flex flex-col h-screen overflow-hidden relative">
-        {/* Efecto visual de fondo (Blur) */}
-        <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-orange-600/5 rounded-full mix-blend-screen blur-[120px] pointer-events-none z-0"></div>
+        {/* Área Principal Dinámica */}
+        <main className="flex-1 flex flex-col h-screen overflow-hidden relative">
+          {/* Efecto visual de fondo (Blur) */}
+          <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-orange-600/5 rounded-full mix-blend-screen blur-[120px] pointer-events-none z-0"></div>
 
-        {/* El contenido específico de cada página (dashboard, directorio, etc.) se inyectará aquí */}
-        {children}
-      </main>
-    </div>
+          {/* El contenido específico de cada página (dashboard, directorio, etc.) se inyectará aquí */}
+          {children}
+        </main>
+      </div>
+    </ProtectedRoute>
   );
 }
