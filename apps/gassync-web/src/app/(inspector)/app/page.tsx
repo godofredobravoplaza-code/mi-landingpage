@@ -84,15 +84,7 @@ export default function InspectorAppHome() {
           </div>
         </div>
 
-        {/* Cierre de Sesión (Temporal para demos) */}
-        <div className="pt-4">
-          <button 
-            onClick={logout}
-            className="w-full bg-slate-200 text-slate-600 py-3 rounded-xl font-bold hover:bg-slate-300 transition-colors"
-          >
-            Cerrar Sesión
-          </button>
-        </div>
+
 
         <div className="h-24"></div> {/* Spacer for bottom bar */}
       </div>

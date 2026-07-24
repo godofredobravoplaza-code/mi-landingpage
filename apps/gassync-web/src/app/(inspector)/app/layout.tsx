@@ -28,15 +28,15 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           <span className="text-[10px] font-bold">Agenda</span>
         </Link>
         
-        <button className="flex flex-col items-center gap-1 text-slate-400 hover:text-slate-600 transition-colors">
+        <Link href="/app/forms" className={`flex flex-col items-center gap-1 transition-colors ${pathname === '/app/forms' ? 'text-orange-500' : 'text-slate-400 hover:text-slate-600'}`}>
           <i className="fa-solid fa-file-lines text-xl"></i>
           <span className="text-[10px] font-bold">Formularios</span>
-        </button>
+        </Link>
         
-        <button className="flex flex-col items-center gap-1 text-slate-400 hover:text-slate-600 transition-colors">
+        <Link href="/app/settings" className={`flex flex-col items-center gap-1 transition-colors ${pathname === '/app/settings' ? 'text-orange-500' : 'text-slate-400 hover:text-slate-600'}`}>
           <i className="fa-solid fa-gear text-xl"></i>
           <span className="text-[10px] font-bold">Ajustes</span>
-        </button>
+        </Link>
         
       </div>
     </div>
