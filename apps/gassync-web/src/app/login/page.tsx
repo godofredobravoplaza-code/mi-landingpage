@@ -3,7 +3,8 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '@/lib/firebase/config';
+import { doc, getDoc } from 'firebase/firestore';
+import { auth, db } from '@/lib/firebase/config';
 import Link from 'next/link';
 
 export default function LoginPage() {
@@ -19,10 +20,22 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      // Tras el login exitoso, redirigimos al dashboard por defecto
-      // (Podríamos agregar lógica para distinguir admins de clientes más adelante)
-      router.push('/dashboard');
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      
+      // Obtener el rol del usuario para redirección inteligente
+      const docRef = doc(db, 'users', userCredential.user.uid);
+      const docSnap = await getDoc(docRef);
+      
+      if (docSnap.exists()) {
+        const userData = docSnap.data();
+        if (userData.role === 'INSPECTOR') {
+          router.push('/app');
+        } else {
+          router.push('/dashboard');
+        }
+      } else {
+        router.push('/portal'); // Fallback para clientes que no estén en la colección 'users'
+      }
     } catch (err: any) {
       console.error(err);
       setError('Credenciales inválidas. Por favor, intenta nuevamente.');
