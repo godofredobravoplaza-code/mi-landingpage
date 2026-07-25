@@ -6,19 +6,19 @@ import { db } from '@/lib/firebase/config';
 import { useAuth } from '@/contexts/AuthContext';
 
 export default function InspectorAgenda() {
-  const { profile } = useAuth();
+  const { profile, user } = useAuth();
   const [selectedDay, setSelectedDay] = useState(3); // Ejemplo: 3 = Miércoles
   const [tasks, setTasks] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   // Escuchar tareas en tiempo real
   useEffect(() => {
-    if (!profile?.uid) return;
+    if (!user?.uid) return;
 
     // TODO: En producción agregar índice en Firestore para ordenar por createdAt
     const q = query(
       collection(db, 'tasks'),
-      where('inspectorId', '==', profile.uid)
+      where('inspectorId', '==', user.uid)
     );
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
@@ -39,7 +39,7 @@ export default function InspectorAgenda() {
     });
 
     return () => unsubscribe();
-  }, [profile]);
+  }, [user]);
 
   const days = [
     { day: 'L', date: 12 },
