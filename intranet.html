@@ -303,7 +303,15 @@
             } catch (error) {
                 console.error("Error signing in:", error);
                 loginError.classList.remove('hide');
-                loginError.textContent = 'Credenciales inválidas o no tienes autorización.';
+                
+                // Mostrar el error exacto de Firebase para depurar
+                if (error.code === 'auth/invalid-credential') {
+                    loginError.textContent = 'Contraseña incorrecta o usuario no encontrado.';
+                } else if (error.code === 'auth/unauthorized-domain') {
+                    loginError.textContent = 'Error: Dominio no autorizado en Firebase. Añade este dominio en la consola de Firebase.';
+                } else {
+                    loginError.textContent = `Error: ${error.message}`;
+                }
             } finally {
                 // Restore UI
                 btnLogin.disabled = false;
