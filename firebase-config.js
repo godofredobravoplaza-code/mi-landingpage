@@ -3,7 +3,7 @@ import { getAuth } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth
 import { getFirestore } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDu8c2RvKIre4MsYyTQI8cm2md26Puf2RQ",
+    apiKey: "AIzaSyD54dXiCg433Y4Hi7vS6YbIE5CyFo6y0GQ",
     authDomain: "healthsync-demo-2be71.firebaseapp.com",
     projectId: "healthsync-demo-2be71",
     storageBucket: "healthsync-demo-2be71.firebasestorage.app",
