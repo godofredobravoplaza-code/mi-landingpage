@@ -257,7 +257,19 @@
     <!-- Firebase Logic -->
     <script type="module">
         import { auth } from './firebase-config.js';
-        import { signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { signInWithEmailAndPassword, onAuthStateChanged, signOut, setPersistence, browserSessionPersistence } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+        // Si viene desde la landing page, forzar cierre de sesión para mayor seguridad
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('logout')) {
+            signOut(auth).then(() => {
+                // Limpiar la URL para no seguir deslogueando si recarga la página
+                window.history.replaceState({}, document.title, window.location.pathname);
+            });
+        }
+
+        // Configurar persistencia de sesión (se borra al cerrar la pestaña)
+        setPersistence(auth, browserSessionPersistence).catch(console.error);
 
         // Elements
         const loginScreen = document.getElementById('login-screen');
