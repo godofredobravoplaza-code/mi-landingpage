@@ -33,15 +33,28 @@ export default function InspectorsPage() {
       return;
     }
 
-    if (!profile?.companyId) return;
-
     const fetchInspectors = async () => {
       try {
-        const q = query(
-          collection(db, 'users'), 
-          where('companyId', '==', profile.companyId),
-          where('role', '==', 'INSPECTOR')
-        );
+        let q;
+        if (profile.role === 'SUPERADMIN') {
+          // SuperAdmin ve todos los inspectores (o los de un tenant específico en el futuro)
+          q = query(
+            collection(db, 'users'),
+            where('role', '==', 'INSPECTOR')
+          );
+        } else {
+          // Admin normal necesita tener companyId
+          if (!profile.companyId) {
+            setLoadingData(false);
+            return;
+          }
+          q = query(
+            collection(db, 'users'), 
+            where('companyId', '==', profile.companyId),
+            where('role', '==', 'INSPECTOR')
+          );
+        }
+        
         const snap = await getDocs(q);
         const data = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         setInspectors(data);
