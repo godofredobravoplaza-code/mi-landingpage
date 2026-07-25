@@ -13,12 +13,12 @@ export default function InspectorAgenda() {
 
   // Escuchar tareas en tiempo real
   useEffect(() => {
-    if (!profile?.id) return;
+    if (!profile?.uid) return;
 
     // TODO: En producción agregar índice en Firestore para ordenar por createdAt
     const q = query(
       collection(db, 'tasks'),
-      where('inspectorId', '==', profile.id)
+      where('inspectorId', '==', profile.uid)
     );
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
