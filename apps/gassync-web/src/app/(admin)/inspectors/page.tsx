@@ -70,15 +70,18 @@ export default function InspectorsPage() {
 
   const handleCreateTask = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!activeInspector || !profile?.companyId) return;
+    if (!activeInspector) return;
     
     setSavingTask(true);
     try {
+      // Usamos el companyId del inspector para que la tarea quede en su empresa
+      const taskCompanyId = profile?.companyId || activeInspector.companyId || 'global';
+      
       await addDoc(collection(db, 'tasks'), {
         ...newTask,
         status: 'PENDIENTE',
         inspectorId: activeInspector.id,
-        companyId: profile.companyId,
+        companyId: taskCompanyId,
         createdAt: serverTimestamp()
       });
       setShowTaskModal(false);
