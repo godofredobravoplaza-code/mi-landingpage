@@ -28,7 +28,7 @@ export default function InspectorsPage() {
     if (loading) return;
     
     // Proteger ruta
-    if (profile?.role !== 'ADMIN' && profile?.role !== 'BACKOFFICE') {
+    if (profile?.role !== 'SUPERADMIN' && profile?.role !== 'ADMIN' && profile?.role !== 'BACKOFFICE') {
       router.push('/dashboard');
       return;
     }
