@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Topbar from '@/components/admin/Topbar';
-import { collection, query, where, getDocs, addDoc, serverTimestamp } from 'firebase/firestore';
+import { collection, query, where, getDocs, addDoc, serverTimestamp, onSnapshot } from 'firebase/firestore';
 import { db } from '@/lib/firebase/config';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
@@ -67,6 +67,32 @@ export default function InspectorsPage() {
 
     fetchInspectors();
   }, [profile, loading, router]);
+
+  const [activeTasks, setActiveTasks] = useState<any[]>([]);
+
+  useEffect(() => {
+    if (!activeInspector) {
+      setActiveTasks([]);
+      return;
+    }
+    
+    const q = query(
+      collection(db, 'tasks'),
+      where('inspectorId', '==', activeInspector.id)
+    );
+    
+    const unsubscribe = onSnapshot(q, (snap) => {
+      const data = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      // Ordenar por createdAt de más reciente a más antigua
+      data.sort((a: any, b: any) => {
+        if (!a.createdAt || !b.createdAt) return 0;
+        return b.createdAt.toMillis() - a.createdAt.toMillis();
+      });
+      setActiveTasks(data);
+    });
+    
+    return () => unsubscribe();
+  }, [activeInspector]);
 
   const handleCreateTask = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -180,12 +206,50 @@ export default function InspectorsPage() {
                   </button>
                 </div>
               </div>
-              <div className="flex-1 bg-slate-900 relative flex items-center justify-center">
+              <div className="flex-1 bg-slate-900 relative flex overflow-hidden">
+                {/* Panel de Tareas del Inspector */}
+                <div className="w-80 bg-slate-800/80 backdrop-blur-md border-r border-slate-700/50 flex flex-col z-20">
+                  <div className="p-4 border-b border-slate-700/50 flex justify-between items-center">
+                    <h3 className="font-bold text-white">Tareas Asignadas</h3>
+                    <span className="bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded-full">{activeTasks.length}</span>
+                  </div>
+                  <div className="flex-1 overflow-y-auto p-4 space-y-3">
+                    {activeTasks.length === 0 ? (
+                      <div className="text-center text-slate-500 py-8">
+                        <i className="fa-regular fa-calendar-xmark text-3xl mb-2 opacity-50"></i>
+                        <p className="text-sm">Sin tareas pendientes</p>
+                      </div>
+                    ) : (
+                      activeTasks.map(task => (
+                        <div key={task.id} className="bg-navy-900 border border-slate-700 p-4 rounded-xl shadow-lg">
+                          <div className="flex justify-between items-start mb-2">
+                            <span className={`text-xs font-bold px-2 py-1 rounded-md ${
+                              task.status === 'COMPLETADA' ? 'bg-emerald-500/20 text-emerald-400' :
+                              task.status === 'EN_PROCESO' ? 'bg-orange-500/20 text-orange-400' :
+                              'bg-blue-600/20 text-blue-400'
+                            }`}>
+                              {task.status}
+                            </span>
+                            <span className="text-xs text-slate-400 font-medium"><i className="fa-regular fa-clock mr-1"></i>{task.time}</span>
+                          </div>
+                          <h4 className="font-bold text-white text-sm mb-1">{task.title}</h4>
+                          <p className="text-xs text-slate-400"><i className="fa-solid fa-location-dot mr-1"></i> {task.location}</p>
+                          <div className="mt-3 pt-3 border-t border-slate-800 flex justify-between items-center">
+                            <span className="text-xs text-slate-500">{task.type}</span>
+                          </div>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                </div>
+
                 {/* Simulador de Mapa */}
-                <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'radial-gradient(#334155 1px, transparent 1px)', backgroundSize: '20px 20px' }}></div>
-                <div className="text-center text-slate-500 relative z-10">
-                  <i className="fa-solid fa-map text-6xl mb-4 opacity-50"></i>
-                  <p>Mapa de ruta de {activeInspector.name || activeInspector.email}</p>
+                <div className="flex-1 relative flex items-center justify-center">
+                  <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'radial-gradient(#334155 1px, transparent 1px)', backgroundSize: '20px 20px' }}></div>
+                  <div className="text-center text-slate-500 relative z-10">
+                    <i className="fa-solid fa-map text-6xl mb-4 opacity-50"></i>
+                    <p>Mapa de ruta de {activeInspector.name || activeInspector.email}</p>
+                  </div>
                 </div>
               </div>
             </div>
