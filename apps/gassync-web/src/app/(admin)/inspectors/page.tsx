@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Topbar from '@/components/admin/Topbar';
-import { collection, query, where, getDocs } from 'firebase/firestore';
+import { collection, query, where, getDocs, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '@/lib/firebase/config';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
@@ -18,6 +18,11 @@ export default function InspectorsPage() {
   const [activeInspector, setActiveInspector] = useState<any>(null);
   const [inspectors, setInspectors] = useState<any[]>([]);
   const [loadingData, setLoadingData] = useState(true);
+
+  // Modal State
+  const [showTaskModal, setShowTaskModal] = useState(false);
+  const [savingTask, setSavingTask] = useState(false);
+  const [newTask, setNewTask] = useState({ title: '', location: '', time: '', type: 'Inspección' });
 
   useEffect(() => {
     if (loading) return;
@@ -49,6 +54,28 @@ export default function InspectorsPage() {
 
     fetchInspectors();
   }, [profile, loading, router]);
+
+  const handleCreateTask = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!activeInspector || !profile?.companyId) return;
+    
+    setSavingTask(true);
+    try {
+      await addDoc(collection(db, 'tasks'), {
+        ...newTask,
+        status: 'PENDIENTE',
+        inspectorId: activeInspector.id,
+        companyId: profile.companyId,
+        createdAt: serverTimestamp()
+      });
+      setShowTaskModal(false);
+      setNewTask({ title: '', location: '', time: '', type: 'Inspección' });
+    } catch (error) {
+      console.error("Error creating task:", error);
+    } finally {
+      setSavingTask(false);
+    }
+  };
 
   return (
     <>
@@ -129,7 +156,10 @@ export default function InspectorsPage() {
                   <button className="bg-slate-700 hover:bg-slate-600 text-white px-4 py-2 rounded-lg text-sm font-bold transition-colors">
                     <i className="fa-regular fa-message mr-2"></i>Mensaje
                   </button>
-                  <button className="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg text-sm font-bold transition-colors shadow-lg shadow-blue-500/20">
+                  <button 
+                    onClick={() => setShowTaskModal(true)}
+                    className="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg text-sm font-bold transition-colors shadow-lg shadow-blue-500/20"
+                  >
                     <i className="fa-solid fa-plus mr-2"></i>Asignar Tarea
                   </button>
                 </div>
@@ -147,6 +177,96 @@ export default function InspectorsPage() {
 
         </div>
       </div>
+
+      {/* Modal Asignar Tarea */}
+      {showTaskModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+          <div className="bg-navy-900 border border-slate-700 rounded-2xl w-full max-w-md overflow-hidden shadow-2xl">
+            <div className="p-6 border-b border-slate-700 flex justify-between items-center">
+              <h3 className="text-xl font-bold text-white">Asignar Tarea</h3>
+              <button onClick={() => setShowTaskModal(false)} className="text-slate-400 hover:text-white transition-colors">
+                <i className="fa-solid fa-xmark text-xl"></i>
+              </button>
+            </div>
+            
+            <form onSubmit={handleCreateTask} className="p-6 space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-slate-300 mb-1">Título de la Tarea</label>
+                <input 
+                  type="text" 
+                  required
+                  placeholder="Ej. Inspección Condominio Los Ríos"
+                  value={newTask.title}
+                  onChange={(e) => setNewTask({...newTask, title: e.target.value})}
+                  className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-blue-500 transition-colors"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-slate-300 mb-1">Dirección</label>
+                <div className="relative">
+                  <i className="fa-solid fa-location-dot absolute left-3 top-1/2 -translate-y-1/2 text-slate-500"></i>
+                  <input 
+                    type="text" 
+                    required
+                    placeholder="Av. Providencia 1234"
+                    value={newTask.location}
+                    onChange={(e) => setNewTask({...newTask, location: e.target.value})}
+                    className="w-full bg-slate-800 border border-slate-700 rounded-lg pl-10 pr-4 py-2 text-white focus:outline-none focus:border-blue-500 transition-colors"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-1">Horario Sugerido</label>
+                  <div className="relative">
+                    <i className="fa-regular fa-clock absolute left-3 top-1/2 -translate-y-1/2 text-slate-500"></i>
+                    <input 
+                      type="text" 
+                      required
+                      placeholder="Ej. 10:00 - 11:30"
+                      value={newTask.time}
+                      onChange={(e) => setNewTask({...newTask, time: e.target.value})}
+                      className="w-full bg-slate-800 border border-slate-700 rounded-lg pl-10 pr-4 py-2 text-white focus:outline-none focus:border-blue-500 transition-colors"
+                    />
+                  </div>
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-1">Tipo</label>
+                  <select
+                    value={newTask.type}
+                    onChange={(e) => setNewTask({...newTask, type: e.target.value})}
+                    className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-blue-500 transition-colors"
+                  >
+                    <option value="Inspección">Inspección</option>
+                    <option value="Mantenimiento">Mantenimiento</option>
+                    <option value="Urgencia">Urgencia</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="mt-8 flex justify-end gap-3 pt-4 border-t border-slate-700">
+                <button 
+                  type="button" 
+                  onClick={() => setShowTaskModal(false)}
+                  className="px-4 py-2 text-slate-300 hover:text-white transition-colors font-medium"
+                >
+                  Cancelar
+                </button>
+                <button 
+                  type="submit" 
+                  disabled={savingTask}
+                  className="bg-blue-600 hover:bg-blue-500 text-white px-6 py-2 rounded-lg font-bold transition-colors shadow-lg shadow-blue-500/20 disabled:opacity-50"
+                >
+                  {savingTask ? 'Guardando...' : 'Asignar a Inspector'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </>
   );
 }
