@@ -175,7 +175,7 @@
                 sessionStorage.setItem('healthsync_role', role);
                 sessionStorage.setItem('healthsync_name', name);
                 sessionStorage.setItem('healthsync_uid', userCred.user.uid);
-                window.location.href = 'demo-clinica.html';
+                window.location.href = 'demo.html';
 
             } catch (error) {
                 if (error.code === 'auth/user-not-found' || error.code === 'auth/invalid-credential') {
@@ -194,7 +194,7 @@
                         sessionStorage.setItem('healthsync_role', role);
                         sessionStorage.setItem('healthsync_name', name);
                         sessionStorage.setItem('healthsync_uid', uid);
-                        window.location.href = 'demo-clinica.html';
+                        window.location.href = 'demo.html';
 
                     } catch (regError) {
                         alert("Error al auto-registrar: " + regError.message);
