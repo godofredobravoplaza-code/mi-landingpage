@@ -587,82 +587,111 @@
             <!-- Título -->
             <div class="text-center mb-16">
                 <h2 class="text-3xl md:text-4xl font-light text-white mb-4 tracking-tight">Nuestros <span class="font-bold text-[#AF8282]">Proyectos</span></h2>
-                <p class="text-zinc-500 text-base max-w-2xl mx-auto">Conoce los productos y agentes IA que hemos desarrollado in-house.</p>
+                <p class="text-zinc-500 text-base max-w-2xl mx-auto">Explora la galería de productos, agentes IA y plataformas B2B que hemos desarrollado. Haz clic en cualquiera para ver los detalles técnicos y enlaces a producción.</p>
             </div>
 
-            <!-- Destacado: Bot Instagram -->
-            <div class="relative bg-zinc-900/50 rounded-3xl overflow-hidden border border-white/10 p-8 md:p-12 shadow-2xl flex flex-col md:flex-row items-center gap-12 group hover:border-[#AF8282]/50 transition-colors duration-500 mb-12">
-                <!-- Efecto de brillo de fondo -->
-                <div class="absolute -inset-1 bg-gradient-to-r from-[#AF8282]/20 to-transparent blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
+            <!-- Grid de Proyectos -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 
-                <div class="w-full md:w-1/2 relative z-10">
-                    <div class="text-xs font-bold text-[#AF8282] mb-4 uppercase tracking-widest bg-[#AF8282]/10 inline-block px-3 py-1.5 rounded-full border border-[#AF8282]/30"><i class="fa-solid fa-robot mr-2"></i>Agente IA Autónomo</div>
-                    <h3 class="text-3xl md:text-4xl font-bold text-white mb-4">Content Manager Bot</h3>
-                    <p class="text-zinc-400 text-base md:text-lg mb-6 leading-relaxed">Automatizamos por completo el flujo de publicación en nuestro Instagram oficial. Este agente IA diseña, redacta y publica posts diarios sin intervención humana, garantizando presencia activa 24/7.</p>
-                    
-                    <div class="flex flex-col sm:flex-row gap-4">
-                        <a href="https://www.instagram.com/phenix_tech580/" target="_blank" class="inline-flex justify-center items-center px-6 py-3 rounded-lg bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045] text-white font-bold hover:scale-105 transition-transform duration-300 shadow-lg">
-                            <i class="fa-brands fa-instagram mr-2 text-xl"></i> Ver en Acción
-                        </a>
-                        <a href="proyectos.html" class="inline-flex justify-center items-center px-6 py-3 rounded-lg border border-white/20 text-white font-medium hover:bg-white/5 transition-colors duration-300">
-                            Explorar Portafolio <i class="fa-solid fa-arrow-right ml-2 text-sm"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="w-full md:w-1/2 relative z-10 flex justify-center">
-                    <div class="relative w-full max-w-sm aspect-[9/16] rounded-3xl overflow-hidden border-4 border-zinc-800 shadow-2xl group-hover:rotate-2 transition-transform duration-700">
-                        <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&q=80&w=800" alt="Instagram UI" class="w-full h-full object-cover opacity-80">
+                <!-- Proyecto 1: Content Bot -->
+                <a href="proyectos.html" class="group relative bg-zinc-900/40 rounded-2xl overflow-hidden border border-white/5 hover:border-purple-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_10px_30px_rgba(168,85,247,0.2)]">
+                    <div class="aspect-video w-full overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&q=80&w=800" alt="Instagram Bot" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-70 group-hover:opacity-100">
                         <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
-                        <div class="absolute bottom-6 left-6 right-6">
-                            <div class="flex items-center gap-3 mb-3">
-                                <div class="w-10 h-10 rounded-full bg-[#AF8282] flex items-center justify-center text-white font-bold"><i class="fa-brands fa-instagram"></i></div>
-                                <div>
-                                    <p class="text-white font-bold text-sm">@phenix_tech580</p>
-                                    <p class="text-zinc-400 text-xs">Agente IA Activo</p>
-                                </div>
-                            </div>
-                            <div class="w-full h-2 bg-white/20 rounded-full overflow-hidden">
-                                <div class="w-full h-full bg-[#AF8282] animate-pulse"></div>
-                            </div>
-                            <p class="text-xs text-center text-white/70 mt-2 font-mono">Generando contenido...</p>
+                        <div class="absolute bottom-4 left-4">
+                            <span class="text-[10px] font-bold px-2 py-1 rounded bg-purple-500/20 text-purple-400 border border-purple-500/30 uppercase tracking-widest backdrop-blur-sm"><i class="fa-solid fa-robot mr-1"></i> Agente IA</span>
                         </div>
                     </div>
-                </div>
-            </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-2 group-hover:text-purple-400 transition-colors">Content Manager Bot</h3>
+                        <p class="text-zinc-400 text-sm mb-6 line-clamp-2">Automatización total para Instagram. Crea, diseña y publica contenido 24/7 sin intervención humana.</p>
+                        <span class="text-white text-xs font-bold uppercase tracking-wider flex items-center group-hover:text-purple-400 transition-colors">
+                            Ver detalles <i class="fa-solid fa-arrow-right ml-2 text-xs group-hover:translate-x-1 transition-transform"></i>
+                        </span>
+                    </div>
+                </a>
 
-            <!-- Destacado: Sistema Clínico Inteligente -->
-            <div class="relative bg-zinc-900/50 rounded-3xl overflow-hidden border border-white/10 p-8 md:p-12 shadow-2xl flex flex-col md:flex-row-reverse items-center gap-12 group hover:border-[#0ea5e9]/50 transition-colors duration-500">
-                <!-- Efecto de brillo de fondo -->
-                <div class="absolute -inset-1 bg-gradient-to-l from-[#0ea5e9]/20 to-transparent blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
+                <!-- Proyecto 2: MediSync -->
+                <a href="proyectos.html" class="group relative bg-zinc-900/40 rounded-2xl overflow-hidden border border-white/5 hover:border-sky-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_10px_30px_rgba(14,165,233,0.2)]">
+                    <div class="aspect-video w-full overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1576091160550-2173ff9e5eb3?auto=format&fit=crop&q=80&w=800" alt="MediSync" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-70 group-hover:opacity-100">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+                        <div class="absolute bottom-4 left-4">
+                            <span class="text-[10px] font-bold px-2 py-1 rounded bg-sky-500/20 text-sky-400 border border-sky-500/30 uppercase tracking-widest backdrop-blur-sm"><i class="fa-solid fa-hospital mr-1"></i> SaaS Clínico</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-2 group-hover:text-sky-400 transition-colors">MediSync AI Platform</h3>
+                        <p class="text-zinc-400 text-sm mb-6 line-clamp-2">Sistema médico inteligente con historial clínico electrónico y panel de gestión avanzado.</p>
+                        <span class="text-white text-xs font-bold uppercase tracking-wider flex items-center group-hover:text-sky-400 transition-colors">
+                            Ver detalles <i class="fa-solid fa-arrow-right ml-2 text-xs group-hover:translate-x-1 transition-transform"></i>
+                        </span>
+                    </div>
+                </a>
+
+                <!-- Proyecto 3: Medvetarom -->
+                <a href="proyectos.html" class="group relative bg-zinc-900/40 rounded-2xl overflow-hidden border border-white/5 hover:border-teal-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_10px_30px_rgba(20,184,166,0.2)]">
+                    <div class="aspect-video w-full overflow-hidden relative">
+                        <img src="https://dummyimage.com/800x450/14b8a6/ffffff&text=Medvetarom+Ecosistema" alt="Medvetarom" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-70 group-hover:opacity-100">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+                        <div class="absolute bottom-4 left-4">
+                            <span class="text-[10px] font-bold px-2 py-1 rounded bg-teal-500/20 text-teal-400 border border-teal-500/30 uppercase tracking-widest backdrop-blur-sm"><i class="fa-solid fa-leaf mr-1"></i> Web & PWA</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-2 group-hover:text-teal-400 transition-colors">Medvetarom</h3>
+                        <p class="text-zinc-400 text-sm mb-6 line-clamp-2">Catálogo B2B para aromaterapia veterinaria con Asistente IA y PWA móvil (Care Tracker).</p>
+                        <span class="text-white text-xs font-bold uppercase tracking-wider flex items-center group-hover:text-teal-400 transition-colors">
+                            Ver detalles <i class="fa-solid fa-arrow-right ml-2 text-xs group-hover:translate-x-1 transition-transform"></i>
+                        </span>
+                    </div>
+                </a>
+
+                <!-- Proyecto 4: Don Benjamin -->
+                <a href="proyectos.html" class="group relative bg-zinc-900/40 rounded-2xl overflow-hidden border border-white/5 hover:border-cyan-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_10px_30px_rgba(6,182,212,0.2)]">
+                    <div class="aspect-video w-full overflow-hidden relative">
+                        <img src="https://dummyimage.com/800x450/06b6d4/ffffff&text=Don+Benjamin+Cotizador" alt="Don Benjamin" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-70 group-hover:opacity-100">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+                        <div class="absolute bottom-4 left-4">
+                            <span class="text-[10px] font-bold px-2 py-1 rounded bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 uppercase tracking-widest backdrop-blur-sm"><i class="fa-solid fa-truck-droplet mr-1"></i> Next.js SaaS</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors">Cotizador Don Benjamín</h3>
+                        <p class="text-zinc-400 text-sm mb-6 line-clamp-2">Plataforma de cotización y agendamiento automático para servicios de limpieza de fosas.</p>
+                        <span class="text-white text-xs font-bold uppercase tracking-wider flex items-center group-hover:text-cyan-400 transition-colors">
+                            Ver detalles <i class="fa-solid fa-arrow-right ml-2 text-xs group-hover:translate-x-1 transition-transform"></i>
+                        </span>
+                    </div>
+                </a>
+
+                <!-- Proyecto 5: GasSync -->
+                <a href="proyectos.html" class="group relative bg-zinc-900/40 rounded-2xl overflow-hidden border border-white/5 hover:border-orange-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_10px_30px_rgba(249,115,22,0.2)]">
+                    <div class="aspect-video w-full overflow-hidden relative">
+                        <img src="https://dummyimage.com/800x450/f97316/ffffff&text=GasSync+B2B" alt="GasSync" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-70 group-hover:opacity-100">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+                        <div class="absolute bottom-4 left-4">
+                            <span class="text-[10px] font-bold px-2 py-1 rounded bg-orange-500/20 text-orange-400 border border-orange-500/30 uppercase tracking-widest backdrop-blur-sm"><i class="fa-solid fa-fire-flame-curved mr-1"></i> Dashboard B2B</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-2 group-hover:text-orange-400 transition-colors">GasSync (Certigas)</h3>
+                        <p class="text-zinc-400 text-sm mb-6 line-clamp-2">Portal corporativo para la certificación e inspección de instalaciones de gas con paneles administrativos.</p>
+                        <span class="text-white text-xs font-bold uppercase tracking-wider flex items-center group-hover:text-orange-400 transition-colors">
+                            Ver detalles <i class="fa-solid fa-arrow-right ml-2 text-xs group-hover:translate-x-1 transition-transform"></i>
+                        </span>
+                    </div>
+                </a>
                 
-                <div class="w-full md:w-1/2 relative z-10">
-                    <div class="text-xs font-bold text-[#0ea5e9] mb-4 uppercase tracking-widest bg-[#0ea5e9]/10 inline-block px-3 py-1.5 rounded-full border border-[#0ea5e9]/30"><i class="fa-solid fa-hospital mr-2"></i>SaaS Clínico Avanzado</div>
-                    <h3 class="text-3xl md:text-4xl font-bold text-white mb-4">MediSync AI Platform</h3>
-                    <p class="text-zinc-400 text-base md:text-lg mb-6 leading-relaxed">Un sistema de gestión clínica completo. Incluye agendamiento online, historial clínico electrónico y un panel médico inteligente para optimizar el flujo de atención, solicitudes de exámenes y recetas.</p>
-                    
-                    <div class="flex flex-col sm:flex-row gap-4">
-                        <a href="projects/medisync/login.html" target="_blank" class="inline-flex justify-center items-center px-6 py-3 rounded-lg bg-gradient-to-r from-[#0284c7] to-[#0ea5e9] text-white font-bold hover:scale-105 transition-transform duration-300 shadow-lg">
-                            <i class="fa-solid fa-stethoscope mr-2 text-xl"></i> Probar Demo
-                        </a>
+                <!-- Tarjeta para ir al Portafolio Completo -->
+                <a href="proyectos.html" class="group relative bg-gradient-to-br from-zinc-800 to-zinc-900 rounded-2xl overflow-hidden border-2 border-dashed border-white/20 hover:border-[#AF8282] transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_10px_30px_rgba(175,130,130,0.2)] flex flex-col items-center justify-center min-h-[300px] text-center p-8">
+                    <div class="w-16 h-16 rounded-full bg-[#AF8282]/10 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-[#AF8282]/20 transition-all duration-500">
+                        <i class="fa-solid fa-folder-open text-2xl text-[#AF8282]"></i>
                     </div>
-                </div>
+                    <h3 class="text-xl font-bold text-white mb-2">Ver Portafolio Detallado</h3>
+                    <p class="text-zinc-400 text-sm">Explora nuestra página dedicada con todos los detalles técnicos, capturas de pantalla y accesos en vivo.</p>
+                </a>
 
-                <div class="w-full md:w-1/2 relative z-10 flex justify-center">
-                    <div class="relative w-full max-w-sm aspect-[4/3] rounded-3xl overflow-hidden border-4 border-zinc-800 shadow-2xl group-hover:-rotate-2 transition-transform duration-700 bg-white">
-                        <img src="https://images.unsplash.com/photo-1576091160550-2173ff9e5eb3?auto=format&fit=crop&q=80&w=800" alt="Clinic UI" class="w-full h-full object-cover opacity-90">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
-                        <div class="absolute bottom-6 left-6 right-6">
-                            <div class="flex items-center gap-3 mb-3">
-                                <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-[#0ea5e9] font-bold text-xl"><i class="fa-solid fa-notes-medical"></i></div>
-                                <div>
-                                    <p class="text-white font-bold text-sm">Panel Médico</p>
-                                    <p class="text-zinc-300 text-xs">Gestión en tiempo real</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </section>
