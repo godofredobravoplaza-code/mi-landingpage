@@ -83,23 +83,55 @@
         <!-- Dashboard -->
         <main class="flex-grow max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 space-y-6">
             
+            <!-- Global Filter -->
+            <div class="flex flex-wrap items-center gap-2 mb-2">
+                <span class="text-sm text-slate-400 font-medium mr-2">Vista:</span>
+                <button class="filter-btn active px-4 py-1.5 text-sm rounded-full bg-blue-600 text-white font-medium transition-colors border border-blue-500" data-filter="all">Consolidado (Todos)</button>
+                <button class="filter-btn px-4 py-1.5 text-sm rounded-full bg-slate-800 text-slate-400 hover:text-white transition-colors border border-slate-700" data-filter="banco_estado">Banco Estado</button>
+                <button class="filter-btn px-4 py-1.5 text-sm rounded-full bg-slate-800 text-slate-400 hover:text-white transition-colors border border-slate-700" data-filter="banco_chile">Banco de Chile</button>
+                <button class="filter-btn px-4 py-1.5 text-sm rounded-full bg-slate-800 text-slate-400 hover:text-white transition-colors border border-slate-700" data-filter="falabella">Falabella</button>
+                <button class="filter-btn px-4 py-1.5 text-sm rounded-full bg-slate-800 text-slate-400 hover:text-white transition-colors border border-slate-700" data-filter="tenpo">Tenpo</button>
+            </div>
+
             <!-- Resumen Total -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 
                 <!-- Tarjeta: Mes Actual (Facturado) -->
-                <div class="glass-panel rounded-2xl p-6 relative overflow-hidden">
+                <div class="glass-panel rounded-2xl p-6 relative overflow-hidden flex flex-col justify-between">
                     <div class="absolute top-0 right-0 w-32 h-32 bg-yellow-500/10 rounded-bl-full -z-10"></div>
-                    <h3 class="text-slate-400 text-sm uppercase tracking-wider mb-2"><i class="fa-solid fa-file-invoice-dollar text-yellow-400 mr-2"></i>Facturado (Mes Actual)</h3>
-                    <div class="text-4xl font-bold text-white mb-2" id="total-este-mes">$0</div>
-                    <p class="text-xs text-slate-400">Total a pagar en el vencimiento más próximo.</p>
+                    <div>
+                        <h3 class="text-slate-400 text-sm uppercase tracking-wider mb-2"><i class="fa-solid fa-file-invoice-dollar text-yellow-400 mr-2"></i>Facturado (Mes Actual)</h3>
+                        <div class="text-4xl font-bold text-white mb-2" id="total-este-mes">$0</div>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-slate-700/50 space-y-1">
+                        <div class="flex justify-between text-xs">
+                            <span class="text-slate-400">Compras y Cuotas:</span>
+                            <span class="text-white font-mono" id="sub-compras-este">$0</span>
+                        </div>
+                        <div class="flex justify-between text-xs">
+                            <span class="text-slate-400">Intereses y Cargos:</span>
+                            <span class="text-red-400 font-mono" id="sub-cargos-este">$0</span>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Tarjeta: Próximo Mes (No Facturado) -->
-                <div class="glass-panel rounded-2xl p-6 relative overflow-hidden">
+                <div class="glass-panel rounded-2xl p-6 relative overflow-hidden flex flex-col justify-between">
                     <div class="absolute top-0 right-0 w-32 h-32 bg-red-500/10 rounded-bl-full -z-10"></div>
-                    <h3 class="text-slate-400 text-sm uppercase tracking-wider mb-2"><i class="fa-regular fa-calendar text-red-400 mr-2"></i>No Facturado (Próximo Mes)</h3>
-                    <div class="text-4xl font-bold text-white mb-2" id="total-proximo-mes">$0</div>
-                    <p class="text-xs text-slate-400">Compras recientes que entrarán en el siguiente estado de cuenta.</p>
+                    <div>
+                        <h3 class="text-slate-400 text-sm uppercase tracking-wider mb-2"><i class="fa-regular fa-calendar text-red-400 mr-2"></i>No Facturado (Próximo Mes)</h3>
+                        <div class="text-4xl font-bold text-white mb-2" id="total-proximo-mes">$0</div>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-slate-700/50 space-y-1">
+                        <div class="flex justify-between text-xs">
+                            <span class="text-slate-400">Compras y Cuotas:</span>
+                            <span class="text-white font-mono" id="sub-compras-proximo">$0</span>
+                        </div>
+                        <div class="flex justify-between text-xs">
+                            <span class="text-slate-400">Intereses y Cargos:</span>
+                            <span class="text-red-400 font-mono" id="sub-cargos-proximo">$0</span>
+                        </div>
+                    </div>
                 </div>
                 
                 <!-- Acciones -->
@@ -224,6 +256,16 @@
                 <div>
                     <label class="block text-sm font-medium text-slate-300 mb-1">Nombre (Ej: Hipotecario BCI)</label>
                     <input type="text" id="credit-name" required class="w-full bg-slate-800 border border-slate-700 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-300 mb-1">Banco Asociado</label>
+                    <select id="credit-bank" class="w-full bg-slate-800 border border-slate-700 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 outline-none">
+                        <option value="all">General (No asociar a tarjeta)</option>
+                        <option value="banco_estado">Banco Estado</option>
+                        <option value="banco_chile">Banco de Chile</option>
+                        <option value="falabella">Banco Falabella</option>
+                        <option value="tenpo">Tenpo</option>
+                    </select>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-slate-300 mb-1">Monto de la Cuota Mensual ($)</label>
