@@ -98,6 +98,40 @@ filterBtns.forEach(btn => {
 // -------------------------------------------------------------
 // FILE PROCESSING (CSV & EXCEL)
 // -------------------------------------------------------------
+
+function extractTableData(rowsOfArrays) {
+    let headerIdx = -1;
+    for (let i = 0; i < rowsOfArrays.length; i++) {
+        const row = rowsOfArrays[i];
+        if (!row || !row.length) continue;
+        
+        const text = row.join(' ').toLowerCase();
+        if ((text.includes('monto') || text.includes('cargo') || text.includes('valor')) && 
+            (text.includes('descrip') || text.includes('detalle') || text.includes('movimiento') || text.includes('comercio'))) {
+            headerIdx = i;
+            break;
+        }
+    }
+    
+    if (headerIdx === -1) return []; // Not found
+    
+    const headers = rowsOfArrays[headerIdx].map(h => String(h || '').trim());
+    const data = [];
+    for (let i = headerIdx + 1; i < rowsOfArrays.length; i++) {
+        const row = rowsOfArrays[i];
+        if (!row || !row.length || row.every(c => !c)) continue;
+        
+        const obj = {};
+        for (let j = 0; j < headers.length; j++) {
+            if (headers[j]) {
+                obj[headers[j]] = row[j] !== undefined ? row[j] : "";
+            }
+        }
+        data.push(obj);
+    }
+    return data;
+}
+
 csvUpload.addEventListener('change', (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -106,10 +140,11 @@ csvUpload.addEventListener('change', (e) => {
     
     if (fileName.endsWith('.csv')) {
         Papa.parse(file, {
-            header: true,
+            header: false,
             skipEmptyLines: true,
             complete: async function(results) {
-                await processCartola(results.data, bankSelector.value, parseInt(billingDayInput.value));
+                const cleanData = extractTableData(results.data);
+                await processCartola(cleanData, bankSelector.value, parseInt(billingDayInput.value));
                 csvUpload.value = '';
             },
             error: function(error) {
@@ -124,14 +159,14 @@ csvUpload.addEventListener('change', (e) => {
                 const data = new Uint8Array(event.target.result);
                 const workbook = XLSX.read(data, { type: 'array' });
                 
-                // Asumimos que los datos están en la primera hoja
                 const firstSheetName = workbook.SheetNames[0];
                 const worksheet = workbook.Sheets[firstSheetName];
                 
-                // Convertir la hoja a JSON (array de objetos usando la primera fila como header)
-                const jsonData = XLSX.utils.sheet_to_json(worksheet, { raw: false, defval: "" });
+                // Get as array of arrays
+                const rowsOfArrays = XLSX.utils.sheet_to_json(worksheet, { header: 1, raw: false, defval: "" });
+                const cleanData = extractTableData(rowsOfArrays);
                 
-                await processCartola(jsonData, bankSelector.value, parseInt(billingDayInput.value));
+                await processCartola(cleanData, bankSelector.value, parseInt(billingDayInput.value));
                 csvUpload.value = '';
             } catch (error) {
                 console.error("Error parsing Excel:", error);
