@@ -29,6 +29,7 @@
     
     <!-- PapaParse for CSV parsing -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 
     <style>
         body {
@@ -154,10 +155,10 @@
                     </div>
 
                     <label class="cursor-pointer bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-6 rounded-lg transition-colors shadow-[0_0_15px_rgba(37,99,235,0.4)] flex items-center justify-center gap-2 w-full">
-                        <i class="fa-solid fa-upload"></i> Subir Cartola (CSV)
-                        <input type="file" id="csv-upload" accept=".csv" class="hidden">
+                        <i class="fa-solid fa-upload"></i> Subir Cartola (CSV o Excel)
+                        <input type="file" id="csv-upload" accept=".csv, .xlsx, .xls" class="hidden">
                     </label>
-                    <p class="text-xs text-slate-500">Selecciona tu banco y sube el archivo CSV.</p>
+                    <p class="text-xs text-slate-500">Selecciona tu banco y sube el archivo CSV o Excel.</p>
                 </div>
             </div>
 

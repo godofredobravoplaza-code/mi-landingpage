@@ -96,24 +96,53 @@ filterBtns.forEach(btn => {
 });
 
 // -------------------------------------------------------------
-// CSV PROCESSING
+// FILE PROCESSING (CSV & EXCEL)
 // -------------------------------------------------------------
 csvUpload.addEventListener('change', (e) => {
     const file = e.target.files[0];
     if (!file) return;
     
-    Papa.parse(file, {
-        header: true,
-        skipEmptyLines: true,
-        complete: async function(results) {
-            await processCartola(results.data, bankSelector.value, parseInt(billingDayInput.value));
-            csvUpload.value = '';
-        },
-        error: function(error) {
-            console.error("Error parsing CSV:", error);
-            formatHelp.classList.remove('hide');
-        }
-    });
+    const fileName = file.name.toLowerCase();
+    
+    if (fileName.endsWith('.csv')) {
+        Papa.parse(file, {
+            header: true,
+            skipEmptyLines: true,
+            complete: async function(results) {
+                await processCartola(results.data, bankSelector.value, parseInt(billingDayInput.value));
+                csvUpload.value = '';
+            },
+            error: function(error) {
+                console.error("Error parsing CSV:", error);
+                formatHelp.classList.remove('hide');
+            }
+        });
+    } else if (fileName.endsWith('.xlsx') || fileName.endsWith('.xls')) {
+        const reader = new FileReader();
+        reader.onload = async (event) => {
+            try {
+                const data = new Uint8Array(event.target.result);
+                const workbook = XLSX.read(data, { type: 'array' });
+                
+                // Asumimos que los datos están en la primera hoja
+                const firstSheetName = workbook.SheetNames[0];
+                const worksheet = workbook.Sheets[firstSheetName];
+                
+                // Convertir la hoja a JSON (array de objetos usando la primera fila como header)
+                const jsonData = XLSX.utils.sheet_to_json(worksheet, { raw: false, defval: "" });
+                
+                await processCartola(jsonData, bankSelector.value, parseInt(billingDayInput.value));
+                csvUpload.value = '';
+            } catch (error) {
+                console.error("Error parsing Excel:", error);
+                formatHelp.classList.remove('hide');
+            }
+        };
+        reader.readAsArrayBuffer(file);
+    } else {
+        alert('Por favor sube un archivo .csv o .xlsx');
+        csvUpload.value = '';
+    }
 });
 
 async function processCartola(data, bankType, billingDay) {
