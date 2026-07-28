@@ -1136,6 +1136,28 @@
         </div>
     </div>
 
+    <!-- Botón Flotante de Facebook -->
+    <a href="#" target="_blank" rel="noopener noreferrer" 
+       class="fixed bottom-[10.5rem] right-6 z-[88] group flex items-center justify-center">
+        
+        <!-- Efecto Resplandor (Breathe) -->
+        <div class="absolute inset-0 bg-gradient-to-tr from-[#1877F2] to-[#3b5998] rounded-full animate-breathe-slow transition-opacity duration-300 opacity-50"></div>
+        
+        <!-- Contenedor principal -->
+        <div class="relative flex items-center bg-gradient-to-tr from-[#1877F2] to-[#3b5998] rounded-full p-3.5 shadow-[0_0_20px_rgba(24,119,242,0.4)] group-hover:shadow-[0_0_30px_rgba(24,119,242,0.8)] transition-all duration-300 overflow-hidden cursor-pointer hover:-translate-y-1">
+            
+            <i class="fa-brands fa-facebook-f text-white text-3xl w-[30px] h-[30px] flex items-center justify-center z-10 relative"></i>
+            
+            <!-- Texto que se revela al pasar el mouse -->
+            <div class="max-w-0 overflow-hidden group-hover:max-w-[200px] transition-all duration-500 ease-in-out flex items-center">
+                <span class="text-white font-bold text-sm whitespace-nowrap pl-3 relative z-10">¡Síguenos en Facebook!</span>
+            </div>
+            
+            <!-- Brillo láser de hover -->
+            <div class="absolute inset-0 h-full w-0 bg-white/20 group-hover:w-full transition-all duration-700 ease-out skew-x-12 -ml-4 pointer-events-none"></div>
+        </div>
+    </a>
+
     <!-- Botón Flotante de Instagram (IA) -->
     <a href="https://www.instagram.com/phenix_tech580/" target="_blank" rel="noopener noreferrer" 
        class="fixed bottom-24 right-6 z-[89] group flex items-center justify-center">
