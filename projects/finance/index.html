@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phenix Finance | Gestor de Deudas</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        'neon-green': '#00ff88',
+                        'neon-red': '#ff3366',
+                        'dark-bg': '#0f172a',
+                        'card-bg': '#1e293b'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Google Fonts & FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- PapaParse for CSV parsing -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+
+    <style>
+        body {
+            background-color: #0f172a;
+            color: #e2e8f0;
+            background-image: 
+                radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
+                radial-gradient(at 50% 0%, hsla(225,39%,30%,0.2) 0, transparent 50%), 
+                radial-gradient(at 100% 0%, hsla(339,49%,30%,0.2) 0, transparent 50%);
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .hide { display: none !important; }
+    </style>
+</head>
+<body class="font-sans antialiased flex flex-col">
+
+    <!-- Auth Protection Overlay (shows until auth state is known) -->
+    <div id="auth-loading" class="fixed inset-0 z-50 bg-[#0f172a] flex flex-col items-center justify-center">
+        <i class="fa-solid fa-circle-notch fa-spin text-4xl text-blue-500 mb-4"></i>
+        <p class="text-slate-400 font-mono">Verificando Credenciales de Seguridad...</p>
+    </div>
+
+    <!-- Main Content (hidden by default) -->
+    <div id="app-content" class="hide min-h-screen flex flex-col">
+        <!-- Header -->
+        <header class="bg-black/40 backdrop-blur-md border-b border-white/5 sticky top-0 z-40">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-yellow-500/20 text-yellow-400 rounded-xl flex items-center justify-center text-xl border border-yellow-500/30">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-white tracking-tight">Phenix Finance</h1>
+                        <p class="text-xs text-slate-400">Radar de Deudas y Cuotas</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4">
+                    <span id="user-email" class="text-sm font-mono text-slate-400 hidden md:inline-block">cargando...</span>
+                    <a href="../../intranet.html" class="bg-slate-800 hover:bg-slate-700 text-white px-4 py-2 rounded-lg text-sm transition-colors border border-white/10 flex items-center gap-2">
+                        <i class="fa-solid fa-arrow-left"></i> Salir
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dashboard -->
+        <main class="flex-grow max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+            
+            <!-- Resumen Total -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Tarjeta Principal: Deuda Próximo Mes -->
+                <div class="glass-panel rounded-2xl p-6 relative overflow-hidden md:col-span-2">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-red-500/10 rounded-bl-full -z-10"></div>
+                    <h3 class="text-slate-400 text-sm uppercase tracking-wider mb-2"><i class="fa-regular fa-calendar text-red-400 mr-2"></i>Total a Pagar Próximo Mes</h3>
+                    <div class="text-5xl font-bold text-white mb-2" id="total-proximo-mes">$0</div>
+                    <p class="text-sm text-slate-400">Suma de todas las cuotas de tarjetas para el siguiente ciclo.</p>
+                </div>
+                
+                <!-- Acciones -->
+                <div class="glass-panel rounded-2xl p-6 flex flex-col justify-center items-center text-center gap-4">
+                    <h3 class="text-slate-400 text-sm uppercase tracking-wider mb-2">Procesador de Cartolas</h3>
+                    <label class="cursor-pointer bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-6 rounded-lg transition-colors shadow-[0_0_15px_rgba(37,99,235,0.4)] flex items-center justify-center gap-2 w-full">
+                        <i class="fa-solid fa-upload"></i> Subir Cartola (CSV)
+                        <input type="file" id="csv-upload" accept=".csv" class="hidden">
+                    </label>
+                    <p class="text-xs text-slate-500">Formato: Fecha, Descripción, Monto, Cuota (X/Y)</p>
+                </div>
+            </div>
+
+            <!-- Modal / Formato Ayuda -->
+            <div id="format-help" class="bg-blue-900/20 border border-blue-500/30 rounded-lg p-4 text-sm text-blue-200 hide mb-4">
+                <i class="fa-solid fa-circle-info mr-2"></i> <strong>Formato detectado incorrecto.</strong> Asegúrate de que el CSV tenga columnas reconocibles (ej: Descripción, Monto, Cuotas).
+            </div>
+
+            <!-- Listado de Deudas -->
+            <div class="glass-panel rounded-2xl overflow-hidden">
+                <div class="p-6 border-b border-white/5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-black/20">
+                    <h3 class="text-lg font-bold text-white"><i class="fa-solid fa-list-check text-yellow-400 mr-2"></i>Radar de Cuotas Activas</h3>
+                    <button id="btn-clear-data" class="text-xs bg-red-900/30 text-red-400 border border-red-900 px-3 py-1.5 rounded hover:bg-red-900/50 transition-colors">
+                        <i class="fa-solid fa-trash-can mr-1"></i> Borrar Todo
+                    </button>
+                </div>
+                
+                <!-- Tabla -->
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm text-slate-300">
+                        <thead class="text-xs text-slate-400 uppercase bg-slate-800/50">
+                            <tr>
+                                <th class="px-6 py-4">Descripción de Compra</th>
+                                <th class="px-6 py-4 text-center">Cuota Actual</th>
+                                <th class="px-6 py-4 text-right">Monto Cuota</th>
+                                <th class="px-6 py-4 text-right">Total Pendiente</th>
+                            </tr>
+                        </thead>
+                        <tbody id="debts-table-body" class="divide-y divide-white/5">
+                            <!-- Filas generadas por JS -->
+                            <tr>
+                                <td colspan="4" class="px-6 py-8 text-center text-slate-500 italic">
+                                    <i class="fa-solid fa-ghost text-2xl mb-2 block opacity-50"></i>
+                                    No hay deudas registradas en la base de datos.<br>
+                                    Sube tu cartola CSV para analizarla.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>
