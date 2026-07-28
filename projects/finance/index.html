@@ -96,11 +96,20 @@
                 <!-- Acciones -->
                 <div class="glass-panel rounded-2xl p-6 flex flex-col justify-center items-center text-center gap-4">
                     <h3 class="text-slate-400 text-sm uppercase tracking-wider mb-2">Procesador de Cartolas</h3>
+                    
+                    <select id="bank-selector" class="w-full bg-slate-800 border border-slate-700 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 outline-none transition-colors">
+                        <option value="auto">Auto-Detectar Formato</option>
+                        <option value="banco_estado">Banco Estado</option>
+                        <option value="banco_chile">Banco de Chile</option>
+                        <option value="falabella">Banco Falabella</option>
+                        <option value="tenpo">Tenpo</option>
+                    </select>
+
                     <label class="cursor-pointer bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-6 rounded-lg transition-colors shadow-[0_0_15px_rgba(37,99,235,0.4)] flex items-center justify-center gap-2 w-full">
                         <i class="fa-solid fa-upload"></i> Subir Cartola (CSV)
                         <input type="file" id="csv-upload" accept=".csv" class="hidden">
                     </label>
-                    <p class="text-xs text-slate-500">Formato: Fecha, Descripción, Monto, Cuota (X/Y)</p>
+                    <p class="text-xs text-slate-500">Selecciona tu banco y sube el archivo CSV.</p>
                 </div>
             </div>
 
@@ -142,8 +151,69 @@
                     </table>
                 </div>
             </div>
+
+            <!-- Listado de Créditos Activos Fijos -->
+            <div class="glass-panel rounded-2xl overflow-hidden mt-8">
+                <div class="p-6 border-b border-white/5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-black/20">
+                    <h3 class="text-lg font-bold text-white"><i class="fa-solid fa-building-columns text-emerald-400 mr-2"></i>Radar de Créditos Activos</h3>
+                    <button onclick="document.getElementById('credit-modal').classList.remove('hide')" class="text-sm bg-emerald-600/30 text-emerald-400 border border-emerald-600 px-4 py-2 rounded hover:bg-emerald-600/50 transition-colors font-bold">
+                        <i class="fa-solid fa-plus mr-1"></i> Agregar Crédito
+                    </button>
+                </div>
+                
+                <!-- Tabla Créditos -->
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm text-slate-300">
+                        <thead class="text-xs text-slate-400 uppercase bg-slate-800/50">
+                            <tr>
+                                <th class="px-6 py-4">Nombre del Crédito</th>
+                                <th class="px-6 py-4 text-center">Cuotas Restantes</th>
+                                <th class="px-6 py-4 text-right">Cuota Mensual</th>
+                                <th class="px-6 py-4 text-right">Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody id="credits-table-body" class="divide-y divide-white/5">
+                            <!-- Filas generadas por JS -->
+                            <tr>
+                                <td colspan="4" class="px-6 py-8 text-center text-slate-500 italic">
+                                    No hay créditos activos registrados.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
             
         </main>
+    </div>
+
+    <!-- Modal Nuevo Crédito -->
+    <div id="credit-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 hide">
+        <div class="bg-navy-900 border border-slate-700 rounded-2xl p-6 w-full max-w-md relative">
+            <button onclick="document.getElementById('credit-modal').classList.add('hide')" class="absolute top-4 right-4 text-slate-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+            <h2 class="text-xl font-bold text-white mb-6"><i class="fa-solid fa-building-columns text-emerald-400 mr-2"></i>Nuevo Crédito Activo</h2>
+            
+            <form id="form-add-credit" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-slate-300 mb-1">Nombre (Ej: Hipotecario BCI)</label>
+                    <input type="text" id="credit-name" required class="w-full bg-slate-800 border border-slate-700 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-300 mb-1">Monto de la Cuota Mensual ($)</label>
+                    <input type="number" id="credit-amount" required min="1" class="w-full bg-slate-800 border border-slate-700 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-300 mb-1">Cuotas Restantes</label>
+                    <input type="number" id="credit-quotes" required min="1" class="w-full bg-slate-800 border border-slate-700 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 outline-none" placeholder="Ej: 48">
+                    <p class="text-xs text-slate-500 mt-1">Si es indefinido, pon un número muy alto (ej: 999)</p>
+                </div>
+                <button type="submit" id="btn-save-credit" class="w-full mt-6 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 px-6 rounded-lg transition-colors">
+                    Guardar Crédito
+                </button>
+            </form>
+        </div>
     </div>
 
     <!-- Scripts -->

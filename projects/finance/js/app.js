@@ -7,43 +7,50 @@ const authLoading = document.getElementById('auth-loading');
 const appContent = document.getElementById('app-content');
 const userEmailEl = document.getElementById('user-email');
 const csvUpload = document.getElementById('csv-upload');
+const bankSelector = document.getElementById('bank-selector');
 const formatHelp = document.getElementById('format-help');
 const debtsTableBody = document.getElementById('debts-table-body');
+const creditsTableBody = document.getElementById('credits-table-body');
 const totalProximoMesEl = document.getElementById('total-proximo-mes');
 const btnClearData = document.getElementById('btn-clear-data');
+
+// Form Elements
+const formAddCredit = document.getElementById('form-add-credit');
+const creditName = document.getElementById('credit-name');
+const creditAmount = document.getElementById('credit-amount');
+const creditQuotes = document.getElementById('credit-quotes');
+const btnSaveCredit = document.getElementById('btn-save-credit');
+const creditModal = document.getElementById('credit-modal');
 
 let currentUser = null;
 
 // Auth State Listener
 onAuthStateChanged(auth, (user) => {
     if (user) {
-        // User is logged in
         currentUser = user;
         userEmailEl.textContent = user.email;
         authLoading.classList.add('hide');
         appContent.classList.remove('hide');
         
-        // Load data for this user
-        loadDebts();
+        loadData();
     } else {
-        // Not logged in, redirect to intranet
         window.location.href = "../../intranet.html";
     }
 });
 
-// CSV Upload & Parsing
+// -------------------------------------------------------------
+// CSV PROCESSING (Multi-Bank)
+// -------------------------------------------------------------
 csvUpload.addEventListener('change', (e) => {
     const file = e.target.files[0];
     if (!file) return;
     
-    // Use PapaParse to read CSV
     Papa.parse(file, {
         header: true,
         skipEmptyLines: true,
         complete: async function(results) {
             console.log("CSV parsed:", results.data);
-            await processCartola(results.data);
-            // Reset input
+            await processCartola(results.data, bankSelector.value);
             csvUpload.value = '';
         },
         error: function(error) {
@@ -53,27 +60,42 @@ csvUpload.addEventListener('change', (e) => {
     });
 });
 
-// Process Cartola Data
-async function processCartola(data) {
+async function processCartola(data, bankType) {
     if (!currentUser) return;
     formatHelp.classList.add('hide');
     
-    // We assume the bank CSV has some columns like "Descripción", "Monto", "Cuotas"
-    // Since every bank is different, we will try to look for common keywords in headers
+    if (data.length === 0) return;
     
-    // Find column keys
-    let descKey = null, amountKey = null, cuotaKey = null;
+    const keys = Object.keys(data[0]);
+    let descKey, amountKey, cuotaKey;
     
-    if (data.length > 0) {
-        const keys = Object.keys(data[0]);
-        descKey = keys.find(k => k.toLowerCase().includes('descrip') || k.toLowerCase().includes('detalle') || k.toLowerCase().includes('comercio') || k.toLowerCase().includes('movimiento'));
-        amountKey = keys.find(k => k.toLowerCase().includes('monto') || k.toLowerCase().includes('valor') || k.toLowerCase().includes('cargo'));
+    // Perfiles Bancarios Básicos
+    if (bankType === 'banco_estado') {
+        descKey = keys.find(k => k.toLowerCase().includes('descrip'));
+        amountKey = keys.find(k => k.toLowerCase().includes('monto'));
         cuotaKey = keys.find(k => k.toLowerCase().includes('cuota'));
-        
-        if (!descKey || !amountKey) {
-            formatHelp.classList.remove('hide');
-            return;
-        }
+    } else if (bankType === 'banco_chile') {
+        descKey = keys.find(k => k.toLowerCase().includes('detalle') || k.toLowerCase().includes('descrip'));
+        amountKey = keys.find(k => k.toLowerCase().includes('cargo') || k.toLowerCase().includes('monto'));
+        cuotaKey = keys.find(k => k.toLowerCase().includes('cuota'));
+    } else if (bankType === 'falabella') {
+        descKey = keys.find(k => k.toLowerCase().includes('comercio') || k.toLowerCase().includes('descrip'));
+        amountKey = keys.find(k => k.toLowerCase().includes('monto'));
+        cuotaKey = keys.find(k => k.toLowerCase().includes('cuota'));
+    } else if (bankType === 'tenpo') {
+        descKey = keys.find(k => k.toLowerCase().includes('movimiento') || k.toLowerCase().includes('descrip'));
+        amountKey = keys.find(k => k.toLowerCase().includes('monto'));
+        cuotaKey = null; // Tenpo prepago, rara vez tiene cuotas
+    }
+    
+    // Fallback heurístico (Auto-Detectar)
+    if (!descKey) descKey = keys.find(k => /descrip|detalle|comercio|movimiento/i.test(k));
+    if (!amountKey) amountKey = keys.find(k => /monto|valor|cargo/i.test(k));
+    if (!cuotaKey) cuotaKey = keys.find(k => /cuota/i.test(k));
+    
+    if (!descKey || !amountKey) {
+        formatHelp.classList.remove('hide');
+        return;
     }
     
     let addedCount = 0;
@@ -83,8 +105,6 @@ async function processCartola(data) {
         let amountStr = String(row[amountKey] || '0').replace(/[^0-9.-]+/g, '');
         const amount = parseFloat(amountStr) || 0;
         
-        // Only process positive amounts (charges, ignoring payments to the card which might be negative)
-        // Note: Some banks put charges as negative. We just take Math.abs for the quote value.
         const absAmount = Math.abs(amount);
         if (absAmount === 0) continue;
         
@@ -92,7 +112,6 @@ async function processCartola(data) {
         let cuotaActual = 1;
         let cuotaTotal = 1;
         
-        // Parse "03/12" or "3 de 12"
         if (cuotaStr) {
             const cuotaMatch = String(cuotaStr).match(/(\d+)[^\d]+(\d+)/);
             if (cuotaMatch) {
@@ -101,12 +120,12 @@ async function processCartola(data) {
             }
         }
         
-        // Save to Firestore
         try {
             await addDoc(collection(db, "finance_debts"), {
                 userId: currentUser.uid,
+                bank: bankType,
                 description: desc,
-                amount: absAmount, // the value of ONE quote/installment
+                amount: absAmount,
                 currentQuote: cuotaActual,
                 totalQuotes: cuotaTotal,
                 dateAdded: new Date().toISOString()
@@ -118,93 +137,160 @@ async function processCartola(data) {
     }
     
     if (addedCount > 0) {
-        alert(`Se han procesado e importado ${addedCount} movimientos con éxito.`);
-        loadDebts();
+        alert(`Se importaron ${addedCount} movimientos con el perfil ${bankType}.`);
+        loadData();
     } else {
-        alert("No se encontraron movimientos válidos para importar.");
+        alert("No se encontraron movimientos válidos.");
     }
 }
 
-// Load Debts from Firestore
-async function loadDebts() {
+
+// -------------------------------------------------------------
+// CREDITS CRUD
+// -------------------------------------------------------------
+formAddCredit.addEventListener('submit', async (e) => {
+    e.preventDefault();
     if (!currentUser) return;
     
-    debtsTableBody.innerHTML = '<tr><td colspan="4" class="px-6 py-4 text-center text-slate-400">Cargando datos...</td></tr>';
+    btnSaveCredit.disabled = true;
+    btnSaveCredit.textContent = 'Guardando...';
     
     try {
-        const q = query(collection(db, "finance_debts"), where("userId", "==", currentUser.uid));
-        const querySnapshot = await getDocs(q);
+        await addDoc(collection(db, "finance_credits"), {
+            userId: currentUser.uid,
+            name: creditName.value,
+            amount: parseFloat(creditAmount.value),
+            quotesRemaining: parseInt(creditQuotes.value),
+            dateAdded: new Date().toISOString()
+        });
         
-        let totalProximoMes = 0;
-        let html = '';
-        
-        if (querySnapshot.empty) {
-            debtsTableBody.innerHTML = `
-                <tr>
-                    <td colspan="4" class="px-6 py-8 text-center text-slate-500 italic">
-                        <i class="fa-solid fa-ghost text-2xl mb-2 block opacity-50"></i>
-                        No hay deudas registradas.<br>
-                        Sube tu cartola CSV para analizarla.
-                    </td>
-                </tr>
-            `;
-            totalProximoMesEl.textContent = '$0';
-            return;
+        formAddCredit.reset();
+        creditModal.classList.add('hide');
+        loadData();
+    } catch (e) {
+        console.error("Error adding credit:", e);
+        alert("Hubo un error al guardar el crédito.");
+    } finally {
+        btnSaveCredit.disabled = false;
+        btnSaveCredit.textContent = 'Guardar Crédito';
+    }
+});
+
+// Delete specific credit
+window.deleteCredit = async (id) => {
+    if (confirm('¿Deseas eliminar este crédito activo?')) {
+        try {
+            await deleteDoc(doc(db, "finance_credits", id));
+            loadData();
+        } catch (e) {
+            console.error("Error deleting credit:", e);
         }
+    }
+};
+
+
+// -------------------------------------------------------------
+// LOAD DATA & CALCULATE TOTAL
+// -------------------------------------------------------------
+const formatter = new Intl.NumberFormat('es-CL', {
+    style: 'currency',
+    currency: 'CLP',
+    minimumFractionDigits: 0
+});
+
+async function loadData() {
+    if (!currentUser) return;
+    
+    debtsTableBody.innerHTML = '<tr><td colspan="4" class="px-6 py-4 text-center text-slate-400">Cargando cartolas...</td></tr>';
+    creditsTableBody.innerHTML = '<tr><td colspan="4" class="px-6 py-4 text-center text-slate-400">Cargando créditos...</td></tr>';
+    
+    let totalProximoMes = 0;
+    
+    // 1. Cargar Deudas de Tarjeta
+    try {
+        const qDebts = query(collection(db, "finance_debts"), where("userId", "==", currentUser.uid));
+        const snapDebts = await getDocs(qDebts);
         
-        querySnapshot.forEach((doc) => {
-            const data = doc.data();
-            
-            // Calculate remaining
-            const quotesLeft = data.totalQuotes - data.currentQuote + 1; // including current one
-            const totalRemaining = quotesLeft > 0 ? quotesLeft * data.amount : 0;
-            
-            // If it's a valid debt for next month
-            if (quotesLeft > 0) {
+        let htmlDebts = '';
+        
+        if (snapDebts.empty) {
+            debtsTableBody.innerHTML = '<tr><td colspan="4" class="px-6 py-8 text-center text-slate-500 italic">No hay deudas registradas. Sube tu cartola CSV.</td></tr>';
+        } else {
+            snapDebts.forEach((doc) => {
+                const data = doc.data();
+                const quotesLeft = data.totalQuotes - data.currentQuote + 1;
+                const totalRemaining = quotesLeft > 0 ? quotesLeft * data.amount : 0;
+                
+                if (quotesLeft > 0) {
+                    totalProximoMes += data.amount;
+                    htmlDebts += `
+                        <tr class="hover:bg-white/5 transition-colors">
+                            <td class="px-6 py-4 font-medium text-white">${data.description} ${data.bank && data.bank!=='auto' ? '<span class="text-[10px] text-blue-400 ml-2 uppercase">'+data.bank+'</span>' : ''}</td>
+                            <td class="px-6 py-4 text-center">
+                                <span class="${data.currentQuote === data.totalQuotes ? 'bg-red-900/50 text-red-400' : 'bg-slate-700 text-slate-300'} px-2 py-1 rounded text-xs">
+                                    ${data.currentQuote} / ${data.totalQuotes}
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 text-right text-white font-mono">${formatter.format(data.amount)}</td>
+                            <td class="px-6 py-4 text-right text-slate-400 font-mono">${formatter.format(totalRemaining)}</td>
+                        </tr>
+                    `;
+                }
+            });
+            debtsTableBody.innerHTML = htmlDebts || '<tr><td colspan="4" class="px-6 py-4 text-center text-slate-500 italic">No hay cuotas pendientes para el próximo mes.</td></tr>';
+        }
+    } catch (e) {
+        debtsTableBody.innerHTML = '<tr><td colspan="4" class="px-6 py-4 text-center text-red-400">Error al cargar cartolas.</td></tr>';
+    }
+    
+    // 2. Cargar Créditos Fijos
+    try {
+        const qCredits = query(collection(db, "finance_credits"), where("userId", "==", currentUser.uid));
+        const snapCredits = await getDocs(qCredits);
+        
+        let htmlCredits = '';
+        
+        if (snapCredits.empty) {
+            creditsTableBody.innerHTML = '<tr><td colspan="4" class="px-6 py-8 text-center text-slate-500 italic">No hay créditos activos registrados.</td></tr>';
+        } else {
+            snapCredits.forEach((docSnap) => {
+                const data = docSnap.data();
+                const id = docSnap.id;
+                
                 totalProximoMes += data.amount;
                 
-                // Format money
-                const formatter = new Intl.NumberFormat('es-CL', {
-                    style: 'currency',
-                    currency: 'CLP',
-                    minimumFractionDigits: 0
-                });
-                
-                html += `
+                htmlCredits += `
                     <tr class="hover:bg-white/5 transition-colors">
-                        <td class="px-6 py-4 font-medium text-white">${data.description}</td>
+                        <td class="px-6 py-4 font-medium text-white">${data.name}</td>
                         <td class="px-6 py-4 text-center">
-                            <span class="${data.currentQuote === data.totalQuotes ? 'bg-red-900/50 text-red-400' : 'bg-slate-700 text-slate-300'} px-2 py-1 rounded text-xs">
-                                ${data.currentQuote} / ${data.totalQuotes}
+                            <span class="bg-emerald-900/50 text-emerald-400 px-2 py-1 rounded text-xs font-bold">
+                                ${data.quotesRemaining >= 999 ? 'Indefinido' : data.quotesRemaining}
                             </span>
                         </td>
                         <td class="px-6 py-4 text-right text-white font-mono">${formatter.format(data.amount)}</td>
-                        <td class="px-6 py-4 text-right text-slate-400 font-mono">${formatter.format(totalRemaining)}</td>
+                        <td class="px-6 py-4 text-right">
+                            <button onclick="deleteCredit('${id}')" class="text-red-400 hover:text-red-300 transition-colors p-2"><i class="fa-solid fa-trash-can"></i></button>
+                        </td>
                     </tr>
                 `;
-            }
-        });
-        
-        debtsTableBody.innerHTML = html;
-        
-        const formatterTotal = new Intl.NumberFormat('es-CL', {
-            style: 'currency',
-            currency: 'CLP',
-            minimumFractionDigits: 0
-        });
-        totalProximoMesEl.textContent = formatterTotal.format(totalProximoMes);
-        
+            });
+            creditsTableBody.innerHTML = htmlCredits;
+        }
     } catch (e) {
-        console.error("Error loading debts:", e);
-        debtsTableBody.innerHTML = '<tr><td colspan="4" class="px-6 py-4 text-center text-red-400">Error al cargar los datos. Revisa la consola.</td></tr>';
+        creditsTableBody.innerHTML = '<tr><td colspan="4" class="px-6 py-4 text-center text-red-400">Error al cargar créditos.</td></tr>';
     }
+    
+    // Render Total
+    totalProximoMesEl.textContent = formatter.format(totalProximoMes);
 }
 
-// Clear Data
+// -------------------------------------------------------------
+// CLEAR ALL DEBTS
+// -------------------------------------------------------------
 btnClearData.addEventListener('click', async () => {
     if (!currentUser) return;
     
-    if (confirm('¿Estás seguro de que deseas borrar todas las deudas registradas? Esta acción no se puede deshacer.')) {
+    if (confirm('¿Estás seguro de que deseas borrar TODAS las cartolas procesadas? (Los créditos fijos NO se borrarán).')) {
         try {
             const q = query(collection(db, "finance_debts"), where("userId", "==", currentUser.uid));
             const querySnapshot = await getDocs(q);
@@ -215,7 +301,7 @@ btnClearData.addEventListener('click', async () => {
             });
             
             await Promise.all(deletePromises);
-            loadDebts();
+            loadData();
         } catch (e) {
             console.error("Error deleting debts:", e);
             alert("Hubo un error al borrar los datos.");
