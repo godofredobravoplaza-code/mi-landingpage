@@ -8,9 +8,11 @@ const appContent = document.getElementById('app-content');
 const userEmailEl = document.getElementById('user-email');
 const csvUpload = document.getElementById('csv-upload');
 const bankSelector = document.getElementById('bank-selector');
+const billingDayInput = document.getElementById('billing-day');
 const formatHelp = document.getElementById('format-help');
 const debtsTableBody = document.getElementById('debts-table-body');
 const creditsTableBody = document.getElementById('credits-table-body');
+const totalEsteMesEl = document.getElementById('total-este-mes');
 const totalProximoMesEl = document.getElementById('total-proximo-mes');
 const btnClearData = document.getElementById('btn-clear-data');
 
@@ -22,7 +24,12 @@ const creditQuotes = document.getElementById('credit-quotes');
 const btnSaveCredit = document.getElementById('btn-save-credit');
 const creditModal = document.getElementById('credit-modal');
 
+// Tabs
+const tabBtns = document.querySelectorAll('.tab-btn');
+let currentTab = 'mes-actual';
+
 let currentUser = null;
+let allDebts = []; // Store debts in memory for tab filtering
 
 // Auth State Listener
 onAuthStateChanged(auth, (user) => {
@@ -39,7 +46,28 @@ onAuthStateChanged(auth, (user) => {
 });
 
 // -------------------------------------------------------------
-// CSV PROCESSING (Multi-Bank)
+// TABS LOGIC
+// -------------------------------------------------------------
+tabBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        // Reset all tabs UI
+        tabBtns.forEach(b => {
+            b.classList.remove('bg-blue-600', 'text-white');
+            b.classList.add('bg-transparent', 'text-slate-400');
+        });
+        
+        // Active tab UI
+        const target = e.target;
+        target.classList.remove('bg-transparent', 'text-slate-400');
+        target.classList.add('bg-blue-600', 'text-white');
+        
+        currentTab = target.getAttribute('data-tab');
+        renderDebtsTable();
+    });
+});
+
+// -------------------------------------------------------------
+// CSV PROCESSING
 // -------------------------------------------------------------
 csvUpload.addEventListener('change', (e) => {
     const file = e.target.files[0];
@@ -49,8 +77,7 @@ csvUpload.addEventListener('change', (e) => {
         header: true,
         skipEmptyLines: true,
         complete: async function(results) {
-            console.log("CSV parsed:", results.data);
-            await processCartola(results.data, bankSelector.value);
+            await processCartola(results.data, bankSelector.value, parseInt(billingDayInput.value));
             csvUpload.value = '';
         },
         error: function(error) {
@@ -60,38 +87,43 @@ csvUpload.addEventListener('change', (e) => {
     });
 });
 
-async function processCartola(data, bankType) {
+async function processCartola(data, bankType, billingDay) {
     if (!currentUser) return;
     formatHelp.classList.add('hide');
     
     if (data.length === 0) return;
     
     const keys = Object.keys(data[0]);
-    let descKey, amountKey, cuotaKey;
+    let descKey, amountKey, cuotaKey, dateKey;
     
     // Perfiles Bancarios Básicos
     if (bankType === 'banco_estado') {
         descKey = keys.find(k => k.toLowerCase().includes('descrip'));
         amountKey = keys.find(k => k.toLowerCase().includes('monto'));
         cuotaKey = keys.find(k => k.toLowerCase().includes('cuota'));
+        dateKey = keys.find(k => k.toLowerCase().includes('fecha'));
     } else if (bankType === 'banco_chile') {
         descKey = keys.find(k => k.toLowerCase().includes('detalle') || k.toLowerCase().includes('descrip'));
         amountKey = keys.find(k => k.toLowerCase().includes('cargo') || k.toLowerCase().includes('monto'));
         cuotaKey = keys.find(k => k.toLowerCase().includes('cuota'));
+        dateKey = keys.find(k => k.toLowerCase().includes('fecha'));
     } else if (bankType === 'falabella') {
         descKey = keys.find(k => k.toLowerCase().includes('comercio') || k.toLowerCase().includes('descrip'));
         amountKey = keys.find(k => k.toLowerCase().includes('monto'));
         cuotaKey = keys.find(k => k.toLowerCase().includes('cuota'));
+        dateKey = keys.find(k => k.toLowerCase().includes('fecha'));
     } else if (bankType === 'tenpo') {
         descKey = keys.find(k => k.toLowerCase().includes('movimiento') || k.toLowerCase().includes('descrip'));
         amountKey = keys.find(k => k.toLowerCase().includes('monto'));
-        cuotaKey = null; // Tenpo prepago, rara vez tiene cuotas
+        cuotaKey = null; 
+        dateKey = keys.find(k => k.toLowerCase().includes('fecha'));
     }
     
-    // Fallback heurístico (Auto-Detectar)
+    // Fallback heurístico
     if (!descKey) descKey = keys.find(k => /descrip|detalle|comercio|movimiento/i.test(k));
     if (!amountKey) amountKey = keys.find(k => /monto|valor|cargo/i.test(k));
     if (!cuotaKey) cuotaKey = keys.find(k => /cuota/i.test(k));
+    if (!dateKey) dateKey = keys.find(k => /fecha|date/i.test(k));
     
     if (!descKey || !amountKey) {
         formatHelp.classList.remove('hide');
@@ -119,6 +151,9 @@ async function processCartola(data, bankType) {
                 cuotaTotal = parseInt(cuotaMatch[2]);
             }
         }
+
+        // Determinar Fecha de la compra
+        let purchaseDateStr = dateKey ? (row[dateKey] || '') : '';
         
         try {
             await addDoc(collection(db, "finance_debts"), {
@@ -128,6 +163,8 @@ async function processCartola(data, bankType) {
                 amount: absAmount,
                 currentQuote: cuotaActual,
                 totalQuotes: cuotaTotal,
+                billingDay: billingDay,
+                purchaseDateStr: purchaseDateStr, // we keep the string to avoid complex parsing errors here
                 dateAdded: new Date().toISOString()
             });
             addedCount++;
@@ -176,7 +213,6 @@ formAddCredit.addEventListener('submit', async (e) => {
     }
 });
 
-// Delete specific credit
 window.deleteCredit = async (id) => {
     if (confirm('¿Deseas eliminar este crédito activo?')) {
         try {
@@ -187,7 +223,6 @@ window.deleteCredit = async (id) => {
         }
     }
 };
-
 
 // -------------------------------------------------------------
 // LOAD DATA & CALCULATE TOTAL
@@ -204,46 +239,63 @@ async function loadData() {
     debtsTableBody.innerHTML = '<tr><td colspan="4" class="px-6 py-4 text-center text-slate-400">Cargando cartolas...</td></tr>';
     creditsTableBody.innerHTML = '<tr><td colspan="4" class="px-6 py-4 text-center text-slate-400">Cargando créditos...</td></tr>';
     
-    let totalProximoMes = 0;
-    
-    // 1. Cargar Deudas de Tarjeta
+    // 1. Load Debts
+    allDebts = [];
     try {
         const qDebts = query(collection(db, "finance_debts"), where("userId", "==", currentUser.uid));
         const snapDebts = await getDocs(qDebts);
         
-        let htmlDebts = '';
+        snapDebts.forEach((docSnap) => {
+            allDebts.push({ id: docSnap.id, ...docSnap.data() });
+        });
         
-        if (snapDebts.empty) {
-            debtsTableBody.innerHTML = '<tr><td colspan="4" class="px-6 py-8 text-center text-slate-500 italic">No hay deudas registradas. Sube tu cartola CSV.</td></tr>';
-        } else {
-            snapDebts.forEach((doc) => {
-                const data = doc.data();
-                const quotesLeft = data.totalQuotes - data.currentQuote + 1;
-                const totalRemaining = quotesLeft > 0 ? quotesLeft * data.amount : 0;
-                
-                if (quotesLeft > 0) {
-                    totalProximoMes += data.amount;
-                    htmlDebts += `
-                        <tr class="hover:bg-white/5 transition-colors">
-                            <td class="px-6 py-4 font-medium text-white">${data.description} ${data.bank && data.bank!=='auto' ? '<span class="text-[10px] text-blue-400 ml-2 uppercase">'+data.bank+'</span>' : ''}</td>
-                            <td class="px-6 py-4 text-center">
-                                <span class="${data.currentQuote === data.totalQuotes ? 'bg-red-900/50 text-red-400' : 'bg-slate-700 text-slate-300'} px-2 py-1 rounded text-xs">
-                                    ${data.currentQuote} / ${data.totalQuotes}
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 text-right text-white font-mono">${formatter.format(data.amount)}</td>
-                            <td class="px-6 py-4 text-right text-slate-400 font-mono">${formatter.format(totalRemaining)}</td>
-                        </tr>
-                    `;
-                }
-            });
-            debtsTableBody.innerHTML = htmlDebts || '<tr><td colspan="4" class="px-6 py-4 text-center text-slate-500 italic">No hay cuotas pendientes para el próximo mes.</td></tr>';
-        }
     } catch (e) {
+        console.error(e);
         debtsTableBody.innerHTML = '<tr><td colspan="4" class="px-6 py-4 text-center text-red-400">Error al cargar cartolas.</td></tr>';
     }
+
+    // Process and Calculate Totals based on Billed vs Unbilled
+    let totalEsteMes = 0;
+    let totalProximoMes = 0;
+
+    const today = new Date();
+    const currentDay = today.getDate();
     
-    // 2. Cargar Créditos Fijos
+    allDebts.forEach(debt => {
+        debt.quotesLeft = debt.totalQuotes - debt.currentQuote + 1;
+        
+        // Very basic logic for Facturado vs No Facturado
+        // If purchase was made in the last 30 days and day > billingDay, it's next month
+        let isFacturado = true; 
+        
+        if (debt.purchaseDateStr && debt.billingDay) {
+            // attempt basic extraction of day from string (e.g. "26-05-2023" or "2023/05/26")
+            const nums = debt.purchaseDateStr.match(/\d+/g);
+            if (nums && nums.length >= 2) {
+                // assume one of the first two numbers is the day, usually <= 31
+                let day = parseInt(nums[0]);
+                if (day > 31) day = parseInt(nums[1]); // maybe yyyy-mm-dd
+                
+                if (day && day > debt.billingDay) {
+                    isFacturado = false; // it crossed the billing cycle, billed next month
+                }
+            }
+        }
+        
+        debt.isFacturado = isFacturado;
+        
+        if (debt.quotesLeft > 0) {
+            if (isFacturado) {
+                totalEsteMes += debt.amount;
+            } else {
+                totalProximoMes += debt.amount;
+            }
+        }
+    });
+
+    renderDebtsTable();
+
+    // 2. Load Fixed Credits
     try {
         const qCredits = query(collection(db, "finance_credits"), where("userId", "==", currentUser.uid));
         const snapCredits = await getDocs(qCredits);
@@ -257,7 +309,9 @@ async function loadData() {
                 const data = docSnap.data();
                 const id = docSnap.id;
                 
-                totalProximoMes += data.amount;
+                // Fixed credits usually hit every month, so we add to both just to show the weight, or maybe just Este Mes.
+                // We'll add them to Este Mes for now.
+                totalEsteMes += data.amount;
                 
                 htmlCredits += `
                     <tr class="hover:bg-white/5 transition-colors">
@@ -280,9 +334,49 @@ async function loadData() {
         creditsTableBody.innerHTML = '<tr><td colspan="4" class="px-6 py-4 text-center text-red-400">Error al cargar créditos.</td></tr>';
     }
     
-    // Render Total
+    // Render Totals
+    totalEsteMesEl.textContent = formatter.format(totalEsteMes);
     totalProximoMesEl.textContent = formatter.format(totalProximoMes);
 }
+
+function renderDebtsTable() {
+    let htmlDebts = '';
+    
+    let filteredDebts = allDebts.filter(d => {
+        if (currentTab === 'historial') return d.quotesLeft <= 0;
+        if (currentTab === 'mes-actual') return d.quotesLeft > 0 && d.isFacturado;
+        if (currentTab === 'mes-proximo') return d.quotesLeft > 0 && !d.isFacturado;
+        return false;
+    });
+    
+    if (filteredDebts.length === 0) {
+        let msg = currentTab === 'historial' ? 'No hay historial de cuotas pagadas.' : 'No hay cuotas en esta categoría.';
+        debtsTableBody.innerHTML = `<tr><td colspan="4" class="px-6 py-8 text-center text-slate-500 italic">${msg}</td></tr>`;
+        return;
+    }
+    
+    filteredDebts.forEach(data => {
+        const totalRemaining = data.quotesLeft > 0 ? data.quotesLeft * data.amount : 0;
+        htmlDebts += `
+            <tr class="hover:bg-white/5 transition-colors">
+                <td class="px-6 py-4">
+                    <div class="font-medium text-white">${data.description}</div>
+                    <div class="text-[10px] text-slate-500 mt-1 uppercase">${data.bank || 'Auto'} ${data.purchaseDateStr ? '| Fecha: '+data.purchaseDateStr : ''}</div>
+                </td>
+                <td class="px-6 py-4 text-center">
+                    <span class="${data.currentQuote === data.totalQuotes ? 'bg-red-900/50 text-red-400' : 'bg-slate-700 text-slate-300'} px-2 py-1 rounded text-xs">
+                        ${data.currentQuote} / ${data.totalQuotes}
+                    </span>
+                </td>
+                <td class="px-6 py-4 text-right text-white font-mono">${formatter.format(data.amount)}</td>
+                <td class="px-6 py-4 text-right text-slate-400 font-mono">${formatter.format(totalRemaining)}</td>
+            </tr>
+        `;
+    });
+    
+    debtsTableBody.innerHTML = htmlDebts;
+}
+
 
 // -------------------------------------------------------------
 // CLEAR ALL DEBTS
@@ -290,7 +384,7 @@ async function loadData() {
 btnClearData.addEventListener('click', async () => {
     if (!currentUser) return;
     
-    if (confirm('¿Estás seguro de que deseas borrar TODAS las cartolas procesadas? (Los créditos fijos NO se borrarán).')) {
+    if (confirm('¿Estás seguro de que deseas borrar TODAS las cartolas procesadas?')) {
         try {
             const q = query(collection(db, "finance_debts"), where("userId", "==", currentUser.uid));
             const querySnapshot = await getDocs(q);

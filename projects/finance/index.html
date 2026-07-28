@@ -85,25 +85,41 @@
             
             <!-- Resumen Total -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Tarjeta Principal: Deuda Próximo Mes -->
-                <div class="glass-panel rounded-2xl p-6 relative overflow-hidden md:col-span-2">
+                
+                <!-- Tarjeta: Mes Actual (Facturado) -->
+                <div class="glass-panel rounded-2xl p-6 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-yellow-500/10 rounded-bl-full -z-10"></div>
+                    <h3 class="text-slate-400 text-sm uppercase tracking-wider mb-2"><i class="fa-solid fa-file-invoice-dollar text-yellow-400 mr-2"></i>Facturado (Mes Actual)</h3>
+                    <div class="text-4xl font-bold text-white mb-2" id="total-este-mes">$0</div>
+                    <p class="text-xs text-slate-400">Total a pagar en el vencimiento más próximo.</p>
+                </div>
+
+                <!-- Tarjeta: Próximo Mes (No Facturado) -->
+                <div class="glass-panel rounded-2xl p-6 relative overflow-hidden">
                     <div class="absolute top-0 right-0 w-32 h-32 bg-red-500/10 rounded-bl-full -z-10"></div>
-                    <h3 class="text-slate-400 text-sm uppercase tracking-wider mb-2"><i class="fa-regular fa-calendar text-red-400 mr-2"></i>Total a Pagar Próximo Mes</h3>
-                    <div class="text-5xl font-bold text-white mb-2" id="total-proximo-mes">$0</div>
-                    <p class="text-sm text-slate-400">Suma de todas las cuotas de tarjetas para el siguiente ciclo.</p>
+                    <h3 class="text-slate-400 text-sm uppercase tracking-wider mb-2"><i class="fa-regular fa-calendar text-red-400 mr-2"></i>No Facturado (Próximo Mes)</h3>
+                    <div class="text-4xl font-bold text-white mb-2" id="total-proximo-mes">$0</div>
+                    <p class="text-xs text-slate-400">Compras recientes que entrarán en el siguiente estado de cuenta.</p>
                 </div>
                 
                 <!-- Acciones -->
                 <div class="glass-panel rounded-2xl p-6 flex flex-col justify-center items-center text-center gap-4">
                     <h3 class="text-slate-400 text-sm uppercase tracking-wider mb-2">Procesador de Cartolas</h3>
                     
-                    <select id="bank-selector" class="w-full bg-slate-800 border border-slate-700 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 outline-none transition-colors">
-                        <option value="auto">Auto-Detectar Formato</option>
-                        <option value="banco_estado">Banco Estado</option>
-                        <option value="banco_chile">Banco de Chile</option>
-                        <option value="falabella">Banco Falabella</option>
-                        <option value="tenpo">Tenpo</option>
-                    </select>
+                    <div class="w-full flex gap-2">
+                        <select id="bank-selector" class="flex-1 bg-slate-800 border border-slate-700 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 outline-none transition-colors">
+                            <option value="auto">Auto-Detectar Formato</option>
+                            <option value="banco_estado">Banco Estado</option>
+                            <option value="banco_chile">Banco de Chile</option>
+                            <option value="falabella">Banco Falabella</option>
+                            <option value="tenpo">Tenpo</option>
+                        </select>
+                        
+                        <div class="relative w-20 group">
+                            <input type="number" id="billing-day" min="1" max="31" value="25" class="w-full bg-slate-800 border border-slate-700 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 outline-none transition-colors" title="Día del mes en que factura la tarjeta">
+                            <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block bg-black text-xs text-white p-1 rounded whitespace-nowrap z-50">Día de Facturación</div>
+                        </div>
+                    </div>
 
                     <label class="cursor-pointer bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-6 rounded-lg transition-colors shadow-[0_0_15px_rgba(37,99,235,0.4)] flex items-center justify-center gap-2 w-full">
                         <i class="fa-solid fa-upload"></i> Subir Cartola (CSV)
@@ -120,11 +136,20 @@
 
             <!-- Listado de Deudas -->
             <div class="glass-panel rounded-2xl overflow-hidden">
-                <div class="p-6 border-b border-white/5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-black/20">
-                    <h3 class="text-lg font-bold text-white"><i class="fa-solid fa-list-check text-yellow-400 mr-2"></i>Radar de Cuotas Activas</h3>
-                    <button id="btn-clear-data" class="text-xs bg-red-900/30 text-red-400 border border-red-900 px-3 py-1.5 rounded hover:bg-red-900/50 transition-colors">
-                        <i class="fa-solid fa-trash-can mr-1"></i> Borrar Todo
-                    </button>
+                <div class="p-6 border-b border-white/5 flex flex-col gap-4 bg-black/20">
+                    <div class="flex justify-between items-center w-full">
+                        <h3 class="text-lg font-bold text-white"><i class="fa-solid fa-list-check text-yellow-400 mr-2"></i>Radar de Cuotas Activas</h3>
+                        <button id="btn-clear-data" class="text-xs bg-red-900/30 text-red-400 border border-red-900 px-3 py-1.5 rounded hover:bg-red-900/50 transition-colors">
+                            <i class="fa-solid fa-trash-can mr-1"></i> Borrar Todo
+                        </button>
+                    </div>
+                    
+                    <!-- Tabs -->
+                    <div class="flex gap-2 border-b border-slate-700 pb-2">
+                        <button class="tab-btn px-4 py-1 text-sm rounded bg-blue-600 text-white font-medium transition-colors" data-tab="mes-actual">Facturado (Este Mes)</button>
+                        <button class="tab-btn px-4 py-1 text-sm rounded bg-transparent text-slate-400 hover:text-white transition-colors" data-tab="mes-proximo">No Facturado (Próximo Mes)</button>
+                        <button class="tab-btn px-4 py-1 text-sm rounded bg-transparent text-slate-400 hover:text-white transition-colors" data-tab="historial">Historial</button>
+                    </div>
                 </div>
                 
                 <!-- Tabla -->
