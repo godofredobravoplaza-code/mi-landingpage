@@ -205,11 +205,11 @@
         </div>
 
         <!-- Filters -->
-        <div class="relative z-10 flex flex-wrap justify-center gap-3 px-4 mb-16">
-            <button class="px-5 py-2 rounded-full border border-[#AF8282] bg-[#AF8282]/20 text-white text-sm font-medium transition-all">Todos</button>
-            <button class="px-5 py-2 rounded-full border border-white/10 hover:border-[#AF8282]/50 hover:bg-[#AF8282]/10 text-zinc-400 hover:text-white text-sm font-medium transition-all">E-Commerce</button>
-            <button class="px-5 py-2 rounded-full border border-white/10 hover:border-[#AF8282]/50 hover:bg-[#AF8282]/10 text-zinc-400 hover:text-white text-sm font-medium transition-all">SaaS / Dashboards</button>
-            <button class="px-5 py-2 rounded-full border border-white/10 hover:border-[#AF8282]/50 hover:bg-[#AF8282]/10 text-zinc-400 hover:text-white text-sm font-medium transition-all">Portafolios</button>
+        <div id="filter-container" class="relative z-10 flex flex-wrap justify-center gap-3 px-4 mb-16">
+            <button data-filter="all" class="filter-btn active px-5 py-2 rounded-full border border-[#AF8282] bg-[#AF8282]/20 text-white text-sm font-medium transition-all">Todos</button>
+            <button data-filter="ecommerce" class="filter-btn px-5 py-2 rounded-full border border-white/10 hover:border-[#AF8282]/50 hover:bg-[#AF8282]/10 text-zinc-400 hover:text-white text-sm font-medium transition-all">E-Commerce</button>
+            <button data-filter="saas" class="filter-btn px-5 py-2 rounded-full border border-white/10 hover:border-[#AF8282]/50 hover:bg-[#AF8282]/10 text-zinc-400 hover:text-white text-sm font-medium transition-all">SaaS / Dashboards</button>
+            <button data-filter="portfolio" class="filter-btn px-5 py-2 rounded-full border border-white/10 hover:border-[#AF8282]/50 hover:bg-[#AF8282]/10 text-zinc-400 hover:text-white text-sm font-medium transition-all">Portafolios / Corporativo</button>
         </div>
 
         <!-- Grid de Plantillas -->
@@ -217,7 +217,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 
                 <!-- Plantilla 1 -->
-                <div class="group bg-zinc-900/50 rounded-2xl overflow-hidden border border-white/10 hover:border-[#AF8282]/50 transition-colors shadow-lg">
+                <div data-category="saas" class="showcase-card group bg-zinc-900/50 rounded-2xl overflow-hidden border border-white/10 hover:border-[#AF8282]/50 transition-colors shadow-lg">
                     <div class="relative aspect-[4/3] overflow-hidden">
                         <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800" alt="SaaS Noir" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
                         <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
@@ -237,7 +237,7 @@
                 </div>
 
                 <!-- Plantilla 2 -->
-                <div class="group bg-zinc-900/50 rounded-2xl overflow-hidden border border-white/10 hover:border-[#AF8282]/50 transition-colors shadow-lg">
+                <div data-category="portfolio" class="showcase-card group bg-zinc-900/50 rounded-2xl overflow-hidden border border-white/10 hover:border-[#AF8282]/50 transition-colors shadow-lg">
                     <div class="relative aspect-[4/3] overflow-hidden">
                         <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&q=80&w=800" alt="Kinetic Fashion" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
                         <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
@@ -257,7 +257,7 @@
                 </div>
 
                 <!-- Plantilla 3 -->
-                <div class="group bg-zinc-900/50 rounded-2xl overflow-hidden border border-white/10 hover:border-[#AF8282]/50 transition-colors shadow-lg">
+                <div data-category="ecommerce" class="showcase-card group bg-zinc-900/50 rounded-2xl overflow-hidden border border-white/10 hover:border-[#AF8282]/50 transition-colors shadow-lg">
                     <div class="relative aspect-[4/3] overflow-hidden">
                         <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800" alt="E-Commerce Pro" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
                         <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
@@ -277,7 +277,7 @@
                 </div>
 
                 <!-- Plantilla 4 -->
-                <div class="group bg-zinc-900/50 rounded-2xl overflow-hidden border border-white/10 hover:border-[#AF8282]/50 transition-colors shadow-lg">
+                <div data-category="portfolio" class="showcase-card group bg-zinc-900/50 rounded-2xl overflow-hidden border border-white/10 hover:border-[#AF8282]/50 transition-colors shadow-lg">
                     <div class="relative aspect-[4/3] overflow-hidden">
                         <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=800" alt="Tech Agency" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
                         <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
@@ -457,6 +457,37 @@
             card.classList.remove('scale-100');
             card.classList.add('scale-95');
         }
+
+        // --- Filtros Showcase ---
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const showcaseCards = document.querySelectorAll('.showcase-card');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Quitar clase activa a todos
+                filterBtns.forEach(b => {
+                    b.classList.remove('active', 'border-[#AF8282]', 'bg-[#AF8282]/20', 'text-white');
+                    b.classList.add('border-white/10', 'text-zinc-400');
+                });
+                
+                // Poner clase activa al clicado
+                btn.classList.add('active', 'border-[#AF8282]', 'bg-[#AF8282]/20', 'text-white');
+                btn.classList.remove('border-white/10', 'text-zinc-400');
+
+                const filterValue = btn.getAttribute('data-filter');
+
+                showcaseCards.forEach(card => {
+                    if (filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
+                        card.style.display = 'block';
+                        // Pequeña animación
+                        card.classList.add('animate-slide-in-right');
+                        setTimeout(() => card.classList.remove('animate-slide-in-right'), 300);
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
     </script>
 
     <!-- Modal Phenix (Humano) -->
