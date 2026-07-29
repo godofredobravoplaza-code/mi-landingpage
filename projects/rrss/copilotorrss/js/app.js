@@ -95,13 +95,13 @@ document.addEventListener('DOMContentLoaded', () => {
         col2Border.classList.add('agent-pulse');
 
         try {
-            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    system_instruction: {
+                    systemInstruction: {
                         parts: [
                             { text: "Eres el Community Manager estrella de PhenixDev (una agencia de desarrollo web e IA). Tu misión es escribir posteos para Instagram/Facebook que sean atractivos, modernos, y con estilo Silicon Valley. Usa emojis, sé conciso y cierra con 3-5 hashtags relevantes (incluyendo siempre #PhenixDev). No pongas comillas al principio ni al final del post." }
                         ]
