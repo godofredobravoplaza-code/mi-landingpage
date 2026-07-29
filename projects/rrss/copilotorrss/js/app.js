@@ -184,7 +184,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // 3. Generar Diseño (Usando html2canvas)
+    // 3. Generar Diseño (Usando html2canvas y Pollinations AI)
     btnGenerateDesign.addEventListener('click', () => {
         // Hide empty state
         designEmpty.classList.add('hidden');
@@ -196,8 +196,21 @@ document.addEventListener('DOMContentLoaded', () => {
         // Col 3 border pulse
         document.querySelector('.border-t-emerald-500').classList.add('agent-pulse');
         
-        // Simulate Agent generating the graphics logic
-        setTimeout(() => {
+        // Setup the dynamic image
+        const bgImage = document.getElementById('design-bg');
+        
+        // If image fails to load, we still want to capture
+        bgImage.onerror = () => captureCanvas();
+        
+        // When image loads successfully, capture
+        bgImage.onload = () => captureCanvas();
+        
+        // Prompt for the background image based on the topic
+        const topic = topicInput.value.trim() || 'futuristic technology';
+        const prompt = `Abstract sleek modern technology background, clean design, concept: ${topic}`;
+        bgImage.src = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=600&height=600&nologo=true`;
+        
+        function captureCanvas() {
             designPreview.classList.remove('opacity-50');
             document.querySelector('.border-t-emerald-500').classList.remove('agent-pulse');
             
@@ -207,17 +220,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Capture with html2canvas after title is set
             setTimeout(() => {
-                html2canvas(designPreview, { backgroundColor: null, scale: 2 }).then(canvas => {
+                html2canvas(designPreview, { backgroundColor: null, scale: 2, useCORS: true }).then(canvas => {
                     const link = document.createElement('a');
                     link.download = 'phenixdev_post.png';
                     link.href = canvas.toDataURL('image/png');
                     link.click();
-                });
+                }).catch(err => console.error('Error in html2canvas:', err));
             }, 300);
 
             // Enable Publish buttons
             enablePublishButtons();
-        }, 1500);
+        }
     });
 
     function enablePublishButtons() {
