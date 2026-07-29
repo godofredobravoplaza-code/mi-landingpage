@@ -4,13 +4,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const settingsModal = document.getElementById('settings-modal');
     const btnCloseSettings = document.getElementById('btn-close-settings');
     const btnSaveSettings = document.getElementById('btn-save-settings');
-    const inputOpenaiKey = document.getElementById('openai-key');
+    const inputGeminiKey = document.getElementById('gemini-key');
     const inputMetaPageId = document.getElementById('meta-page-id');
     const inputMetaToken = document.getElementById('meta-token');
 
     // Load settings from localStorage
     function loadSettings() {
-        inputOpenaiKey.value = localStorage.getItem('phenix_openai_key') || '';
+        inputGeminiKey.value = localStorage.getItem('phenix_gemini_key') || '';
         inputMetaPageId.value = localStorage.getItem('phenix_meta_page_id') || '61592532034803';
         inputMetaToken.value = localStorage.getItem('phenix_meta_token') || '';
     }
@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     btnSaveSettings.addEventListener('click', () => {
-        localStorage.setItem('phenix_openai_key', inputOpenaiKey.value.trim());
+        localStorage.setItem('phenix_gemini_key', inputGeminiKey.value.trim());
         localStorage.setItem('phenix_meta_page_id', inputMetaPageId.value.trim());
         localStorage.setItem('phenix_meta_token', inputMetaToken.value.trim());
         
@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
         topicInput.value = randomTopic;
     });
 
-    // 2. Generar Texto (Real - OpenAI)
+    // 2. Generar Texto (Real - Gemini)
     btnGenerateText.addEventListener('click', async () => {
         const topic = topicInput.value.trim();
         if (!topic) {
@@ -78,9 +78,9 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        const apiKey = localStorage.getItem('phenix_openai_key');
+        const apiKey = localStorage.getItem('phenix_gemini_key');
         if (!apiKey) {
-            alert("Falta la API Key de OpenAI. Ve a Configuración (arriba a la derecha) y pégala.");
+            alert("Falta la API Key de Gemini. Ve a Configuración (arriba a la derecha) y pégala.");
             return;
         }
 
@@ -95,25 +95,27 @@ document.addEventListener('DOMContentLoaded', () => {
         col2Border.classList.add('agent-pulse');
 
         try {
-            const response = await fetch('https://api.openai.com/v1/chat/completions', {
+            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${apiKey}`
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    model: "gpt-4o-mini", // o gpt-3.5-turbo si la cuenta es antigua
-                    messages: [
+                    system_instruction: {
+                        parts: [
+                            { text: "Eres el Community Manager estrella de PhenixDev (una agencia de desarrollo web e IA). Tu misión es escribir posteos para Instagram/Facebook que sean atractivos, modernos, y con estilo Silicon Valley. Usa emojis, sé conciso y cierra con 3-5 hashtags relevantes (incluyendo siempre #PhenixDev). No pongas comillas al principio ni al final del post." }
+                        ]
+                    },
+                    contents: [
                         {
-                            role: "system",
-                            content: "Eres el Community Manager estrella de PhenixDev (una agencia de desarrollo web e IA). Tu misión es escribir posteos para Instagram/Facebook que sean atractivos, modernos, y con estilo Silicon Valley. Usa emojis, sé conciso y cierra con 3-5 hashtags relevantes (incluyendo siempre #PhenixDev). No pongas comillas al principio ni al final del post."
-                        },
-                        {
-                            role: "user",
-                            content: `Escribe un post interesante sobre el siguiente tema: ${topic}`
+                            parts: [
+                                { text: `Escribe un post interesante sobre el siguiente tema: ${topic}` }
+                            ]
                         }
                     ],
-                    temperature: 0.7
+                    generationConfig: {
+                        temperature: 0.7
+                    }
                 })
             });
 
@@ -123,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error(data.error.message);
             }
 
-            const generatedText = data.choices[0].message.content;
+            const generatedText = data.candidates[0].content.parts[0].text;
 
             // Mostrar el texto
             textLoading.classList.remove('flex');
