@@ -267,7 +267,7 @@ async function processCartola(data, bankType, dest) {
         
         // Ignorar filas de pago o abono
         const dLower = desc.toLowerCase();
-        if (/pago tarjeta|pago web|pago pac|pago por caja|abono|su pago|pago en linea/i.test(dLower)) {
+        if (/pago tarjeta|pago web|pago pac|pago por caja|abono|su pago|pago en linea|monto cancelado|pago pesos tef|pago normal/i.test(dLower)) {
             continue;
         }
         
@@ -381,8 +381,8 @@ async function fetchData() {
             data.computedCurrentQuote = effectiveQuote;
             data.quotesLeft = quotesLeft;
             
-            if (monthsPassed < 0) {
-                // Sigue en el futuro (Próximo Mes)
+            if (monthsPassed < 0 || effectiveQuote === 0) {
+                // Sigue en el futuro (Próximo Mes) o es una cuota 0/X (informativa)
                 data.bucket = 'proximo';
             } else if (quotesLeft > 0) {
                 // Está en el mes actual y aún le quedan cuotas
