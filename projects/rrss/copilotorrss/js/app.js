@@ -199,12 +199,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // Setup the dynamic image
         const bgImage = document.getElementById('design-bg');
         
-        // If image fails to load, we still want to capture
-        bgImage.onerror = () => captureCanvas();
-        
-        // When image loads successfully, capture
-        bgImage.onload = () => captureCanvas();
-        
         const topic = topicInput.value.trim() || 'futuristic technology';
         let imagePrompt = topic;
         
@@ -234,8 +228,27 @@ document.addEventListener('DOMContentLoaded', () => {
             imagePrompt = `Photorealistic highly detailed image of ${topic}, cinematic lighting, 8k`;
         }
 
-        // Fetch image from Pollinations
-        bgImage.src = `https://image.pollinations.ai/prompt/${encodeURIComponent(imagePrompt)}?width=600&height=600&nologo=true`;
+        // Truncate prompt to avoid URL length limits
+        if (imagePrompt.length > 500) {
+            imagePrompt = imagePrompt.substring(0, 500);
+        }
+
+        // Fetch image from Pollinations using a detached Image object to prevent UI flicker
+        const tempImg = new Image();
+        tempImg.crossOrigin = "anonymous";
+        
+        tempImg.onload = () => {
+            bgImage.src = tempImg.src;
+            captureCanvas();
+        };
+        
+        tempImg.onerror = () => {
+            console.error("Error loading image from Pollinations API.");
+            captureCanvas(); // Continue anyway (will use old bg or black)
+        };
+        
+        const seed = Math.floor(Math.random() * 1000000);
+        tempImg.src = `https://image.pollinations.ai/prompt/${encodeURIComponent(imagePrompt)}?width=600&height=600&nologo=true&seed=${seed}`;
         
         function captureCanvas() {
             designPreview.classList.remove('opacity-50');
