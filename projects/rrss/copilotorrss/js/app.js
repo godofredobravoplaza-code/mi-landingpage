@@ -184,8 +184,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // 3. Generar Diseño (Usando html2canvas y Pollinations AI)
-    btnGenerateDesign.addEventListener('click', () => {
+    // 3. Generar Diseño (Usando html2canvas y Pollinations AI con Groq Prompt)
+    btnGenerateDesign.addEventListener('click', async () => {
         // Hide empty state
         designEmpty.classList.add('hidden');
         
@@ -205,10 +205,37 @@ document.addEventListener('DOMContentLoaded', () => {
         // When image loads successfully, capture
         bgImage.onload = () => captureCanvas();
         
-        // Prompt for the background image based on the topic
         const topic = topicInput.value.trim() || 'futuristic technology';
-        const prompt = `Abstract sleek modern technology background, clean design, concept: ${topic}`;
-        bgImage.src = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=600&height=600&nologo=true`;
+        let imagePrompt = topic;
+        
+        const apiKey = localStorage.getItem('phenix_groq_key');
+        if (apiKey) {
+            try {
+                const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+                    body: JSON.stringify({
+                        model: "llama-3.3-70b-versatile",
+                        messages: [
+                            { role: "system", content: "You are an expert prompt engineer. Your task is to write a highly detailed, photorealistic image generation prompt in English for Midjourney/Stable Diffusion based on the provided topic. Output ONLY the raw prompt. No intros, no quotes. Include keywords like: photorealistic, highly detailed, 8k, cinematic lighting, masterpiece." },
+                            { role: "user", content: topic }
+                        ],
+                        temperature: 0.7
+                    })
+                });
+                const data = await response.json();
+                if (!data.error && data.choices && data.choices[0]) {
+                    imagePrompt = data.choices[0].message.content.trim();
+                }
+            } catch (e) {
+                console.error("Error generating image prompt with Groq:", e);
+            }
+        } else {
+            imagePrompt = `Photorealistic highly detailed image of ${topic}, cinematic lighting, 8k`;
+        }
+
+        // Fetch image from Pollinations
+        bgImage.src = `https://image.pollinations.ai/prompt/${encodeURIComponent(imagePrompt)}?width=600&height=600&nologo=true`;
         
         function captureCanvas() {
             designPreview.classList.remove('opacity-50');
