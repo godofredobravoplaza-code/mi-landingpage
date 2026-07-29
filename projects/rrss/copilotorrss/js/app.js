@@ -4,13 +4,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const settingsModal = document.getElementById('settings-modal');
     const btnCloseSettings = document.getElementById('btn-close-settings');
     const btnSaveSettings = document.getElementById('btn-save-settings');
-    const inputGeminiKey = document.getElementById('gemini-key');
+    const inputGroqKey = document.getElementById('groq-key');
     const inputMetaPageId = document.getElementById('meta-page-id');
     const inputMetaToken = document.getElementById('meta-token');
 
     // Load settings from localStorage
     function loadSettings() {
-        inputGeminiKey.value = localStorage.getItem('phenix_gemini_key') || '';
+        inputGroqKey.value = localStorage.getItem('phenix_groq_key') || '';
         inputMetaPageId.value = localStorage.getItem('phenix_meta_page_id') || '61592532034803';
         inputMetaToken.value = localStorage.getItem('phenix_meta_token') || '';
     }
@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     btnSaveSettings.addEventListener('click', () => {
-        localStorage.setItem('phenix_gemini_key', inputGeminiKey.value.trim());
+        localStorage.setItem('phenix_groq_key', inputGroqKey.value.trim());
         localStorage.setItem('phenix_meta_page_id', inputMetaPageId.value.trim());
         localStorage.setItem('phenix_meta_token', inputMetaToken.value.trim());
         
@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
         topicInput.value = randomTopic;
     });
 
-    // 2. Generar Texto (Real - Gemini)
+    // 2. Generar Texto (Real - Groq)
     btnGenerateText.addEventListener('click', async () => {
         const topic = topicInput.value.trim();
         if (!topic) {
@@ -78,9 +78,9 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        const apiKey = localStorage.getItem('phenix_gemini_key');
+        const apiKey = localStorage.getItem('phenix_groq_key');
         if (!apiKey) {
-            alert("Falta la API Key de Gemini. Ve a Configuración (arriba a la derecha) y pégala.");
+            alert("Falta la API Key de Groq. Ve a Configuración (arriba a la derecha) y pégala.");
             return;
         }
 
@@ -95,27 +95,25 @@ document.addEventListener('DOMContentLoaded', () => {
         col2Border.classList.add('agent-pulse');
 
         try {
-            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`, {
+            const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${apiKey}`
                 },
                 body: JSON.stringify({
-                    systemInstruction: {
-                        parts: [
-                            { text: "Eres el Community Manager estrella de PhenixDev (una agencia de desarrollo web e IA). Tu misión es escribir posteos para Instagram/Facebook que sean atractivos, modernos, y con estilo Silicon Valley. Usa emojis, sé conciso y cierra con 3-5 hashtags relevantes (incluyendo siempre #PhenixDev). No pongas comillas al principio ni al final del post." }
-                        ]
-                    },
-                    contents: [
+                    model: "llama-3.3-70b-versatile",
+                    messages: [
                         {
-                            parts: [
-                                { text: `Escribe un post interesante sobre el siguiente tema: ${topic}` }
-                            ]
+                            role: "system",
+                            content: "Eres el Community Manager estrella de PhenixDev (una agencia de desarrollo web e IA). Tu misión es escribir posteos para Instagram/Facebook que sean atractivos, modernos, y con estilo Silicon Valley. Usa emojis, sé conciso y cierra con 3-5 hashtags relevantes (incluyendo siempre #PhenixDev). No pongas comillas al principio ni al final del post."
+                        },
+                        {
+                            role: "user",
+                            content: `Escribe un post interesante sobre el siguiente tema: ${topic}`
                         }
                     ],
-                    generationConfig: {
-                        temperature: 0.7
-                    }
+                    temperature: 0.7
                 })
             });
 
@@ -125,7 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error(data.error.message);
             }
 
-            const generatedText = data.candidates[0].content.parts[0].text;
+            const generatedText = data.choices[0].message.content;
 
             // Mostrar el texto
             textLoading.classList.remove('flex');
@@ -142,8 +140,8 @@ document.addEventListener('DOMContentLoaded', () => {
             btnGenerateDesign.classList.add('bg-emerald-600', 'hover:bg-emerald-500', 'text-white', 'shadow-[0_0_15px_rgba(16,185,129,0.4)]');
 
         } catch (error) {
-            console.error("Error al llamar a Gemini:", error);
-            alert("Error al conectar con Gemini: " + error.message);
+            console.error("Error al llamar a Groq:", error);
+            alert("Error al conectar con Groq (Llama 3): " + error.message);
             
             // Restore UI on error
             textLoading.classList.remove('flex');
