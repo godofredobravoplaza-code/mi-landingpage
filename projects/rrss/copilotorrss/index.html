@@ -67,11 +67,47 @@
             <h1 class="text-xl font-bold text-white tracking-wide">Copiloto <span class="text-fuchsia-400">RRSS</span></h1>
         </div>
         <div class="flex items-center gap-4">
+            <button id="btn-settings" class="text-slate-400 hover:text-white transition-colors p-2">
+                <i class="fa-solid fa-gear"></i> Configuración
+            </button>
             <a href="../../../intranet.html" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-4 py-2 rounded-lg text-sm transition-colors border border-slate-600 flex items-center">
                 <i class="fa-solid fa-arrow-left mr-2"></i>Volver a Intranet
             </a>
         </div>
     </header>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
+        <div class="glass-panel w-full max-w-lg rounded-xl shadow-2xl border border-slate-700 flex flex-col">
+            <div class="p-4 border-b border-slate-700 flex justify-between items-center bg-slate-800/50 rounded-t-xl">
+                <h2 class="text-lg font-bold text-white"><i class="fa-solid fa-key text-yellow-400 mr-2"></i> Credenciales de API</h2>
+                <button id="btn-close-settings" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+            </div>
+            <div class="p-6 space-y-4">
+                <div class="p-3 bg-blue-900/30 border border-blue-500/30 rounded-lg text-xs text-blue-200 mb-4">
+                    Tus claves se guardan únicamente en el almacenamiento local de este navegador (Local Storage). Nunca se envían a ningún servidor intermedio.
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-slate-300 mb-1">OpenAI API Key (Cerebro IA)</label>
+                    <input type="password" id="openai-key" class="w-full bg-slate-900 border border-slate-600 rounded-lg py-2 px-3 text-white focus:outline-none focus:border-blue-400 text-sm" placeholder="sk-...">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-slate-300 mb-1">Meta Page ID (Facebook)</label>
+                    <input type="text" id="meta-page-id" class="w-full bg-slate-900 border border-slate-600 rounded-lg py-2 px-3 text-white focus:outline-none focus:border-blue-400 text-sm" placeholder="61592532034803">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-slate-300 mb-1">Meta Access Token (Larga Duración)</label>
+                    <input type="password" id="meta-token" class="w-full bg-slate-900 border border-slate-600 rounded-lg py-2 px-3 text-white focus:outline-none focus:border-blue-400 text-sm" placeholder="EAAB...">
+                </div>
+            </div>
+            <div class="p-4 border-t border-slate-700 bg-slate-800/50 rounded-b-xl flex justify-end">
+                <button id="btn-save-settings" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-6 rounded-lg transition-colors">Guardar Configuración</button>
+            </div>
+        </div>
+    </div>
 
     <!-- Main Workspace -->
     <main class="flex-1 flex overflow-hidden p-4 gap-4">

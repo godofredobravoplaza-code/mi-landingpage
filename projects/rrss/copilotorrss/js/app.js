@@ -1,4 +1,39 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Elements - Settings
+    const btnSettings = document.getElementById('btn-settings');
+    const settingsModal = document.getElementById('settings-modal');
+    const btnCloseSettings = document.getElementById('btn-close-settings');
+    const btnSaveSettings = document.getElementById('btn-save-settings');
+    const inputOpenaiKey = document.getElementById('openai-key');
+    const inputMetaPageId = document.getElementById('meta-page-id');
+    const inputMetaToken = document.getElementById('meta-token');
+
+    // Load settings from localStorage
+    function loadSettings() {
+        inputOpenaiKey.value = localStorage.getItem('phenix_openai_key') || '';
+        inputMetaPageId.value = localStorage.getItem('phenix_meta_page_id') || '61592532034803';
+        inputMetaToken.value = localStorage.getItem('phenix_meta_token') || '';
+    }
+    loadSettings();
+
+    // Settings Modal Listeners
+    btnSettings.addEventListener('click', () => {
+        settingsModal.classList.remove('hidden');
+    });
+
+    btnCloseSettings.addEventListener('click', () => {
+        settingsModal.classList.add('hidden');
+    });
+
+    btnSaveSettings.addEventListener('click', () => {
+        localStorage.setItem('phenix_openai_key', inputOpenaiKey.value.trim());
+        localStorage.setItem('phenix_meta_page_id', inputMetaPageId.value.trim());
+        localStorage.setItem('phenix_meta_token', inputMetaToken.value.trim());
+        
+        settingsModal.classList.add('hidden');
+        alert("Credenciales guardadas localmente de forma segura.");
+    });
+
     // Elements - Col 1
     const topicInput = document.getElementById('topic-input');
     const btnSuggest = document.getElementById('btn-suggest');
