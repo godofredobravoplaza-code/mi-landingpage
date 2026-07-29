@@ -265,12 +265,17 @@ async function processCartola(data, bankType, dest) {
 
         let purchaseDateStr = dateKey ? (row[dateKey] || '') : '';
         
+        // Ignorar filas de pago o abono
+        const dLower = desc.toLowerCase();
+        if (/pago tarjeta|pago web|pago pac|pago por caja|abono|su pago|pago en linea/i.test(dLower)) {
+            continue;
+        }
+        
         // Categorization logic
         let category = 'Compra';
-        const dLower = desc.toLowerCase();
         if (/interés|interes|interest/.test(dLower)) {
             category = 'Interés';
-        } else if (/comisión|comision|mantención|mantencion|administración|administracion|seguro|avance/.test(dLower)) {
+        } else if (/comisión|comision|mantención|mantencion|administración|administracion|seguro/.test(dLower)) {
             category = 'Comisión';
         } else if (/impuesto|timbre|estampilla/.test(dLower)) {
             category = 'Impuesto';
