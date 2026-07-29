@@ -8,7 +8,7 @@ const appContent = document.getElementById('app-content');
 const userEmailEl = document.getElementById('user-email');
 const csvUpload = document.getElementById('csv-upload');
 const bankSelector = document.getElementById('bank-selector');
-const billingDayInput = document.getElementById('billing-day');
+const importDest = document.getElementById('import-dest'); // Nuevo
 const formatHelp = document.getElementById('format-help');
 const debtsTableBody = document.getElementById('debts-table-body');
 const creditsTableBody = document.getElementById('credits-table-body');
@@ -47,6 +47,26 @@ const formatter = new Intl.NumberFormat('es-CL', {
     currency: 'CLP',
     minimumFractionDigits: 0
 });
+
+// Helper de Fechas
+function getCurrentMonthStr() {
+    const today = new Date();
+    return `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}`;
+}
+
+function getNextMonthStr() {
+    const today = new Date();
+    const nextMonth = new Date(today.getFullYear(), today.getMonth() + 1, 1);
+    return `${nextMonth.getFullYear()}-${String(nextMonth.getMonth() + 1).padStart(2, '0')}`;
+}
+
+function getMonthsDifference(startMonthStr, endMonthStr) {
+    if (!startMonthStr || !endMonthStr) return 0;
+    const [startYear, startMonth] = startMonthStr.split('-').map(Number);
+    const [endYear, endMonth] = endMonthStr.split('-').map(Number);
+    return (endYear - startYear) * 12 + (endMonth - startMonth);
+}
+
 
 // Auth State Listener
 onAuthStateChanged(auth, (user) => {
@@ -144,7 +164,7 @@ csvUpload.addEventListener('change', (e) => {
             skipEmptyLines: true,
             complete: async function(results) {
                 const cleanData = extractTableData(results.data);
-                await processCartola(cleanData, bankSelector.value, parseInt(billingDayInput.value));
+                await processCartola(cleanData, bankSelector.value, importDest.value);
                 csvUpload.value = '';
             },
             error: function(error) {
@@ -162,11 +182,10 @@ csvUpload.addEventListener('change', (e) => {
                 const firstSheetName = workbook.SheetNames[0];
                 const worksheet = workbook.Sheets[firstSheetName];
                 
-                // Get as array of arrays
                 const rowsOfArrays = XLSX.utils.sheet_to_json(worksheet, { header: 1, raw: false, defval: "" });
                 const cleanData = extractTableData(rowsOfArrays);
                 
-                await processCartola(cleanData, bankSelector.value, parseInt(billingDayInput.value));
+                await processCartola(cleanData, bankSelector.value, importDest.value);
                 csvUpload.value = '';
             } catch (error) {
                 console.error("Error parsing Excel:", error);
@@ -180,7 +199,7 @@ csvUpload.addEventListener('change', (e) => {
     }
 });
 
-async function processCartola(data, bankType, billingDay) {
+async function processCartola(data, bankType, dest) {
     if (!currentUser) return;
     formatHelp.classList.add('hide');
     
@@ -222,6 +241,7 @@ async function processCartola(data, bankType, billingDay) {
     }
     
     let addedCount = 0;
+    const importBaseMonth = (dest === 'facturado') ? getCurrentMonthStr() : getNextMonthStr();
     
     for (const row of data) {
         const desc = row[descKey] || 'Compra Desconocida';
@@ -263,9 +283,9 @@ async function processCartola(data, bankType, billingDay) {
                 description: desc,
                 category: category,
                 amount: absAmount,
-                currentQuote: cuotaActual,
+                originalCurrentQuote: cuotaActual,
                 totalQuotes: cuotaTotal,
-                billingDay: billingDay,
+                baseMonth: importBaseMonth,
                 purchaseDateStr: purchaseDateStr,
                 dateAdded: new Date().toISOString()
             });
@@ -276,7 +296,7 @@ async function processCartola(data, bankType, billingDay) {
     }
     
     if (addedCount > 0) {
-        alert(`Se importaron ${addedCount} movimientos con el perfil ${bankType}.`);
+        alert(`Se importaron ${addedCount} movimientos con destino: ${dest === 'facturado' ? 'Mes Actual' : 'Próximo Mes'}.`);
         fetchData();
     } else {
         alert("No se encontraron movimientos válidos.");
@@ -339,23 +359,34 @@ async function fetchData() {
     try {
         const qDebts = query(collection(db, "finance_debts"), where("userId", "==", currentUser.uid));
         const snapDebts = await getDocs(qDebts);
+        
+        const currentMonthStr = getCurrentMonthStr();
+        
         snapDebts.forEach((docSnap) => {
             const data = docSnap.data();
-            data.quotesLeft = data.totalQuotes - data.currentQuote + 1;
             
-            // Facturado vs No Facturado Logic
-            let isFacturado = true; 
-            if (data.purchaseDateStr && data.billingDay) {
-                const nums = data.purchaseDateStr.match(/\d+/g);
-                if (nums && nums.length >= 2) {
-                    let day = parseInt(nums[0]);
-                    if (day > 31) day = parseInt(nums[1]); 
-                    if (day && day > data.billingDay) {
-                        isFacturado = false;
-                    }
-                }
+            // Engine de Ciclos de Facturación (Aging)
+            // Calculamos cuántos meses han pasado desde que se registró
+            const monthsPassed = getMonthsDifference(data.baseMonth, currentMonthStr);
+            
+            // Incrementamos la cuota según los meses pasados. Si es negativo (fue registrado para próximo mes), no incrementa aún.
+            const effectiveQuote = (data.originalCurrentQuote || data.currentQuote) + Math.max(0, monthsPassed);
+            const quotesLeft = data.totalQuotes - effectiveQuote + 1;
+            
+            data.computedCurrentQuote = effectiveQuote;
+            data.quotesLeft = quotesLeft;
+            
+            if (monthsPassed < 0) {
+                // Sigue en el futuro (Próximo Mes)
+                data.bucket = 'proximo';
+            } else if (quotesLeft > 0) {
+                // Está en el mes actual y aún le quedan cuotas
+                data.bucket = 'actual';
+            } else {
+                // Ya se pagó todo o venció (Historial)
+                data.bucket = 'historial';
             }
-            data.isFacturado = isFacturado;
+            
             allDebts.push({ id: docSnap.id, ...data });
         });
     } catch (e) {
@@ -384,33 +415,28 @@ function calculateTotalsAndRender() {
     let subComprasProximo = 0;
     let subCargosProximo = 0;
     
-    // Filter by Bank if needed
     const filteredDebts = allDebts.filter(d => currentGlobalFilter === 'all' || d.bank === currentGlobalFilter);
     const filteredCredits = allCredits.filter(c => currentGlobalFilter === 'all' || c.bank === currentGlobalFilter);
 
-    // Calc Debts
     filteredDebts.forEach(debt => {
-        if (debt.quotesLeft > 0) {
-            const isCargo = (debt.category === 'Interés' || debt.category === 'Comisión' || debt.category === 'Impuesto');
-            if (debt.isFacturado) {
-                totalEsteMes += debt.amount;
-                if (isCargo) subCargosEste += debt.amount;
-                else subComprasEste += debt.amount;
-            } else {
-                totalProximoMes += debt.amount;
-                if (isCargo) subCargosProximo += debt.amount;
-                else subComprasProximo += debt.amount;
-            }
+        const isCargo = (debt.category === 'Interés' || debt.category === 'Comisión' || debt.category === 'Impuesto');
+        
+        if (debt.bucket === 'actual') {
+            totalEsteMes += debt.amount;
+            if (isCargo) subCargosEste += debt.amount;
+            else subComprasEste += debt.amount;
+        } else if (debt.bucket === 'proximo') {
+            totalProximoMes += debt.amount;
+            if (isCargo) subCargosProximo += debt.amount;
+            else subComprasProximo += debt.amount;
         }
     });
     
-    // Calc Credits (Assume they hit Este Mes and are always "Compras/Crédito" not fees)
     filteredCredits.forEach(credit => {
         totalEsteMes += credit.amount;
         subComprasEste += credit.amount;
     });
 
-    // Update UI Totals
     totalEsteMesEl.textContent = formatter.format(totalEsteMes);
     subComprasEsteEl.textContent = formatter.format(subComprasEste);
     subCargosEsteEl.textContent = formatter.format(subCargosEste);
@@ -437,11 +463,10 @@ function getBankBadge(bank) {
 }
 
 function renderTables() {
-    // Filter Debts
     const finalDebts = allDebts.filter(d => currentGlobalFilter === 'all' || d.bank === currentGlobalFilter).filter(d => {
-        if (currentTab === 'historial') return d.quotesLeft <= 0;
-        if (currentTab === 'mes-actual') return d.quotesLeft > 0 && d.isFacturado;
-        if (currentTab === 'mes-proximo') return d.quotesLeft > 0 && !d.isFacturado;
+        if (currentTab === 'historial') return d.bucket === 'historial';
+        if (currentTab === 'mes-actual') return d.bucket === 'actual';
+        if (currentTab === 'mes-proximo') return d.bucket === 'proximo';
         return false;
     });
     
@@ -457,12 +482,12 @@ function renderTables() {
                     <td class="px-6 py-4">
                         <div class="font-medium text-white flex items-center">${data.description} ${getCategoryBadge(data.category)}</div>
                         <div class="text-[10px] text-slate-500 mt-1 uppercase flex items-center">
-                            Tarjeta de Crédito ${getBankBadge(data.bank)} ${data.purchaseDateStr ? ' | Fecha: '+data.purchaseDateStr : ''}
+                            Tarjeta ${getBankBadge(data.bank)} ${data.purchaseDateStr ? ' | Compra: '+data.purchaseDateStr : ''}
                         </div>
                     </td>
                     <td class="px-6 py-4 text-center">
-                        <span class="${data.currentQuote === data.totalQuotes ? 'bg-red-900/50 text-red-400' : 'bg-slate-700 text-slate-300'} px-2 py-1 rounded text-xs font-mono">
-                            ${data.currentQuote} / ${data.totalQuotes}
+                        <span class="${data.computedCurrentQuote === data.totalQuotes ? 'bg-red-900/50 text-red-400' : 'bg-slate-700 text-slate-300'} px-2 py-1 rounded text-xs font-mono">
+                            ${data.computedCurrentQuote} / ${data.totalQuotes}
                         </span>
                     </td>
                     <td class="px-6 py-4 text-right text-white font-mono">${formatter.format(data.amount)}</td>
@@ -473,7 +498,6 @@ function renderTables() {
     }
     debtsTableBody.innerHTML = htmlDebts;
     
-    // Filter Credits
     const finalCredits = allCredits.filter(c => currentGlobalFilter === 'all' || c.bank === currentGlobalFilter);
     let htmlCredits = '';
     if (finalCredits.length === 0) {
