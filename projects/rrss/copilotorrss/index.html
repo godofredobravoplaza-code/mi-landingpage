@@ -67,7 +67,7 @@
             <h1 class="text-xl font-bold text-white tracking-wide">Copiloto <span class="text-fuchsia-400">RRSS</span></h1>
         </div>
         <div class="flex items-center gap-4">
-            <button id="btn-settings" class="text-slate-400 hover:text-white transition-colors p-2">
+            <button class="text-slate-400 hover:text-white transition-colors p-2 py-3 px-4">
                 <i class="fa-solid fa-gear"></i> Configuración
             </button>
             <a href="../../../intranet.html" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-4 py-2 rounded-lg text-sm transition-colors border border-slate-600 flex items-center">
@@ -81,40 +81,40 @@
         <div class="glass-panel w-full max-w-lg rounded-xl shadow-2xl border border-slate-700 flex flex-col">
             <div class="p-4 border-b border-slate-700 flex justify-between items-center bg-slate-800/50 rounded-t-xl">
                 <h2 class="text-lg font-bold text-white"><i class="fa-solid fa-key text-yellow-400 mr-2"></i> Credenciales de API</h2>
-                <button id="btn-close-settings" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+                <button class="text-slate-400 hover:text-white py-3 px-4"><i class="fa-solid fa-xmark text-xl"></i></button>
             </div>
-            <div class="p-6 space-y-4">
+            <div class="p-4 md:p-6 space-y-4">
                 <div class="p-3 bg-blue-900/30 border border-blue-500/30 rounded-lg text-xs text-blue-200 mb-4">
                     Tus claves se guardan únicamente en el almacenamiento local de este navegador (Local Storage). Nunca se envían a ningún servidor intermedio.
                 </div>
                 
                 <div class="mb-4">
                 <label class="block text-sm text-slate-400 mb-1">Groq API Key (Llama 3)</label>
-                <input type="password" id="groq-key" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white focus:outline-none focus:border-fuchsia-500" placeholder="gsk_...">
+                <input class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white focus:outline-none focus:border-fuchsia-500 py-3 px-4" placeholder="gsk_...">
                 <p class="text-xs text-slate-500 mt-1">Obténla gratis en console.groq.com</p>
             </div>
                 
                 <div>
                     <label class="block text-sm font-medium text-slate-300 mb-1">Meta Page ID (Facebook)</label>
-                    <input type="text" id="meta-page-id" class="w-full bg-slate-900 border border-slate-600 rounded-lg py-2 px-3 text-white focus:outline-none focus:border-blue-400 text-sm" placeholder="61592532034803">
+                    <input class="w-full bg-slate-900 border border-slate-600 rounded-lg py-3 px-4 text-white focus:outline-none focus:border-blue-400 text-sm" placeholder="61592532034803">
                 </div>
                 
                 <div>
                     <label class="block text-sm font-medium text-slate-300 mb-1">Meta Access Token (Larga Duración)</label>
-                    <input type="password" id="meta-token" class="w-full bg-slate-900 border border-slate-600 rounded-lg py-2 px-3 text-white focus:outline-none focus:border-blue-400 text-sm" placeholder="EAAB...">
+                    <input class="w-full bg-slate-900 border border-slate-600 rounded-lg py-3 px-4 text-white focus:outline-none focus:border-blue-400 text-sm" placeholder="EAAB...">
                 </div>
             </div>
             <div class="p-4 border-t border-slate-700 bg-slate-800/50 rounded-b-xl flex justify-end">
-                <button id="btn-save-settings" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-6 rounded-lg transition-colors">Guardar Configuración</button>
+                <button class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-4 rounded-lg transition-colors">Guardar Configuración</button>
             </div>
         </div>
     </div>
 
     <!-- Main Workspace -->
-    <main class="flex-1 flex overflow-hidden p-4 gap-4">
+    <main class="flex-1 flex flex-col lg:flex-row overflow-y-auto lg:overflow-hidden overflow-hidden p-4 gap-4">
         
         <!-- COL 1: Fuente (Brainstorming) -->
-        <div class="w-1/4 glass-panel rounded-xl flex flex-col overflow-hidden border-t-4 border-t-blue-500">
+        <div class="w-full lg:w-1/4 glass-panel rounded-xl flex flex-col overflow-hidden border-t-4 border-t-blue-500">
             <div class="p-4 bg-slate-800/50 border-b border-slate-700 flex items-center gap-2">
                 <i class="fa-solid fa-lightbulb text-blue-400"></i>
                 <h2 class="font-semibold text-white">1. Tema del Día</h2>
@@ -124,11 +124,11 @@
                     <label class="block text-sm text-slate-400 mb-2">¿De qué quieres hablar hoy?</label>
                     <textarea id="topic-input" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-sm text-slate-200 focus:outline-none focus:border-blue-500 resize-none h-32" placeholder="Ej: Escribe un post sobre cómo la IA está cambiando el desarrollo web en 2026..."></textarea>
                 </div>
-                <button id="btn-suggest" class="w-full bg-slate-800 hover:bg-slate-700 text-blue-400 border border-blue-500/30 py-2 rounded-lg text-sm transition-colors flex items-center justify-center gap-2">
+                <button class="w-full bg-slate-800 hover:bg-slate-700 text-blue-400 border border-blue-500/30 py-3 rounded-lg text-sm transition-colors flex items-center justify-center gap-2 px-4">
                     <i class="fa-solid fa-wand-magic-sparkles"></i> Sugerir Noticia Tech
                 </button>
                 <div class="pt-4 mt-4 border-t border-slate-700">
-                    <button id="btn-generate-text" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-lg transition-colors shadow-[0_0_15px_rgba(37,99,235,0.4)] flex justify-center items-center gap-2">
+                    <button class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-lg transition-colors shadow-[0_0_15px_rgba(37,99,235,0.4)] flex justify-center items-center gap-2 px-4">
                         <i class="fa-solid fa-robot"></i> Redactar Post
                     </button>
                 </div>
@@ -136,7 +136,7 @@
         </div>
 
         <!-- COL 2: Agente Redactor -->
-        <div class="w-1/3 glass-panel rounded-xl flex flex-col overflow-hidden border-t-4 border-t-fuchsia-500">
+        <div class="w-full lg:w-1/3 glass-panel rounded-xl flex flex-col overflow-hidden border-t-4 border-t-fuchsia-500">
             <div class="p-4 bg-slate-800/50 border-b border-slate-700 flex items-center gap-2 justify-between">
                 <div class="flex items-center gap-2">
                     <i class="fa-solid fa-align-left text-fuchsia-400"></i>
@@ -153,10 +153,10 @@
                     <textarea id="copy-editor" class="flex-1 w-full bg-slate-900 border border-slate-700 rounded-lg p-4 text-sm text-slate-200 focus:outline-none focus:border-fuchsia-500 resize-none mb-3 font-mono leading-relaxed"></textarea>
                     
                     <div class="flex gap-2">
-                        <button class="flex-1 bg-slate-800 hover:bg-slate-700 text-xs text-slate-300 py-2 rounded border border-slate-600 transition-colors">
+                        <button class="flex-1 bg-slate-800 hover:bg-slate-700 text-xs text-slate-300 py-3 rounded border border-slate-600 transition-colors px-4">
                             Más formal
                         </button>
-                        <button class="flex-1 bg-slate-800 hover:bg-slate-700 text-xs text-slate-300 py-2 rounded border border-slate-600 transition-colors">
+                        <button class="flex-1 bg-slate-800 hover:bg-slate-700 text-xs text-slate-300 py-3 rounded border border-slate-600 transition-colors px-4">
                             Más agresivo
                         </button>
                     </div>
@@ -198,7 +198,7 @@
                 </div>
             </div>
             <div class="p-4 bg-slate-800/50 border-t border-slate-700">
-                <button id="btn-generate-design" disabled class="w-full bg-slate-700 text-slate-400 font-bold py-3 rounded-lg transition-colors flex justify-center items-center gap-2 cursor-not-allowed">
+                <button class="w-full bg-slate-700 text-slate-400 font-bold py-3 rounded-lg transition-colors flex justify-center items-center gap-2 cursor-not-allowed px-4">
                     <i class="fa-solid fa-paint-roller"></i> Generar Gráfica
                 </button>
             </div>
@@ -209,10 +209,10 @@
     <!-- Footer: Lanzamiento -->
     <footer class="glass-panel border-t border-slate-700 px-6 py-4 z-50">
         <div class="max-w-4xl mx-auto flex gap-4">
-            <button id="btn-publish-fb" disabled class="flex-1 bg-blue-900/50 text-blue-500/50 font-bold py-3 rounded-lg flex items-center justify-center gap-2 border border-blue-900/50 cursor-not-allowed transition-all">
+            <button class="flex-1 bg-blue-900/50 text-blue-500/50 font-bold py-3 rounded-lg flex items-center justify-center gap-2 border border-blue-900/50 cursor-not-allowed transition-all px-4">
                 <i class="fa-brands fa-facebook"></i> Publicar en Facebook
             </button>
-            <button id="btn-publish-ig" disabled class="flex-1 bg-pink-900/50 text-pink-500/50 font-bold py-3 rounded-lg flex items-center justify-center gap-2 border border-pink-900/50 cursor-not-allowed transition-all">
+            <button class="flex-1 bg-pink-900/50 text-pink-500/50 font-bold py-3 rounded-lg flex items-center justify-center gap-2 border border-pink-900/50 cursor-not-allowed transition-all px-4">
                 <i class="fa-brands fa-instagram"></i> Publicar en Instagram
             </button>
         </div>

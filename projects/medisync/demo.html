@@ -67,18 +67,18 @@
                 <div class="w-8 h-8 rounded bg-medical-600 flex items-center justify-center text-white mr-3"><i class="fa-solid fa-plus"></i></div>
                 <h1 class="font-bold text-slate-800 text-lg tracking-tight">HealthSync</h1>
             </div>
-            <div class="p-6 pb-2">
+            <div class="p-4 md:p-6 pb-2">
                 <p class="text-xs text-slate-400 font-bold uppercase tracking-wider mb-2">Panel Médico</p>
                 <div class="font-bold text-slate-800 text-sm mb-6" id="user-name-display">Dr.</div>
             </div>
             <nav class="flex-1">
-                <button onclick="docSwitchTab('dashboard')" id="nav-dashboard" class="sidebar-item active w-full flex items-center gap-3 px-6 py-3 text-slate-600 hover:bg-slate-50 transition-colors text-sm font-medium text-left">
+                <button class="sidebar-item active w-full flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-50 transition-colors text-sm font-medium text-left">
                     <i class="fa-solid fa-list-ul w-5 text-center"></i> Mi Agenda
                 </button>
-                <button onclick="docSwitchTab('calendario')" id="nav-calendario" class="sidebar-item w-full flex items-center gap-3 px-6 py-3 text-slate-600 hover:bg-slate-50 transition-colors text-sm font-medium text-left">
+                <button class="sidebar-item w-full flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-50 transition-colors text-sm font-medium text-left">
                     <i class="fa-solid fa-calendar-day w-5 text-center"></i> Mi Calendario
                 </button>
-                <button onclick="docSwitchTab('pacientes')" id="nav-pacientes" class="sidebar-item w-full flex items-center gap-3 px-6 py-3 text-slate-600 hover:bg-slate-50 transition-colors text-sm font-medium text-left">
+                <button class="sidebar-item w-full flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-50 transition-colors text-sm font-medium text-left">
                     <i class="fa-solid fa-users w-5 text-center"></i> Mis Pacientes
                 </button>
             </nav>
@@ -88,7 +88,7 @@
         <div class="flex-1 overflow-hidden bg-slate-50 relative flex flex-col">
             
             <!-- TAB: DASHBOARD (Agenda Diaria) -->
-            <div id="doc-tab-dashboard" class="tab-content active p-8 overflow-y-auto h-full">
+            <div id="doc-tab-dashboard" class="tab-content active p-4 md:p-8 overflow-y-auto h-full">
                 <div class="max-w-4xl mx-auto">
                     <div class="mb-8 flex justify-between items-end">
                         <div>
@@ -99,7 +99,7 @@
                     </div>
 
                     <div id="agenda-list" class="space-y-4">
-                        <div class="text-center p-12"><i class="fa-solid fa-spinner fa-spin text-3xl text-slate-300"></i></div>
+                        <div class="text-center p-4 md:p-12"><i class="fa-solid fa-spinner fa-spin text-3xl text-slate-300"></i></div>
                     </div>
                 </div>
             </div>
@@ -110,18 +110,18 @@
                     <div class="flex items-center gap-4">
                         <h2 class="text-lg font-bold text-slate-800" id="calendar-current-date-label" style="min-width: 180px;">Hoy</h2>
                         <div class="flex bg-slate-100 rounded-lg p-1 border border-slate-200">
-                            <button onclick="window.calendarPrevDay()" class="w-8 h-8 rounded flex items-center justify-center text-slate-600 hover:bg-white hover:shadow-sm transition-all"><i class="fa-solid fa-chevron-left"></i></button>
-                            <button onclick="window.calendarHoy()" class="px-4 h-8 rounded flex items-center justify-center text-slate-700 hover:bg-white hover:shadow-sm text-xs font-bold transition-all">Hoy</button>
-                            <button onclick="window.calendarNextDay()" class="w-8 h-8 rounded flex items-center justify-center text-slate-600 hover:bg-white hover:shadow-sm transition-all"><i class="fa-solid fa-chevron-right"></i></button>
+                            <button class="w-8 h-8 rounded flex items-center justify-center text-slate-600 hover:bg-white hover:shadow-sm transition-all py-3 px-4"><i class="fa-solid fa-chevron-left"></i></button>
+                            <button class="px-4 h-8 rounded flex items-center justify-center text-slate-700 hover:bg-white hover:shadow-sm text-xs font-bold transition-all py-3">Hoy</button>
+                            <button class="w-8 h-8 rounded flex items-center justify-center text-slate-600 hover:bg-white hover:shadow-sm transition-all py-3 px-4"><i class="fa-solid fa-chevron-right"></i></button>
                         </div>
                     </div>
                     <div class="flex bg-slate-100 rounded-lg p-1 border border-slate-200 text-xs font-bold">
-                        <button onclick="window.setCalendarView('day')" id="cal-btn-day" class="px-3 h-8 rounded text-slate-700 bg-white shadow-sm transition-all">Día</button>
-                        <button onclick="window.setCalendarView('week')" id="cal-btn-week" class="px-3 h-8 rounded text-slate-500 hover:text-slate-700 transition-all">Semana</button>
-                        <button onclick="window.setCalendarView('month')" id="cal-btn-month" class="px-3 h-8 rounded text-slate-500 hover:text-slate-700 transition-all">Mes</button>
+                        <button class="px-4 h-8 rounded text-slate-700 bg-white shadow-sm transition-all py-3">Día</button>
+                        <button class="px-4 h-8 rounded text-slate-500 hover:text-slate-700 transition-all py-3">Semana</button>
+                        <button class="px-4 h-8 rounded text-slate-500 hover:text-slate-700 transition-all py-3">Mes</button>
                     </div>
                 </div>
-                <div class="flex-1 overflow-y-auto bg-slate-50 relative p-6">
+                <div class="flex-1 overflow-y-auto bg-slate-50 relative p-4 md:p-6">
                     <div class="max-w-4xl mx-auto border-t border-l border-slate-200 bg-white shadow-sm rounded-lg overflow-hidden relative" id="calendar-grid" style="min-height: 800px;">
                         <!-- JS renders hours and blocks here -->
                     </div>
@@ -135,7 +135,7 @@
                     <div class="w-1/3 border-r border-slate-200 bg-white flex flex-col">
                         <div class="p-4 border-b border-slate-200">
                             <h2 class="font-bold text-slate-800">Directorio de Pacientes</h2>
-                            <input type="text" placeholder="Buscar paciente..." class="mt-3 w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-medical-500">
+                            <input class="mt-3 w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-medical-500">
                         </div>
                         <div class="flex-1 overflow-y-auto p-2" id="doc-patients-list">
                             <!-- JS Fills -->
@@ -152,7 +152,7 @@
                         
                         <div id="patient-chart" class="hidden flex-col h-full animate-fade-in">
                             <!-- Header de Ficha -->
-                            <div class="bg-white p-6 border-b border-slate-200 shadow-sm shrink-0 flex justify-between items-center">
+                            <div class="bg-white p-4 md:p-6 border-b border-slate-200 shadow-sm shrink-0 flex justify-between items-center">
                                 <div class="flex items-center gap-4">
                                     <div class="w-14 h-14 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-xl font-bold" id="chart-pat-initials">XX</div>
                                     <div>
@@ -161,10 +161,10 @@
                                     </div>
                                 </div>
                                 <div class="flex items-center gap-2" id="encounter-buttons">
-                                    <button onclick="openNewRecordModal()" id="btn-encounter-main" class="bg-medical-600 hover:bg-medical-700 text-white px-4 py-2 rounded-lg text-sm font-bold shadow-sm flex items-center gap-2">
+                                    <button class="bg-medical-600 hover:bg-medical-700 text-white px-4 py-3 rounded-lg text-sm font-bold shadow-sm flex items-center gap-2">
                                         <i class="fa-solid fa-play"></i> Iniciar Atención
                                     </button>
-                                    <button onclick="closeEncounter()" id="btn-encounter-close" class="hidden bg-slate-800 hover:bg-black text-white px-4 py-2 rounded-lg text-sm font-bold shadow-sm flex items-center gap-2">
+                                    <button class="hidden bg-slate-800 hover:bg-black text-white px-4 py-3 rounded-lg text-sm font-bold shadow-sm flex items-center gap-2">
                                         <i class="fa-solid fa-check-double"></i> Cerrar Atención
                                     </button>
                                 </div>
@@ -172,13 +172,13 @@
                             
                             <!-- Subtabs de la Ficha -->
                             <div class="flex border-b border-slate-200 bg-white px-6 shrink-0">
-                                <button onclick="docChartSubtab('historial')" class="doc-subtab active py-3 px-4 text-sm text-slate-500 hover:text-slate-800 transition-colors" data-tab="historial">Historial Clínico</button>
-                                <button onclick="docChartSubtab('examenes')" class="doc-subtab py-3 px-4 text-sm text-slate-500 hover:text-slate-800 transition-colors" data-tab="examenes">Exámenes</button>
-                                <button onclick="docChartSubtab('recetas')" class="doc-subtab py-3 px-4 text-sm text-slate-500 hover:text-slate-800 transition-colors" data-tab="recetas">Recetas</button>
+                                <button class="doc-subtab active py-3 px-4 text-sm text-slate-500 hover:text-slate-800 transition-colors" data-tab="historial">Historial Clínico</button>
+                                <button class="doc-subtab py-3 px-4 text-sm text-slate-500 hover:text-slate-800 transition-colors" data-tab="examenes">Exámenes</button>
+                                <button class="doc-subtab py-3 px-4 text-sm text-slate-500 hover:text-slate-800 transition-colors" data-tab="recetas">Recetas</button>
                             </div>
 
                             <!-- Contenido de Ficha -->
-                            <div class="flex-1 overflow-y-auto p-6">
+                            <div class="flex-1 overflow-y-auto p-4 md:p-6">
                                 <div id="chart-content-historial" class="chart-tab-content block space-y-4"></div>
                                 <div id="chart-content-examenes" class="chart-tab-content hidden space-y-4"></div>
                                 <div id="chart-content-recetas" class="chart-tab-content hidden space-y-4"></div>
@@ -195,31 +195,31 @@
         <div class="bg-white rounded-2xl shadow-xl w-full max-w-2xl overflow-hidden animate-slide-up flex flex-col max-h-full">
             <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
                 <h3 class="font-bold text-slate-800 text-lg flex items-center gap-2"><i class="fa-solid fa-stethoscope text-medical-600"></i> Nueva Evolución Clínica</h3>
-                <button onclick="closeNewRecordModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-xl"></i></button>
+                <button class="text-slate-400 hover:text-slate-600 py-3 px-4"><i class="fa-solid fa-xmark text-xl"></i></button>
             </div>
-            <div class="p-6 overflow-y-auto space-y-4">
+            <div class="p-4 md:p-6 overflow-y-auto space-y-4">
                 <div>
                     <label class="block text-xs font-bold text-slate-500 mb-1 uppercase">Diagnóstico</label>
-                    <input type="text" id="modal-diag" class="w-full border border-slate-300 rounded-lg p-2 text-sm focus:border-medical-500 focus:outline-none" placeholder="Ej. Faringitis aguda">
+                    <input class="w-full border border-slate-300 rounded-lg p-2 text-sm focus:border-medical-500 focus:outline-none py-3 px-4" placeholder="Ej. Faringitis aguda">
                 </div>
                 <div>
                     <label class="block text-xs font-bold text-slate-500 mb-1 uppercase">Tratamiento / Indicaciones</label>
                     <textarea id="modal-trat" rows="3" class="w-full border border-slate-300 rounded-lg p-2 text-sm focus:border-medical-500 focus:outline-none" placeholder="Reposo, abundante líquido..."></textarea>
                 </div>
-                <div class="grid grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="bg-indigo-50 p-4 rounded-xl border border-indigo-100">
                         <label class="flex items-center gap-2 text-indigo-800 font-bold text-sm mb-2"><i class="fa-solid fa-pills"></i> Recetar Medicamentos</label>
-                        <input type="text" id="modal-receta" class="w-full border border-indigo-200 rounded p-2 text-xs" placeholder="Ej. Paracetamol 500mg c/8h">
+                        <input class="w-full border border-indigo-200 rounded p-2 text-xs py-3 px-4" placeholder="Ej. Paracetamol 500mg c/8h">
                     </div>
                     <div class="bg-blue-50 p-4 rounded-xl border border-blue-100">
                         <label class="flex items-center gap-2 text-blue-800 font-bold text-sm mb-2"><i class="fa-solid fa-flask"></i> Solicitar Examen</label>
-                        <input type="text" id="modal-examen" class="w-full border border-blue-200 rounded p-2 text-xs" placeholder="Ej. Test Rápido Estreptococo">
+                        <input class="w-full border border-blue-200 rounded p-2 text-xs py-3 px-4" placeholder="Ej. Test Rápido Estreptococo">
                     </div>
                 </div>
             </div>
             <div class="p-4 border-t border-slate-100 flex justify-end gap-3 bg-slate-50">
-                <button onclick="closeNewRecordModal()" class="px-4 py-2 text-slate-600 font-bold text-sm hover:bg-slate-200 rounded-lg transition-colors">Cancelar</button>
-                <button onclick="saveNewRecord()" id="btn-save-record" class="px-6 py-2 bg-medical-600 hover:bg-medical-700 text-white font-bold text-sm rounded-lg shadow-sm transition-colors flex items-center gap-2">
+                <button class="px-4 py-3 text-slate-600 font-bold text-sm hover:bg-slate-200 rounded-lg transition-colors">Cancelar</button>
+                <button class="px-4 py-3 bg-medical-600 hover:bg-medical-700 text-white font-bold text-sm rounded-lg shadow-sm transition-colors flex items-center gap-2">
                     <i class="fa-solid fa-save"></i> Guardar en Ficha
                 </button>
             </div>
@@ -260,7 +260,7 @@
                             </div>
                         </div>
 
-                        <button onclick="patSwitchTab('agendar')" class="w-full bg-slate-800 hover:bg-slate-700 text-white font-bold py-3 px-4 rounded-xl transition-all shadow-md flex items-center justify-between">
+                        <button class="w-full bg-slate-800 hover:bg-slate-700 text-white font-bold py-3 px-4 rounded-xl transition-all shadow-md flex items-center justify-between">
                             <span>Agendar Nueva Cita</span>
                             <i class="fa-solid fa-arrow-right"></i>
                         </button>
@@ -280,7 +280,7 @@
                                 <h4 class="font-bold text-slate-800 text-sm">Dr. Roberto Sánchez</h4>
                                 <p class="text-[11px] text-medical-600 font-medium">Traumatología</p>
                             </div>
-                            <button onclick="openBookingModal('Dr. Roberto Sánchez', 'consulta')" class="w-8 h-8 rounded-full bg-medical-600 text-white flex justify-center items-center hover:bg-medical-700 shadow-sm"><i class="fa-solid fa-calendar-check"></i></button>
+                            <button class="w-8 h-8 rounded-full bg-medical-600 text-white flex justify-center items-center hover:bg-medical-700 shadow-sm py-3 px-4"><i class="fa-solid fa-calendar-check"></i></button>
                         </div>
                         <div class="bg-white rounded-2xl p-3 border border-slate-200 shadow-sm flex gap-3 items-center">
                             <img src="https://i.pravatar.cc/150?img=47" class="w-12 h-12 rounded-full object-cover">
@@ -288,7 +288,7 @@
                                 <h4 class="font-bold text-slate-800 text-sm">Dra. Elena Valdés</h4>
                                 <p class="text-[11px] text-medical-600 font-medium">Medicina General</p>
                             </div>
-                            <button onclick="openBookingModal('Dra. Elena Valdés', 'consulta')" class="w-8 h-8 rounded-full bg-medical-600 text-white flex justify-center items-center hover:bg-medical-700 shadow-sm"><i class="fa-solid fa-calendar-check"></i></button>
+                            <button class="w-8 h-8 rounded-full bg-medical-600 text-white flex justify-center items-center hover:bg-medical-700 shadow-sm py-3 px-4"><i class="fa-solid fa-calendar-check"></i></button>
                         </div>
                         <div class="bg-white rounded-2xl p-3 border border-slate-200 shadow-sm flex gap-3 items-center">
                             <img src="https://i.pravatar.cc/150?img=12" class="w-12 h-12 rounded-full object-cover">
@@ -296,7 +296,7 @@
                                 <h4 class="font-bold text-slate-800 text-sm">Dr. Sheldon Cooper</h4>
                                 <p class="text-[11px] text-medical-600 font-medium">Neurología</p>
                             </div>
-                            <button onclick="openBookingModal('Dr. Sheldon Cooper', 'consulta')" class="w-8 h-8 rounded-full bg-medical-600 text-white flex justify-center items-center hover:bg-medical-700 shadow-sm"><i class="fa-solid fa-calendar-check"></i></button>
+                            <button class="w-8 h-8 rounded-full bg-medical-600 text-white flex justify-center items-center hover:bg-medical-700 shadow-sm py-3 px-4"><i class="fa-solid fa-calendar-check"></i></button>
                         </div>
                         <div class="bg-white rounded-2xl p-3 border border-slate-200 shadow-sm flex gap-3 items-center border-l-4 border-l-blue-500">
                             <img src="https://i.pravatar.cc/150?img=33" class="w-12 h-12 rounded-full object-cover">
@@ -304,7 +304,7 @@
                                 <h4 class="font-bold text-slate-800 text-sm">Klgo. Matías F.</h4>
                                 <p class="text-[11px] text-blue-600 font-medium">Kinesiología</p>
                             </div>
-                            <button onclick="openBookingModal('Klgo. Matías Fernández', 'consulta')" class="w-8 h-8 rounded-full bg-blue-600 text-white flex justify-center items-center hover:bg-blue-700 shadow-sm"><i class="fa-solid fa-calendar-check"></i></button>
+                            <button class="w-8 h-8 rounded-full bg-blue-600 text-white flex justify-center items-center hover:bg-blue-700 shadow-sm py-3 px-4"><i class="fa-solid fa-calendar-check"></i></button>
                         </div>
                     </div>
                 </div>
@@ -318,23 +318,23 @@
                     
                     <!-- Simple graphical week header -->
                     <div class="bg-white px-4 py-3 border-b border-slate-200 flex justify-between gap-1 shadow-sm shrink-0">
-                        <button class="flex flex-col items-center bg-medical-50 border border-medical-200 text-medical-700 rounded-xl py-2 px-3 w-12 cursor-pointer transition-colors" onclick="window.patFilterCalendar(0)">
+                        <button class="flex flex-col items-center bg-medical-50 border border-medical-200 text-medical-700 rounded-xl py-3 px-4 w-12 cursor-pointer transition-colors" onclick="window.patFilterCalendar(0)">
                             <span class="text-[10px] font-bold uppercase mb-1">Lun</span>
                             <span class="text-lg font-bold">14</span>
                         </button>
-                        <button class="flex flex-col items-center hover:bg-slate-50 border border-transparent text-slate-400 rounded-xl py-2 px-3 w-12 cursor-pointer transition-colors" onclick="window.patFilterCalendar(1)">
+                        <button class="flex flex-col items-center hover:bg-slate-50 border border-transparent text-slate-400 rounded-xl py-3 px-4 w-12 cursor-pointer transition-colors" onclick="window.patFilterCalendar(1)">
                             <span class="text-[10px] font-bold uppercase mb-1">Mar</span>
                             <span class="text-lg font-bold">15</span>
                         </button>
-                        <button class="flex flex-col items-center hover:bg-slate-50 border border-transparent text-slate-400 rounded-xl py-2 px-3 w-12 cursor-pointer transition-colors" onclick="window.patFilterCalendar(2)">
+                        <button class="flex flex-col items-center hover:bg-slate-50 border border-transparent text-slate-400 rounded-xl py-3 px-4 w-12 cursor-pointer transition-colors" onclick="window.patFilterCalendar(2)">
                             <span class="text-[10px] font-bold uppercase mb-1">Mie</span>
                             <span class="text-lg font-bold">16</span>
                         </button>
-                        <button class="flex flex-col items-center hover:bg-slate-50 border border-transparent text-slate-400 rounded-xl py-2 px-3 w-12 cursor-pointer transition-colors" onclick="window.patFilterCalendar(3)">
+                        <button class="flex flex-col items-center hover:bg-slate-50 border border-transparent text-slate-400 rounded-xl py-3 px-4 w-12 cursor-pointer transition-colors" onclick="window.patFilterCalendar(3)">
                             <span class="text-[10px] font-bold uppercase mb-1">Jue</span>
                             <span class="text-lg font-bold">17</span>
                         </button>
-                        <button class="flex flex-col items-center hover:bg-slate-50 border border-transparent text-slate-400 rounded-xl py-2 px-3 w-12 cursor-pointer transition-colors" onclick="window.patFilterCalendar(4)">
+                        <button class="flex flex-col items-center hover:bg-slate-50 border border-transparent text-slate-400 rounded-xl py-3 px-4 w-12 cursor-pointer transition-colors" onclick="window.patFilterCalendar(4)">
                             <span class="text-[10px] font-bold uppercase mb-1">Vie</span>
                             <span class="text-lg font-bold">18</span>
                         </button>
@@ -342,7 +342,7 @@
                     
                     <div class="flex-1 p-4 overflow-y-auto space-y-3" id="pat-calendar-list">
                         <!-- JS renders appointments here -->
-                        <div class="text-center p-10"><i class="fa-solid fa-spinner fa-spin text-2xl text-slate-300"></i></div>
+                        <div class="text-center p-4 md:p-10"><i class="fa-solid fa-spinner fa-spin text-2xl text-slate-300"></i></div>
                     </div>
                 </div>
 
@@ -353,9 +353,9 @@
                             <h2 class="font-bold text-lg text-slate-800">Mi Salud</h2>
                         </div>
                         <div class="flex px-4 overflow-x-auto no-scrollbar">
-                            <button onclick="patSaludSubtab('historial')" class="pat-subtab active px-3 py-2 text-xs text-slate-500 whitespace-nowrap" data-tab="historial">Historial</button>
-                            <button onclick="patSaludSubtab('examenes')" class="pat-subtab px-3 py-2 text-xs text-slate-500 whitespace-nowrap" data-tab="examenes">Exámenes</button>
-                            <button onclick="patSaludSubtab('recetas')" class="pat-subtab px-3 py-2 text-xs text-slate-500 whitespace-nowrap" data-tab="recetas">Recetas</button>
+                            <button class="pat-subtab active px-4 py-3 text-xs text-slate-500 whitespace-nowrap" data-tab="historial">Historial</button>
+                            <button class="pat-subtab px-4 py-3 text-xs text-slate-500 whitespace-nowrap" data-tab="examenes">Exámenes</button>
+                            <button class="pat-subtab px-4 py-3 text-xs text-slate-500 whitespace-nowrap" data-tab="recetas">Recetas</button>
                         </div>
                     </div>
                     <div class="flex-1 p-4 overflow-y-auto">
@@ -378,13 +378,13 @@
                     <div class="bg-white rounded-t-3xl p-5 shadow-2xl animate-slide-up">
                         <div class="flex justify-between items-center mb-4">
                             <h3 class="font-bold text-slate-800 text-lg" id="booking-title">Agendar</h3>
-                            <button onclick="closeBookingModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-xl"></i></button>
+                            <button class="text-slate-400 hover:text-slate-600 py-3 px-4"><i class="fa-solid fa-xmark text-xl"></i></button>
                         </div>
                         
                         <div class="space-y-4">
                             <div>
                                 <label class="block text-xs font-bold text-slate-500 mb-1">Fecha de la cita</label>
-                                <input type="date" id="booking-date" class="w-full border border-slate-200 rounded-xl p-3 text-sm focus:border-medical-500 focus:outline-none">
+                                <input class="w-full border border-slate-200 rounded-xl p-3 text-sm focus:border-medical-500 focus:outline-none py-3 px-4">
                             </div>
                             <div>
                                 <label class="block text-xs font-bold text-slate-500 mb-1">Bloque Horario</label>
@@ -401,7 +401,7 @@
                             </div>
                         </div>
                         
-                        <button onclick="confirmBooking()" class="w-full bg-medical-600 hover:bg-medical-700 text-white font-bold py-3 px-4 rounded-xl mt-6 shadow-sm transition-all flex justify-center items-center gap-2">
+                        <button class="w-full bg-medical-600 hover:bg-medical-700 text-white font-bold py-3 px-4 rounded-xl mt-6 shadow-sm transition-all flex justify-center items-center gap-2">
                             <i class="fa-solid fa-calendar-check"></i> Confirmar Reserva
                         </button>
                     </div>
@@ -410,16 +410,16 @@
 
             <!-- PATIENT BOTTOM NAVIGATION -->
             <div class="absolute bottom-0 left-0 right-0 h-16 bg-white border-t border-slate-200 flex justify-around items-center px-2 z-40 pb-2 pt-1">
-                <button onclick="patSwitchTab('home')" id="nav-pat-home" class="bottom-nav-item active flex flex-col items-center gap-1 text-slate-400 hover:text-medical-600 w-16">
+                <button class="bottom-nav-item active flex flex-col items-center gap-1 text-slate-400 hover:text-medical-600 w-16 py-3 px-4">
                     <i class="fa-solid fa-house text-lg"></i><span class="text-[10px] font-medium">Inicio</span>
                 </button>
-                <button onclick="patSwitchTab('agendar')" id="nav-pat-agendar" class="bottom-nav-item flex flex-col items-center gap-1 text-slate-400 hover:text-medical-600 w-16">
+                <button class="bottom-nav-item flex flex-col items-center gap-1 text-slate-400 hover:text-medical-600 w-16 py-3 px-4">
                     <i class="fa-regular fa-calendar-plus text-lg"></i><span class="text-[10px] font-medium">Agendar</span>
                 </button>
-                <button onclick="patSwitchTab('calendario')" id="nav-pat-calendario" class="bottom-nav-item flex flex-col items-center gap-1 text-slate-400 hover:text-medical-600 w-16">
+                <button class="bottom-nav-item flex flex-col items-center gap-1 text-slate-400 hover:text-medical-600 w-16 py-3 px-4">
                     <i class="fa-regular fa-calendar-days text-lg"></i><span class="text-[10px] font-medium">Agenda</span>
                 </button>
-                <button onclick="patSwitchTab('salud')" id="nav-pat-salud" class="bottom-nav-item flex flex-col items-center gap-1 text-slate-400 hover:text-medical-600 w-16">
+                <button class="bottom-nav-item flex flex-col items-center gap-1 text-slate-400 hover:text-medical-600 w-16 py-3 px-4">
                     <i class="fa-solid fa-notes-medical text-lg"></i><span class="text-[10px] font-medium">Mi Salud</span>
                 </button>
             </div>
@@ -428,8 +428,8 @@
     </div>
     
     <!-- VIEW: ADMIN DASHBOARD -->
-    <div id="view-admin" class="hidden w-full h-screen bg-slate-100 flex flex-col items-center justify-center p-6">
-        <div class="bg-white p-8 rounded-2xl shadow-xl max-w-lg w-full text-center">
+    <div id="view-admin" class="hidden w-full h-screen bg-slate-100 flex flex-col items-center justify-center p-4 md:p-6">
+        <div class="bg-white p-4 md:p-8 rounded-2xl shadow-xl max-w-lg w-full text-center">
             <div class="w-20 h-20 bg-red-100 text-red-600 rounded-full flex items-center justify-center text-4xl mx-auto mb-4">
                 <i class="fa-solid fa-server"></i>
             </div>
@@ -440,7 +440,7 @@
                 <div class="p-4 border border-slate-200 bg-white rounded-xl text-left shadow-sm">
                     <div class="flex justify-between items-center mb-4">
                         <h3 class="font-bold text-slate-800 flex items-center gap-2"><i class="fa-solid fa-users-gear"></i> Gestión de Usuarios</h3>
-                        <button onclick="window.loadAdminUsers()" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1 rounded font-bold transition-colors">Cargar Usuarios</button>
+                        <button class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-3 rounded font-bold transition-colors">Cargar Usuarios</button>
                     </div>
                     <div id="admin-users-list" class="space-y-2">
                         <p class="text-xs text-slate-500 text-center">Presiona "Cargar Usuarios" para listar la base de datos.</p>
@@ -450,19 +450,19 @@
                 <div class="p-4 border border-red-200 bg-red-50 rounded-xl text-left">
                     <h3 class="font-bold text-red-800 flex items-center gap-2 mb-2"><i class="fa-solid fa-broom"></i> Limpiar Demo Rápido</h3>
                     <p class="text-xs text-red-600 mb-3">Borra todos los clones de "Penny".</p>
-                    <button onclick="window.adminWipePenny()" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition-colors shadow-sm mb-2">
+                    <button class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-4 rounded-lg transition-colors shadow-sm mb-2">
                         Ejecutar Limpieza de Penny
                     </button>
                     
                     <h3 class="font-bold text-red-800 flex items-center gap-2 mb-2 mt-4"><i class="fa-solid fa-skull"></i> Borrar Base de Datos Completa</h3>
                     <p class="text-xs text-red-600 mb-3">Borra TODOS los pacientes, médicos y registros para una prueba limpia.</p>
-                    <button onclick="window.adminWipeAll()" class="w-full bg-slate-800 hover:bg-black text-white font-bold py-2 px-4 rounded-lg transition-colors shadow-sm">
+                    <button class="w-full bg-slate-800 hover:bg-black text-white font-bold py-3 px-4 rounded-lg transition-colors shadow-sm">
                         Borrar TODO
                     </button>
                 </div>
             </div>
             
-            <button onclick="window.logout()" class="mt-8 text-slate-400 hover:text-slate-600 font-bold text-sm transition-colors">
+            <button class="mt-8 text-slate-400 hover:text-slate-600 font-bold text-sm transition-colors py-3 px-4">
                 <i class="fa-solid fa-arrow-right-from-bracket mr-1"></i> Cerrar Sesión
             </button>
         </div>
@@ -571,14 +571,14 @@
 
         window.loadPatientCalendar = async function() {
             const listEl = document.getElementById('pat-calendar-list');
-            listEl.innerHTML = '<div class="text-center p-10"><i class="fa-solid fa-spinner fa-spin text-2xl text-slate-300"></i></div>';
+            listEl.innerHTML = '<div class="text-center p-4 md:p-10"><i class="fa-solid fa-spinner fa-spin text-2xl text-slate-300"></i></div>';
             try {
                 const q = query(collection(db, "citas"), where("id_paciente", "==", currentUserId));
                 const snap = await getDocs(q);
                 
                 if(snap.empty) {
                     listEl.innerHTML = `
-                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm text-center">
+                        <div class="bg-white p-4 md:p-6 rounded-2xl border border-slate-200 shadow-sm text-center">
                             <i class="fa-regular fa-calendar-xmark text-4xl text-slate-300 mb-3"></i>
                             <p class="text-slate-500 text-sm font-medium">No tienes citas programadas.</p>
                         </div>
@@ -664,7 +664,7 @@
                                 <p class="text-sm font-bold text-slate-800">${data.nombre}</p>
                                 <p class="text-[10px] text-slate-500 uppercase">${data.rol}</p>
                             </div>
-                            <button onclick="window.adminDeleteUser('${doc.id}', '${data.nombre}')" class="text-red-500 hover:text-red-700 p-2"><i class="fa-solid fa-trash"></i></button>
+                            <button class="text-red-500 hover:text-red-700 p-2 py-3 px-4"><i class="fa-solid fa-trash"></i></button>
                         </div>
                     `;
                 });
@@ -766,7 +766,7 @@
                 const agendaList = document.getElementById('agenda-list');
                 if(snapshot.empty) {
                     agendaList.innerHTML = `
-                        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-12 text-center flex flex-col items-center justify-center">
+                        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 md:p-12 text-center flex flex-col items-center justify-center">
                             <i class="fa-solid fa-mug-hot text-4xl text-slate-300 mb-4"></i>
                             <h3 class="font-bold text-slate-600 text-lg">Agenda Libre</h3>
                             <p class="text-slate-400 text-sm mt-2 max-w-sm">No tienes pacientes programados para hoy.</p>
@@ -786,7 +786,7 @@
 
                 citasArray.forEach(data => {
                     html += `
-                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 animate-slide-up flex flex-col sm:flex-row items-center gap-4">
+                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 md:p-6 animate-slide-up flex flex-col sm:flex-row items-center gap-4">
                         <div class="w-16 h-16 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center text-2xl font-bold shrink-0">
                             ${data.nombre_paciente.substring(0,2).toUpperCase()}
                         </div>
@@ -796,7 +796,7 @@
                             ${data.tipo === 'examen' ? `<span class="inline-block mt-2 px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded font-bold">Examen: ${data.nombre_examen}</span>` : `<span class="inline-block mt-2 px-2 py-1 bg-green-100 text-green-700 text-xs rounded font-bold">Consulta Médica</span>`}
                         </div>
                         <div class="w-full sm:w-auto mt-4 sm:mt-0">
-                            <button onclick="attendPatientFromDashboard('${data.id}', '${data.id_paciente}')" class="w-full sm:w-auto bg-medical-600 hover:bg-medical-700 text-white font-bold py-2 px-6 rounded-lg shadow-sm transition-all flex items-center justify-center gap-2">
+                            <button class="w-full sm:w-auto bg-medical-600 hover:bg-medical-700 text-white font-bold py-3 px-4 rounded-lg shadow-sm transition-all flex items-center justify-center gap-2">
                                 <i class="fa-solid fa-stethoscope"></i> Iniciar Atención
                             </button>
                         </div>
@@ -1080,7 +1080,7 @@
                 snap.forEach(d => items.push(d.data()));
                 items.sort((a,b) => b.timestamp - a.timestamp);
                 
-                if(items.length===0) html = '<div class="text-center p-8 text-slate-400">Sin registros.</div>';
+                if(items.length===0) html = '<div class="text-center p-4 md:p-8 text-slate-400">Sin registros.</div>';
                 items.forEach(d => {
                     html += `
                     <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm relative overflow-hidden">
@@ -1105,7 +1105,7 @@
                 snap.forEach(d => items.push(d.data()));
                 items.sort((a,b) => b.timestamp - a.timestamp);
                 
-                if(items.length===0) html = '<div class="text-center p-8 text-slate-400">Sin exámenes.</div>';
+                if(items.length===0) html = '<div class="text-center p-4 md:p-8 text-slate-400">Sin exámenes.</div>';
                 items.forEach(d => {
                     const isPend = d.estado === 'pendiente';
                     html += `
@@ -1124,10 +1124,10 @@
                                 <div class="flex flex-col items-end gap-2">
                                     <span class="text-[10px] bg-orange-100 text-orange-700 px-2 py-1 rounded font-bold">Pendiente Paciente</span>
                                     <div class="flex gap-2">
-                                        <button onclick="window.openBookingModal('Laboratorio Clínico', 'examen', '${d.tipo}')" class="text-[10px] bg-slate-800 text-white px-2 py-1 rounded font-bold hover:bg-slate-700 transition-colors shadow-sm">
+                                        <button class="text-[10px] bg-slate-800 text-white px-4 py-3 rounded font-bold hover:bg-slate-700 transition-colors shadow-sm">
                                             <i class="fa-solid fa-calendar-plus"></i> Agendar
                                         </button>
-                                        <button onclick="window.downloadOrder('${d.id}')" class="text-[10px] bg-white border border-slate-300 text-slate-700 px-2 py-1 rounded font-bold hover:bg-slate-50 transition-colors shadow-sm">
+                                        <button class="text-[10px] bg-white border border-slate-300 text-slate-700 px-4 py-3 rounded font-bold hover:bg-slate-50 transition-colors shadow-sm">
                                             <i class="fa-solid fa-download"></i> Bajar Orden
                                         </button>
                                     </div>
@@ -1147,7 +1147,7 @@
                 snap.forEach(d => items.push(d.data()));
                 items.sort((a,b) => b.timestamp - a.timestamp);
                 
-                if(items.length===0) html = '<div class="text-center p-8 text-slate-400">Sin recetas.</div>';
+                if(items.length===0) html = '<div class="text-center p-4 md:p-8 text-slate-400">Sin recetas.</div>';
                 items.forEach(d => {
                     html += `
                     <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-start gap-3">
@@ -1270,7 +1270,7 @@
                 document.getElementById('pat-ehr-loader').classList.add('hidden');
                 document.getElementById('pat-content-historial').classList.remove('hidden');
                 
-                if(items.length===0) html = '<div class="text-center p-6 text-slate-400 bg-white rounded-xl border border-slate-200 shadow-sm mt-4">Sin registros.</div>';
+                if(items.length===0) html = '<div class="text-center p-4 md:p-6 text-slate-400 bg-white rounded-xl border border-slate-200 shadow-sm mt-4">Sin registros.</div>';
                 items.forEach(d => {
                     html += `
                     <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm relative overflow-hidden">
@@ -1288,7 +1288,7 @@
                         <div class="mt-3 p-3 bg-blue-50/50 border border-blue-100 rounded-xl">
                             <p class="text-[10px] text-blue-600 uppercase font-bold mb-1"><i class="fa-solid fa-flask"></i> Examen Solicitado</p>
                             <p class="text-xs text-slate-800 font-medium mb-2">${d.examen_solicitado}</p>
-                            <button id="btn-send-${d.examen_id}" onclick="window.sendExamToDoctor('${d.examen_id}')" class="w-full text-xs font-bold bg-white border border-blue-200 text-blue-600 py-2 rounded-lg hover:bg-blue-50 transition-colors shadow-sm">
+                            <button class="w-full text-xs font-bold bg-white border border-blue-200 text-blue-600 py-3 rounded-lg hover:bg-blue-50 transition-colors shadow-sm px-4">
                                 <i class="fa-solid fa-cloud-arrow-up"></i> Subir Resultado al Médico
                             </button>
                         </div>
@@ -1307,7 +1307,7 @@
                 
                 let hasPending = false;
 
-                if(items.length===0) html = '<div class="text-center p-6 text-slate-400 bg-white rounded-xl border border-slate-200 shadow-sm mt-4">Sin exámenes.</div>';
+                if(items.length===0) html = '<div class="text-center p-4 md:p-6 text-slate-400 bg-white rounded-xl border border-slate-200 shadow-sm mt-4">Sin exámenes.</div>';
                 items.forEach(d => {
                     const isPend = d.estado === 'pendiente';
                     if(isPend) hasPending = true;
@@ -1324,16 +1324,16 @@
                             </div>
                             
                             ${isPend ? `
-                                <div class="grid grid-cols-2 gap-2 mt-1">
-                                    <button onclick="window.openBookingModal('Laboratorio Clínico', 'examen', '${d.tipo}', '${d.id}')" class="bg-slate-800 text-white text-[11px] font-bold py-2 rounded-lg hover:bg-slate-700 transition-colors shadow-sm">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-1">
+                                    <button class="bg-slate-800 text-white text-[11px] font-bold py-3 rounded-lg hover:bg-slate-700 transition-colors shadow-sm px-4">
                                         <i class="fa-solid fa-calendar-plus"></i> Agendar Aquí
                                     </button>
-                                    <button onclick="window.downloadOrder('${d.id}')" class="bg-white border border-slate-300 text-slate-700 text-[11px] font-bold py-2 rounded-lg hover:bg-slate-50 transition-colors shadow-sm">
+                                    <button class="bg-white border border-slate-300 text-slate-700 text-[11px] font-bold py-3 rounded-lg hover:bg-slate-50 transition-colors shadow-sm px-4">
                                         <i class="fa-solid fa-download"></i> Bajar Orden
                                     </button>
                                 </div>
                                 ${d.gestionado ? `
-                                <button id="btn-send-${d.id}" onclick="window.sendExamToDoctor('${d.id}')" class="w-full mt-2 text-xs font-bold bg-blue-50 border border-blue-200 text-blue-600 py-2 rounded-lg hover:bg-blue-100 transition-colors shadow-sm">
+                                <button class="w-full mt-2 text-xs font-bold bg-blue-50 border border-blue-200 text-blue-600 py-3 rounded-lg hover:bg-blue-100 transition-colors shadow-sm px-4">
                                     <i class="fa-solid fa-cloud-arrow-up"></i> Ya me lo tomé (Subir PDF)
                                 </button>
                                 ` : ''}
@@ -1357,7 +1357,7 @@
                                 <p class="font-bold text-slate-800 text-sm">Tienes órdenes médicas vigentes</p>
                             </div>
                         </div>
-                        <button onclick="window.goToExams()" class="w-full mt-2 py-2 bg-orange-50 hover:bg-orange-100 text-orange-700 text-xs font-bold rounded-xl transition-colors border border-orange-200">Ver órdenes médicas</button>
+                        <button class="w-full mt-2 py-3 bg-orange-50 hover:bg-orange-100 text-orange-700 text-xs font-bold rounded-xl transition-colors border border-orange-200 px-4">Ver órdenes médicas</button>
                     `;
                 } else {
                     homeWidget.innerHTML = `
@@ -1379,7 +1379,7 @@
                 snap.forEach(d => items.push(d.data()));
                 items.sort((a,b) => b.timestamp - a.timestamp);
                 
-                if(items.length===0) html = '<div class="text-center p-6 text-slate-400 bg-white rounded-xl border border-slate-200 shadow-sm mt-4">Sin recetas médicas.</div>';
+                if(items.length===0) html = '<div class="text-center p-4 md:p-6 text-slate-400 bg-white rounded-xl border border-slate-200 shadow-sm mt-4">Sin recetas médicas.</div>';
                 items.forEach(d => {
                     html += `
                     <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
@@ -1390,7 +1390,7 @@
                                 <p class="font-bold text-slate-800 text-sm mt-1 leading-tight">${d.medicamentos}</p>
                             </div>
                         </div>
-                        <button class="w-full py-2 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 font-bold text-xs rounded-lg transition-colors flex items-center justify-center gap-2">
+                        <button class="w-full py-3 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 font-bold text-xs rounded-lg transition-colors flex items-center justify-center gap-2 px-4">
                             <i class="fa-solid fa-download"></i> Descargar PDF Receta
                         </button>
                     </div>`;
