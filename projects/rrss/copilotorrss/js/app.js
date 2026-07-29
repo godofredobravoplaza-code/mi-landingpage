@@ -1,0 +1,110 @@
+document.addEventListener('DOMContentLoaded', () => {
+    // Elements - Col 1
+    const topicInput = document.getElementById('topic-input');
+    const btnSuggest = document.getElementById('btn-suggest');
+    const btnGenerateText = document.getElementById('btn-generate-text');
+
+    // Elements - Col 2
+    const textLoading = document.getElementById('text-loading');
+    const textContent = document.getElementById('text-content');
+    const textEmpty = document.getElementById('text-empty');
+    const copyEditor = document.getElementById('copy-editor');
+
+    // Elements - Col 3
+    const designEmpty = document.getElementById('design-empty');
+    const designPreview = document.getElementById('design-preview');
+    const btnGenerateDesign = document.getElementById('btn-generate-design');
+    const mockTitle = document.getElementById('mock-title');
+
+    // Elements - Footer
+    const btnPublishFb = document.getElementById('btn-publish-fb');
+    const btnPublishIg = document.getElementById('btn-publish-ig');
+
+    // MOCK DATA (Simulando respuesta de OpenAI)
+    const mockSuggestions = [
+        "La Inteligencia Artificial está revolucionando la atención al cliente en 2026. #IA #Tech",
+        "Por qué tu negocio necesita una automatización de RRSS para sobrevivir este año. #Automatizacion #Marketing",
+        "El futuro del desarrollo web: Interfaces generativas y personalización en tiempo real. #WebDev #Futuro"
+    ];
+
+    const mockCopy = `🚀 ¡Revolución en camino! \n\nEn 2026, si no estás automatizando, te estás quedando atrás. La Inteligencia Artificial ya no es el futuro, es el AHORA.\n\nEn PhenixDev hemos integrado agentes autónomos que redactan, diseñan y publican por nosotros. ¿El resultado? Más tiempo para innovar y cero estrés. 🧠⚡\n\n¿Tu empresa ya dio el salto a la IA?\n\n#InteligenciaArtificial #PhenixDev #Tech #Automatizacion #Futuro`;
+
+    // 1. Sugerir Tema
+    btnSuggest.addEventListener('click', () => {
+        const randomTopic = mockSuggestions[Math.floor(Math.random() * mockSuggestions.length)];
+        topicInput.value = randomTopic;
+    });
+
+    // 2. Generar Texto (Simulado)
+    btnGenerateText.addEventListener('click', () => {
+        if (!topicInput.value.trim()) {
+            alert("Escribe un tema primero.");
+            return;
+        }
+
+        // Show loading state
+        textEmpty.classList.add('hidden');
+        textContent.classList.add('hidden');
+        textLoading.classList.remove('hidden');
+        textLoading.classList.add('flex');
+        
+        // Col 2 border pulse
+        document.querySelector('.border-t-fuchsia-500').classList.add('agent-pulse');
+
+        // Simulate API delay
+        setTimeout(() => {
+            textLoading.classList.remove('flex');
+            textLoading.classList.add('hidden');
+            
+            textContent.classList.remove('hidden');
+            copyEditor.value = mockCopy;
+            
+            document.querySelector('.border-t-fuchsia-500').classList.remove('agent-pulse');
+
+            // Enable Design button
+            btnGenerateDesign.disabled = false;
+            btnGenerateDesign.classList.remove('bg-slate-700', 'text-slate-400', 'cursor-not-allowed');
+            btnGenerateDesign.classList.add('bg-emerald-600', 'hover:bg-emerald-500', 'text-white', 'shadow-[0_0_15px_rgba(16,185,129,0.4)]');
+        }, 2000);
+    });
+
+    // 3. Generar Diseño (Simulado)
+    btnGenerateDesign.addEventListener('click', () => {
+        // Hide empty state
+        designEmpty.classList.add('hidden');
+        
+        // Show preview container but make it pulse
+        designPreview.classList.remove('hidden');
+        designPreview.classList.add('opacity-50');
+        
+        // Col 3 border pulse
+        document.querySelector('.border-t-emerald-500').classList.add('agent-pulse');
+        
+        // Simulate API delay
+        setTimeout(() => {
+            designPreview.classList.remove('opacity-50');
+            document.querySelector('.border-t-emerald-500').classList.remove('agent-pulse');
+            
+            // Set dynamic title based on input
+            const inputWords = topicInput.value.split(' ').slice(0, 5).join(' ');
+            mockTitle.textContent = inputWords.toUpperCase() + "...";
+
+            // Enable Publish buttons
+            enablePublishButtons();
+        }, 2500);
+    });
+
+    function enablePublishButtons() {
+        // Facebook
+        btnPublishFb.disabled = false;
+        btnPublishFb.className = "flex-1 bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 transition-all shadow-[0_0_15px_rgba(37,99,235,0.4)]";
+        
+        // Instagram
+        btnPublishIg.disabled = false;
+        btnPublishIg.className = "flex-1 bg-gradient-to-r from-fuchsia-600 to-pink-600 hover:from-fuchsia-500 hover:to-pink-500 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 transition-all shadow-[0_0_15px_rgba(236,72,153,0.4)]";
+    }
+
+    // Publish actions (Mock)
+    btnPublishFb.addEventListener('click', () => alert('¡Simulación de publicación en Facebook exitosa!'));
+    btnPublishIg.addEventListener('click', () => alert('¡Simulación de publicación en Instagram exitosa!'));
+});

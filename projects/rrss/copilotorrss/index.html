@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Copiloto RRSS | PhenixDev</title>
+    <link rel="icon" type="image/jpeg" href="../../logo/logo_silicon_icon_only.jpg">
+    <meta name="robots" content="noindex, nofollow">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'neon-pink': '#f472b6',
+                        'neon-purple': '#9333ea',
+                        'dark-bg': '#0f172a',
+                        'card-bg': '#1e293b'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            background-color: #0f172a;
+            color: #e2e8f0;
+            background-image: 
+                radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
+                radial-gradient(at 100% 0%, hsla(339,49%,30%,0.15) 0, transparent 50%);
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .agent-pulse {
+            animation: pulse-border 2s infinite;
+        }
+        @keyframes pulse-border {
+            0% { border-color: rgba(147, 51, 234, 0.3); }
+            50% { border-color: rgba(244, 114, 182, 0.6); }
+            100% { border-color: rgba(147, 51, 234, 0.3); }
+        }
+    </style>
+</head>
+<body class="font-sans antialiased flex flex-col h-screen overflow-hidden">
+
+    <!-- Header -->
+    <header class="glass-panel border-b-0 border-slate-700 px-6 py-4 flex justify-between items-center z-50">
+        <div class="flex items-center gap-3">
+            <i class="fa-solid fa-pen-nib text-fuchsia-400 text-xl"></i>
+            <h1 class="text-xl font-bold text-white tracking-wide">Copiloto <span class="text-fuchsia-400">RRSS</span></h1>
+        </div>
+        <div class="flex items-center gap-4">
+            <a href="../../../intranet.html" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-4 py-2 rounded-lg text-sm transition-colors border border-slate-600 flex items-center">
+                <i class="fa-solid fa-arrow-left mr-2"></i>Volver a Intranet
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <main class="flex-1 flex overflow-hidden p-4 gap-4">
+        
+        <!-- COL 1: Fuente (Brainstorming) -->
+        <div class="w-1/4 glass-panel rounded-xl flex flex-col overflow-hidden border-t-4 border-t-blue-500">
+            <div class="p-4 bg-slate-800/50 border-b border-slate-700 flex items-center gap-2">
+                <i class="fa-solid fa-lightbulb text-blue-400"></i>
+                <h2 class="font-semibold text-white">1. Tema del Día</h2>
+            </div>
+            <div class="p-4 flex-1 overflow-y-auto space-y-4">
+                <div>
+                    <label class="block text-sm text-slate-400 mb-2">¿De qué quieres hablar hoy?</label>
+                    <textarea id="topic-input" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-sm text-slate-200 focus:outline-none focus:border-blue-500 resize-none h-32" placeholder="Ej: Escribe un post sobre cómo la IA está cambiando el desarrollo web en 2026..."></textarea>
+                </div>
+                <button id="btn-suggest" class="w-full bg-slate-800 hover:bg-slate-700 text-blue-400 border border-blue-500/30 py-2 rounded-lg text-sm transition-colors flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Sugerir Noticia Tech
+                </button>
+                <div class="pt-4 mt-4 border-t border-slate-700">
+                    <button id="btn-generate-text" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-lg transition-colors shadow-[0_0_15px_rgba(37,99,235,0.4)] flex justify-center items-center gap-2">
+                        <i class="fa-solid fa-robot"></i> Redactar Post
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- COL 2: Agente Redactor -->
+        <div class="w-1/3 glass-panel rounded-xl flex flex-col overflow-hidden border-t-4 border-t-fuchsia-500">
+            <div class="p-4 bg-slate-800/50 border-b border-slate-700 flex items-center gap-2 justify-between">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-align-left text-fuchsia-400"></i>
+                    <h2 class="font-semibold text-white">2. Texto (Copy)</h2>
+                </div>
+                <span class="text-xs bg-fuchsia-500/20 text-fuchsia-400 px-2 py-1 rounded">Agente 1</span>
+            </div>
+            <div class="p-4 flex-1 flex flex-col">
+                <div id="text-loading" class="hidden flex-1 flex-col items-center justify-center text-slate-500">
+                    <i class="fa-solid fa-circle-notch fa-spin text-3xl mb-2 text-fuchsia-400"></i>
+                    <p class="text-sm">Pensando y redactando...</p>
+                </div>
+                <div id="text-content" class="flex-1 flex flex-col h-full hidden">
+                    <textarea id="copy-editor" class="flex-1 w-full bg-slate-900 border border-slate-700 rounded-lg p-4 text-sm text-slate-200 focus:outline-none focus:border-fuchsia-500 resize-none mb-3 font-mono leading-relaxed"></textarea>
+                    
+                    <div class="flex gap-2">
+                        <button class="flex-1 bg-slate-800 hover:bg-slate-700 text-xs text-slate-300 py-2 rounded border border-slate-600 transition-colors">
+                            Más formal
+                        </button>
+                        <button class="flex-1 bg-slate-800 hover:bg-slate-700 text-xs text-slate-300 py-2 rounded border border-slate-600 transition-colors">
+                            Más agresivo
+                        </button>
+                    </div>
+                </div>
+                <div id="text-empty" class="flex-1 flex items-center justify-center text-slate-600 text-sm text-center px-8">
+                    Escribe un tema a la izquierda y presiona "Redactar Post" para que el Agente genere el texto.
+                </div>
+            </div>
+        </div>
+
+        <!-- COL 3: Agente Diseñador -->
+        <div class="flex-1 glass-panel rounded-xl flex flex-col overflow-hidden border-t-4 border-t-emerald-500 relative">
+            <div class="p-4 bg-slate-800/50 border-b border-slate-700 flex items-center gap-2 justify-between">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-image text-emerald-400"></i>
+                    <h2 class="font-semibold text-white">3. Diseño Gráfico</h2>
+                </div>
+                <span class="text-xs bg-emerald-500/20 text-emerald-400 px-2 py-1 rounded">Agente 2</span>
+            </div>
+            <div class="p-4 flex-1 flex flex-col items-center justify-center bg-slate-900/50 relative">
+                <div id="design-empty" class="text-slate-600 text-sm text-center">
+                    <i class="fa-solid fa-palette text-3xl mb-2 block"></i>
+                    Aprueba un texto primero para generar la gráfica.
+                </div>
+                <div id="design-preview" class="hidden relative w-[300px] h-[300px] bg-black border border-slate-700 rounded-lg overflow-hidden shadow-2xl">
+                    <!-- Fake Canvas for Mock -->
+                    <div class="absolute inset-0 bg-gradient-to-br from-slate-800 to-black p-4 flex flex-col justify-between">
+                        <div class="text-right">
+                            <i class="fa-solid fa-wifi text-emerald-400"></i>
+                        </div>
+                        <div>
+                            <h3 id="mock-title" class="text-white font-bold text-xl leading-tight mb-2"></h3>
+                            <div class="flex items-center gap-2">
+                                <img src="../../logo/logo_silicon_icon_only.jpg" class="w-6 h-6 rounded-full">
+                                <span class="text-xs text-slate-400 font-mono">phenixdev</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="p-4 bg-slate-800/50 border-t border-slate-700">
+                <button id="btn-generate-design" disabled class="w-full bg-slate-700 text-slate-400 font-bold py-3 rounded-lg transition-colors flex justify-center items-center gap-2 cursor-not-allowed">
+                    <i class="fa-solid fa-paint-roller"></i> Generar Gráfica
+                </button>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer: Lanzamiento -->
+    <footer class="glass-panel border-t border-slate-700 px-6 py-4 z-50">
+        <div class="max-w-4xl mx-auto flex gap-4">
+            <button id="btn-publish-fb" disabled class="flex-1 bg-blue-900/50 text-blue-500/50 font-bold py-3 rounded-lg flex items-center justify-center gap-2 border border-blue-900/50 cursor-not-allowed transition-all">
+                <i class="fa-brands fa-facebook"></i> Publicar en Facebook
+            </button>
+            <button id="btn-publish-ig" disabled class="flex-1 bg-pink-900/50 text-pink-500/50 font-bold py-3 rounded-lg flex items-center justify-center gap-2 border border-pink-900/50 cursor-not-allowed transition-all">
+                <i class="fa-brands fa-instagram"></i> Publicar en Instagram
+            </button>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
