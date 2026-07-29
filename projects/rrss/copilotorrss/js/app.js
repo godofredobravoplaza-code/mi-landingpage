@@ -64,10 +64,43 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const mockCopy = `🚀 ¡Revolución en camino! \n\nEn 2026, si no estás automatizando, te estás quedando atrás. La Inteligencia Artificial ya no es el futuro, es el AHORA.\n\nEn PhenixDev hemos integrado agentes autónomos que redactan, diseñan y publican por nosotros. ¿El resultado? Más tiempo para innovar y cero estrés. 🧠⚡\n\n¿Tu empresa ya dio el salto a la IA?\n\n#InteligenciaArtificial #PhenixDev #Tech #Automatizacion #Futuro`;
 
-    // 1. Sugerir Tema
-    btnSuggest.addEventListener('click', () => {
-        const randomTopic = mockSuggestions[Math.floor(Math.random() * mockSuggestions.length)];
-        topicInput.value = randomTopic;
+    // 1. Sugerir Tema (Groq)
+    btnSuggest.addEventListener('click', async () => {
+        const apiKey = localStorage.getItem('phenix_groq_key');
+        if (!apiKey) {
+            // Si no hay API Key, usamos una sugerencia mockeada para no bloquear
+            const randomTopic = mockSuggestions[Math.floor(Math.random() * mockSuggestions.length)];
+            topicInput.value = randomTopic;
+            return;
+        }
+
+        btnSuggest.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Pensando...';
+        btnSuggest.disabled = true;
+
+        try {
+            const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+                body: JSON.stringify({
+                    model: "llama-3.3-70b-versatile",
+                    messages: [
+                        { role: "system", content: "Eres un generador de ideas para blogs de tecnología. Devuelve SÓLO 1 titular corto o idea (máximo 15 palabras) sobre desarrollo web, IA, o SaaS, sin comillas ni intros." }
+                    ],
+                    temperature: 0.9
+                })
+            });
+            const data = await response.json();
+            if (data.error) throw new Error(data.error.message);
+            
+            topicInput.value = data.choices[0].message.content.trim();
+        } catch(error) {
+            console.error(error);
+            // Fallback
+            topicInput.value = mockSuggestions[0];
+        } finally {
+            btnSuggest.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> Sugerir Noticia Tech';
+            btnSuggest.disabled = false;
+        }
     });
 
     // 2. Generar Texto (Real - Groq)
@@ -106,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     messages: [
                         {
                             role: "system",
-                            content: "Eres el Community Manager estrella de PhenixDev (una agencia de desarrollo web e IA). Tu misión es escribir posteos para Instagram/Facebook que sean atractivos, modernos, y con estilo Silicon Valley. Usa emojis, sé conciso y cierra con 3-5 hashtags relevantes (incluyendo siempre #PhenixDev). No pongas comillas al principio ni al final del post."
+                            content: "Eres el Community Manager estrella de PhenixDev (una agencia de desarrollo web e IA). Tu misión es escribir posteos para Instagram/Facebook que sean atractivos, modernos, y con estilo Silicon Valley. Usa emojis, sé conciso y cierra con 3-5 hashtags relevantes (incluyendo siempre #PhenixDev). Además, DEBES agregar al final del post un llamado a la acción con este enlace: https://godofredobravoplaza-code.github.io/mi-landingpage/"
                         },
                         {
                             role: "user",
@@ -151,7 +184,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // 3. Generar Diseño (Simulado)
+    // 3. Generar Diseño (Usando html2canvas)
     btnGenerateDesign.addEventListener('click', () => {
         // Hide empty state
         designEmpty.classList.add('hidden');
@@ -163,7 +196,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Col 3 border pulse
         document.querySelector('.border-t-emerald-500').classList.add('agent-pulse');
         
-        // Simulate API delay
+        // Simulate Agent generating the graphics logic
         setTimeout(() => {
             designPreview.classList.remove('opacity-50');
             document.querySelector('.border-t-emerald-500').classList.remove('agent-pulse');
@@ -172,9 +205,19 @@ document.addEventListener('DOMContentLoaded', () => {
             const inputWords = topicInput.value.split(' ').slice(0, 5).join(' ');
             mockTitle.textContent = inputWords.toUpperCase() + "...";
 
+            // Capture with html2canvas after title is set
+            setTimeout(() => {
+                html2canvas(designPreview, { backgroundColor: null, scale: 2 }).then(canvas => {
+                    const link = document.createElement('a');
+                    link.download = 'phenixdev_post.png';
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+                });
+            }, 300);
+
             // Enable Publish buttons
             enablePublishButtons();
-        }, 2500);
+        }, 1500);
     });
 
     function enablePublishButtons() {
