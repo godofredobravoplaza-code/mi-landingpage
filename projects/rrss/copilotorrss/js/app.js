@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
         col2Border.classList.add('agent-pulse');
 
         try {
-            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -142,8 +142,8 @@ document.addEventListener('DOMContentLoaded', () => {
             btnGenerateDesign.classList.add('bg-emerald-600', 'hover:bg-emerald-500', 'text-white', 'shadow-[0_0_15px_rgba(16,185,129,0.4)]');
 
         } catch (error) {
-            console.error("Error al llamar a OpenAI:", error);
-            alert("Error al conectar con OpenAI: " + error.message);
+            console.error("Error al llamar a Gemini:", error);
+            alert("Error al conectar con Gemini: " + error.message);
             
             // Restore UI on error
             textLoading.classList.remove('flex');
