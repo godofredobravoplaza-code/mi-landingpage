@@ -75,7 +75,7 @@
                     <label class="block text-sm font-medium text-slate-300 mb-1">Usuario / Email</label>
                     <div class="relative">
                         <i class="fa-solid fa-user absolute left-3 top-1/2 -translate-y-1/2 text-slate-500"></i>
-                        <input class="w-full bg-slate-800/50 border border-slate-600 rounded-lg py-3 pl-10 pr-4 text-white focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400 transition-colors px-4" placeholder="admin@phenix-tech.com">
+                        <input id="email" type="email" required class="w-full bg-slate-800/50 border border-slate-600 rounded-lg py-3 pl-10 pr-4 text-white focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400 transition-colors px-4" placeholder="admin@phenix-tech.com">
                     </div>
                 </div>
                 
@@ -83,11 +83,11 @@
                     <label class="block text-sm font-medium text-slate-300 mb-1">Contraseña</label>
                     <div class="relative">
                         <i class="fa-solid fa-lock absolute left-3 top-1/2 -translate-y-1/2 text-slate-500"></i>
-                        <input class="w-full bg-slate-800/50 border border-slate-600 rounded-lg py-3 pl-10 pr-4 text-white focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400 transition-colors px-4" placeholder="••••••••">
+                        <input id="password" type="password" required class="w-full bg-slate-800/50 border border-slate-600 rounded-lg py-3 pl-10 pr-4 text-white focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400 transition-colors px-4" placeholder="••••••••">
                     </div>
                 </div>
                 
-                <button class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-lg transition-colors shadow-[0_0_15px_rgba(37,99,235,0.4)] flex justify-center items-center px-4">
+                <button id="btn-login" type="submit" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-lg transition-colors shadow-[0_0_15px_rgba(37,99,235,0.4)] flex justify-center items-center px-4">
                     <span id="btn-login-text">Iniciar Secuencia</span>
                     <i id="btn-login-spinner" class="fa-solid fa-circle-notch fa-spin hide ml-2"></i>
                 </button>
