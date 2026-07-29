@@ -70,10 +70,17 @@ document.addEventListener('DOMContentLoaded', () => {
         topicInput.value = randomTopic;
     });
 
-    // 2. Generar Texto (Simulado)
-    btnGenerateText.addEventListener('click', () => {
-        if (!topicInput.value.trim()) {
+    // 2. Generar Texto (Real - OpenAI)
+    btnGenerateText.addEventListener('click', async () => {
+        const topic = topicInput.value.trim();
+        if (!topic) {
             alert("Escribe un tema primero.");
+            return;
+        }
+
+        const apiKey = localStorage.getItem('phenix_openai_key');
+        if (!apiKey) {
+            alert("Falta la API Key de OpenAI. Ve a Configuración (arriba a la derecha) y pégala.");
             return;
         }
 
@@ -84,23 +91,64 @@ document.addEventListener('DOMContentLoaded', () => {
         textLoading.classList.add('flex');
         
         // Col 2 border pulse
-        document.querySelector('.border-t-fuchsia-500').classList.add('agent-pulse');
+        const col2Border = document.querySelector('.border-t-fuchsia-500');
+        col2Border.classList.add('agent-pulse');
 
-        // Simulate API delay
-        setTimeout(() => {
+        try {
+            const response = await fetch('https://api.openai.com/v1/chat/completions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${apiKey}`
+                },
+                body: JSON.stringify({
+                    model: "gpt-4o-mini", // o gpt-3.5-turbo si la cuenta es antigua
+                    messages: [
+                        {
+                            role: "system",
+                            content: "Eres el Community Manager estrella de PhenixDev (una agencia de desarrollo web e IA). Tu misión es escribir posteos para Instagram/Facebook que sean atractivos, modernos, y con estilo Silicon Valley. Usa emojis, sé conciso y cierra con 3-5 hashtags relevantes (incluyendo siempre #PhenixDev). No pongas comillas al principio ni al final del post."
+                        },
+                        {
+                            role: "user",
+                            content: `Escribe un post interesante sobre el siguiente tema: ${topic}`
+                        }
+                    ],
+                    temperature: 0.7
+                })
+            });
+
+            const data = await response.json();
+
+            if (data.error) {
+                throw new Error(data.error.message);
+            }
+
+            const generatedText = data.choices[0].message.content;
+
+            // Mostrar el texto
             textLoading.classList.remove('flex');
             textLoading.classList.add('hidden');
             
             textContent.classList.remove('hidden');
-            copyEditor.value = mockCopy;
+            copyEditor.value = generatedText;
             
-            document.querySelector('.border-t-fuchsia-500').classList.remove('agent-pulse');
+            col2Border.classList.remove('agent-pulse');
 
             // Enable Design button
             btnGenerateDesign.disabled = false;
             btnGenerateDesign.classList.remove('bg-slate-700', 'text-slate-400', 'cursor-not-allowed');
             btnGenerateDesign.classList.add('bg-emerald-600', 'hover:bg-emerald-500', 'text-white', 'shadow-[0_0_15px_rgba(16,185,129,0.4)]');
-        }, 2000);
+
+        } catch (error) {
+            console.error("Error al llamar a OpenAI:", error);
+            alert("Error al conectar con OpenAI: " + error.message);
+            
+            // Restore UI on error
+            textLoading.classList.remove('flex');
+            textLoading.classList.add('hidden');
+            textEmpty.classList.remove('hidden');
+            col2Border.classList.remove('agent-pulse');
+        }
     });
 
     // 3. Generar Diseño (Simulado)
